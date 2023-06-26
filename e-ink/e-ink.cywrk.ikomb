@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="e-ink\Design01\CM0p (Core 0)\Source Files\main_cm0p.c">
+<ExpandedNodeIds>
+<v>e-ink</v>
+<v>e-ink\Design01</v>
+<v>e-ink\Design01\TopDesign</v>
+<v>e-ink\Design01\Design01.cydwr</v>
+<v>e-ink\Design01\Design01.cydwr\Pins</v>
+<v>e-ink\Design01\Design01.cydwr\Analog</v>
+<v>e-ink\Design01\Design01.cydwr\DMA</v>
+<v>e-ink\Design01\Design01.cydwr\Clocks</v>
+<v>e-ink\Design01\Design01.cydwr\Interrupts</v>
+<v>e-ink\Design01\Design01.cydwr\System</v>
+<v>e-ink\Design01\Design01.cydwr\Directives</v>
+<v>e-ink\Design01\CM0p (Core 0)</v>
+<v>e-ink\Design01\CM0p (Core 0)\Header Files</v>
+<v>e-ink\Design01\CM0p (Core 0)\Source Files</v>
+<v>e-ink\Design01\CM0p (Core 0)\Source Files\main_cm0p.c</v>
+<v>e-ink\Design01\CM4 (Core 1)</v>
+<v>e-ink\Design01\CM4 (Core 1)\Header Files</v>
+<v>e-ink\Design01\CM4 (Core 1)\Source Files</v>
+<v>e-ink\Design01\CM4 (Core 1)\Source Files\main_cm4.c</v>
+<v>e-ink\Design01\Shared Files</v>
+<v>e-ink\Design01\Shared Files\cyapicallbacks.h</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>e-ink</v>
+<v>e-ink\Design01</v>
+<v>e-ink\Design01\TopDesign</v>
+<v>e-ink\Design01\Design01.cydwr</v>
+<v>e-ink\Design01\Design01.cydwr\Pins</v>
+<v>e-ink\Design01\Design01.cydwr\Analog</v>
+<v>e-ink\Design01\Design01.cydwr\DMA</v>
+<v>e-ink\Design01\Design01.cydwr\Clocks</v>
+<v>e-ink\Design01\Design01.cydwr\Interrupts</v>
+<v>e-ink\Design01\Design01.cydwr\System</v>
+<v>e-ink\Design01\Design01.cydwr\Directives</v>
+<v>e-ink\Design01\CM0p (Core 0)</v>
+<v>e-ink\Design01\CM0p (Core 0)\Header Files</v>
+<v>e-ink\Design01\CM0p (Core 0)\Source Files</v>
+<v>e-ink\Design01\CM0p (Core 0)\Source Files\main_cm0p.c</v>
+<v>e-ink\Design01\CM4 (Core 1)</v>
+<v>e-ink\Design01\CM4 (Core 1)\Header Files</v>
+<v>e-ink\Design01\CM4 (Core 1)\Source Files</v>
+<v>e-ink\Design01\CM4 (Core 1)\Source Files\main_cm4.c</v>
+<v>e-ink\Design01\Shared Files</v>
+<v>e-ink\Design01\Shared Files\cyapicallbacks.h</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>e-ink</v>
+<v>e-ink\Design01</v>
+<v>e-ink\Design01\TopDesign</v>
+<v>e-ink\Design01\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>e-ink</v>
+<v>e-ink\Design01</v>
+<v>e-ink\Design01\TopDesign</v>
+<v>e-ink\Design01\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>e-ink</v>
+<v>e-ink\Design01</v>
+<v>e-ink\Design01\Design01.gpdsc</v>
+<v>e-ink\Design01\Design01.rpt</v>
+<v>e-ink\Design01\Design01_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>e-ink</v>
+<v>e-ink\Design01</v>
+<v>e-ink\Design01\Design01.gpdsc</v>
+<v>e-ink\Design01\Design01.rpt</v>
+<v>e-ink\Design01\Design01_timing.html</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>e-ink</v>
+<v>e-ink\Design01</v>
+<v>e-ink\Design01\PSoC 6 Architecture TRM</v>
+<v>e-ink\Design01\PSoC 63 Family Datasheet</v>
+<v>e-ink\Design01\Peripheral Driver Library</v>
+<v>e-ink\Design01\System Reference Guides</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>e-ink</v>
+<v>e-ink\Design01</v>
+<v>e-ink\Design01\PSoC 6 Architecture TRM</v>
+<v>e-ink\Design01\PSoC 63 Family Datasheet</v>
+<v>e-ink\Design01\Peripheral Driver Library</v>
+<v>e-ink\Design01\System Reference Guides</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\Design01.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\Design01.cydsn\Design01.cydwr" />
+<name v=".\Design01.cydsn\main_cm0p.c" />
+<name v=".\Design01.cydsn\main_cm4.c" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1271, 703" SelectedTabbedMdiWindow="49f175c1-298e-4379-acbf-bcd806f42b81"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="9c2e1443-dad3-42f4-9d92-d6167cb84a11" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\e-ink\Design01.cydsn\TopDesign\TopDesign.cysch" Guid="3ee1f554-7a88-43d9-b3fb-187d9a35dfa2" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\e-ink\Design01.cydsn\Design01.cydwr" Guid="340c5b7a-5d33-4cc9-8ac7-4a78c205c2c1" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\e-ink\Design01.cydsn\main_cm0p.c" Guid="49f175c1-298e-4379-acbf-bcd806f42b81" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\e-ink\Design01.cydsn\main_cm4.c" Guid="d5edf67b-96bc-4a64-8170-c1c462c4ee5a" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

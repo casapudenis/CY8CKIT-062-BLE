@@ -1,0 +1,2653 @@
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.syntax unified
+  16              		.file	"PDM_PCM.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.section	.text.Cy_PDM_PCM_Enable,"ax",%progbits
+  21              		.align	2
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Cy_PDM_PCM_Enable, %function
+  25              	Cy_PDM_PCM_Enable:
+  26              	.LFB158:
+  27              		.file 1 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h"
+   1:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /***************************************************************************//**
+   2:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \file cy_pdm_pcm.h
+   3:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \version 2.10
+   4:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+   5:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * The header file of the PDM_PCM driver.
+   6:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+   7:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ********************************************************************************
+   8:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \copyright
+   9:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Copyright 2016-2018, Cypress Semiconductor Corporation. All rights reserved.
+  10:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * You may use this file only in accordance with the license, terms, conditions,
+  11:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * disclaimers, and limitations in the end user license agreement accompanying
+  12:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * the software package with which this file was provided.
+  13:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *******************************************************************************/
+  14:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+  15:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /**
+  16:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \defgroup group_pdm_pcm PDM-PCM Converter (PDM_PCM)
+  17:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \{
+  18:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  19:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * The pulse-density modulation to pulse-code modulation (PDM-PCM) driver provides an
+  20:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * API to manage PDM-PCM conversion. A PDM-PCM converter is used
+  21:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * to convert 1-bit digital audio streaming data to PCM data.
+  22:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  23:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Features:
+  24:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * * Supports FIFO buffer for Incoming Data
+  25:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * * Supports Software Mute Mode
+  26:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * * Programmable Gain Settings
+  27:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * * Programmable Word Length
+  28:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  29:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Pulse-density modulation, or PDM, represents
+  30:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * an analog signal with a binary signal. In a PDM signal, specific amplitude values
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 2
+
+
+  31:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * are not encoded into codewords of pulses of different weight as they would be
+  32:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * in pulse-code modulation (PCM); rather, the relative density of the pulses corresponds
+  33:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * to the analog signal's amplitude. The output of a 1-bit DAC is the same
+  34:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * as the PDM encoding of the signal.
+  35:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  36:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Pulse-code modulation (PCM) is the method used to digitally represent sampled analog signals.
+  37:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * It is the standard form of digital audio in computers, compact discs, digital telephony,
+  38:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * and other digital audio applications. In a PCM stream, the amplitude of the analog signal
+  39:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * is sampled regularly at uniform intervals, and each sample is quantized
+  40:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * to the nearest value within a range of digital steps.
+  41:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  42:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \section group_pdm_pcm_configuration_considerations Configuration Considerations
+  43:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  44:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * To set up a PDM-PCM, provide the configuration parameters in the
+  45:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \ref cy_stc_pdm_pcm_config_t structure.
+  46:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  47:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * For example, set dataStreamingEnable to true, configure rxFifoTriggerLevel,
+  48:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * dmaTriggerEnable (depending on whether DMA is going to be used),
+  49:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * provide clock settings (clkDiv, mclkDiv and ckoDiv), set sincDecRate
+  50:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * to the appropriate decimation rate, wordLen, and wordBitExtension.
+  51:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * No other parameters are necessary for this example.
+  52:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  53:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * To initialize the PDM-PCM block, call the \ref Cy_PDM_PCM_Init function, providing the
+  54:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * filled \ref cy_stc_pdm_pcm_config_t structure.
+  55:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  56:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * If you use a DMA, the DMA channel should be previously configured. PDM-PCM interrupts
+  57:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * (if applicable) can be enabled by calling \ref Cy_PDM_PCM_SetInterruptMask.
+  58:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  59:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * For example, if the trigger interrupt is used during operation, the ISR
+  60:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * should call the \ref Cy_PDM_PCM_ReadFifo as many times as required for your
+  61:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * FIFO payload. Then call \ref Cy_PDM_PCM_ClearInterrupt with appropriate parameters.
+  62:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  63:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * If a DMA is used and the DMA channel is properly configured, no CPU activity
+  64:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * (or application code) is needed for PDM-PCM operation.
+  65:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  66:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \section group_pdm_pcm_more_information More Information
+  67:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * See: the PDM-PCM chapter of the device technical reference manual (TRM);
+  68:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *      the PDM_PCM_PDL Component datasheet;
+  69:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *      CE219431 - PSOC 6 MCU PDM-TO-PCM EXAMPLE.
+  70:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+  71:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \section group_pdm_pcm_MISRA MISRA-C Compliance
+  72:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * The PDM-PCM driver has the following specific deviations:
+  73:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * <table class="doxtable">
+  74:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   <tr>
+  75:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <th>MISRA Rule</th>
+  76:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <th>Rule Class (Required/Advisory)</th>
+  77:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <th>Rule Description</th>
+  78:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <th>Description of Deviation(s)</th>
+  79:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   </tr>
+  80:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   <tr>
+  81:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>10.3</td>
+  82:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>R</td>
+  83:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>A composite expression of the "essentially unsigned" type is
+  84:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         cast to a different type category.</td>
+  85:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>The value got from the bitfield physically can't exceed the enumeration
+  86:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         that describes this bitfield. So the code is safe by design.</td>
+  87:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   </tr>
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 3
+
+
+  88:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   <tr>
+  89:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>11.4</td>
+  90:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>A</td>
+  91:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>A cast should not be performed between a pointer to the object type and
+  92:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         a different pointer to the object type.</td>
+  93:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>The function \ref Cy_I2S_DeepSleepCallback is a callback of
+  94:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         \ref cy_en_syspm_status_t type. The cast operation safety in this
+  95:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         function becomes the user responsibility because the pointer is
+  96:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         initialized when a callback is registered in SysPm driver.</td>
+  97:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   </tr>
+  98:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * </table>
+  99:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 100:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \section group_pdm_pcm_changelog Changelog
+ 101:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * <table class="doxtable">
+ 102:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+ 103:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   <tr>
+ 104:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>2.10</td>
+ 105:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>The gain values in range +4.5...+10.5dB (5 items) of /ref cy_en_pdm_pcm_gain_t are correc
+ 106:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         Added Low Power Callback section.</td>
+ 107:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>Incorrect setting of gain values in limited range.
+ 108:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         Documentation update and clarification.</td>
+ 109:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   </tr>
+ 110:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   <tr>
+ 111:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>2.0</td>
+ 112:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>Enumeration types for gain and soft mute cycles are added.<br>
+ 113:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         Function parameter checks are added.<br>        
+ 114:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         The next functions are removed:
+ 115:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_EnterLowPowerCallback
+ 116:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_ExitLowPowerCallback
+ 117:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_EnableDataStream
+ 118:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_DisableDataStream
+ 119:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_SetFifoLevel
+ 120:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_GetFifoLevel
+ 121:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_EnableDmaRequest
+ 122:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_DisableDmaRequest
+ 123:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 124:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         The next functions behaviour are modified:
+ 125:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_Enable
+ 126:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_Disable
+ 127:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_SetInterruptMask
+ 128:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_GetInterruptMask
+ 129:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_GetInterruptStatusMasked
+ 130:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_GetInterruptStatus
+ 131:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_ClearInterrupt
+ 132:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         * Cy_PDM_PCM_SetInterrupt
+ 133:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 134:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         The Cy_PDM_PCM_GetFifoNumWords function is renamed to Cy_PDM_PCM_GetNumInFifo.<br>
+ 135:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         The Cy_PDM_PCM_GetCurrentState function is added.
+ 136:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     </td>
+ 137:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>Improvements based on usability feedbacks.<br>
+ 138:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *         API is reworked for consistency within the PDL.
+ 139:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     </td>
+ 140:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   </tr>
+ 141:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   <tr>
+ 142:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>1.0</td>
+ 143:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td>Initial version</td>
+ 144:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *     <td></td>
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 4
+
+
+ 145:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   </tr>
+ 146:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * </table>
+ 147:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 148:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \defgroup group_pdm_pcm_macros Macros
+ 149:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \defgroup group_pdm_pcm_functions Functions
+ 150:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   \{
+ 151:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *       \defgroup group_pdm_pcm_functions_syspm_callback  Low Power Callback
+ 152:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *   \}
+ 153:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \defgroup group_pdm_pcm_data_structures Data Structures
+ 154:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \defgroup group_pdm_pcm_enums Enumerated Types
+ 155:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 156:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** */
+ 157:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 158:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #if !defined(CY_PDM_PCM_H__)
+ 159:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_H__
+ 160:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 161:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************/
+ 162:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /* Include files                                                              */
+ 163:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************/
+ 164:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 165:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #include "cy_device_headers.h"
+ 166:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #include "syslib/cy_syslib.h"
+ 167:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #include "syspm/cy_syspm.h"
+ 168:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #include <stddef.h>
+ 169:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #include <stdbool.h>
+ 170:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 171:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #ifndef CY_IP_MXAUDIOSS
+ 172:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     #error "The PDM-PCM driver is not supported on this device"
+ 173:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #endif
+ 174:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 175:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /* The C binding of definitions if building with the C++ compiler */
+ 176:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #ifdef __cplusplus
+ 177:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** extern "C"
+ 178:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 179:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #endif
+ 180:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 181:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 182:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****  * Global definitions
+ 183:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****  ******************************************************************************/
+ 184:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 185:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /* Macros */
+ 186:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /**
+ 187:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \addtogroup group_pdm_pcm_macros
+ 188:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \{
+ 189:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** */
+ 190:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 191:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** The driver major version */
+ 192:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_DRV_VERSION_MAJOR       2
+ 193:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 194:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** The driver minor version */
+ 195:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_DRV_VERSION_MINOR       10
+ 196:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 197:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** The PDM-PCM driver identifier */
+ 198:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_ID                       CY_PDL_DRV_ID(0x26u)
+ 199:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 200:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /**
+ 201:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \defgroup group_pdm_pcm_macros_intrerrupt_masks Interrupt Masks
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 5
+
+
+ 202:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \{
+ 203:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** */
+ 204:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 205:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** Bit 16: More entries in the RX FIFO than specified by Trigger Level. */
+ 206:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_INTR_RX_TRIGGER         (PDM_INTR_RX_TRIGGER_Msk)
+ 207:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** Bit 18: RX FIFO is not empty. */
+ 208:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_INTR_RX_NOT_EMPTY       (PDM_INTR_RX_NOT_EMPTY_Msk)
+ 209:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** Bit 21: Attempt to write to a full RX FIFO. */
+ 210:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_INTR_RX_OVERFLOW        (PDM_INTR_RX_OVERFLOW_Msk)
+ 211:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** Bit 22: Attempt to read from an empty RX FIFO. */
+ 212:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_INTR_RX_UNDERFLOW       (PDM_INTR_RX_UNDERFLOW_Msk)
+ 213:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 214:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \} group_pdm_pcm_macros_intrerrupt_masks */
+ 215:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 216:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \} group_pdm_pcm_macros */
+ 217:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 218:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /**
+ 219:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \addtogroup group_pdm_pcm_enums
+ 220:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \{
+ 221:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** */
+ 222:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 223:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** PDM Word Length. */
+ 224:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** typedef enum
+ 225:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 226:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_WLEN_16_BIT     = 0U,         /**< Word length: 16 bit. */
+ 227:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_WLEN_18_BIT     = 1U,         /**< Word length: 18 bit. */
+ 228:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_WLEN_20_BIT     = 2U,         /**< Word length: 20 bit. */
+ 229:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_WLEN_24_BIT     = 3U          /**< Word length: 24 bit. */
+ 230:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** } cy_en_pdm_pcm_word_len_t;
+ 231:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 232:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** PDM Clock Divider. */
+ 233:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** typedef enum
+ 234:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 235:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_CLK_DIV_BYPASS  = 0U,         /**< Clock 1/1. */
+ 236:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_CLK_DIV_1_2     = 1U,         /**< Clock 1/2 (no 50% duty cycle). */
+ 237:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_CLK_DIV_1_3     = 2U,         /**< Clock 1/3 (no 50% duty cycle). */
+ 238:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_CLK_DIV_1_4     = 3U          /**< Clock 1/4 (no 50% duty cycle). */
+ 239:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** } cy_en_pdm_pcm_clk_div_t;
+ 240:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 241:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** PDM Output Mode. */
+ 242:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** typedef enum
+ 243:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 244:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_OUT_CHAN_LEFT   = 1U,         /**< Channel mono left. */
+ 245:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_OUT_CHAN_RIGHT  = 2U,         /**< Channel mono right. */
+ 246:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_OUT_STEREO      = 3U          /**< Channel stereo. */
+ 247:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** } cy_en_pdm_pcm_out_t;
+ 248:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 249:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** PDM Channel selector. */
+ 250:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** typedef enum
+ 251:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 252:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_CHAN_LEFT       = 0U,         /**< Channel left. */
+ 253:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_CHAN_RIGHT      = 1U          /**< Channel right. */
+ 254:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** } cy_en_pdm_pcm_chan_select_t;
+ 255:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 256:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** PDM Gain. */
+ 257:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** typedef enum
+ 258:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 6
+
+
+ 259:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_ATTN_12_DB      = 0U,         /**< -12 dB (attenuation). */
+ 260:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_ATTN_10_5_DB    = 1U,         /**< -10.5 dB (attenuation). */
+ 261:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_ATTN_9_DB       = 2U,         /**< -9 dB (attenuation). */
+ 262:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_ATTN_7_5_DB     = 3U,         /**< -7.5 dB (attenuation). */
+ 263:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_ATTN_6_DB       = 4U,         /**< -6 dB (attenuation). */
+ 264:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_ATTN_4_5_DB     = 5U,         /**< -4.5 dB (attenuation). */
+ 265:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_ATTN_3_DB       = 6U,         /**< -3 dB (attenuation). */
+ 266:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_ATTN_1_5_DB     = 7U,         /**< -1.5 dB (attenuation). */
+ 267:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_BYPASS          = 8U,         /**< 0 dB (bypass). */
+ 268:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_GAIN_1_5_DB     = 9U,         /**< +1.5 dB (amplification). */
+ 269:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_GAIN_3_DB       = 10U,        /**< +3 dB (amplification). */
+ 270:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_GAIN_4_5_DB     = 11U,        /**< +4.5 dB (amplification). */
+ 271:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_GAIN_6_DB       = 12U,        /**< +6 dB (amplification). */
+ 272:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_GAIN_7_5_DB     = 13U,        /**< +7.5 dB (amplification). */
+ 273:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_GAIN_9_DB       = 14U,        /**< +9 dB (amplification). */
+ 274:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_GAIN_10_5_DB    = 15U         /**< +10.5 dB (amplification). */
+ 275:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** } cy_en_pdm_pcm_gain_t;
+ 276:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 277:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 278:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** The time step for gain change during PGA or soft mute operation in
+ 279:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****  *  number of 1/a sampling rate. */
+ 280:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** typedef enum
+ 281:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 282:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SOFT_MUTE_CYCLES_64  = 0U,    /**< 64 steps. */
+ 283:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SOFT_MUTE_CYCLES_96  = 1U,    /**< 96 steps. */
+ 284:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SOFT_MUTE_CYCLES_128 = 2U,    /**< 128 steps. */
+ 285:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SOFT_MUTE_CYCLES_160 = 3U,    /**< 160 steps. */
+ 286:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SOFT_MUTE_CYCLES_192 = 4U,    /**< 192 steps. */
+ 287:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SOFT_MUTE_CYCLES_256 = 5U,    /**< 256 steps. */
+ 288:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SOFT_MUTE_CYCLES_384 = 6U,    /**< 384 steps. */
+ 289:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SOFT_MUTE_CYCLES_512 = 7U     /**< 512 steps. */
+ 290:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** } cy_en_pdm_pcm_s_cycles_t;
+ 291:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 292:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** The PDM-PCM status codes. */
+ 293:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** typedef enum
+ 294:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 295:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_SUCCESS         = 0x00UL,    /**< Success status code */
+ 296:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_PDM_PCM_BAD_PARAM       = CY_PDM_PCM_ID | CY_PDL_STATUS_ERROR | 0x01UL /**< Bad parameter st
+ 297:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** } cy_en_pdm_pcm_status_t;
+ 298:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 299:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \} group_pdm_pcm_enums */
+ 300:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 301:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 302:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /**
+ 303:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \addtogroup group_pdm_pcm_data_structures
+ 304:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \{
+ 305:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** */
+ 306:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 307:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 308:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****  * Global type definitions
+ 309:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****  ******************************************************************************/
+ 310:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 311:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** PDM-PCM initialization configuration */
+ 312:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** typedef struct
+ 313:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 314:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     cy_en_pdm_pcm_clk_div_t  clkDiv;              /**< PDM Clock Divider (1st divider), see #cy_en_
+ 315:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     This configures a frequency of PDM CLK. The con
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 7
+
+
+ 316:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     is used to operate PDM core. I.e. the frequency
+ 317:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     MCLKQ_CLOCK_DIV register. */
+ 318:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     cy_en_pdm_pcm_clk_div_t  mclkDiv;             /**< MCLKQ divider (2nd divider), see #cy_en_pdm_
+ 319:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     uint8_t                  ckoDiv;              /**< PDM CKO (FPDM_CKO) clock divider (3rd divide
+ 320:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - if CKO_CLOCK_DIV >= 1 - *F(PDM_CKO) = F(PDM_C
+ 321:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - if CKO_CLOCK_DIV  = 0 - *F(PDM_CKO) = MCLKQ /
+ 322:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     uint8_t                  ckoDelay;            /**< Extra PDM_CKO delay to internal sampler:
+ 323:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 0: Three extra PDM_CLK period advance
+ 324:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 1: Two extra PDM_CLK period advance
+ 325:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 2: One extra PDM_CLK period advance
+ 326:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 3: No delay
+ 327:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 4: One extra PDM_CLK period delay
+ 328:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 5: Two extra PDM_CLK period delay
+ 329:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 6: Three extra PDM_CLK period delay
+ 330:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 7: Four extra PDM_CLK clock delay */
+ 331:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     uint8_t                  sincDecRate;         /**< F(MCLK_L_R) = Fs * 2 * sincDecRate * mclkDiv
+ 332:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     Fs is a sampling frequency, 8kHz - 48kHz */
+ 333:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     cy_en_pdm_pcm_out_t      chanSelect;          /**< see #cy_en_pdm_pcm_out_t */
+ 334:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     bool                     chanSwapEnable;      /**< Audio channels swapping */
+ 335:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     uint8_t                  highPassFilterGain;  /**< High pass filter gain:
+ 336:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     H(Z) = (1 - Z^-1) / (1 - (1 - 2^highPassFilterG
+ 337:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     bool                     highPassDisable;     /**< High pass filter disable */
+ 338:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     cy_en_pdm_pcm_s_cycles_t softMuteCycles;      /**< The time step for gain change during PGA or 
+ 339:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     number of 1/a sampling rate, see #cy_en_pdm_pcm
+ 340:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     uint32_t                 softMuteFineGain;    /**< Soft mute fine gain: 0 = 0.13dB, 1 = 0.26dB 
+ 341:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     bool                     softMuteEnable;      /**< Soft mute enable */
+ 342:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     cy_en_pdm_pcm_word_len_t wordLen;             /**< see #cy_en_pdm_pcm_word_len_t */
+ 343:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     bool                     signExtension;       /**< Word extension type:
+ 344:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 0: extension by zero
+ 345:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     - 1: extension by sign bits */
+ 346:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     cy_en_pdm_pcm_gain_t     gainLeft;            /**< Gain for left channel, see #cy_en_pdm_pcm_ga
+ 347:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     cy_en_pdm_pcm_gain_t     gainRight;           /**< Gain for right channel, see #cy_en_pdm_pcm_g
+ 348:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     uint8_t                  rxFifoTriggerLevel;  /**< Fifo interrupt trigger level (in words), 
+ 349:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                     range: 0 - 253 for stereo and 0 - 254 for mono 
+ 350:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     bool                     dmaTriggerEnable;    /**< DMA trigger enable */
+ 351:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     uint32_t                 interruptMask;       /**< Interrupts enable mask */
+ 352:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** } cy_stc_pdm_pcm_config_t;
+ 353:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 354:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \} group_pdm_pcm_data_structures */
+ 355:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 356:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 357:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \cond INTERNAL */
+ 358:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 359:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****  * Local definitions
+ 360:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *******************************************************************************/
+ 361:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** Define bit mask for all available interrupt sources */
+ 362:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_INTR_MASK        (CY_PDM_PCM_INTR_RX_TRIGGER   | \
+ 363:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                      CY_PDM_PCM_INTR_RX_NOT_EMPTY | \
+ 364:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                      CY_PDM_PCM_INTR_RX_OVERFLOW  | \
+ 365:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                      CY_PDM_PCM_INTR_RX_UNDERFLOW)
+ 366:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 367:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /* Non-zero default values */
+ 368:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_CTL_PGA_R_DEFAULT    (0x8U)
+ 369:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_CTL_PGA_L_DEFAULT    (0x8U)
+ 370:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_CTL_STEP_SEL_DEFAULT (0x1U)
+ 371:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 372:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_CTL_DEFAULT (_VAL2FLD(PDM_CTL_PGA_R, CY_PDM_PCM_CTL_PGA_R_DEFAULT) | \
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 8
+
+
+ 373:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                 _VAL2FLD(PDM_CTL_PGA_L, CY_PDM_PCM_CTL_PGA_L_DEFAULT) | \
+ 374:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                 _VAL2FLD(PDM_CTL_STEP_SEL, CY_PDM_PCM_CTL_STEP_SEL_DEFAULT))
+ 375:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 376:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_CLOCK_CTL_MCLKQ_CLOCK_DIV_DEFAULT (0x1U)
+ 377:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_CLOCK_CTL_CKO_CLOCK_DIV_DEFAULT   (0x3U)
+ 378:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_CLOCK_CTL_SINC_RATE_DEFAULT       (0x20U)
+ 379:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 380:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_CLOCK_CTL_DEFAULT (_VAL2FLD(PDM_CLOCK_CTL_MCLKQ_CLOCK_DIV, CY_PDM_PCM_CLOCK_CTL_
+ 381:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                       _VAL2FLD(PDM_CLOCK_CTL_CKO_CLOCK_DIV, CY_PDM_PCM_CLOCK_CTL_CK
+ 382:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                       _VAL2FLD(PDM_CLOCK_CTL_SINC_RATE, CY_PDM_PCM_CLOCK_CTL_SINC_R
+ 383:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 384:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_MODE_CTL_PCM_CH_SET_DEFAULT (0x3U)
+ 385:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_MODE_CTL_S_CYCLES_DEFAULT   (0x1U)
+ 386:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_MODE_CTL_HPF_GAIN_DEFAULT   (0xBU)
+ 387:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_MODE_CTL_HPF_EN_N_DEFAULT   (0x1U)
+ 388:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 389:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_MODE_CTL_DEFAULT (_VAL2FLD(PDM_MODE_CTL_PCM_CH_SET, CY_PDM_PCM_MODE_CTL_PCM_CH_S
+ 390:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                      _VAL2FLD(PDM_MODE_CTL_S_CYCLES, CY_PDM_PCM_MODE_CTL_S_CYCLES_D
+ 391:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                      _VAL2FLD(PDM_MODE_CTL_HPF_GAIN, CY_PDM_PCM_MODE_CTL_HPF_GAIN_D
+ 392:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                      _VAL2FLD(PDM_MODE_CTL_HPF_EN_N, CY_PDM_PCM_MODE_CTL_HPF_EN_N_D
+ 393:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 394:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /* Macros for conditions used by CY_ASSERT calls */
+ 395:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_CLK_DIV_VALID(clkDiv)    (((clkDiv) == CY_PDM_PCM_CLK_DIV_BYPASS) || \
+ 396:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((clkDiv) == CY_PDM_PCM_CLK_DIV_1_2)    || \
+ 397:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((clkDiv) == CY_PDM_PCM_CLK_DIV_1_3)    || \
+ 398:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((clkDiv) == CY_PDM_PCM_CLK_DIV_1_4))
+ 399:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 400:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_CH_SET_VALID(chanSelect) (((chanSelect) == CY_PDM_PCM_OUT_CHAN_LEFT)  || \
+ 401:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((chanSelect) == CY_PDM_PCM_OUT_CHAN_RIGHT) || \
+ 402:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((chanSelect) == CY_PDM_PCM_OUT_STEREO))
+ 403:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 404:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_GAIN_VALID(gain)         (((gain) == CY_PDM_PCM_ATTN_12_DB)   || \
+ 405:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_ATTN_10_5_DB) || \
+ 406:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_ATTN_9_DB)    || \
+ 407:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_ATTN_7_5_DB)  || \
+ 408:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_ATTN_6_DB)    || \
+ 409:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_ATTN_4_5_DB)  || \
+ 410:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_ATTN_3_DB)    || \
+ 411:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_ATTN_1_5_DB)  || \
+ 412:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_BYPASS)       || \
+ 413:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_GAIN_1_5_DB)  || \
+ 414:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_GAIN_3_DB)    || \
+ 415:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_GAIN_4_5_DB)  || \
+ 416:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_GAIN_6_DB)    || \
+ 417:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_GAIN_7_5_DB)  || \
+ 418:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_GAIN_9_DB)    || \
+ 419:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((gain) == CY_PDM_PCM_GAIN_10_5_DB))
+ 420:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 421:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_WORD_LEN_VALID(wordLen)  (((wordLen) == CY_PDM_PCM_WLEN_16_BIT) || \
+ 422:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((wordLen) == CY_PDM_PCM_WLEN_18_BIT) || \
+ 423:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((wordLen) == CY_PDM_PCM_WLEN_20_BIT) || \
+ 424:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((wordLen) == CY_PDM_PCM_WLEN_24_BIT))
+ 425:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 426:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_CHAN_VALID(chan)         (((chan) == CY_PDM_PCM_CHAN_LEFT) || \
+ 427:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((chan) == CY_PDM_PCM_CHAN_RIGHT))
+ 428:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 
+ 429:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_S_CYCLES_VALID(sCycles)  (((sCycles) == CY_PDM_PCM_SOFT_MUTE_CYCLES_64)  || \
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 9
+
+
+ 430:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((sCycles) == CY_PDM_PCM_SOFT_MUTE_CYCLES_96)  || \
+ 431:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((sCycles) == CY_PDM_PCM_SOFT_MUTE_CYCLES_128) || \
+ 432:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((sCycles) == CY_PDM_PCM_SOFT_MUTE_CYCLES_160) || \
+ 433:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((sCycles) == CY_PDM_PCM_SOFT_MUTE_CYCLES_192) || \
+ 434:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((sCycles) == CY_PDM_PCM_SOFT_MUTE_CYCLES_256) || \
+ 435:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((sCycles) == CY_PDM_PCM_SOFT_MUTE_CYCLES_384) || \
+ 436:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 ((sCycles) == CY_PDM_PCM_SOFT_MUTE_CYCLES_512))
+ 437:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                                                 
+ 438:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_INTR_MASK_VALID(interrupt)  (0UL == ((interrupt) & ((uint32_t) ~CY_PDM_PCM_IN
+ 439:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_SINC_RATE_VALID(sincRate)   ((sincRate) <= 127U)
+ 440:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_STEP_SEL_VALID(stepSel)     ((stepSel)  <= 1UL)
+ 441:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_CKO_DELAY_VALID(ckoDelay)   ((ckoDelay) <= 7U)
+ 442:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_HPF_GAIN_VALID(hpfGain)     ((hpfGain)  <= 15U)
+ 443:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_CKO_CLOCK_DIV_VALID(ckoDiv) (((ckoDiv)  >= 1U) && ((ckoDiv) <= 15U))
+ 444:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** #define CY_PDM_PCM_IS_TRIG_LEVEL(trigLevel, chanSelect) ((trigLevel) <= (((chanSelect) == CY_PDM_PC
+ 445:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \endcond */
+ 446:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 447:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /**
+ 448:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \addtogroup group_pdm_pcm_functions
+ 449:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \{
+ 450:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** */
+ 451:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 452:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** cy_en_pdm_pcm_status_t   Cy_PDM_PCM_Init(PDM_Type * base, cy_stc_pdm_pcm_config_t const * config);
+ 453:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                 void     Cy_PDM_PCM_DeInit(PDM_Type * base);
+ 454:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****                 void     Cy_PDM_PCM_SetGain(PDM_Type * base, cy_en_pdm_pcm_chan_select_t chan, cy_e
+ 455:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** cy_en_pdm_pcm_gain_t     Cy_PDM_PCM_GetGain(PDM_Type const * base, cy_en_pdm_pcm_chan_select_t chan
+ 456:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 457:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \addtogroup group_pdm_pcm_functions_syspm_callback
+ 458:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * The driver supports SysPm callback for Deep Sleep transition.
+ 459:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \{
+ 460:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** */
+ 461:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** cy_en_syspm_status_t     Cy_PDM_PCM_DeepSleepCallback(cy_stc_syspm_callback_params_t * callbackPara
+ 462:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \} */
+ 463:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 464:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_Enable(PDM_Type * base);
+ 465:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_Disable(PDM_Type * base);
+ 466:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_SetInterruptMask(PDM_Type * base, uint32_t interrupt);
+ 467:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_GetInterruptMask(PDM_Type const * base);
+ 468:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_GetInterruptStatusMasked(PDM_Type const * base);
+ 469:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_GetInterruptStatus(PDM_Type const * base);
+ 470:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_ClearInterrupt(PDM_Type * base, uint32_t interrupt);
+ 471:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_SetInterrupt(PDM_Type * base, uint32_t interrupt);
+ 472:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint8_t  Cy_PDM_PCM_GetNumInFifo(PDM_Type const * base);
+ 473:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_ClearFifo(PDM_Type * base);
+ 474:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_ReadFifo(PDM_Type const * base);
+ 475:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_EnableSoftMute(PDM_Type * base);
+ 476:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_DisableSoftMute(PDM_Type * base);
+ 477:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_FreezeFifo(PDM_Type * base);
+ 478:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void     Cy_PDM_PCM_UnfreezeFifo(PDM_Type * base);
+ 479:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_ReadFifoSilent(PDM_Type const * base);
+ 480:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 481:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 482:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /** \} group_pdm_pcm_functions */
+ 483:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 484:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /**
+ 485:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \addtogroup group_pdm_pcm_functions
+ 486:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \{
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 10
+
+
+ 487:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** */
+ 488:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 489:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 490:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_Enable
+ 491:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 492:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 493:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Enables the PDM-PCM data conversion.
+ 494:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 495:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the  PDM-PCM instance address.
+ 496:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 497:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 498:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void Cy_PDM_PCM_Enable(PDM_Type * base)
+ 499:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+  28              		.loc 1 499 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 83B0     		sub	sp, sp, #12
+  37              		.cfi_def_cfa_offset 16
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 7860     		str	r0, [r7, #4]
+ 500:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     base->CMD |= PDM_CMD_STREAM_EN_Msk;
+  41              		.loc 1 500 0
+  42 0008 7B68     		ldr	r3, [r7, #4]
+  43 000a 1B6A     		ldr	r3, [r3, #32]
+  44 000c 43F00102 		orr	r2, r3, #1
+  45 0010 7B68     		ldr	r3, [r7, #4]
+  46 0012 1A62     		str	r2, [r3, #32]
+ 501:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+  47              		.loc 1 501 0
+  48 0014 00BF     		nop
+  49 0016 0C37     		adds	r7, r7, #12
+  50              		.cfi_def_cfa_offset 4
+  51 0018 BD46     		mov	sp, r7
+  52              		.cfi_def_cfa_register 13
+  53              		@ sp needed
+  54 001a 5DF8047B 		ldr	r7, [sp], #4
+  55              		.cfi_restore 7
+  56              		.cfi_def_cfa_offset 0
+  57 001e 7047     		bx	lr
+  58              		.cfi_endproc
+  59              	.LFE158:
+  60              		.size	Cy_PDM_PCM_Enable, .-Cy_PDM_PCM_Enable
+  61              		.section	.text.Cy_PDM_PCM_ClearFifo,"ax",%progbits
+  62              		.align	2
+  63              		.thumb
+  64              		.thumb_func
+  65              		.type	Cy_PDM_PCM_ClearFifo, %function
+  66              	Cy_PDM_PCM_ClearFifo:
+  67              	.LFB168:
+ 502:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 503:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 11
+
+
+ 504:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_Disable
+ 505:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 506:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 507:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Disables the PDM-PCM data conversion.
+ 508:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 509:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address.
+ 510:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 511:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 512:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void Cy_PDM_PCM_Disable(PDM_Type * base)
+ 513:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 514:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     base->CMD &= (uint32_t) ~PDM_CMD_STREAM_EN_Msk;
+ 515:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 516:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 517:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 518:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 519:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_GetCurrentState
+ 520:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 521:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 522:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Returns the current PDM-PCM state (running/stopped).
+ 523:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 524:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address.
+ 525:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \return The current state (CMD register).
+ 526:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 527:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 528:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_GetCurrentState(PDM_Type const * base)
+ 529:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 530:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     return (base->CMD);
+ 531:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 532:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 533:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 534:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 535:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_SetInterruptMask
+ 536:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 537:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 538:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Sets one or more PDM-PCM interrupt factor bits (sets the INTR_MASK register).
+ 539:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 540:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address
+ 541:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param interrupt Interrupt bit mask \ref group_pdm_pcm_macros_intrerrupt_masks.
+ 542:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 543:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 544:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void Cy_PDM_PCM_SetInterruptMask(PDM_Type * base, uint32_t interrupt)
+ 545:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 546:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_ASSERT_L2(CY_PDM_PCM_IS_INTR_MASK_VALID(interrupt));
+ 547:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     base->INTR_MASK = interrupt;
+ 548:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 549:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 550:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 551:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 552:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_GetInterruptMask
+ 553:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 554:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 555:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Returns the PDM-PCM interrupt mask (a content of the INTR_MASK register).
+ 556:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 557:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address.
+ 558:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \return The interrupt bit mask \ref group_pdm_pcm_macros_intrerrupt_masks.
+ 559:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 560:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 12
+
+
+ 561:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_GetInterruptMask(PDM_Type const * base)
+ 562:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 563:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     return (base->INTR_MASK);
+ 564:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 565:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 566:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 567:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 568:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_GetInterruptStatusMasked
+ 569:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 570:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 571:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Reports the status of enabled (masked) PDM-PCM interrupt sources.
+ 572:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * (an INTR_MASKED register).
+ 573:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 574:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address.
+ 575:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \return The interrupt bit mask \ref group_pdm_pcm_macros_intrerrupt_masks.
+ 576:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 577:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *****************************************************************************/
+ 578:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_GetInterruptStatusMasked(PDM_Type const * base)
+ 579:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 580:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     return (base->INTR_MASKED);
+ 581:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 582:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 583:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 584:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 585:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_GetInterruptStatus
+ 586:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 587:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 588:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Reports the status of PDM-PCM interrupt sources (an INTR register).
+ 589:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 590:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address.
+ 591:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \return The interrupt bit mask \ref group_pdm_pcm_macros_intrerrupt_masks.
+ 592:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 593:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 594:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint32_t Cy_PDM_PCM_GetInterruptStatus(PDM_Type const * base)
+ 595:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 596:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     return (base->INTR);
+ 597:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 598:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 599:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 600:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 601:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_ClearInterrupt
+ 602:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 603:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 604:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Clears one or more PDM-PCM interrupt statuses (sets an INTR register's bits).
+ 605:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 606:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address
+ 607:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param interrupt 
+ 608:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *  The interrupt bit mask \ref group_pdm_pcm_macros_intrerrupt_masks.
+ 609:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 610:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 611:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void Cy_PDM_PCM_ClearInterrupt(PDM_Type * base, uint32_t interrupt)
+ 612:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 613:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_ASSERT_L2(CY_PDM_PCM_IS_INTR_MASK_VALID(interrupt));
+ 614:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     base->INTR = interrupt;
+ 615:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     (void) base->INTR;
+ 616:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 617:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 13
+
+
+ 618:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 619:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 620:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_SetInterrupt
+ 621:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 622:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 623:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Sets one or more interrupt source statuses (sets an INTR_SET register).
+ 624:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 625:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address.
+ 626:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param interrupt
+ 627:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *  The interrupt bit mask \ref group_pdm_pcm_macros_intrerrupt_masks.
+ 628:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 629:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 630:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void Cy_PDM_PCM_SetInterrupt(PDM_Type * base, uint32_t interrupt)
+ 631:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 632:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     CY_ASSERT_L2(CY_PDM_PCM_IS_INTR_MASK_VALID(interrupt));
+ 633:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     base->INTR_SET = interrupt;
+ 634:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 635:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 636:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 637:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 638:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_GetNumInFifo
+ 639:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 640:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 641:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Reports the current number of used words in the output data FIFO.
+ 642:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 643:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address.
+ 644:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \return The current number of used FIFO words (range is 0 - 254).
+ 645:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 646:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 647:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE uint8_t Cy_PDM_PCM_GetNumInFifo(PDM_Type const * base)
+ 648:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+ 649:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     return (uint8_t) (_FLD2VAL(PDM_RX_FIFO_STATUS_USED, base->RX_FIFO_STATUS));
+ 650:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+ 651:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 652:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** 
+ 653:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** /******************************************************************************
+ 654:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Function Name: Cy_PDM_PCM_ClearFifo
+ 655:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ***************************************************************************//**
+ 656:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 657:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * Resets the output data FIFO, removing all data words from the FIFO.
+ 658:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 659:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** * \param base The pointer to the PDM-PCM instance address.
+ 660:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** *
+ 661:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** ******************************************************************************/
+ 662:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** __STATIC_INLINE void Cy_PDM_PCM_ClearFifo(PDM_Type * base)
+ 663:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** {
+  68              		.loc 1 663 0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 8
+  71              		@ frame_needed = 1, uses_anonymous_args = 0
+  72              		@ link register save eliminated.
+  73 0000 80B4     		push	{r7}
+  74              		.cfi_def_cfa_offset 4
+  75              		.cfi_offset 7, -4
+  76 0002 83B0     		sub	sp, sp, #12
+  77              		.cfi_def_cfa_offset 16
+  78 0004 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 14
+
+
+  79              		.cfi_def_cfa_register 7
+  80 0006 7860     		str	r0, [r7, #4]
+ 664:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     base->RX_FIFO_CTL |= PDM_RX_FIFO_CTL_CLEAR_Msk; /* clear FIFO and disable it */
+  81              		.loc 1 664 0
+  82 0008 7B68     		ldr	r3, [r7, #4]
+  83 000a D3F80033 		ldr	r3, [r3, #768]
+  84 000e 43F48032 		orr	r2, r3, #65536
+  85 0012 7B68     		ldr	r3, [r7, #4]
+  86 0014 C3F80023 		str	r2, [r3, #768]
+ 665:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h ****     base->RX_FIFO_CTL &= (uint32_t) ~PDM_RX_FIFO_CTL_CLEAR_Msk; /* enable FIFO */
+  87              		.loc 1 665 0
+  88 0018 7B68     		ldr	r3, [r7, #4]
+  89 001a D3F80033 		ldr	r3, [r3, #768]
+  90 001e 23F48032 		bic	r2, r3, #65536
+  91 0022 7B68     		ldr	r3, [r7, #4]
+  92 0024 C3F80023 		str	r2, [r3, #768]
+ 666:Generated_Source\PSoC6\pdl\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h **** }
+  93              		.loc 1 666 0
+  94 0028 00BF     		nop
+  95 002a 0C37     		adds	r7, r7, #12
+  96              		.cfi_def_cfa_offset 4
+  97 002c BD46     		mov	sp, r7
+  98              		.cfi_def_cfa_register 13
+  99              		@ sp needed
+ 100 002e 5DF8047B 		ldr	r7, [sp], #4
+ 101              		.cfi_restore 7
+ 102              		.cfi_def_cfa_offset 0
+ 103 0032 7047     		bx	lr
+ 104              		.cfi_endproc
+ 105              	.LFE168:
+ 106              		.size	Cy_PDM_PCM_ClearFifo, .-Cy_PDM_PCM_ClearFifo
+ 107              		.global	PDM_PCM_config
+ 108              		.data
+ 109              		.align	2
+ 110              		.type	PDM_PCM_config, %object
+ 111              		.size	PDM_PCM_config, 28
+ 112              	PDM_PCM_config:
+ 113 0000 03       		.byte	3
+ 114 0001 03       		.byte	3
+ 115 0002 01       		.byte	1
+ 116 0003 00       		.byte	0
+ 117 0004 20       		.byte	32
+ 118 0005 02       		.byte	2
+ 119 0006 00       		.byte	0
+ 120 0007 08       		.byte	8
+ 121 0008 00       		.byte	0
+ 122 0009 01       		.byte	1
+ 123 000a 0000     		.space	2
+ 124 000c 01000000 		.word	1
+ 125 0010 00       		.byte	0
+ 126 0011 00       		.byte	0
+ 127 0012 00       		.byte	0
+ 128 0013 08       		.byte	8
+ 129 0014 0F       		.byte	15
+ 130 0015 40       		.byte	64
+ 131 0016 01       		.byte	1
+ 132 0017 00       		.space	1
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 15
+
+
+ 133 0018 00000000 		.word	0
+ 134              		.global	PDM_PCM_initVar
+ 135              		.bss
+ 136              		.type	PDM_PCM_initVar, %object
+ 137              		.size	PDM_PCM_initVar, 1
+ 138              	PDM_PCM_initVar:
+ 139 0000 00       		.space	1
+ 140              		.section	.text.PDM_PCM_Start,"ax",%progbits
+ 141              		.align	2
+ 142              		.global	PDM_PCM_Start
+ 143              		.thumb
+ 144              		.thumb_func
+ 145              		.type	PDM_PCM_Start, %function
+ 146              	PDM_PCM_Start:
+ 147              	.LFB196:
+ 148              		.file 2 "Generated_Source\\PSoC6\\PDM_PCM.c"
+   1:Generated_Source\PSoC6/PDM_PCM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC6/PDM_PCM.c **** * File Name: PDM_PCM.c
+   3:Generated_Source\PSoC6/PDM_PCM.c **** * Version 2.0
+   4:Generated_Source\PSoC6/PDM_PCM.c **** *
+   5:Generated_Source\PSoC6/PDM_PCM.c **** * Description:
+   6:Generated_Source\PSoC6/PDM_PCM.c **** *  This file provides the source code to the API for the
+   7:Generated_Source\PSoC6/PDM_PCM.c **** *  PDM_PCM component.
+   8:Generated_Source\PSoC6/PDM_PCM.c **** *
+   9:Generated_Source\PSoC6/PDM_PCM.c **** ********************************************************************************
+  10:Generated_Source\PSoC6/PDM_PCM.c **** * Copyright 2016-2017, Cypress Semiconductor Corporation.  All rights reserved.
+  11:Generated_Source\PSoC6/PDM_PCM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  12:Generated_Source\PSoC6/PDM_PCM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  13:Generated_Source\PSoC6/PDM_PCM.c **** * the software package with which this file was provided.
+  14:Generated_Source\PSoC6/PDM_PCM.c **** *******************************************************************************/
+  15:Generated_Source\PSoC6/PDM_PCM.c **** 
+  16:Generated_Source\PSoC6/PDM_PCM.c **** #include "PDM_PCM.h"
+  17:Generated_Source\PSoC6/PDM_PCM.c **** 
+  18:Generated_Source\PSoC6/PDM_PCM.c **** 
+  19:Generated_Source\PSoC6/PDM_PCM.c **** /** An instance-specific configuration structure.
+  20:Generated_Source\PSoC6/PDM_PCM.c **** *   It should be used in the associated Cy_PDM_PCM_Init() function.
+  21:Generated_Source\PSoC6/PDM_PCM.c **** */
+  22:Generated_Source\PSoC6/PDM_PCM.c ****  cy_stc_pdm_pcm_config_t PDM_PCM_config =
+  23:Generated_Source\PSoC6/PDM_PCM.c **** {
+  24:Generated_Source\PSoC6/PDM_PCM.c ****     .clkDiv             = CY_PDM_PCM_CLK_DIV_1_4,
+  25:Generated_Source\PSoC6/PDM_PCM.c ****     .mclkDiv            = CY_PDM_PCM_CLK_DIV_1_4,
+  26:Generated_Source\PSoC6/PDM_PCM.c ****     .ckoDiv             = 1U,
+  27:Generated_Source\PSoC6/PDM_PCM.c ****     .ckoDelay           = 0U,
+  28:Generated_Source\PSoC6/PDM_PCM.c ****     .sincDecRate        = 32U,
+  29:Generated_Source\PSoC6/PDM_PCM.c ****     .chanSelect         = CY_PDM_PCM_OUT_CHAN_RIGHT,
+  30:Generated_Source\PSoC6/PDM_PCM.c ****     .chanSwapEnable     = false,
+  31:Generated_Source\PSoC6/PDM_PCM.c ****     .highPassFilterGain = 8U,
+  32:Generated_Source\PSoC6/PDM_PCM.c ****     .highPassDisable    = false,
+  33:Generated_Source\PSoC6/PDM_PCM.c ****     .softMuteCycles     = CY_PDM_PCM_SOFT_MUTE_CYCLES_96,
+  34:Generated_Source\PSoC6/PDM_PCM.c ****     .softMuteFineGain   = 1UL,
+  35:Generated_Source\PSoC6/PDM_PCM.c ****     .softMuteEnable     = false,
+  36:Generated_Source\PSoC6/PDM_PCM.c ****     .wordLen            = CY_PDM_PCM_WLEN_16_BIT,
+  37:Generated_Source\PSoC6/PDM_PCM.c ****     .signExtension      = false,
+  38:Generated_Source\PSoC6/PDM_PCM.c ****     .gainLeft           = CY_PDM_PCM_BYPASS,
+  39:Generated_Source\PSoC6/PDM_PCM.c ****     .gainRight          = CY_PDM_PCM_GAIN_10_5_DB,
+  40:Generated_Source\PSoC6/PDM_PCM.c ****     .rxFifoTriggerLevel = 64U,
+  41:Generated_Source\PSoC6/PDM_PCM.c ****     .dmaTriggerEnable   = true,
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 16
+
+
+  42:Generated_Source\PSoC6/PDM_PCM.c ****     .interruptMask      = 0UL
+  43:Generated_Source\PSoC6/PDM_PCM.c **** };
+  44:Generated_Source\PSoC6/PDM_PCM.c **** 
+  45:Generated_Source\PSoC6/PDM_PCM.c **** /* An internal variable indicates whether the PDM_PCM has been
+  46:Generated_Source\PSoC6/PDM_PCM.c **** *  initialized. The variable is initialized to 0 and set to 1 the first time
+  47:Generated_Source\PSoC6/PDM_PCM.c **** *  PDM_PCM_Start() is called. This allows the Component to
+  48:Generated_Source\PSoC6/PDM_PCM.c **** *  restart without reinitialization after the first call to the
+  49:Generated_Source\PSoC6/PDM_PCM.c **** *  PDM_PCM_Start() routine. The variable is cleared by the
+  50:Generated_Source\PSoC6/PDM_PCM.c **** *  PDM_PCM_DeInit() routine call.
+  51:Generated_Source\PSoC6/PDM_PCM.c **** */
+  52:Generated_Source\PSoC6/PDM_PCM.c **** uint8_t PDM_PCM_initVar = 0U;
+  53:Generated_Source\PSoC6/PDM_PCM.c **** 
+  54:Generated_Source\PSoC6/PDM_PCM.c **** /*******************************************************************************
+  55:Generated_Source\PSoC6/PDM_PCM.c **** * Function Name: PDM_PCM_Start
+  56:Generated_Source\PSoC6/PDM_PCM.c **** ********************************************************************************
+  57:Generated_Source\PSoC6/PDM_PCM.c **** *
+  58:Generated_Source\PSoC6/PDM_PCM.c **** * Calls the Cy_PDM_PCM_Init() function when called the first time or after the
+  59:Generated_Source\PSoC6/PDM_PCM.c **** * \ref PDM_PCM_DeInit() call, then clears FIFO and enables the PDM-PCM 
+  60:Generated_Source\PSoC6/PDM_PCM.c **** * data coversion. For subsequent calls (after the
+  61:Generated_Source\PSoC6/PDM_PCM.c **** * \ref PDM_PCM_Stop() call) the configuration is left unchanged, the
+  62:Generated_Source\PSoC6/PDM_PCM.c **** * FIFO is cleared and the PDM-PCM data coversion is enabled.
+  63:Generated_Source\PSoC6/PDM_PCM.c **** *
+  64:Generated_Source\PSoC6/PDM_PCM.c **** *******************************************************************************/
+  65:Generated_Source\PSoC6/PDM_PCM.c **** void PDM_PCM_Start(void)
+  66:Generated_Source\PSoC6/PDM_PCM.c **** {
+ 149              		.loc 2 66 0
+ 150              		.cfi_startproc
+ 151              		@ args = 0, pretend = 0, frame = 0
+ 152              		@ frame_needed = 1, uses_anonymous_args = 0
+ 153 0000 80B5     		push	{r7, lr}
+ 154              		.cfi_def_cfa_offset 8
+ 155              		.cfi_offset 7, -8
+ 156              		.cfi_offset 14, -4
+ 157 0002 00AF     		add	r7, sp, #0
+ 158              		.cfi_def_cfa_register 7
+  67:Generated_Source\PSoC6/PDM_PCM.c ****     if(0U == PDM_PCM_initVar)
+ 159              		.loc 2 67 0
+ 160 0004 094B     		ldr	r3, .L5
+ 161 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 162 0008 002B     		cmp	r3, #0
+ 163 000a 06D1     		bne	.L4
+  68:Generated_Source\PSoC6/PDM_PCM.c ****     {
+  69:Generated_Source\PSoC6/PDM_PCM.c ****         (void) Cy_PDM_PCM_Init(PDM_PCM_HW, &PDM_PCM_config);
+ 164              		.loc 2 69 0
+ 165 000c 0849     		ldr	r1, .L5+4
+ 166 000e 0948     		ldr	r0, .L5+8
+ 167 0010 FFF7FEFF 		bl	Cy_PDM_PCM_Init
+  70:Generated_Source\PSoC6/PDM_PCM.c ****         PDM_PCM_initVar = 1U;
+ 168              		.loc 2 70 0
+ 169 0014 054B     		ldr	r3, .L5
+ 170 0016 0122     		movs	r2, #1
+ 171 0018 1A70     		strb	r2, [r3]
+ 172              	.L4:
+  71:Generated_Source\PSoC6/PDM_PCM.c ****     }
+  72:Generated_Source\PSoC6/PDM_PCM.c **** 
+  73:Generated_Source\PSoC6/PDM_PCM.c ****     Cy_PDM_PCM_ClearFifo(PDM_PCM_HW);
+ 173              		.loc 2 73 0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 17
+
+
+ 174 001a 0648     		ldr	r0, .L5+8
+ 175 001c FFF7FEFF 		bl	Cy_PDM_PCM_ClearFifo
+  74:Generated_Source\PSoC6/PDM_PCM.c ****     Cy_PDM_PCM_Enable(PDM_PCM_HW);
+ 176              		.loc 2 74 0
+ 177 0020 0448     		ldr	r0, .L5+8
+ 178 0022 FFF7FEFF 		bl	Cy_PDM_PCM_Enable
+  75:Generated_Source\PSoC6/PDM_PCM.c **** }
+ 179              		.loc 2 75 0
+ 180 0026 00BF     		nop
+ 181 0028 80BD     		pop	{r7, pc}
+ 182              	.L6:
+ 183 002a 00BF     		.align	2
+ 184              	.L5:
+ 185 002c 00000000 		.word	PDM_PCM_initVar
+ 186 0030 00000000 		.word	PDM_PCM_config
+ 187 0034 0000A242 		.word	1117913088
+ 188              		.cfi_endproc
+ 189              	.LFE196:
+ 190              		.size	PDM_PCM_Start, .-PDM_PCM_Start
+ 191              		.text
+ 192              	.Letext0:
+ 193              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 194              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 195              		.file 5 "Generated_Source\\PSoC6\\pdl\\devices/psoc6/ip/cyip_pdm.h"
+ 196              		.file 6 "Generated_Source\\PSoC6\\pdl\\cmsis/include/core_cm4.h"
+ 197              		.section	.debug_info,"",%progbits
+ 198              	.Ldebug_info0:
+ 199 0000 3A050000 		.4byte	0x53a
+ 200 0004 0400     		.2byte	0x4
+ 201 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 202 000a 04       		.byte	0x4
+ 203 000b 01       		.uleb128 0x1
+ 204 000c 37020000 		.4byte	.LASF105
+ 205 0010 0C       		.byte	0xc
+ 206 0011 6A040000 		.4byte	.LASF106
+ 207 0015 B6030000 		.4byte	.LASF107
+ 208 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 209 001d 00000000 		.4byte	0
+ 210 0021 00000000 		.4byte	.Ldebug_line0
+ 211 0025 02       		.uleb128 0x2
+ 212 0026 02       		.byte	0x2
+ 213 0027 05       		.byte	0x5
+ 214 0028 A2000000 		.4byte	.LASF0
+ 215 002c 02       		.uleb128 0x2
+ 216 002d 01       		.byte	0x1
+ 217 002e 06       		.byte	0x6
+ 218 002f 79000000 		.4byte	.LASF1
+ 219 0033 03       		.uleb128 0x3
+ 220 0034 65030000 		.4byte	.LASF4
+ 221 0038 03       		.byte	0x3
+ 222 0039 1D       		.byte	0x1d
+ 223 003a 3E000000 		.4byte	0x3e
+ 224 003e 02       		.uleb128 0x2
+ 225 003f 01       		.byte	0x1
+ 226 0040 08       		.byte	0x8
+ 227 0041 22040000 		.4byte	.LASF2
+ 228 0045 02       		.uleb128 0x2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 18
+
+
+ 229 0046 02       		.byte	0x2
+ 230 0047 07       		.byte	0x7
+ 231 0048 9D050000 		.4byte	.LASF3
+ 232 004c 03       		.uleb128 0x3
+ 233 004d F9060000 		.4byte	.LASF5
+ 234 0051 03       		.byte	0x3
+ 235 0052 3F       		.byte	0x3f
+ 236 0053 57000000 		.4byte	0x57
+ 237 0057 02       		.uleb128 0x2
+ 238 0058 04       		.byte	0x4
+ 239 0059 05       		.byte	0x5
+ 240 005a FF020000 		.4byte	.LASF6
+ 241 005e 03       		.uleb128 0x3
+ 242 005f F3000000 		.4byte	.LASF7
+ 243 0063 03       		.byte	0x3
+ 244 0064 41       		.byte	0x41
+ 245 0065 69000000 		.4byte	0x69
+ 246 0069 02       		.uleb128 0x2
+ 247 006a 04       		.byte	0x4
+ 248 006b 07       		.byte	0x7
+ 249 006c 03050000 		.4byte	.LASF8
+ 250 0070 02       		.uleb128 0x2
+ 251 0071 08       		.byte	0x8
+ 252 0072 05       		.byte	0x5
+ 253 0073 02020000 		.4byte	.LASF9
+ 254 0077 02       		.uleb128 0x2
+ 255 0078 08       		.byte	0x8
+ 256 0079 07       		.byte	0x7
+ 257 007a 94040000 		.4byte	.LASF10
+ 258 007e 04       		.uleb128 0x4
+ 259 007f 04       		.byte	0x4
+ 260 0080 05       		.byte	0x5
+ 261 0081 696E7400 		.ascii	"int\000"
+ 262 0085 02       		.uleb128 0x2
+ 263 0086 04       		.byte	0x4
+ 264 0087 07       		.byte	0x7
+ 265 0088 A8070000 		.4byte	.LASF11
+ 266 008c 03       		.uleb128 0x3
+ 267 008d 71010000 		.4byte	.LASF12
+ 268 0091 04       		.byte	0x4
+ 269 0092 18       		.byte	0x18
+ 270 0093 33000000 		.4byte	0x33
+ 271 0097 03       		.uleb128 0x3
+ 272 0098 15070000 		.4byte	.LASF13
+ 273 009c 04       		.byte	0x4
+ 274 009d 2C       		.byte	0x2c
+ 275 009e 4C000000 		.4byte	0x4c
+ 276 00a2 03       		.uleb128 0x3
+ 277 00a3 AB040000 		.4byte	.LASF14
+ 278 00a7 04       		.byte	0x4
+ 279 00a8 30       		.byte	0x30
+ 280 00a9 5E000000 		.4byte	0x5e
+ 281 00ad 02       		.uleb128 0x2
+ 282 00ae 04       		.byte	0x4
+ 283 00af 07       		.byte	0x7
+ 284 00b0 AC000000 		.4byte	.LASF15
+ 285 00b4 05       		.uleb128 0x5
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 19
+
+
+ 286 00b5 A2000000 		.4byte	0xa2
+ 287 00b9 06       		.uleb128 0x6
+ 288 00ba B4000000 		.4byte	0xb4
+ 289 00be 07       		.uleb128 0x7
+ 290 00bf B9000000 		.4byte	0xb9
+ 291 00c3 CE000000 		.4byte	0xce
+ 292 00c7 08       		.uleb128 0x8
+ 293 00c8 AD000000 		.4byte	0xad
+ 294 00cc 06       		.byte	0x6
+ 295 00cd 00       		.byte	0
+ 296 00ce 07       		.uleb128 0x7
+ 297 00cf B9000000 		.4byte	0xb9
+ 298 00d3 DE000000 		.4byte	0xde
+ 299 00d7 08       		.uleb128 0x8
+ 300 00d8 AD000000 		.4byte	0xad
+ 301 00dc 02       		.byte	0x2
+ 302 00dd 00       		.byte	0
+ 303 00de 07       		.uleb128 0x7
+ 304 00df B9000000 		.4byte	0xb9
+ 305 00e3 EF000000 		.4byte	0xef
+ 306 00e7 09       		.uleb128 0x9
+ 307 00e8 AD000000 		.4byte	0xad
+ 308 00ec FB02     		.2byte	0x2fb
+ 309 00ee 00       		.byte	0
+ 310 00ef 0A       		.uleb128 0xa
+ 311 00f0 100F     		.2byte	0xf10
+ 312 00f2 05       		.byte	0x5
+ 313 00f3 21       		.byte	0x21
+ 314 00f4 E6010000 		.4byte	0x1e6
+ 315 00f8 0B       		.uleb128 0xb
+ 316 00f9 43544C00 		.ascii	"CTL\000"
+ 317 00fd 05       		.byte	0x5
+ 318 00fe 22       		.byte	0x22
+ 319 00ff B4000000 		.4byte	0xb4
+ 320 0103 00       		.byte	0
+ 321 0104 0C       		.uleb128 0xc
+ 322 0105 60070000 		.4byte	.LASF16
+ 323 0109 05       		.byte	0x5
+ 324 010a 23       		.byte	0x23
+ 325 010b EB010000 		.4byte	0x1eb
+ 326 010f 04       		.byte	0x4
+ 327 0110 0C       		.uleb128 0xc
+ 328 0111 9E070000 		.4byte	.LASF17
+ 329 0115 05       		.byte	0x5
+ 330 0116 24       		.byte	0x24
+ 331 0117 B4000000 		.4byte	0xb4
+ 332 011b 10       		.byte	0x10
+ 333 011c 0C       		.uleb128 0xc
+ 334 011d F0060000 		.4byte	.LASF18
+ 335 0121 05       		.byte	0x5
+ 336 0122 25       		.byte	0x25
+ 337 0123 B4000000 		.4byte	0xb4
+ 338 0127 14       		.byte	0x14
+ 339 0128 0C       		.uleb128 0xc
+ 340 0129 B5000000 		.4byte	.LASF19
+ 341 012d 05       		.byte	0x5
+ 342 012e 26       		.byte	0x26
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 20
+
+
+ 343 012f B4000000 		.4byte	0xb4
+ 344 0133 18       		.byte	0x18
+ 345 0134 0C       		.uleb128 0xc
+ 346 0135 26060000 		.4byte	.LASF20
+ 347 0139 05       		.byte	0x5
+ 348 013a 27       		.byte	0x27
+ 349 013b B9000000 		.4byte	0xb9
+ 350 013f 1C       		.byte	0x1c
+ 351 0140 0B       		.uleb128 0xb
+ 352 0141 434D4400 		.ascii	"CMD\000"
+ 353 0145 05       		.byte	0x5
+ 354 0146 28       		.byte	0x28
+ 355 0147 B4000000 		.4byte	0xb4
+ 356 014b 20       		.byte	0x20
+ 357 014c 0C       		.uleb128 0xc
+ 358 014d 30060000 		.4byte	.LASF21
+ 359 0151 05       		.byte	0x5
+ 360 0152 29       		.byte	0x29
+ 361 0153 F5010000 		.4byte	0x1f5
+ 362 0157 24       		.byte	0x24
+ 363 0158 0C       		.uleb128 0xc
+ 364 0159 53010000 		.4byte	.LASF22
+ 365 015d 05       		.byte	0x5
+ 366 015e 2A       		.byte	0x2a
+ 367 015f B4000000 		.4byte	0xb4
+ 368 0163 40       		.byte	0x40
+ 369 0164 0C       		.uleb128 0xc
+ 370 0165 3A060000 		.4byte	.LASF23
+ 371 0169 05       		.byte	0x5
+ 372 016a 2B       		.byte	0x2b
+ 373 016b 0F020000 		.4byte	0x20f
+ 374 016f 44       		.byte	0x44
+ 375 0170 0D       		.uleb128 0xd
+ 376 0171 CF070000 		.4byte	.LASF24
+ 377 0175 05       		.byte	0x5
+ 378 0176 2C       		.byte	0x2c
+ 379 0177 B4000000 		.4byte	0xb4
+ 380 017b 0003     		.2byte	0x300
+ 381 017d 0D       		.uleb128 0xd
+ 382 017e D6050000 		.4byte	.LASF25
+ 383 0182 05       		.byte	0x5
+ 384 0183 2D       		.byte	0x2d
+ 385 0184 B9000000 		.4byte	0xb9
+ 386 0188 0403     		.2byte	0x304
+ 387 018a 0D       		.uleb128 0xd
+ 388 018b C5050000 		.4byte	.LASF26
+ 389 018f 05       		.byte	0x5
+ 390 0190 2E       		.byte	0x2e
+ 391 0191 B9000000 		.4byte	0xb9
+ 392 0195 0803     		.2byte	0x308
+ 393 0197 0D       		.uleb128 0xd
+ 394 0198 03070000 		.4byte	.LASF27
+ 395 019c 05       		.byte	0x5
+ 396 019d 2F       		.byte	0x2f
+ 397 019e B9000000 		.4byte	0xb9
+ 398 01a2 0C03     		.2byte	0x30c
+ 399 01a4 0D       		.uleb128 0xd
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 21
+
+
+ 400 01a5 44060000 		.4byte	.LASF28
+ 401 01a9 05       		.byte	0x5
+ 402 01aa 30       		.byte	0x30
+ 403 01ab 19020000 		.4byte	0x219
+ 404 01af 1003     		.2byte	0x310
+ 405 01b1 0D       		.uleb128 0xd
+ 406 01b2 F0050000 		.4byte	.LASF29
+ 407 01b6 05       		.byte	0x5
+ 408 01b7 31       		.byte	0x31
+ 409 01b8 B4000000 		.4byte	0xb4
+ 410 01bc 000F     		.2byte	0xf00
+ 411 01be 0D       		.uleb128 0xd
+ 412 01bf 8B040000 		.4byte	.LASF30
+ 413 01c3 05       		.byte	0x5
+ 414 01c4 32       		.byte	0x32
+ 415 01c5 B4000000 		.4byte	0xb4
+ 416 01c9 040F     		.2byte	0xf04
+ 417 01cb 0D       		.uleb128 0xd
+ 418 01cc 79010000 		.4byte	.LASF31
+ 419 01d0 05       		.byte	0x5
+ 420 01d1 33       		.byte	0x33
+ 421 01d2 B4000000 		.4byte	0xb4
+ 422 01d6 080F     		.2byte	0xf08
+ 423 01d8 0D       		.uleb128 0xd
+ 424 01d9 AA030000 		.4byte	.LASF32
+ 425 01dd 05       		.byte	0x5
+ 426 01de 34       		.byte	0x34
+ 427 01df B9000000 		.4byte	0xb9
+ 428 01e3 0C0F     		.2byte	0xf0c
+ 429 01e5 00       		.byte	0
+ 430 01e6 05       		.uleb128 0x5
+ 431 01e7 CE000000 		.4byte	0xce
+ 432 01eb 06       		.uleb128 0x6
+ 433 01ec E6010000 		.4byte	0x1e6
+ 434 01f0 05       		.uleb128 0x5
+ 435 01f1 BE000000 		.4byte	0xbe
+ 436 01f5 06       		.uleb128 0x6
+ 437 01f6 F0010000 		.4byte	0x1f0
+ 438 01fa 07       		.uleb128 0x7
+ 439 01fb B9000000 		.4byte	0xb9
+ 440 01ff 0A020000 		.4byte	0x20a
+ 441 0203 08       		.uleb128 0x8
+ 442 0204 AD000000 		.4byte	0xad
+ 443 0208 AE       		.byte	0xae
+ 444 0209 00       		.byte	0
+ 445 020a 05       		.uleb128 0x5
+ 446 020b FA010000 		.4byte	0x1fa
+ 447 020f 06       		.uleb128 0x6
+ 448 0210 0A020000 		.4byte	0x20a
+ 449 0214 05       		.uleb128 0x5
+ 450 0215 DE000000 		.4byte	0xde
+ 451 0219 06       		.uleb128 0x6
+ 452 021a 14020000 		.4byte	0x214
+ 453 021e 03       		.uleb128 0x3
+ 454 021f 98060000 		.4byte	.LASF33
+ 455 0223 05       		.byte	0x5
+ 456 0224 35       		.byte	0x35
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 22
+
+
+ 457 0225 EF000000 		.4byte	0xef
+ 458 0229 02       		.uleb128 0x2
+ 459 022a 01       		.byte	0x1
+ 460 022b 08       		.byte	0x8
+ 461 022c 85000000 		.4byte	.LASF34
+ 462 0230 02       		.uleb128 0x2
+ 463 0231 04       		.byte	0x4
+ 464 0232 04       		.byte	0x4
+ 465 0233 3B000000 		.4byte	.LASF35
+ 466 0237 02       		.uleb128 0x2
+ 467 0238 08       		.byte	0x8
+ 468 0239 04       		.byte	0x4
+ 469 023a 7F060000 		.4byte	.LASF36
+ 470 023e 02       		.uleb128 0x2
+ 471 023f 08       		.byte	0x8
+ 472 0240 04       		.byte	0x4
+ 473 0241 16040000 		.4byte	.LASF37
+ 474 0245 0E       		.uleb128 0xe
+ 475 0246 01       		.byte	0x1
+ 476 0247 3E000000 		.4byte	0x3e
+ 477 024b 01       		.byte	0x1
+ 478 024c E1       		.byte	0xe1
+ 479 024d 6A020000 		.4byte	0x26a
+ 480 0251 0F       		.uleb128 0xf
+ 481 0252 5A010000 		.4byte	.LASF38
+ 482 0256 00       		.byte	0
+ 483 0257 0F       		.uleb128 0xf
+ 484 0258 23010000 		.4byte	.LASF39
+ 485 025c 01       		.byte	0x1
+ 486 025d 0F       		.uleb128 0xf
+ 487 025e 08030000 		.4byte	.LASF40
+ 488 0262 02       		.byte	0x2
+ 489 0263 0F       		.uleb128 0xf
+ 490 0264 A5010000 		.4byte	.LASF41
+ 491 0268 03       		.byte	0x3
+ 492 0269 00       		.byte	0
+ 493 026a 03       		.uleb128 0x3
+ 494 026b 59000000 		.4byte	.LASF42
+ 495 026f 01       		.byte	0x1
+ 496 0270 E6       		.byte	0xe6
+ 497 0271 45020000 		.4byte	0x245
+ 498 0275 0E       		.uleb128 0xe
+ 499 0276 01       		.byte	0x1
+ 500 0277 3E000000 		.4byte	0x3e
+ 501 027b 01       		.byte	0x1
+ 502 027c EA       		.byte	0xea
+ 503 027d 9A020000 		.4byte	0x29a
+ 504 0281 0F       		.uleb128 0xf
+ 505 0282 1D070000 		.4byte	.LASF43
+ 506 0286 00       		.byte	0
+ 507 0287 0F       		.uleb128 0xf
+ 508 0288 41050000 		.4byte	.LASF44
+ 509 028c 01       		.byte	0x1
+ 510 028d 0F       		.uleb128 0xf
+ 511 028e 58050000 		.4byte	.LASF45
+ 512 0292 02       		.byte	0x2
+ 513 0293 0F       		.uleb128 0xf
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 23
+
+
+ 514 0294 6F050000 		.4byte	.LASF46
+ 515 0298 03       		.byte	0x3
+ 516 0299 00       		.byte	0
+ 517 029a 03       		.uleb128 0x3
+ 518 029b B4040000 		.4byte	.LASF47
+ 519 029f 01       		.byte	0x1
+ 520 02a0 EF       		.byte	0xef
+ 521 02a1 75020000 		.4byte	0x275
+ 522 02a5 0E       		.uleb128 0xe
+ 523 02a6 01       		.byte	0x1
+ 524 02a7 3E000000 		.4byte	0x3e
+ 525 02ab 01       		.byte	0x1
+ 526 02ac F3       		.byte	0xf3
+ 527 02ad C4020000 		.4byte	0x2c4
+ 528 02b1 0F       		.uleb128 0xf
+ 529 02b2 F5050000 		.4byte	.LASF48
+ 530 02b6 01       		.byte	0x1
+ 531 02b7 0F       		.uleb128 0xf
+ 532 02b8 90030000 		.4byte	.LASF49
+ 533 02bc 02       		.byte	0x2
+ 534 02bd 0F       		.uleb128 0xf
+ 535 02be DD000000 		.4byte	.LASF50
+ 536 02c2 03       		.byte	0x3
+ 537 02c3 00       		.byte	0
+ 538 02c4 03       		.uleb128 0x3
+ 539 02c5 83010000 		.4byte	.LASF51
+ 540 02c9 01       		.byte	0x1
+ 541 02ca F7       		.byte	0xf7
+ 542 02cb A5020000 		.4byte	0x2a5
+ 543 02cf 10       		.uleb128 0x10
+ 544 02d0 01       		.byte	0x1
+ 545 02d1 3E000000 		.4byte	0x3e
+ 546 02d5 01       		.byte	0x1
+ 547 02d6 0201     		.2byte	0x102
+ 548 02d8 3D030000 		.4byte	0x33d
+ 549 02dc 0F       		.uleb128 0xf
+ 550 02dd 0D010000 		.4byte	.LASF52
+ 551 02e1 00       		.byte	0
+ 552 02e2 0F       		.uleb128 0xf
+ 553 02e3 1F030000 		.4byte	.LASF53
+ 554 02e7 01       		.byte	0x1
+ 555 02e8 0F       		.uleb128 0xf
+ 556 02e9 69070000 		.4byte	.LASF54
+ 557 02ed 02       		.byte	0x2
+ 558 02ee 0F       		.uleb128 0xf
+ 559 02ef EC040000 		.4byte	.LASF55
+ 560 02f3 03       		.byte	0x3
+ 561 02f4 0F       		.uleb128 0xf
+ 562 02f5 BA070000 		.4byte	.LASF56
+ 563 02f9 04       		.byte	0x4
+ 564 02fa 0F       		.uleb128 0xf
+ 565 02fb 2A050000 		.4byte	.LASF57
+ 566 02ff 05       		.byte	0x5
+ 567 0300 0F       		.uleb128 0xf
+ 568 0301 EA020000 		.4byte	.LASF58
+ 569 0305 06       		.byte	0x6
+ 570 0306 0F       		.uleb128 0xf
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 24
+
+
+ 571 0307 86050000 		.4byte	.LASF59
+ 572 030b 07       		.byte	0x7
+ 573 030c 0F       		.uleb128 0xf
+ 574 030d 86060000 		.4byte	.LASF60
+ 575 0311 08       		.byte	0x8
+ 576 0312 0F       		.uleb128 0xf
+ 577 0313 15000000 		.4byte	.LASF61
+ 578 0317 09       		.byte	0x9
+ 579 0318 0F       		.uleb128 0xf
+ 580 0319 15050000 		.4byte	.LASF62
+ 581 031d 0A       		.byte	0xa
+ 582 031e 0F       		.uleb128 0xf
+ 583 031f EB070000 		.4byte	.LASF63
+ 584 0323 0B       		.byte	0xb
+ 585 0324 0F       		.uleb128 0xf
+ 586 0325 22020000 		.4byte	.LASF64
+ 587 0329 0C       		.byte	0xc
+ 588 032a 0F       		.uleb128 0xf
+ 589 032b D9060000 		.4byte	.LASF65
+ 590 032f 0D       		.byte	0xd
+ 591 0330 0F       		.uleb128 0xf
+ 592 0331 BE000000 		.4byte	.LASF66
+ 593 0335 0E       		.byte	0xe
+ 594 0336 0F       		.uleb128 0xf
+ 595 0337 8A000000 		.4byte	.LASF67
+ 596 033b 0F       		.byte	0xf
+ 597 033c 00       		.byte	0
+ 598 033d 11       		.uleb128 0x11
+ 599 033e B0050000 		.4byte	.LASF68
+ 600 0342 01       		.byte	0x1
+ 601 0343 1301     		.2byte	0x113
+ 602 0345 CF020000 		.4byte	0x2cf
+ 603 0349 10       		.uleb128 0x10
+ 604 034a 01       		.byte	0x1
+ 605 034b 3E000000 		.4byte	0x3e
+ 606 034f 01       		.byte	0x1
+ 607 0350 1901     		.2byte	0x119
+ 608 0352 87030000 		.4byte	0x387
+ 609 0356 0F       		.uleb128 0xf
+ 610 0357 3F040000 		.4byte	.LASF69
+ 611 035b 00       		.byte	0
+ 612 035c 0F       		.uleb128 0xf
+ 613 035d C3010000 		.4byte	.LASF70
+ 614 0361 01       		.byte	0x1
+ 615 0362 0F       		.uleb128 0xf
+ 616 0363 CC040000 		.4byte	.LASF71
+ 617 0367 02       		.byte	0x2
+ 618 0368 0F       		.uleb128 0xf
+ 619 0369 E2010000 		.4byte	.LASF72
+ 620 036d 03       		.byte	0x3
+ 621 036e 0F       		.uleb128 0xf
+ 622 036f 37030000 		.4byte	.LASF73
+ 623 0373 04       		.byte	0x4
+ 624 0374 0F       		.uleb128 0xf
+ 625 0375 4E060000 		.4byte	.LASF74
+ 626 0379 05       		.byte	0x5
+ 627 037a 0F       		.uleb128 0xf
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 25
+
+
+ 628 037b 40070000 		.4byte	.LASF75
+ 629 037f 06       		.byte	0x6
+ 630 0380 0F       		.uleb128 0xf
+ 631 0381 A1060000 		.4byte	.LASF76
+ 632 0385 07       		.byte	0x7
+ 633 0386 00       		.byte	0
+ 634 0387 11       		.uleb128 0x11
+ 635 0388 02080000 		.4byte	.LASF77
+ 636 038c 01       		.byte	0x1
+ 637 038d 2201     		.2byte	0x122
+ 638 038f 49030000 		.4byte	0x349
+ 639 0393 12       		.uleb128 0x12
+ 640 0394 1C       		.byte	0x1c
+ 641 0395 01       		.byte	0x1
+ 642 0396 3801     		.2byte	0x138
+ 643 0398 94040000 		.4byte	0x494
+ 644 039c 13       		.uleb128 0x13
+ 645 039d BC010000 		.4byte	.LASF78
+ 646 03a1 01       		.byte	0x1
+ 647 03a2 3A01     		.2byte	0x13a
+ 648 03a4 9A020000 		.4byte	0x29a
+ 649 03a8 00       		.byte	0
+ 650 03a9 13       		.uleb128 0x13
+ 651 03aa 3A010000 		.4byte	.LASF79
+ 652 03ae 01       		.byte	0x1
+ 653 03af 3E01     		.2byte	0x13e
+ 654 03b1 9A020000 		.4byte	0x29a
+ 655 03b5 01       		.byte	0x1
+ 656 03b6 13       		.uleb128 0x13
+ 657 03b7 72000000 		.4byte	.LASF80
+ 658 03bb 01       		.byte	0x1
+ 659 03bc 3F01     		.2byte	0x13f
+ 660 03be 8C000000 		.4byte	0x8c
+ 661 03c2 02       		.byte	0x2
+ 662 03c3 13       		.uleb128 0x13
+ 663 03c4 37070000 		.4byte	.LASF81
+ 664 03c8 01       		.byte	0x1
+ 665 03c9 4201     		.2byte	0x142
+ 666 03cb 8C000000 		.4byte	0x8c
+ 667 03cf 03       		.byte	0x3
+ 668 03d0 13       		.uleb128 0x13
+ 669 03d1 5E040000 		.4byte	.LASF82
+ 670 03d5 01       		.byte	0x1
+ 671 03d6 4B01     		.2byte	0x14b
+ 672 03d8 8C000000 		.4byte	0x8c
+ 673 03dc 04       		.byte	0x4
+ 674 03dd 13       		.uleb128 0x13
+ 675 03de E5050000 		.4byte	.LASF83
+ 676 03e2 01       		.byte	0x1
+ 677 03e3 4D01     		.2byte	0x14d
+ 678 03e5 C4020000 		.4byte	0x2c4
+ 679 03e9 05       		.byte	0x5
+ 680 03ea 13       		.uleb128 0x13
+ 681 03eb 4A000000 		.4byte	.LASF84
+ 682 03ef 01       		.byte	0x1
+ 683 03f0 4E01     		.2byte	0x14e
+ 684 03f2 94040000 		.4byte	0x494
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 26
+
+
+ 685 03f6 06       		.byte	0x6
+ 686 03f7 13       		.uleb128 0x13
+ 687 03f8 7E070000 		.4byte	.LASF85
+ 688 03fc 01       		.byte	0x1
+ 689 03fd 4F01     		.2byte	0x14f
+ 690 03ff 8C000000 		.4byte	0x8c
+ 691 0403 07       		.byte	0x7
+ 692 0404 13       		.uleb128 0x13
+ 693 0405 DB070000 		.4byte	.LASF86
+ 694 0409 01       		.byte	0x1
+ 695 040a 5101     		.2byte	0x151
+ 696 040c 94040000 		.4byte	0x494
+ 697 0410 08       		.byte	0x8
+ 698 0411 13       		.uleb128 0x13
+ 699 0412 2C000000 		.4byte	.LASF87
+ 700 0416 01       		.byte	0x1
+ 701 0417 5201     		.2byte	0x152
+ 702 0419 87030000 		.4byte	0x387
+ 703 041d 09       		.byte	0x9
+ 704 041e 13       		.uleb128 0x13
+ 705 041f 6E060000 		.4byte	.LASF88
+ 706 0423 01       		.byte	0x1
+ 707 0424 5401     		.2byte	0x154
+ 708 0426 A2000000 		.4byte	0xa2
+ 709 042a 0C       		.byte	0xc
+ 710 042b 13       		.uleb128 0x13
+ 711 042c FE000000 		.4byte	.LASF89
+ 712 0430 01       		.byte	0x1
+ 713 0431 5501     		.2byte	0x155
+ 714 0433 94040000 		.4byte	0x494
+ 715 0437 10       		.byte	0x10
+ 716 0438 13       		.uleb128 0x13
+ 717 0439 D1060000 		.4byte	.LASF90
+ 718 043d 01       		.byte	0x1
+ 719 043e 5601     		.2byte	0x156
+ 720 0440 6A020000 		.4byte	0x26a
+ 721 0444 11       		.byte	0x11
+ 722 0445 13       		.uleb128 0x13
+ 723 0446 57030000 		.4byte	.LASF91
+ 724 044a 01       		.byte	0x1
+ 725 044b 5701     		.2byte	0x157
+ 726 044d 94040000 		.4byte	0x494
+ 727 0451 12       		.byte	0x12
+ 728 0452 13       		.uleb128 0x13
+ 729 0453 41000000 		.4byte	.LASF92
+ 730 0457 01       		.byte	0x1
+ 731 0458 5A01     		.2byte	0x15a
+ 732 045a 3D030000 		.4byte	0x33d
+ 733 045e 13       		.byte	0x13
+ 734 045f 13       		.uleb128 0x13
+ 735 0460 D3000000 		.4byte	.LASF93
+ 736 0464 01       		.byte	0x1
+ 737 0465 5B01     		.2byte	0x15b
+ 738 0467 3D030000 		.4byte	0x33d
+ 739 046b 14       		.byte	0x14
+ 740 046c 13       		.uleb128 0x13
+ 741 046d 6F030000 		.4byte	.LASF94
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 27
+
+
+ 742 0471 01       		.byte	0x1
+ 743 0472 5C01     		.2byte	0x15c
+ 744 0474 8C000000 		.4byte	0x8c
+ 745 0478 15       		.byte	0x15
+ 746 0479 13       		.uleb128 0x13
+ 747 047a 42010000 		.4byte	.LASF95
+ 748 047e 01       		.byte	0x1
+ 749 047f 5E01     		.2byte	0x15e
+ 750 0481 94040000 		.4byte	0x494
+ 751 0485 16       		.byte	0x16
+ 752 0486 13       		.uleb128 0x13
+ 753 0487 97010000 		.4byte	.LASF96
+ 754 048b 01       		.byte	0x1
+ 755 048c 5F01     		.2byte	0x15f
+ 756 048e A2000000 		.4byte	0xa2
+ 757 0492 18       		.byte	0x18
+ 758 0493 00       		.byte	0
+ 759 0494 02       		.uleb128 0x2
+ 760 0495 01       		.byte	0x1
+ 761 0496 02       		.byte	0x2
+ 762 0497 D0050000 		.4byte	.LASF97
+ 763 049b 11       		.uleb128 0x11
+ 764 049c 0E060000 		.4byte	.LASF98
+ 765 04a0 01       		.byte	0x1
+ 766 04a1 6001     		.2byte	0x160
+ 767 04a3 93030000 		.4byte	0x393
+ 768 04a7 14       		.uleb128 0x14
+ 769 04a8 10020000 		.4byte	.LASF99
+ 770 04ac 01       		.byte	0x1
+ 771 04ad F201     		.2byte	0x1f2
+ 772 04af 00000000 		.4byte	.LFB158
+ 773 04b3 20000000 		.4byte	.LFE158-.LFB158
+ 774 04b7 01       		.uleb128 0x1
+ 775 04b8 9C       		.byte	0x9c
+ 776 04b9 CD040000 		.4byte	0x4cd
+ 777 04bd 15       		.uleb128 0x15
+ 778 04be B5070000 		.4byte	.LASF101
+ 779 04c2 01       		.byte	0x1
+ 780 04c3 F201     		.2byte	0x1f2
+ 781 04c5 CD040000 		.4byte	0x4cd
+ 782 04c9 02       		.uleb128 0x2
+ 783 04ca 91       		.byte	0x91
+ 784 04cb 74       		.sleb128 -12
+ 785 04cc 00       		.byte	0
+ 786 04cd 16       		.uleb128 0x16
+ 787 04ce 04       		.byte	0x4
+ 788 04cf 1E020000 		.4byte	0x21e
+ 789 04d3 14       		.uleb128 0x14
+ 790 04d4 00000000 		.4byte	.LASF100
+ 791 04d8 01       		.byte	0x1
+ 792 04d9 9602     		.2byte	0x296
+ 793 04db 00000000 		.4byte	.LFB168
+ 794 04df 34000000 		.4byte	.LFE168-.LFB168
+ 795 04e3 01       		.uleb128 0x1
+ 796 04e4 9C       		.byte	0x9c
+ 797 04e5 F9040000 		.4byte	0x4f9
+ 798 04e9 15       		.uleb128 0x15
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 28
+
+
+ 799 04ea B5070000 		.4byte	.LASF101
+ 800 04ee 01       		.byte	0x1
+ 801 04ef 9602     		.2byte	0x296
+ 802 04f1 CD040000 		.4byte	0x4cd
+ 803 04f5 02       		.uleb128 0x2
+ 804 04f6 91       		.byte	0x91
+ 805 04f7 74       		.sleb128 -12
+ 806 04f8 00       		.byte	0
+ 807 04f9 17       		.uleb128 0x17
+ 808 04fa 82030000 		.4byte	.LASF108
+ 809 04fe 02       		.byte	0x2
+ 810 04ff 41       		.byte	0x41
+ 811 0500 00000000 		.4byte	.LFB196
+ 812 0504 38000000 		.4byte	.LFE196-.LFB196
+ 813 0508 01       		.uleb128 0x1
+ 814 0509 9C       		.byte	0x9c
+ 815 050a 18       		.uleb128 0x18
+ 816 050b 91070000 		.4byte	.LASF102
+ 817 050f 06       		.byte	0x6
+ 818 0510 EA07     		.2byte	0x7ea
+ 819 0512 16050000 		.4byte	0x516
+ 820 0516 05       		.uleb128 0x5
+ 821 0517 97000000 		.4byte	0x97
+ 822 051b 19       		.uleb128 0x19
+ 823 051c C1060000 		.4byte	.LASF103
+ 824 0520 02       		.byte	0x2
+ 825 0521 34       		.byte	0x34
+ 826 0522 8C000000 		.4byte	0x8c
+ 827 0526 05       		.uleb128 0x5
+ 828 0527 03       		.byte	0x3
+ 829 0528 00000000 		.4byte	PDM_PCM_initVar
+ 830 052c 19       		.uleb128 0x19
+ 831 052d 30040000 		.4byte	.LASF104
+ 832 0531 02       		.byte	0x2
+ 833 0532 16       		.byte	0x16
+ 834 0533 9B040000 		.4byte	0x49b
+ 835 0537 05       		.uleb128 0x5
+ 836 0538 03       		.byte	0x3
+ 837 0539 00000000 		.4byte	PDM_PCM_config
+ 838 053d 00       		.byte	0
+ 839              		.section	.debug_abbrev,"",%progbits
+ 840              	.Ldebug_abbrev0:
+ 841 0000 01       		.uleb128 0x1
+ 842 0001 11       		.uleb128 0x11
+ 843 0002 01       		.byte	0x1
+ 844 0003 25       		.uleb128 0x25
+ 845 0004 0E       		.uleb128 0xe
+ 846 0005 13       		.uleb128 0x13
+ 847 0006 0B       		.uleb128 0xb
+ 848 0007 03       		.uleb128 0x3
+ 849 0008 0E       		.uleb128 0xe
+ 850 0009 1B       		.uleb128 0x1b
+ 851 000a 0E       		.uleb128 0xe
+ 852 000b 55       		.uleb128 0x55
+ 853 000c 17       		.uleb128 0x17
+ 854 000d 11       		.uleb128 0x11
+ 855 000e 01       		.uleb128 0x1
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 29
+
+
+ 856 000f 10       		.uleb128 0x10
+ 857 0010 17       		.uleb128 0x17
+ 858 0011 00       		.byte	0
+ 859 0012 00       		.byte	0
+ 860 0013 02       		.uleb128 0x2
+ 861 0014 24       		.uleb128 0x24
+ 862 0015 00       		.byte	0
+ 863 0016 0B       		.uleb128 0xb
+ 864 0017 0B       		.uleb128 0xb
+ 865 0018 3E       		.uleb128 0x3e
+ 866 0019 0B       		.uleb128 0xb
+ 867 001a 03       		.uleb128 0x3
+ 868 001b 0E       		.uleb128 0xe
+ 869 001c 00       		.byte	0
+ 870 001d 00       		.byte	0
+ 871 001e 03       		.uleb128 0x3
+ 872 001f 16       		.uleb128 0x16
+ 873 0020 00       		.byte	0
+ 874 0021 03       		.uleb128 0x3
+ 875 0022 0E       		.uleb128 0xe
+ 876 0023 3A       		.uleb128 0x3a
+ 877 0024 0B       		.uleb128 0xb
+ 878 0025 3B       		.uleb128 0x3b
+ 879 0026 0B       		.uleb128 0xb
+ 880 0027 49       		.uleb128 0x49
+ 881 0028 13       		.uleb128 0x13
+ 882 0029 00       		.byte	0
+ 883 002a 00       		.byte	0
+ 884 002b 04       		.uleb128 0x4
+ 885 002c 24       		.uleb128 0x24
+ 886 002d 00       		.byte	0
+ 887 002e 0B       		.uleb128 0xb
+ 888 002f 0B       		.uleb128 0xb
+ 889 0030 3E       		.uleb128 0x3e
+ 890 0031 0B       		.uleb128 0xb
+ 891 0032 03       		.uleb128 0x3
+ 892 0033 08       		.uleb128 0x8
+ 893 0034 00       		.byte	0
+ 894 0035 00       		.byte	0
+ 895 0036 05       		.uleb128 0x5
+ 896 0037 35       		.uleb128 0x35
+ 897 0038 00       		.byte	0
+ 898 0039 49       		.uleb128 0x49
+ 899 003a 13       		.uleb128 0x13
+ 900 003b 00       		.byte	0
+ 901 003c 00       		.byte	0
+ 902 003d 06       		.uleb128 0x6
+ 903 003e 26       		.uleb128 0x26
+ 904 003f 00       		.byte	0
+ 905 0040 49       		.uleb128 0x49
+ 906 0041 13       		.uleb128 0x13
+ 907 0042 00       		.byte	0
+ 908 0043 00       		.byte	0
+ 909 0044 07       		.uleb128 0x7
+ 910 0045 01       		.uleb128 0x1
+ 911 0046 01       		.byte	0x1
+ 912 0047 49       		.uleb128 0x49
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 30
+
+
+ 913 0048 13       		.uleb128 0x13
+ 914 0049 01       		.uleb128 0x1
+ 915 004a 13       		.uleb128 0x13
+ 916 004b 00       		.byte	0
+ 917 004c 00       		.byte	0
+ 918 004d 08       		.uleb128 0x8
+ 919 004e 21       		.uleb128 0x21
+ 920 004f 00       		.byte	0
+ 921 0050 49       		.uleb128 0x49
+ 922 0051 13       		.uleb128 0x13
+ 923 0052 2F       		.uleb128 0x2f
+ 924 0053 0B       		.uleb128 0xb
+ 925 0054 00       		.byte	0
+ 926 0055 00       		.byte	0
+ 927 0056 09       		.uleb128 0x9
+ 928 0057 21       		.uleb128 0x21
+ 929 0058 00       		.byte	0
+ 930 0059 49       		.uleb128 0x49
+ 931 005a 13       		.uleb128 0x13
+ 932 005b 2F       		.uleb128 0x2f
+ 933 005c 05       		.uleb128 0x5
+ 934 005d 00       		.byte	0
+ 935 005e 00       		.byte	0
+ 936 005f 0A       		.uleb128 0xa
+ 937 0060 13       		.uleb128 0x13
+ 938 0061 01       		.byte	0x1
+ 939 0062 0B       		.uleb128 0xb
+ 940 0063 05       		.uleb128 0x5
+ 941 0064 3A       		.uleb128 0x3a
+ 942 0065 0B       		.uleb128 0xb
+ 943 0066 3B       		.uleb128 0x3b
+ 944 0067 0B       		.uleb128 0xb
+ 945 0068 01       		.uleb128 0x1
+ 946 0069 13       		.uleb128 0x13
+ 947 006a 00       		.byte	0
+ 948 006b 00       		.byte	0
+ 949 006c 0B       		.uleb128 0xb
+ 950 006d 0D       		.uleb128 0xd
+ 951 006e 00       		.byte	0
+ 952 006f 03       		.uleb128 0x3
+ 953 0070 08       		.uleb128 0x8
+ 954 0071 3A       		.uleb128 0x3a
+ 955 0072 0B       		.uleb128 0xb
+ 956 0073 3B       		.uleb128 0x3b
+ 957 0074 0B       		.uleb128 0xb
+ 958 0075 49       		.uleb128 0x49
+ 959 0076 13       		.uleb128 0x13
+ 960 0077 38       		.uleb128 0x38
+ 961 0078 0B       		.uleb128 0xb
+ 962 0079 00       		.byte	0
+ 963 007a 00       		.byte	0
+ 964 007b 0C       		.uleb128 0xc
+ 965 007c 0D       		.uleb128 0xd
+ 966 007d 00       		.byte	0
+ 967 007e 03       		.uleb128 0x3
+ 968 007f 0E       		.uleb128 0xe
+ 969 0080 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 31
+
+
+ 970 0081 0B       		.uleb128 0xb
+ 971 0082 3B       		.uleb128 0x3b
+ 972 0083 0B       		.uleb128 0xb
+ 973 0084 49       		.uleb128 0x49
+ 974 0085 13       		.uleb128 0x13
+ 975 0086 38       		.uleb128 0x38
+ 976 0087 0B       		.uleb128 0xb
+ 977 0088 00       		.byte	0
+ 978 0089 00       		.byte	0
+ 979 008a 0D       		.uleb128 0xd
+ 980 008b 0D       		.uleb128 0xd
+ 981 008c 00       		.byte	0
+ 982 008d 03       		.uleb128 0x3
+ 983 008e 0E       		.uleb128 0xe
+ 984 008f 3A       		.uleb128 0x3a
+ 985 0090 0B       		.uleb128 0xb
+ 986 0091 3B       		.uleb128 0x3b
+ 987 0092 0B       		.uleb128 0xb
+ 988 0093 49       		.uleb128 0x49
+ 989 0094 13       		.uleb128 0x13
+ 990 0095 38       		.uleb128 0x38
+ 991 0096 05       		.uleb128 0x5
+ 992 0097 00       		.byte	0
+ 993 0098 00       		.byte	0
+ 994 0099 0E       		.uleb128 0xe
+ 995 009a 04       		.uleb128 0x4
+ 996 009b 01       		.byte	0x1
+ 997 009c 0B       		.uleb128 0xb
+ 998 009d 0B       		.uleb128 0xb
+ 999 009e 49       		.uleb128 0x49
+ 1000 009f 13       		.uleb128 0x13
+ 1001 00a0 3A       		.uleb128 0x3a
+ 1002 00a1 0B       		.uleb128 0xb
+ 1003 00a2 3B       		.uleb128 0x3b
+ 1004 00a3 0B       		.uleb128 0xb
+ 1005 00a4 01       		.uleb128 0x1
+ 1006 00a5 13       		.uleb128 0x13
+ 1007 00a6 00       		.byte	0
+ 1008 00a7 00       		.byte	0
+ 1009 00a8 0F       		.uleb128 0xf
+ 1010 00a9 28       		.uleb128 0x28
+ 1011 00aa 00       		.byte	0
+ 1012 00ab 03       		.uleb128 0x3
+ 1013 00ac 0E       		.uleb128 0xe
+ 1014 00ad 1C       		.uleb128 0x1c
+ 1015 00ae 0B       		.uleb128 0xb
+ 1016 00af 00       		.byte	0
+ 1017 00b0 00       		.byte	0
+ 1018 00b1 10       		.uleb128 0x10
+ 1019 00b2 04       		.uleb128 0x4
+ 1020 00b3 01       		.byte	0x1
+ 1021 00b4 0B       		.uleb128 0xb
+ 1022 00b5 0B       		.uleb128 0xb
+ 1023 00b6 49       		.uleb128 0x49
+ 1024 00b7 13       		.uleb128 0x13
+ 1025 00b8 3A       		.uleb128 0x3a
+ 1026 00b9 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 32
+
+
+ 1027 00ba 3B       		.uleb128 0x3b
+ 1028 00bb 05       		.uleb128 0x5
+ 1029 00bc 01       		.uleb128 0x1
+ 1030 00bd 13       		.uleb128 0x13
+ 1031 00be 00       		.byte	0
+ 1032 00bf 00       		.byte	0
+ 1033 00c0 11       		.uleb128 0x11
+ 1034 00c1 16       		.uleb128 0x16
+ 1035 00c2 00       		.byte	0
+ 1036 00c3 03       		.uleb128 0x3
+ 1037 00c4 0E       		.uleb128 0xe
+ 1038 00c5 3A       		.uleb128 0x3a
+ 1039 00c6 0B       		.uleb128 0xb
+ 1040 00c7 3B       		.uleb128 0x3b
+ 1041 00c8 05       		.uleb128 0x5
+ 1042 00c9 49       		.uleb128 0x49
+ 1043 00ca 13       		.uleb128 0x13
+ 1044 00cb 00       		.byte	0
+ 1045 00cc 00       		.byte	0
+ 1046 00cd 12       		.uleb128 0x12
+ 1047 00ce 13       		.uleb128 0x13
+ 1048 00cf 01       		.byte	0x1
+ 1049 00d0 0B       		.uleb128 0xb
+ 1050 00d1 0B       		.uleb128 0xb
+ 1051 00d2 3A       		.uleb128 0x3a
+ 1052 00d3 0B       		.uleb128 0xb
+ 1053 00d4 3B       		.uleb128 0x3b
+ 1054 00d5 05       		.uleb128 0x5
+ 1055 00d6 01       		.uleb128 0x1
+ 1056 00d7 13       		.uleb128 0x13
+ 1057 00d8 00       		.byte	0
+ 1058 00d9 00       		.byte	0
+ 1059 00da 13       		.uleb128 0x13
+ 1060 00db 0D       		.uleb128 0xd
+ 1061 00dc 00       		.byte	0
+ 1062 00dd 03       		.uleb128 0x3
+ 1063 00de 0E       		.uleb128 0xe
+ 1064 00df 3A       		.uleb128 0x3a
+ 1065 00e0 0B       		.uleb128 0xb
+ 1066 00e1 3B       		.uleb128 0x3b
+ 1067 00e2 05       		.uleb128 0x5
+ 1068 00e3 49       		.uleb128 0x49
+ 1069 00e4 13       		.uleb128 0x13
+ 1070 00e5 38       		.uleb128 0x38
+ 1071 00e6 0B       		.uleb128 0xb
+ 1072 00e7 00       		.byte	0
+ 1073 00e8 00       		.byte	0
+ 1074 00e9 14       		.uleb128 0x14
+ 1075 00ea 2E       		.uleb128 0x2e
+ 1076 00eb 01       		.byte	0x1
+ 1077 00ec 03       		.uleb128 0x3
+ 1078 00ed 0E       		.uleb128 0xe
+ 1079 00ee 3A       		.uleb128 0x3a
+ 1080 00ef 0B       		.uleb128 0xb
+ 1081 00f0 3B       		.uleb128 0x3b
+ 1082 00f1 05       		.uleb128 0x5
+ 1083 00f2 27       		.uleb128 0x27
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 33
+
+
+ 1084 00f3 19       		.uleb128 0x19
+ 1085 00f4 11       		.uleb128 0x11
+ 1086 00f5 01       		.uleb128 0x1
+ 1087 00f6 12       		.uleb128 0x12
+ 1088 00f7 06       		.uleb128 0x6
+ 1089 00f8 40       		.uleb128 0x40
+ 1090 00f9 18       		.uleb128 0x18
+ 1091 00fa 9742     		.uleb128 0x2117
+ 1092 00fc 19       		.uleb128 0x19
+ 1093 00fd 01       		.uleb128 0x1
+ 1094 00fe 13       		.uleb128 0x13
+ 1095 00ff 00       		.byte	0
+ 1096 0100 00       		.byte	0
+ 1097 0101 15       		.uleb128 0x15
+ 1098 0102 05       		.uleb128 0x5
+ 1099 0103 00       		.byte	0
+ 1100 0104 03       		.uleb128 0x3
+ 1101 0105 0E       		.uleb128 0xe
+ 1102 0106 3A       		.uleb128 0x3a
+ 1103 0107 0B       		.uleb128 0xb
+ 1104 0108 3B       		.uleb128 0x3b
+ 1105 0109 05       		.uleb128 0x5
+ 1106 010a 49       		.uleb128 0x49
+ 1107 010b 13       		.uleb128 0x13
+ 1108 010c 02       		.uleb128 0x2
+ 1109 010d 18       		.uleb128 0x18
+ 1110 010e 00       		.byte	0
+ 1111 010f 00       		.byte	0
+ 1112 0110 16       		.uleb128 0x16
+ 1113 0111 0F       		.uleb128 0xf
+ 1114 0112 00       		.byte	0
+ 1115 0113 0B       		.uleb128 0xb
+ 1116 0114 0B       		.uleb128 0xb
+ 1117 0115 49       		.uleb128 0x49
+ 1118 0116 13       		.uleb128 0x13
+ 1119 0117 00       		.byte	0
+ 1120 0118 00       		.byte	0
+ 1121 0119 17       		.uleb128 0x17
+ 1122 011a 2E       		.uleb128 0x2e
+ 1123 011b 00       		.byte	0
+ 1124 011c 3F       		.uleb128 0x3f
+ 1125 011d 19       		.uleb128 0x19
+ 1126 011e 03       		.uleb128 0x3
+ 1127 011f 0E       		.uleb128 0xe
+ 1128 0120 3A       		.uleb128 0x3a
+ 1129 0121 0B       		.uleb128 0xb
+ 1130 0122 3B       		.uleb128 0x3b
+ 1131 0123 0B       		.uleb128 0xb
+ 1132 0124 27       		.uleb128 0x27
+ 1133 0125 19       		.uleb128 0x19
+ 1134 0126 11       		.uleb128 0x11
+ 1135 0127 01       		.uleb128 0x1
+ 1136 0128 12       		.uleb128 0x12
+ 1137 0129 06       		.uleb128 0x6
+ 1138 012a 40       		.uleb128 0x40
+ 1139 012b 18       		.uleb128 0x18
+ 1140 012c 9642     		.uleb128 0x2116
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 34
+
+
+ 1141 012e 19       		.uleb128 0x19
+ 1142 012f 00       		.byte	0
+ 1143 0130 00       		.byte	0
+ 1144 0131 18       		.uleb128 0x18
+ 1145 0132 34       		.uleb128 0x34
+ 1146 0133 00       		.byte	0
+ 1147 0134 03       		.uleb128 0x3
+ 1148 0135 0E       		.uleb128 0xe
+ 1149 0136 3A       		.uleb128 0x3a
+ 1150 0137 0B       		.uleb128 0xb
+ 1151 0138 3B       		.uleb128 0x3b
+ 1152 0139 05       		.uleb128 0x5
+ 1153 013a 49       		.uleb128 0x49
+ 1154 013b 13       		.uleb128 0x13
+ 1155 013c 3F       		.uleb128 0x3f
+ 1156 013d 19       		.uleb128 0x19
+ 1157 013e 3C       		.uleb128 0x3c
+ 1158 013f 19       		.uleb128 0x19
+ 1159 0140 00       		.byte	0
+ 1160 0141 00       		.byte	0
+ 1161 0142 19       		.uleb128 0x19
+ 1162 0143 34       		.uleb128 0x34
+ 1163 0144 00       		.byte	0
+ 1164 0145 03       		.uleb128 0x3
+ 1165 0146 0E       		.uleb128 0xe
+ 1166 0147 3A       		.uleb128 0x3a
+ 1167 0148 0B       		.uleb128 0xb
+ 1168 0149 3B       		.uleb128 0x3b
+ 1169 014a 0B       		.uleb128 0xb
+ 1170 014b 49       		.uleb128 0x49
+ 1171 014c 13       		.uleb128 0x13
+ 1172 014d 3F       		.uleb128 0x3f
+ 1173 014e 19       		.uleb128 0x19
+ 1174 014f 02       		.uleb128 0x2
+ 1175 0150 18       		.uleb128 0x18
+ 1176 0151 00       		.byte	0
+ 1177 0152 00       		.byte	0
+ 1178 0153 00       		.byte	0
+ 1179              		.section	.debug_aranges,"",%progbits
+ 1180 0000 2C000000 		.4byte	0x2c
+ 1181 0004 0200     		.2byte	0x2
+ 1182 0006 00000000 		.4byte	.Ldebug_info0
+ 1183 000a 04       		.byte	0x4
+ 1184 000b 00       		.byte	0
+ 1185 000c 0000     		.2byte	0
+ 1186 000e 0000     		.2byte	0
+ 1187 0010 00000000 		.4byte	.LFB158
+ 1188 0014 20000000 		.4byte	.LFE158-.LFB158
+ 1189 0018 00000000 		.4byte	.LFB168
+ 1190 001c 34000000 		.4byte	.LFE168-.LFB168
+ 1191 0020 00000000 		.4byte	.LFB196
+ 1192 0024 38000000 		.4byte	.LFE196-.LFB196
+ 1193 0028 00000000 		.4byte	0
+ 1194 002c 00000000 		.4byte	0
+ 1195              		.section	.debug_ranges,"",%progbits
+ 1196              	.Ldebug_ranges0:
+ 1197 0000 00000000 		.4byte	.LFB158
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 35
+
+
+ 1198 0004 20000000 		.4byte	.LFE158
+ 1199 0008 00000000 		.4byte	.LFB168
+ 1200 000c 34000000 		.4byte	.LFE168
+ 1201 0010 00000000 		.4byte	.LFB196
+ 1202 0014 38000000 		.4byte	.LFE196
+ 1203 0018 00000000 		.4byte	0
+ 1204 001c 00000000 		.4byte	0
+ 1205              		.section	.debug_line,"",%progbits
+ 1206              	.Ldebug_line0:
+ 1207 0000 2E020000 		.section	.debug_str,"MS",%progbits,1
+ 1207      0200EB01 
+ 1207      00000201 
+ 1207      FB0E0D00 
+ 1207      01010101 
+ 1208              	.LASF100:
+ 1209 0000 43795F50 		.ascii	"Cy_PDM_PCM_ClearFifo\000"
+ 1209      444D5F50 
+ 1209      434D5F43 
+ 1209      6C656172 
+ 1209      4669666F 
+ 1210              	.LASF61:
+ 1211 0015 43595F50 		.ascii	"CY_PDM_PCM_GAIN_1_5_DB\000"
+ 1211      444D5F50 
+ 1211      434D5F47 
+ 1211      41494E5F 
+ 1211      315F355F 
+ 1212              	.LASF87:
+ 1213 002c 736F6674 		.ascii	"softMuteCycles\000"
+ 1213      4D757465 
+ 1213      4379636C 
+ 1213      657300
+ 1214              	.LASF35:
+ 1215 003b 666C6F61 		.ascii	"float\000"
+ 1215      7400
+ 1216              	.LASF92:
+ 1217 0041 6761696E 		.ascii	"gainLeft\000"
+ 1217      4C656674 
+ 1217      00
+ 1218              	.LASF84:
+ 1219 004a 6368616E 		.ascii	"chanSwapEnable\000"
+ 1219      53776170 
+ 1219      456E6162 
+ 1219      6C6500
+ 1220              	.LASF42:
+ 1221 0059 63795F65 		.ascii	"cy_en_pdm_pcm_word_len_t\000"
+ 1221      6E5F7064 
+ 1221      6D5F7063 
+ 1221      6D5F776F 
+ 1221      72645F6C 
+ 1222              	.LASF80:
+ 1223 0072 636B6F44 		.ascii	"ckoDiv\000"
+ 1223      697600
+ 1224              	.LASF1:
+ 1225 0079 7369676E 		.ascii	"signed char\000"
+ 1225      65642063 
+ 1225      68617200 
+ 1226              	.LASF34:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 36
+
+
+ 1227 0085 63686172 		.ascii	"char\000"
+ 1227      00
+ 1228              	.LASF67:
+ 1229 008a 43595F50 		.ascii	"CY_PDM_PCM_GAIN_10_5_DB\000"
+ 1229      444D5F50 
+ 1229      434D5F47 
+ 1229      41494E5F 
+ 1229      31305F35 
+ 1230              	.LASF0:
+ 1231 00a2 73686F72 		.ascii	"short int\000"
+ 1231      7420696E 
+ 1231      7400
+ 1232              	.LASF15:
+ 1233 00ac 73697A65 		.ascii	"sizetype\000"
+ 1233      74797065 
+ 1233      00
+ 1234              	.LASF19:
+ 1235 00b5 44415441 		.ascii	"DATA_CTL\000"
+ 1235      5F43544C 
+ 1235      00
+ 1236              	.LASF66:
+ 1237 00be 43595F50 		.ascii	"CY_PDM_PCM_GAIN_9_DB\000"
+ 1237      444D5F50 
+ 1237      434D5F47 
+ 1237      41494E5F 
+ 1237      395F4442 
+ 1238              	.LASF93:
+ 1239 00d3 6761696E 		.ascii	"gainRight\000"
+ 1239      52696768 
+ 1239      7400
+ 1240              	.LASF50:
+ 1241 00dd 43595F50 		.ascii	"CY_PDM_PCM_OUT_STEREO\000"
+ 1241      444D5F50 
+ 1241      434D5F4F 
+ 1241      55545F53 
+ 1241      54455245 
+ 1242              	.LASF7:
+ 1243 00f3 5F5F7569 		.ascii	"__uint32_t\000"
+ 1243      6E743332 
+ 1243      5F7400
+ 1244              	.LASF89:
+ 1245 00fe 736F6674 		.ascii	"softMuteEnable\000"
+ 1245      4D757465 
+ 1245      456E6162 
+ 1245      6C6500
+ 1246              	.LASF52:
+ 1247 010d 43595F50 		.ascii	"CY_PDM_PCM_ATTN_12_DB\000"
+ 1247      444D5F50 
+ 1247      434D5F41 
+ 1247      54544E5F 
+ 1247      31325F44 
+ 1248              	.LASF39:
+ 1249 0123 43595F50 		.ascii	"CY_PDM_PCM_WLEN_18_BIT\000"
+ 1249      444D5F50 
+ 1249      434D5F57 
+ 1249      4C454E5F 
+ 1249      31385F42 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 37
+
+
+ 1250              	.LASF79:
+ 1251 013a 6D636C6B 		.ascii	"mclkDiv\000"
+ 1251      44697600 
+ 1252              	.LASF95:
+ 1253 0142 646D6154 		.ascii	"dmaTriggerEnable\000"
+ 1253      72696767 
+ 1253      6572456E 
+ 1253      61626C65 
+ 1253      00
+ 1254              	.LASF22:
+ 1255 0153 54525F43 		.ascii	"TR_CTL\000"
+ 1255      544C00
+ 1256              	.LASF38:
+ 1257 015a 43595F50 		.ascii	"CY_PDM_PCM_WLEN_16_BIT\000"
+ 1257      444D5F50 
+ 1257      434D5F57 
+ 1257      4C454E5F 
+ 1257      31365F42 
+ 1258              	.LASF12:
+ 1259 0171 75696E74 		.ascii	"uint8_t\000"
+ 1259      385F7400 
+ 1260              	.LASF31:
+ 1261 0179 494E5452 		.ascii	"INTR_MASK\000"
+ 1261      5F4D4153 
+ 1261      4B00
+ 1262              	.LASF51:
+ 1263 0183 63795F65 		.ascii	"cy_en_pdm_pcm_out_t\000"
+ 1263      6E5F7064 
+ 1263      6D5F7063 
+ 1263      6D5F6F75 
+ 1263      745F7400 
+ 1264              	.LASF96:
+ 1265 0197 696E7465 		.ascii	"interruptMask\000"
+ 1265      72727570 
+ 1265      744D6173 
+ 1265      6B00
+ 1266              	.LASF41:
+ 1267 01a5 43595F50 		.ascii	"CY_PDM_PCM_WLEN_24_BIT\000"
+ 1267      444D5F50 
+ 1267      434D5F57 
+ 1267      4C454E5F 
+ 1267      32345F42 
+ 1268              	.LASF78:
+ 1269 01bc 636C6B44 		.ascii	"clkDiv\000"
+ 1269      697600
+ 1270              	.LASF70:
+ 1271 01c3 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_96\000"
+ 1271      444D5F50 
+ 1271      434D5F53 
+ 1271      4F46545F 
+ 1271      4D555445 
+ 1272              	.LASF72:
+ 1273 01e2 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_160\000"
+ 1273      444D5F50 
+ 1273      434D5F53 
+ 1273      4F46545F 
+ 1273      4D555445 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 38
+
+
+ 1274              	.LASF9:
+ 1275 0202 6C6F6E67 		.ascii	"long long int\000"
+ 1275      206C6F6E 
+ 1275      6720696E 
+ 1275      7400
+ 1276              	.LASF99:
+ 1277 0210 43795F50 		.ascii	"Cy_PDM_PCM_Enable\000"
+ 1277      444D5F50 
+ 1277      434D5F45 
+ 1277      6E61626C 
+ 1277      6500
+ 1278              	.LASF64:
+ 1279 0222 43595F50 		.ascii	"CY_PDM_PCM_GAIN_6_DB\000"
+ 1279      444D5F50 
+ 1279      434D5F47 
+ 1279      41494E5F 
+ 1279      365F4442 
+ 1280              	.LASF105:
+ 1281 0237 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1281      43313120 
+ 1281      352E342E 
+ 1281      31203230 
+ 1281      31363036 
+ 1282 026a 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m4 -mfloat-abi=s"
+ 1282      20726576 
+ 1282      6973696F 
+ 1282      6E203233 
+ 1282      37373135 
+ 1283 029d 6F667466 		.ascii	"oftfp -mfpu=fpv4-sp-d16 -mthumb -g -O0 -ffunction-s"
+ 1283      70202D6D 
+ 1283      6670753D 
+ 1283      66707634 
+ 1283      2D73702D 
+ 1284 02d0 65637469 		.ascii	"ections -ffat-lto-objects\000"
+ 1284      6F6E7320 
+ 1284      2D666661 
+ 1284      742D6C74 
+ 1284      6F2D6F62 
+ 1285              	.LASF58:
+ 1286 02ea 43595F50 		.ascii	"CY_PDM_PCM_ATTN_3_DB\000"
+ 1286      444D5F50 
+ 1286      434D5F41 
+ 1286      54544E5F 
+ 1286      335F4442 
+ 1287              	.LASF6:
+ 1288 02ff 6C6F6E67 		.ascii	"long int\000"
+ 1288      20696E74 
+ 1288      00
+ 1289              	.LASF40:
+ 1290 0308 43595F50 		.ascii	"CY_PDM_PCM_WLEN_20_BIT\000"
+ 1290      444D5F50 
+ 1290      434D5F57 
+ 1290      4C454E5F 
+ 1290      32305F42 
+ 1291              	.LASF53:
+ 1292 031f 43595F50 		.ascii	"CY_PDM_PCM_ATTN_10_5_DB\000"
+ 1292      444D5F50 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 39
+
+
+ 1292      434D5F41 
+ 1292      54544E5F 
+ 1292      31305F35 
+ 1293              	.LASF73:
+ 1294 0337 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_192\000"
+ 1294      444D5F50 
+ 1294      434D5F53 
+ 1294      4F46545F 
+ 1294      4D555445 
+ 1295              	.LASF91:
+ 1296 0357 7369676E 		.ascii	"signExtension\000"
+ 1296      45787465 
+ 1296      6E73696F 
+ 1296      6E00
+ 1297              	.LASF4:
+ 1298 0365 5F5F7569 		.ascii	"__uint8_t\000"
+ 1298      6E74385F 
+ 1298      7400
+ 1299              	.LASF94:
+ 1300 036f 72784669 		.ascii	"rxFifoTriggerLevel\000"
+ 1300      666F5472 
+ 1300      69676765 
+ 1300      724C6576 
+ 1300      656C00
+ 1301              	.LASF108:
+ 1302 0382 50444D5F 		.ascii	"PDM_PCM_Start\000"
+ 1302      50434D5F 
+ 1302      53746172 
+ 1302      7400
+ 1303              	.LASF49:
+ 1304 0390 43595F50 		.ascii	"CY_PDM_PCM_OUT_CHAN_RIGHT\000"
+ 1304      444D5F50 
+ 1304      434D5F4F 
+ 1304      55545F43 
+ 1304      48414E5F 
+ 1305              	.LASF32:
+ 1306 03aa 494E5452 		.ascii	"INTR_MASKED\000"
+ 1306      5F4D4153 
+ 1306      4B454400 
+ 1307              	.LASF107:
+ 1308 03b6 433A5C55 		.ascii	"C:\\Users\\ikomb\\Documents\\PSoC Creator\\CE222221"
+ 1308      73657273 
+ 1308      5C696B6F 
+ 1308      6D625C44 
+ 1308      6F63756D 
+ 1309 03e4 5F566F69 		.ascii	"_Voice_Recorder01\\CE222221_Voice_Recorder01.cydsn\000"
+ 1309      63655F52 
+ 1309      65636F72 
+ 1309      64657230 
+ 1309      315C4345 
+ 1310              	.LASF37:
+ 1311 0416 6C6F6E67 		.ascii	"long double\000"
+ 1311      20646F75 
+ 1311      626C6500 
+ 1312              	.LASF2:
+ 1313 0422 756E7369 		.ascii	"unsigned char\000"
+ 1313      676E6564 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 40
+
+
+ 1313      20636861 
+ 1313      7200
+ 1314              	.LASF104:
+ 1315 0430 50444D5F 		.ascii	"PDM_PCM_config\000"
+ 1315      50434D5F 
+ 1315      636F6E66 
+ 1315      696700
+ 1316              	.LASF69:
+ 1317 043f 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_64\000"
+ 1317      444D5F50 
+ 1317      434D5F53 
+ 1317      4F46545F 
+ 1317      4D555445 
+ 1318              	.LASF82:
+ 1319 045e 73696E63 		.ascii	"sincDecRate\000"
+ 1319      44656352 
+ 1319      61746500 
+ 1320              	.LASF106:
+ 1321 046a 47656E65 		.ascii	"Generated_Source\\PSoC6\\PDM_PCM.c\000"
+ 1321      72617465 
+ 1321      645F536F 
+ 1321      75726365 
+ 1321      5C50536F 
+ 1322              	.LASF30:
+ 1323 048b 494E5452 		.ascii	"INTR_SET\000"
+ 1323      5F534554 
+ 1323      00
+ 1324              	.LASF10:
+ 1325 0494 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1325      206C6F6E 
+ 1325      6720756E 
+ 1325      7369676E 
+ 1325      65642069 
+ 1326              	.LASF14:
+ 1327 04ab 75696E74 		.ascii	"uint32_t\000"
+ 1327      33325F74 
+ 1327      00
+ 1328              	.LASF47:
+ 1329 04b4 63795F65 		.ascii	"cy_en_pdm_pcm_clk_div_t\000"
+ 1329      6E5F7064 
+ 1329      6D5F7063 
+ 1329      6D5F636C 
+ 1329      6B5F6469 
+ 1330              	.LASF71:
+ 1331 04cc 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_128\000"
+ 1331      444D5F50 
+ 1331      434D5F53 
+ 1331      4F46545F 
+ 1331      4D555445 
+ 1332              	.LASF55:
+ 1333 04ec 43595F50 		.ascii	"CY_PDM_PCM_ATTN_7_5_DB\000"
+ 1333      444D5F50 
+ 1333      434D5F41 
+ 1333      54544E5F 
+ 1333      375F355F 
+ 1334              	.LASF8:
+ 1335 0503 6C6F6E67 		.ascii	"long unsigned int\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 41
+
+
+ 1335      20756E73 
+ 1335      69676E65 
+ 1335      6420696E 
+ 1335      7400
+ 1336              	.LASF62:
+ 1337 0515 43595F50 		.ascii	"CY_PDM_PCM_GAIN_3_DB\000"
+ 1337      444D5F50 
+ 1337      434D5F47 
+ 1337      41494E5F 
+ 1337      335F4442 
+ 1338              	.LASF57:
+ 1339 052a 43595F50 		.ascii	"CY_PDM_PCM_ATTN_4_5_DB\000"
+ 1339      444D5F50 
+ 1339      434D5F41 
+ 1339      54544E5F 
+ 1339      345F355F 
+ 1340              	.LASF44:
+ 1341 0541 43595F50 		.ascii	"CY_PDM_PCM_CLK_DIV_1_2\000"
+ 1341      444D5F50 
+ 1341      434D5F43 
+ 1341      4C4B5F44 
+ 1341      49565F31 
+ 1342              	.LASF45:
+ 1343 0558 43595F50 		.ascii	"CY_PDM_PCM_CLK_DIV_1_3\000"
+ 1343      444D5F50 
+ 1343      434D5F43 
+ 1343      4C4B5F44 
+ 1343      49565F31 
+ 1344              	.LASF46:
+ 1345 056f 43595F50 		.ascii	"CY_PDM_PCM_CLK_DIV_1_4\000"
+ 1345      444D5F50 
+ 1345      434D5F43 
+ 1345      4C4B5F44 
+ 1345      49565F31 
+ 1346              	.LASF59:
+ 1347 0586 43595F50 		.ascii	"CY_PDM_PCM_ATTN_1_5_DB\000"
+ 1347      444D5F50 
+ 1347      434D5F41 
+ 1347      54544E5F 
+ 1347      315F355F 
+ 1348              	.LASF3:
+ 1349 059d 73686F72 		.ascii	"short unsigned int\000"
+ 1349      7420756E 
+ 1349      7369676E 
+ 1349      65642069 
+ 1349      6E7400
+ 1350              	.LASF68:
+ 1351 05b0 63795F65 		.ascii	"cy_en_pdm_pcm_gain_t\000"
+ 1351      6E5F7064 
+ 1351      6D5F7063 
+ 1351      6D5F6761 
+ 1351      696E5F74 
+ 1352              	.LASF26:
+ 1353 05c5 52585F46 		.ascii	"RX_FIFO_RD\000"
+ 1353      49464F5F 
+ 1353      524400
+ 1354              	.LASF97:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 42
+
+
+ 1355 05d0 5F426F6F 		.ascii	"_Bool\000"
+ 1355      6C00
+ 1356              	.LASF25:
+ 1357 05d6 52585F46 		.ascii	"RX_FIFO_STATUS\000"
+ 1357      49464F5F 
+ 1357      53544154 
+ 1357      555300
+ 1358              	.LASF83:
+ 1359 05e5 6368616E 		.ascii	"chanSelect\000"
+ 1359      53656C65 
+ 1359      637400
+ 1360              	.LASF29:
+ 1361 05f0 494E5452 		.ascii	"INTR\000"
+ 1361      00
+ 1362              	.LASF48:
+ 1363 05f5 43595F50 		.ascii	"CY_PDM_PCM_OUT_CHAN_LEFT\000"
+ 1363      444D5F50 
+ 1363      434D5F4F 
+ 1363      55545F43 
+ 1363      48414E5F 
+ 1364              	.LASF98:
+ 1365 060e 63795F73 		.ascii	"cy_stc_pdm_pcm_config_t\000"
+ 1365      74635F70 
+ 1365      646D5F70 
+ 1365      636D5F63 
+ 1365      6F6E6669 
+ 1366              	.LASF20:
+ 1367 0626 52455345 		.ascii	"RESERVED1\000"
+ 1367      52564544 
+ 1367      3100
+ 1368              	.LASF21:
+ 1369 0630 52455345 		.ascii	"RESERVED2\000"
+ 1369      52564544 
+ 1369      3200
+ 1370              	.LASF23:
+ 1371 063a 52455345 		.ascii	"RESERVED3\000"
+ 1371      52564544 
+ 1371      3300
+ 1372              	.LASF28:
+ 1373 0644 52455345 		.ascii	"RESERVED4\000"
+ 1373      52564544 
+ 1373      3400
+ 1374              	.LASF74:
+ 1375 064e 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_256\000"
+ 1375      444D5F50 
+ 1375      434D5F53 
+ 1375      4F46545F 
+ 1375      4D555445 
+ 1376              	.LASF88:
+ 1377 066e 736F6674 		.ascii	"softMuteFineGain\000"
+ 1377      4D757465 
+ 1377      46696E65 
+ 1377      4761696E 
+ 1377      00
+ 1378              	.LASF36:
+ 1379 067f 646F7562 		.ascii	"double\000"
+ 1379      6C6500
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 43
+
+
+ 1380              	.LASF60:
+ 1381 0686 43595F50 		.ascii	"CY_PDM_PCM_BYPASS\000"
+ 1381      444D5F50 
+ 1381      434D5F42 
+ 1381      59504153 
+ 1381      5300
+ 1382              	.LASF33:
+ 1383 0698 50444D5F 		.ascii	"PDM_Type\000"
+ 1383      54797065 
+ 1383      00
+ 1384              	.LASF76:
+ 1385 06a1 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_512\000"
+ 1385      444D5F50 
+ 1385      434D5F53 
+ 1385      4F46545F 
+ 1385      4D555445 
+ 1386              	.LASF103:
+ 1387 06c1 50444D5F 		.ascii	"PDM_PCM_initVar\000"
+ 1387      50434D5F 
+ 1387      696E6974 
+ 1387      56617200 
+ 1388              	.LASF90:
+ 1389 06d1 776F7264 		.ascii	"wordLen\000"
+ 1389      4C656E00 
+ 1390              	.LASF65:
+ 1391 06d9 43595F50 		.ascii	"CY_PDM_PCM_GAIN_7_5_DB\000"
+ 1391      444D5F50 
+ 1391      434D5F47 
+ 1391      41494E5F 
+ 1391      375F355F 
+ 1392              	.LASF18:
+ 1393 06f0 4D4F4445 		.ascii	"MODE_CTL\000"
+ 1393      5F43544C 
+ 1393      00
+ 1394              	.LASF5:
+ 1395 06f9 5F5F696E 		.ascii	"__int32_t\000"
+ 1395      7433325F 
+ 1395      7400
+ 1396              	.LASF27:
+ 1397 0703 52585F46 		.ascii	"RX_FIFO_RD_SILENT\000"
+ 1397      49464F5F 
+ 1397      52445F53 
+ 1397      494C454E 
+ 1397      5400
+ 1398              	.LASF13:
+ 1399 0715 696E7433 		.ascii	"int32_t\000"
+ 1399      325F7400 
+ 1400              	.LASF43:
+ 1401 071d 43595F50 		.ascii	"CY_PDM_PCM_CLK_DIV_BYPASS\000"
+ 1401      444D5F50 
+ 1401      434D5F43 
+ 1401      4C4B5F44 
+ 1401      49565F42 
+ 1402              	.LASF81:
+ 1403 0737 636B6F44 		.ascii	"ckoDelay\000"
+ 1403      656C6179 
+ 1403      00
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 44
+
+
+ 1404              	.LASF75:
+ 1405 0740 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_384\000"
+ 1405      444D5F50 
+ 1405      434D5F53 
+ 1405      4F46545F 
+ 1405      4D555445 
+ 1406              	.LASF16:
+ 1407 0760 52455345 		.ascii	"RESERVED\000"
+ 1407      52564544 
+ 1407      00
+ 1408              	.LASF54:
+ 1409 0769 43595F50 		.ascii	"CY_PDM_PCM_ATTN_9_DB\000"
+ 1409      444D5F50 
+ 1409      434D5F41 
+ 1409      54544E5F 
+ 1409      395F4442 
+ 1410              	.LASF85:
+ 1411 077e 68696768 		.ascii	"highPassFilterGain\000"
+ 1411      50617373 
+ 1411      46696C74 
+ 1411      65724761 
+ 1411      696E00
+ 1412              	.LASF102:
+ 1413 0791 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1413      52784275 
+ 1413      66666572 
+ 1413      00
+ 1414              	.LASF17:
+ 1415 079e 434C4F43 		.ascii	"CLOCK_CTL\000"
+ 1415      4B5F4354 
+ 1415      4C00
+ 1416              	.LASF11:
+ 1417 07a8 756E7369 		.ascii	"unsigned int\000"
+ 1417      676E6564 
+ 1417      20696E74 
+ 1417      00
+ 1418              	.LASF101:
+ 1419 07b5 62617365 		.ascii	"base\000"
+ 1419      00
+ 1420              	.LASF56:
+ 1421 07ba 43595F50 		.ascii	"CY_PDM_PCM_ATTN_6_DB\000"
+ 1421      444D5F50 
+ 1421      434D5F41 
+ 1421      54544E5F 
+ 1421      365F4442 
+ 1422              	.LASF24:
+ 1423 07cf 52585F46 		.ascii	"RX_FIFO_CTL\000"
+ 1423      49464F5F 
+ 1423      43544C00 
+ 1424              	.LASF86:
+ 1425 07db 68696768 		.ascii	"highPassDisable\000"
+ 1425      50617373 
+ 1425      44697361 
+ 1425      626C6500 
+ 1426              	.LASF63:
+ 1427 07eb 43595F50 		.ascii	"CY_PDM_PCM_GAIN_4_5_DB\000"
+ 1427      444D5F50 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccKMSltZ.s 			page 45
+
+
+ 1427      434D5F47 
+ 1427      41494E5F 
+ 1427      345F355F 
+ 1428              	.LASF77:
+ 1429 0802 63795F65 		.ascii	"cy_en_pdm_pcm_s_cycles_t\000"
+ 1429      6E5F7064 
+ 1429      6D5F7063 
+ 1429      6D5F735F 
+ 1429      6379636C 
+ 1430              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

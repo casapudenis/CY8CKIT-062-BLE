@@ -1,0 +1,12 @@
+# CE219490_PSoC_6_MCU_Breathing_LED_using_SmartIO01
+# 2023-06-26 10:21:31Z
+
+dont_use_location p4usbcell -1 -1 0
+dont_use_location USB -1 -1 0
+dont_use_location usbcell -1 -1 0
+set_location "ClockGenBlock" CLK_GEN -1 -1 0
+set_io "CY_CPUSS_SWJ_SWCLK_TCLK(0)" iocell 6 7
+set_io "CY_CPUSS_SWJ_SWDIO_TMS(0)" iocell 6 6
+set_io "Pin_LED_1(0)" iocell 9 6
+set_io "Pin_LED_2(0)" iocell 9 4
+set_location "\SmartIO:cy_mxs40_smartio\" SmartIO -1 -1 9

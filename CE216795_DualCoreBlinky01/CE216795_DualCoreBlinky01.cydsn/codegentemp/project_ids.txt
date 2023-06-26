@@ -1,0 +1,8 @@
+C:\Users\ikomb\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|a39ff07e-f272-42bc-ba60-7385d5817e12
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|1cbe14b6-d452-43c5-bf6b-f280f7ef430a
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|30537948-b687-4b56-aec6-e763703ab9c0
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|b952f361-658d-47db-9062-6614973da76f
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|de7605af-b836-470b-af9e-63d4c1adcb3f
+C:\Users\ikomb\Documents\PSoC Creator\CE216795_DualCoreBlinky01\CE216795_DualCoreBlinky01.cydsn\CE216795_DualCoreBlinky01.cyprj|bffbe0e3-b3cf-4706-b5eb-929ae658cb64
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|32d57e9b-9d95-4314-9258-581f0cf80596
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc3\AnalogDevice\PSoC35AnalogDevice.cylib\PSoC35AnalogDevice.cyprj|9ad25b98-9c74-41e8-8a91-c5769c31307f

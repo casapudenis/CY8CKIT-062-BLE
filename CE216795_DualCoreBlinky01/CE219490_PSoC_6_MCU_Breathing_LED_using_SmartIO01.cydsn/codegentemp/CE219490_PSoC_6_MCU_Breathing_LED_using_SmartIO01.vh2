@@ -1,0 +1,305 @@
+--
+--	Conversion of CE219490_PSoC_6_MCU_Breathing_LED_using_SmartIO01.v to vh2:
+--
+--	Cypress Semiconductor - WARP Version 6.3 IR 41
+--	Mon Jun 26 13:21:27 2023
+--
+
+USE cypress.cypress.all;
+USE cypress.rtlpkg.all;
+ENTITY top_RTL IS
+ATTRIBUTE part_name of top_RTL:TYPE IS "cpsoc3";
+END top_RTL;
+--------------------------------------------------------
+ARCHITECTURE R_T_L OF top_RTL IS
+SIGNAL \SmartIO:Net_654\ : bit;
+SIGNAL \SmartIO:Net_66\ : bit;
+SIGNAL \SmartIO:Net_78\ : bit;
+SIGNAL \SmartIO:Net_797\ : bit;
+SIGNAL \SmartIO:Net_798\ : bit;
+SIGNAL \SmartIO:Net_799\ : bit;
+SIGNAL \SmartIO:Net_800\ : bit;
+SIGNAL \SmartIO:Net_801\ : bit;
+SIGNAL \SmartIO:Net_83\ : bit;
+SIGNAL \SmartIO:data0_in\ : bit;
+SIGNAL Net_72 : bit;
+SIGNAL \SmartIO:Net_35\ : bit;
+SIGNAL Net_71 : bit;
+SIGNAL \SmartIO:data1_in\ : bit;
+SIGNAL Net_75 : bit;
+SIGNAL \SmartIO:Net_37\ : bit;
+SIGNAL Net_74 : bit;
+SIGNAL \SmartIO:data2_in\ : bit;
+SIGNAL Net_78 : bit;
+SIGNAL \SmartIO:Net_39\ : bit;
+SIGNAL Net_77 : bit;
+SIGNAL \SmartIO:data3_in\ : bit;
+SIGNAL Net_81 : bit;
+SIGNAL \SmartIO:Net_41\ : bit;
+SIGNAL Net_80 : bit;
+SIGNAL Net_18 : bit;
+SIGNAL Net_83 : bit;
+SIGNAL \SmartIO:Net_43\ : bit;
+SIGNAL Net_82 : bit;
+SIGNAL \SmartIO:data5_in\ : bit;
+SIGNAL Net_86 : bit;
+SIGNAL \SmartIO:Net_45\ : bit;
+SIGNAL Net_85 : bit;
+SIGNAL \SmartIO:data6_in\ : bit;
+SIGNAL Net_89 : bit;
+SIGNAL \SmartIO:Net_47\ : bit;
+SIGNAL Net_88 : bit;
+SIGNAL \SmartIO:data7_in\ : bit;
+SIGNAL Net_92 : bit;
+SIGNAL \SmartIO:Net_49\ : bit;
+SIGNAL Net_91 : bit;
+SIGNAL Net_95 : bit;
+SIGNAL \SmartIO:Net_51\ : bit;
+SIGNAL Net_94 : bit;
+SIGNAL Net_98 : bit;
+SIGNAL \SmartIO:Net_53\ : bit;
+SIGNAL Net_97 : bit;
+SIGNAL Net_101 : bit;
+SIGNAL \SmartIO:Net_55\ : bit;
+SIGNAL Net_100 : bit;
+SIGNAL Net_104 : bit;
+SIGNAL \SmartIO:Net_57\ : bit;
+SIGNAL Net_103 : bit;
+SIGNAL Net_170 : bit;
+SIGNAL \SmartIO:Net_59\ : bit;
+SIGNAL Net_106 : bit;
+SIGNAL Net_109 : bit;
+SIGNAL \SmartIO:Net_61\ : bit;
+SIGNAL Net_108 : bit;
+SIGNAL Net_171 : bit;
+SIGNAL \SmartIO:Net_63\ : bit;
+SIGNAL Net_111 : bit;
+SIGNAL Net_114 : bit;
+SIGNAL \SmartIO:Net_65\ : bit;
+SIGNAL Net_113 : bit;
+SIGNAL Net_70 : bit;
+SIGNAL \SmartIO:Net_81\ : bit;
+SIGNAL Net_59 : bit;
+SIGNAL \PWM:swap\ : bit;
+SIGNAL \PWM:count\ : bit;
+SIGNAL \PWM:reload\ : bit;
+SIGNAL \PWM:kill\ : bit;
+SIGNAL \PWM:start\ : bit;
+SIGNAL Net_124 : bit;
+SIGNAL Net_115 : bit;
+SIGNAL Net_119 : bit;
+SIGNAL Net_120 : bit;
+SIGNAL Net_117 : bit;
+SIGNAL one : bit;
+SIGNAL tmpFB_0__Pin_LED_1_net_0 : bit;
+SIGNAL tmpIO_0__Pin_LED_1_net_0 : bit;
+TERMINAL Net_67 : bit;
+TERMINAL tmpSIOVREF__Pin_LED_1_net_0 : bit;
+SIGNAL tmpFB_0__Pin_LED_2_net_0 : bit;
+SIGNAL tmpIO_0__Pin_LED_2_net_0 : bit;
+TERMINAL Net_68 : bit;
+TERMINAL tmpSIOVREF__Pin_LED_2_net_0 : bit;
+TERMINAL Net_62 : bit;
+TERMINAL Net_63 : bit;
+TERMINAL Net_65 : bit;
+BEGIN
+
+\SmartIO:Net_654\ <=  ('0') ;
+
+one <=  ('1') ;
+
+\SmartIO:cy_mxs40_smartio\:cy_mxs40_smartio_v1_0
+	GENERIC MAP(cy_registers=>"",
+		port_id=>9)
+	PORT MAP(clock=>Net_70,
+		data0_i=>\SmartIO:Net_654\,
+		data0_o=>Net_72,
+		data0_oe=>\SmartIO:Net_35\,
+		data0_io=>Net_71,
+		data1_i=>\SmartIO:Net_654\,
+		data1_o=>Net_75,
+		data1_oe=>\SmartIO:Net_37\,
+		data1_io=>Net_74,
+		data2_i=>\SmartIO:Net_654\,
+		data2_o=>Net_78,
+		data2_oe=>\SmartIO:Net_39\,
+		data2_io=>Net_77,
+		data3_i=>\SmartIO:Net_654\,
+		data3_o=>Net_81,
+		data3_oe=>\SmartIO:Net_41\,
+		data3_io=>Net_80,
+		data4_i=>Net_18,
+		data4_o=>Net_83,
+		data4_oe=>\SmartIO:Net_43\,
+		data4_io=>Net_82,
+		data5_i=>\SmartIO:Net_654\,
+		data5_o=>Net_86,
+		data5_oe=>\SmartIO:Net_45\,
+		data5_io=>Net_85,
+		data6_i=>\SmartIO:Net_654\,
+		data6_o=>Net_89,
+		data6_oe=>\SmartIO:Net_47\,
+		data6_io=>Net_88,
+		data7_i=>\SmartIO:Net_654\,
+		data7_o=>Net_92,
+		data7_oe=>\SmartIO:Net_49\,
+		data7_io=>Net_91,
+		gpio0_i=>\SmartIO:Net_654\,
+		gpio0_o=>Net_95,
+		gpio0_oe=>\SmartIO:Net_51\,
+		gpio0_io=>Net_94,
+		gpio1_i=>\SmartIO:Net_654\,
+		gpio1_o=>Net_98,
+		gpio1_oe=>\SmartIO:Net_53\,
+		gpio1_io=>Net_97,
+		gpio2_i=>\SmartIO:Net_654\,
+		gpio2_o=>Net_101,
+		gpio2_oe=>\SmartIO:Net_55\,
+		gpio2_io=>Net_100,
+		gpio3_i=>\SmartIO:Net_654\,
+		gpio3_o=>Net_104,
+		gpio3_oe=>\SmartIO:Net_57\,
+		gpio3_io=>Net_103,
+		gpio4_i=>\SmartIO:Net_654\,
+		gpio4_o=>Net_170,
+		gpio4_oe=>\SmartIO:Net_59\,
+		gpio4_io=>Net_106,
+		gpio5_i=>\SmartIO:Net_654\,
+		gpio5_o=>Net_109,
+		gpio5_oe=>\SmartIO:Net_61\,
+		gpio5_io=>Net_108,
+		gpio6_i=>\SmartIO:Net_654\,
+		gpio6_o=>Net_171,
+		gpio6_oe=>\SmartIO:Net_63\,
+		gpio6_io=>Net_111,
+		gpio7_i=>\SmartIO:Net_654\,
+		gpio7_o=>Net_114,
+		gpio7_oe=>\SmartIO:Net_65\,
+		gpio7_io=>Net_113);
+\PWM:TCPWM\:cy_mxs40_tcpwm_v1_0
+	GENERIC MAP(cy_registers=>"",
+		width=>16,
+		exact_width=>'0')
+	PORT MAP(clock=>Net_59,
+		capture=>\SmartIO:Net_654\,
+		count=>one,
+		reload=>\SmartIO:Net_654\,
+		stop=>\SmartIO:Net_654\,
+		start=>\SmartIO:Net_654\,
+		tr_underflow=>Net_124,
+		tr_compare_match=>Net_115,
+		tr_overflow=>Net_119,
+		line_compl=>Net_120,
+		line=>Net_18,
+		interrupt=>Net_117);
+Clock_pwm:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"9b4bda15-25f9-4b58-a324-ff10418e7fd1",
+		source_clock_id=>"2FB4EC85-8328-4C5A-9ED9-8B63060178EB",
+		divisor=>0,
+		period=>"1000000000000",
+		is_direct=>'0',
+		is_digital=>'0')
+	PORT MAP(clock_out=>Net_59,
+		dig_domain_out=>open);
+Clock_smartio:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"9da322ae-b054-46ce-b546-c2a68bc9ed4a",
+		source_clock_id=>"2FB4EC85-8328-4C5A-9ED9-8B63060178EB",
+		divisor=>0,
+		period=>"10101010101010.1",
+		is_direct=>'0',
+		is_digital=>'0')
+	PORT MAP(clock_out=>Net_70,
+		dig_domain_out=>open);
+Pin_LED_1:cy_mxs40_gpio_v1_0
+	GENERIC MAP(cy_registers=>"",
+		width=>1,
+		sio_grp_cnt=>0,
+		id=>"a61270bc-07ec-447d-ac9e-34cfe85c30e9",
+		drive_mode=>"6",
+		ibuf_enabled=>"0",
+		init_dr_st=>"1",
+		input_sync=>"0",
+		intr_mode=>"0",
+		io_voltage=>"",
+		output_conn=>"1",
+		oe_conn=>"0",
+		output_sync=>"0",
+		oe_sync=>"0",
+		drive_strength=>"0",
+		max_frequency=>"100",
+		output_current_cap=>"8",
+		i2c_mode=>"0",
+		pin_aliases=>"",
+		pin_mode=>"O",
+		slew_rate=>"0",
+		vtrip=>"0",
+		use_annotation=>"1",
+		hotswap_needed=>"0")
+	PORT MAP(oe=>(one),
+		y=>Net_171,
+		fb=>(tmpFB_0__Pin_LED_1_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__Pin_LED_1_net_0),
+		annotation=>Net_67,
+		siovref=>(tmpSIOVREF__Pin_LED_1_net_0));
+Pin_LED_2:cy_mxs40_gpio_v1_0
+	GENERIC MAP(cy_registers=>"",
+		width=>1,
+		sio_grp_cnt=>0,
+		id=>"72d55028-fecb-4045-ad69-7d51b6de809e",
+		drive_mode=>"6",
+		ibuf_enabled=>"0",
+		init_dr_st=>"1",
+		input_sync=>"0",
+		intr_mode=>"0",
+		io_voltage=>"",
+		output_conn=>"1",
+		oe_conn=>"0",
+		output_sync=>"0",
+		oe_sync=>"0",
+		drive_strength=>"0",
+		max_frequency=>"100",
+		output_current_cap=>"8",
+		i2c_mode=>"0",
+		pin_aliases=>"",
+		pin_mode=>"O",
+		slew_rate=>"0",
+		vtrip=>"0",
+		use_annotation=>"1",
+		hotswap_needed=>"0")
+	PORT MAP(oe=>(one),
+		y=>Net_170,
+		fb=>(tmpFB_0__Pin_LED_2_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__Pin_LED_2_net_0),
+		annotation=>Net_68,
+		siovref=>(tmpSIOVREF__Pin_LED_2_net_0));
+LED8:cy_annotation_universal_v1_0
+	GENERIC MAP(comp_name=>"LED_v1_0",
+		port_names=>"A, K",
+		width=>2)
+	PORT MAP(connect=>(Net_62, Net_63));
+LED9:cy_annotation_universal_v1_0
+	GENERIC MAP(comp_name=>"LED_v1_0",
+		port_names=>"A, K",
+		width=>2)
+	PORT MAP(connect=>(Net_62, Net_65));
+PWR_1:cy_annotation_universal_v1_0
+	GENERIC MAP(comp_name=>"Power_v1_0",
+		port_names=>"T1",
+		width=>1)
+	PORT MAP(connect=>Net_62);
+R_1:cy_annotation_universal_v1_0
+	GENERIC MAP(comp_name=>"Resistor_v1_0",
+		port_names=>"T1, T2",
+		width=>2)
+	PORT MAP(connect=>(Net_63, Net_67));
+R_2:cy_annotation_universal_v1_0
+	GENERIC MAP(comp_name=>"Resistor_v1_0",
+		port_names=>"T1, T2",
+		width=>2)
+	PORT MAP(connect=>(Net_65, Net_68));
+
+END R_T_L;

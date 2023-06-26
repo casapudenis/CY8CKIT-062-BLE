@@ -1,0 +1,3096 @@
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.syntax unified
+  16              		.file	"codec.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.global	masterTransferCfg
+  21              		.data
+  22              		.align	2
+  23              		.type	masterTransferCfg, %object
+  24              		.size	masterTransferCfg, 16
+  25              	masterTransferCfg:
+  26 0000 12       		.byte	18
+  27 0001 000000   		.space	3
+  28 0004 00000000 		.word	0
+  29 0008 00000000 		.word	0
+  30 000c 00       		.byte	0
+  31 000d 000000   		.space	3
+  32              		.global	Codec_DelayFunction
+  33              		.align	2
+  34              		.type	Codec_DelayFunction, %object
+  35              		.size	Codec_DelayFunction, 4
+  36              	Codec_DelayFunction:
+  37 0010 00000000 		.word	Cy_SysLib_Delay
+  38              		.section	.text.Codec_Init,"ax",%progbits
+  39              		.align	2
+  40              		.global	Codec_Init
+  41              		.thumb
+  42              		.thumb_func
+  43              		.type	Codec_Init, %function
+  44              	Codec_Init:
+  45              	.LFB284:
+  46              		.file 1 "codec.c"
+   1:codec.c       **** /*******************************************************************************
+   2:codec.c       **** * File Name: codec.c
+   3:codec.c       **** *
+   4:codec.c       **** * Version: 1.1
+   5:codec.c       **** *
+   6:codec.c       **** * Description: This file contains the codec control APIs
+   7:codec.c       **** *
+   8:codec.c       **** ******************************************************************************
+   9:codec.c       **** * Copyright (2018), Cypress Semiconductor Corporation.
+  10:codec.c       **** ******************************************************************************
+  11:codec.c       **** * This software is owned by Cypress Semiconductor Corporation (Cypress) and is
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 2
+
+
+  12:codec.c       **** * protected by and subject to worldwide patent protection (United States and
+  13:codec.c       **** * foreign), United States copyright laws and international treaty provisions.
+  14:codec.c       **** * Cypress hereby grants to licensee a personal, non-exclusive, non-transferable
+  15:codec.c       **** * license to copy, use, modify, create derivative works of, and compile the
+  16:codec.c       **** * Cypress Source Code and derivative works for the sole purpose of creating
+  17:codec.c       **** * custom software in support of licensee product to be used only in conjunction
+  18:codec.c       **** * with a Cypress integrated circuit as specified in the applicable agreement.
+  19:codec.c       **** * Any reproduction, modification, translation, compilation, or representation of
+  20:codec.c       **** * this software except as specified above is prohibited without the express
+  21:codec.c       **** * written permission of Cypress.
+  22:codec.c       **** *
+  23:codec.c       **** * Disclaimer: CYPRESS MAKES NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, WITH
+  24:codec.c       **** * REGARD TO THIS MATERIAL, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  25:codec.c       **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  26:codec.c       **** * Cypress reserves the right to make changes without further notice to the
+  27:codec.c       **** * materials described herein. Cypress does not assume any liability arising out
+  28:codec.c       **** * of the application or use of any product or circuit described herein. Cypress
+  29:codec.c       **** * does not authorize its products for use as critical components in life-support
+  30:codec.c       **** * systems where a malfunction or failure may reasonably be expected to result in
+  31:codec.c       **** * significant injury to the user. The inclusion of Cypress' product in a life-
+  32:codec.c       **** * support systems application implies that the manufacturer assumes all risk of
+  33:codec.c       **** * such use and in doing so indemnifies Cypress against all charges. Use may be
+  34:codec.c       **** * limited by and subject to the applicable Cypress software license agreement.
+  35:codec.c       **** *****************************************************************************/
+  36:codec.c       **** 
+  37:codec.c       **** #include "codec.h"
+  38:codec.c       **** #include "CodecI2CM.h"
+  39:codec.c       **** #include "stdbool.h"
+  40:codec.c       **** #include "gpio/cy_gpio.h"
+  41:codec.c       **** #include "rtos.h"
+  42:codec.c       **** 
+  43:codec.c       **** #define I2C_WRITE_OPERATION		(0x00)
+  44:codec.c       **** 
+  45:codec.c       **** /*******************************************************************************
+  46:codec.c       **** * Global variables
+  47:codec.c       **** *******************************************************************************/
+  48:codec.c       **** /* Structure for master transfer configuration. */
+  49:codec.c       **** cy_stc_scb_i2c_master_xfer_config_t masterTransferCfg =
+  50:codec.c       **** {
+  51:codec.c       ****     .slaveAddress = CODEC_I2C_ADDR,
+  52:codec.c       ****     .buffer = NULL,
+  53:codec.c       ****     .bufferSize = 0u,
+  54:codec.c       ****     .xferPending = false
+  55:codec.c       **** };
+  56:codec.c       **** 
+  57:codec.c       **** codec_delay_function Codec_DelayFunction = Cy_SysLib_Delay;
+  58:codec.c       **** 
+  59:codec.c       **** /*******************************************************************************
+  60:codec.c       **** * Function Name: Codec_Init
+  61:codec.c       **** ********************************************************************************
+  62:codec.c       **** * Summary:
+  63:codec.c       **** *   Initializes the codec with default settings.
+  64:codec.c       **** *
+  65:codec.c       **** * Parameters:  
+  66:codec.c       **** *	func: pointer to the delay function.
+  67:codec.c       **** *
+  68:codec.c       **** * Return:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 3
+
+
+  69:codec.c       **** *   uint32_t - I2C master transaction error status
+  70:codec.c       **** *				CY_SCB_I2C_SUCCESS - Operation completed successfully                      
+  71:codec.c       **** *				CY_SCB_I2C_MASTER_MANUAL_BUS_ERR - Bus error occurred   
+  72:codec.c       **** *
+  73:codec.c       **** *******************************************************************************/
+  74:codec.c       **** uint32_t Codec_Init(codec_delay_function func)
+  75:codec.c       **** {
+  47              		.loc 1 75 0
+  48              		.cfi_startproc
+  49              		@ args = 0, pretend = 0, frame = 16
+  50              		@ frame_needed = 1, uses_anonymous_args = 0
+  51 0000 80B5     		push	{r7, lr}
+  52              		.cfi_def_cfa_offset 8
+  53              		.cfi_offset 7, -8
+  54              		.cfi_offset 14, -4
+  55 0002 84B0     		sub	sp, sp, #16
+  56              		.cfi_def_cfa_offset 24
+  57 0004 00AF     		add	r7, sp, #0
+  58              		.cfi_def_cfa_register 7
+  59 0006 7860     		str	r0, [r7, #4]
+  76:codec.c       **** 	uint32_t ret;
+  77:codec.c       **** 	
+  78:codec.c       ****     /* Assert PDN Pin (if defined) */
+  79:codec.c       ****     #ifdef CODEC_PDN_PORT
+  80:codec.c       ****         Cy_GPIO_Set(CODEC_PDN_PORT, CODEC_PDN_NUM);
+  81:codec.c       ****     #endif
+  82:codec.c       ****     
+  83:codec.c       ****     if (func != NULL)
+  60              		.loc 1 83 0
+  61 0008 7B68     		ldr	r3, [r7, #4]
+  62 000a 002B     		cmp	r3, #0
+  63 000c 02D0     		beq	.L2
+  84:codec.c       ****     {
+  85:codec.c       ****         Codec_DelayFunction = func;
+  64              		.loc 1 85 0
+  65 000e 214A     		ldr	r2, .L9
+  66 0010 7B68     		ldr	r3, [r7, #4]
+  67 0012 1360     		str	r3, [r2]
+  68              	.L2:
+  86:codec.c       ****     }
+  87:codec.c       ****     
+  88:codec.c       ****     Codec_DelayFunction(CODEC_RESET_WAIT_DELAY);
+  69              		.loc 1 88 0
+  70 0014 1F4B     		ldr	r3, .L9
+  71 0016 1B68     		ldr	r3, [r3]
+  72 0018 0A20     		movs	r0, #10
+  73 001a 9847     		blx	r3
+  89:codec.c       ****     
+  90:codec.c       ****     /* Clear Power Managament 1 register (dummy write) */
+  91:codec.c       ****     ret = Codec_SendData(CODEC_REG_PWR_MGMT1, 0x00);
+  74              		.loc 1 91 0
+  75 001c 0021     		movs	r1, #0
+  76 001e 0020     		movs	r0, #0
+  77 0020 FFF7FEFF 		bl	Codec_SendData
+  78 0024 F860     		str	r0, [r7, #12]
+  92:codec.c       ****     if (ret) return ret;
+  79              		.loc 1 92 0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 4
+
+
+  80 0026 FB68     		ldr	r3, [r7, #12]
+  81 0028 002B     		cmp	r3, #0
+  82 002a 01D0     		beq	.L3
+  83              		.loc 1 92 0 is_stmt 0 discriminator 1
+  84 002c FB68     		ldr	r3, [r7, #12]
+  85 002e 2DE0     		b	.L4
+  86              	.L3:
+  93:codec.c       ****     
+  94:codec.c       ****     /* Clear Power Managament 1 register */
+  95:codec.c       ****     ret = Codec_SendData(CODEC_REG_PWR_MGMT1, 0x00);
+  87              		.loc 1 95 0 is_stmt 1
+  88 0030 0021     		movs	r1, #0
+  89 0032 0020     		movs	r0, #0
+  90 0034 FFF7FEFF 		bl	Codec_SendData
+  91 0038 F860     		str	r0, [r7, #12]
+  96:codec.c       ****     if (ret) return ret;
+  92              		.loc 1 96 0
+  93 003a FB68     		ldr	r3, [r7, #12]
+  94 003c 002B     		cmp	r3, #0
+  95 003e 01D0     		beq	.L5
+  96              		.loc 1 96 0 is_stmt 0 discriminator 1
+  97 0040 FB68     		ldr	r3, [r7, #12]
+  98 0042 23E0     		b	.L4
+  99              	.L5:
+  97:codec.c       ****     
+  98:codec.c       ****     /* Set the data alignment */
+  99:codec.c       ****     ret = Codec_SendData(CODEC_REG_MODE_CTRL1, CODEC_MODE_CTRL1_DIF_24_16_I2S);
+ 100              		.loc 1 99 0 is_stmt 1
+ 101 0044 0321     		movs	r1, #3
+ 102 0046 0520     		movs	r0, #5
+ 103 0048 FFF7FEFF 		bl	Codec_SendData
+ 104 004c F860     		str	r0, [r7, #12]
+ 100:codec.c       ****     if (ret) return ret;
+ 105              		.loc 1 100 0
+ 106 004e FB68     		ldr	r3, [r7, #12]
+ 107 0050 002B     		cmp	r3, #0
+ 108 0052 01D0     		beq	.L6
+ 109              		.loc 1 100 0 is_stmt 0 discriminator 1
+ 110 0054 FB68     		ldr	r3, [r7, #12]
+ 111 0056 19E0     		b	.L4
+ 112              	.L6:
+ 101:codec.c       ****     
+ 102:codec.c       ****     /* Set sample rate */
+ 103:codec.c       ****     ret = Codec_SendData(CODEC_REG_MODE_CTRL2, CODEC_DEF_SAMPLING_RATE);
+ 113              		.loc 1 103 0 is_stmt 1
+ 114 0058 0021     		movs	r1, #0
+ 115 005a 0620     		movs	r0, #6
+ 116 005c FFF7FEFF 		bl	Codec_SendData
+ 117 0060 F860     		str	r0, [r7, #12]
+ 104:codec.c       ****     if (ret) return ret;
+ 118              		.loc 1 104 0
+ 119 0062 FB68     		ldr	r3, [r7, #12]
+ 120 0064 002B     		cmp	r3, #0
+ 121 0066 01D0     		beq	.L7
+ 122              		.loc 1 104 0 is_stmt 0 discriminator 1
+ 123 0068 FB68     		ldr	r3, [r7, #12]
+ 124 006a 0FE0     		b	.L4
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 5
+
+
+ 125              	.L7:
+ 105:codec.c       ****     
+ 106:codec.c       ****     /* Power-up VCOM */
+ 107:codec.c       ****     ret = Codec_SendData(CODEC_REG_PWR_MGMT1, CODEC_PWR_MGMT1_PMVCM);
+ 126              		.loc 1 107 0 is_stmt 1
+ 127 006c 4021     		movs	r1, #64
+ 128 006e 0020     		movs	r0, #0
+ 129 0070 FFF7FEFF 		bl	Codec_SendData
+ 130 0074 F860     		str	r0, [r7, #12]
+ 108:codec.c       ****     if (ret) return ret;
+ 131              		.loc 1 108 0
+ 132 0076 FB68     		ldr	r3, [r7, #12]
+ 133 0078 002B     		cmp	r3, #0
+ 134 007a 01D0     		beq	.L8
+ 135              		.loc 1 108 0 is_stmt 0 discriminator 1
+ 136 007c FB68     		ldr	r3, [r7, #12]
+ 137 007e 05E0     		b	.L4
+ 138              	.L8:
+ 109:codec.c       ****     
+ 110:codec.c       ****     /* Clear Digital Filter Mode register */
+ 111:codec.c       ****     ret = Codec_SendData(CODEC_REG_DIG_FILT_MODE, 0x00);
+ 139              		.loc 1 111 0 is_stmt 1
+ 140 0080 0021     		movs	r1, #0
+ 141 0082 1D20     		movs	r0, #29
+ 142 0084 FFF7FEFF 		bl	Codec_SendData
+ 143 0088 F860     		str	r0, [r7, #12]
+ 112:codec.c       ****         
+ 113:codec.c       **** 	return ret;  
+ 144              		.loc 1 113 0
+ 145 008a FB68     		ldr	r3, [r7, #12]
+ 146              	.L4:
+ 114:codec.c       **** }
+ 147              		.loc 1 114 0
+ 148 008c 1846     		mov	r0, r3
+ 149 008e 1037     		adds	r7, r7, #16
+ 150              		.cfi_def_cfa_offset 8
+ 151 0090 BD46     		mov	sp, r7
+ 152              		.cfi_def_cfa_register 13
+ 153              		@ sp needed
+ 154 0092 80BD     		pop	{r7, pc}
+ 155              	.L10:
+ 156              		.align	2
+ 157              	.L9:
+ 158 0094 00000000 		.word	Codec_DelayFunction
+ 159              		.cfi_endproc
+ 160              	.LFE284:
+ 161              		.size	Codec_Init, .-Codec_Init
+ 162              		.section	.text.Codec_SendData,"ax",%progbits
+ 163              		.align	2
+ 164              		.global	Codec_SendData
+ 165              		.thumb
+ 166              		.thumb_func
+ 167              		.type	Codec_SendData, %function
+ 168              	Codec_SendData:
+ 169              	.LFB285:
+ 115:codec.c       **** 
+ 116:codec.c       **** /*******************************************************************************
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 6
+
+
+ 117:codec.c       **** * Function Name: Codec_SendData
+ 118:codec.c       **** ********************************************************************************
+ 119:codec.c       **** * Summary:
+ 120:codec.c       **** *   Low level API to send data to codec over I2C.
+ 121:codec.c       **** *
+ 122:codec.c       **** *
+ 123:codec.c       **** * Parameters:  
+ 124:codec.c       **** *	regAddr - Address of the codec register to be updated
+ 125:codec.c       **** *	data - 8-bit data to be updated in the register
+ 126:codec.c       **** *
+ 127:codec.c       **** * Return:
+ 128:codec.c       **** *   uint32_t - I2C master transaction error status
+ 129:codec.c       **** *				CY_SCB_I2C_SUCCESS - Operation completed successfully                      
+ 130:codec.c       **** *				CY_SCB_I2C_MASTER_MANUAL_BUS_ERR - Bus error occurred    
+ 131:codec.c       **** *
+ 132:codec.c       **** *******************************************************************************/
+ 133:codec.c       **** uint32_t Codec_SendData(uint8_t regAddr, uint8_t data)
+ 134:codec.c       **** {
+ 170              		.loc 1 134 0
+ 171              		.cfi_startproc
+ 172              		@ args = 0, pretend = 0, frame = 16
+ 173              		@ frame_needed = 1, uses_anonymous_args = 0
+ 174 0000 80B5     		push	{r7, lr}
+ 175              		.cfi_def_cfa_offset 8
+ 176              		.cfi_offset 7, -8
+ 177              		.cfi_offset 14, -4
+ 178 0002 84B0     		sub	sp, sp, #16
+ 179              		.cfi_def_cfa_offset 24
+ 180 0004 00AF     		add	r7, sp, #0
+ 181              		.cfi_def_cfa_register 7
+ 182 0006 0346     		mov	r3, r0
+ 183 0008 0A46     		mov	r2, r1
+ 184 000a FB71     		strb	r3, [r7, #7]
+ 185 000c 1346     		mov	r3, r2
+ 186 000e BB71     		strb	r3, [r7, #6]
+ 135:codec.c       **** 	uint32_t temp;
+ 136:codec.c       ****     uint8_t buffer[CODEC_PACKET_SIZE];
+ 137:codec.c       ****     
+ 138:codec.c       ****     buffer[0] = regAddr;
+ 187              		.loc 1 138 0
+ 188 0010 FB79     		ldrb	r3, [r7, #7]
+ 189 0012 3B72     		strb	r3, [r7, #8]
+ 139:codec.c       ****     buffer[1] = data;
+ 190              		.loc 1 139 0
+ 191 0014 BB79     		ldrb	r3, [r7, #6]
+ 192 0016 7B72     		strb	r3, [r7, #9]
+ 140:codec.c       ****     
+ 141:codec.c       ****     /* Setup transfer specific parameters */
+ 142:codec.c       ****     masterTransferCfg.buffer = buffer;
+ 193              		.loc 1 142 0
+ 194 0018 164A     		ldr	r2, .L17
+ 195 001a 07F10803 		add	r3, r7, #8
+ 196 001e 5360     		str	r3, [r2, #4]
+ 143:codec.c       ****     masterTransferCfg.bufferSize = CODEC_PACKET_SIZE;
+ 197              		.loc 1 143 0
+ 198 0020 144B     		ldr	r3, .L17
+ 199 0022 0222     		movs	r2, #2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 7
+
+
+ 200 0024 9A60     		str	r2, [r3, #8]
+ 144:codec.c       ****     
+ 145:codec.c       ****     /* Initiate write transaction */
+ 146:codec.c       ****     Cy_SCB_I2C_MasterWrite(CodecI2CM_HW, &masterTransferCfg, &CodecI2CM_context);
+ 201              		.loc 1 146 0
+ 202 0026 144A     		ldr	r2, .L17+4
+ 203 0028 1249     		ldr	r1, .L17
+ 204 002a 1448     		ldr	r0, .L17+8
+ 205 002c FFF7FEFF 		bl	Cy_SCB_I2C_MasterWrite
+ 147:codec.c       ****     
+ 148:codec.c       ****     /* Wait until master completes write transfer. */
+ 149:codec.c       ****     while (0u != (Cy_SCB_I2C_MasterGetStatus(CodecI2CM_HW, &CodecI2CM_context) & CY_SCB_I2C_MASTER_
+ 206              		.loc 1 149 0
+ 207 0030 03E0     		b	.L12
+ 208              	.L13:
+ 150:codec.c       ****     {
+ 151:codec.c       ****         Codec_DelayFunction(1);
+ 209              		.loc 1 151 0
+ 210 0032 134B     		ldr	r3, .L17+12
+ 211 0034 1B68     		ldr	r3, [r3]
+ 212 0036 0120     		movs	r0, #1
+ 213 0038 9847     		blx	r3
+ 214              	.L12:
+ 149:codec.c       ****     {
+ 215              		.loc 1 149 0
+ 216 003a 0F49     		ldr	r1, .L17+4
+ 217 003c 0F48     		ldr	r0, .L17+8
+ 218 003e FFF7FEFF 		bl	Cy_SCB_I2C_MasterGetStatus
+ 219 0042 0346     		mov	r3, r0
+ 220 0044 03F48033 		and	r3, r3, #65536
+ 221 0048 002B     		cmp	r3, #0
+ 222 004a F2D1     		bne	.L13
+ 152:codec.c       ****     }
+ 153:codec.c       ****     
+ 154:codec.c       ****     /* Make sure that transfer was successful. */
+ 155:codec.c       ****     if ((Cy_SCB_I2C_MasterGetStatus(CodecI2CM_HW, &CodecI2CM_context) & CY_SCB_I2C_MASTER_ERR_EVENT
+ 223              		.loc 1 155 0
+ 224 004c 0A49     		ldr	r1, .L17+4
+ 225 004e 0B48     		ldr	r0, .L17+8
+ 226 0050 FFF7FEFF 		bl	Cy_SCB_I2C_MasterGetStatus
+ 227 0054 0346     		mov	r3, r0
+ 228 0056 03F40023 		and	r3, r3, #524288
+ 229 005a 002B     		cmp	r3, #0
+ 230 005c 02D1     		bne	.L14
+ 156:codec.c       ****     {
+ 157:codec.c       ****         temp = CY_SCB_I2C_SUCCESS;
+ 231              		.loc 1 157 0
+ 232 005e 0023     		movs	r3, #0
+ 233 0060 FB60     		str	r3, [r7, #12]
+ 234 0062 01E0     		b	.L15
+ 235              	.L14:
+ 158:codec.c       ****     }
+ 159:codec.c       ****     else
+ 160:codec.c       ****     {
+ 161:codec.c       ****         temp = CY_SCB_I2C_MASTER_MANUAL_BUS_ERR;
+ 236              		.loc 1 161 0
+ 237 0064 074B     		ldr	r3, .L17+16
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 8
+
+
+ 238 0066 FB60     		str	r3, [r7, #12]
+ 239              	.L15:
+ 162:codec.c       ****     }
+ 163:codec.c       **** 
+ 164:codec.c       **** 	return temp;
+ 240              		.loc 1 164 0
+ 241 0068 FB68     		ldr	r3, [r7, #12]
+ 165:codec.c       **** }
+ 242              		.loc 1 165 0
+ 243 006a 1846     		mov	r0, r3
+ 244 006c 1037     		adds	r7, r7, #16
+ 245              		.cfi_def_cfa_offset 8
+ 246 006e BD46     		mov	sp, r7
+ 247              		.cfi_def_cfa_register 13
+ 248              		@ sp needed
+ 249 0070 80BD     		pop	{r7, pc}
+ 250              	.L18:
+ 251 0072 00BF     		.align	2
+ 252              	.L17:
+ 253 0074 00000000 		.word	masterTransferCfg
+ 254 0078 00000000 		.word	CodecI2CM_context
+ 255 007c 00006440 		.word	1080295424
+ 256 0080 00000000 		.word	Codec_DelayFunction
+ 257 0084 0720AA00 		.word	11149319
+ 258              		.cfi_endproc
+ 259              	.LFE285:
+ 260              		.size	Codec_SendData, .-Codec_SendData
+ 261              		.section	.text.Codec_AdjustBothHeadphoneVolume,"ax",%progbits
+ 262              		.align	2
+ 263              		.global	Codec_AdjustBothHeadphoneVolume
+ 264              		.thumb
+ 265              		.thumb_func
+ 266              		.type	Codec_AdjustBothHeadphoneVolume, %function
+ 267              	Codec_AdjustBothHeadphoneVolume:
+ 268              	.LFB286:
+ 166:codec.c       **** 
+ 167:codec.c       **** /*******************************************************************************
+ 168:codec.c       **** * Function Name: Codec_AdjustBothHeadphoneVolume
+ 169:codec.c       **** ********************************************************************************
+ 170:codec.c       **** * Summary:
+ 171:codec.c       **** *   This function updates the volume of both the left and right channels of the
+ 172:codec.c       **** * 	headphone output.
+ 173:codec.c       **** *
+ 174:codec.c       **** *
+ 175:codec.c       **** * Parameters:  
+ 176:codec.c       **** *	volume - Steps of 0.5dB, where:
+ 177:codec.c       **** *            Minimum volume: -65.5dB (0x8F)
+ 178:codec.c       **** *            Maximum volume:  +6.0dB (0x00)
+ 179:codec.c       **** *            Mute: (0x90~0xFF)
+ 180:codec.c       **** *
+ 181:codec.c       **** * Return:
+ 182:codec.c       **** *   uint32_t - I2C master transaction error status
+ 183:codec.c       **** *				CY_SCB_I2C_SUCCESS - Operation completed successfully                      
+ 184:codec.c       **** *				CY_SCB_I2C_MASTER_MANUAL_BUS_ERR - Bus error occurred   
+ 185:codec.c       **** *
+ 186:codec.c       **** *******************************************************************************/
+ 187:codec.c       **** 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 9
+
+
+ 188:codec.c       **** uint32_t Codec_AdjustBothHeadphoneVolume(uint8_t volume)
+ 189:codec.c       **** {
+ 269              		.loc 1 189 0
+ 270              		.cfi_startproc
+ 271              		@ args = 0, pretend = 0, frame = 16
+ 272              		@ frame_needed = 1, uses_anonymous_args = 0
+ 273 0000 80B5     		push	{r7, lr}
+ 274              		.cfi_def_cfa_offset 8
+ 275              		.cfi_offset 7, -8
+ 276              		.cfi_offset 14, -4
+ 277 0002 84B0     		sub	sp, sp, #16
+ 278              		.cfi_def_cfa_offset 24
+ 279 0004 00AF     		add	r7, sp, #0
+ 280              		.cfi_def_cfa_register 7
+ 281 0006 0346     		mov	r3, r0
+ 282 0008 FB71     		strb	r3, [r7, #7]
+ 190:codec.c       ****     uint32_t ret;
+ 191:codec.c       ****     
+ 192:codec.c       **** 	ret = Codec_SendData(CODEC_REG_LCH_DIG_VOL, volume);
+ 283              		.loc 1 192 0
+ 284 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 285 000c 1946     		mov	r1, r3
+ 286 000e 1320     		movs	r0, #19
+ 287 0010 FFF7FEFF 		bl	Codec_SendData
+ 288 0014 F860     		str	r0, [r7, #12]
+ 193:codec.c       ****     if (ret) return ret;
+ 289              		.loc 1 193 0
+ 290 0016 FB68     		ldr	r3, [r7, #12]
+ 291 0018 002B     		cmp	r3, #0
+ 292 001a 01D0     		beq	.L20
+ 293              		.loc 1 193 0 is_stmt 0 discriminator 1
+ 294 001c FB68     		ldr	r3, [r7, #12]
+ 295 001e 05E0     		b	.L21
+ 296              	.L20:
+ 194:codec.c       ****     return Codec_SendData(CODEC_REG_RCH_DIG_VOL, volume);
+ 297              		.loc 1 194 0 is_stmt 1
+ 298 0020 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 299 0022 1946     		mov	r1, r3
+ 300 0024 1420     		movs	r0, #20
+ 301 0026 FFF7FEFF 		bl	Codec_SendData
+ 302 002a 0346     		mov	r3, r0
+ 303              	.L21:
+ 195:codec.c       **** }
+ 304              		.loc 1 195 0
+ 305 002c 1846     		mov	r0, r3
+ 306 002e 1037     		adds	r7, r7, #16
+ 307              		.cfi_def_cfa_offset 8
+ 308 0030 BD46     		mov	sp, r7
+ 309              		.cfi_def_cfa_register 13
+ 310              		@ sp needed
+ 311 0032 80BD     		pop	{r7, pc}
+ 312              		.cfi_endproc
+ 313              	.LFE286:
+ 314              		.size	Codec_AdjustBothHeadphoneVolume, .-Codec_AdjustBothHeadphoneVolume
+ 315              		.section	.text.Codec_Activate,"ax",%progbits
+ 316              		.align	2
+ 317              		.global	Codec_Activate
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 10
+
+
+ 318              		.thumb
+ 319              		.thumb_func
+ 320              		.type	Codec_Activate, %function
+ 321              	Codec_Activate:
+ 322              	.LFB287:
+ 196:codec.c       **** 
+ 197:codec.c       **** /*******************************************************************************
+ 198:codec.c       **** * Function Name: Codec_Activate
+ 199:codec.c       **** ********************************************************************************
+ 200:codec.c       **** * Summary:
+ 201:codec.c       **** *   Activates the codec - This function is called after a successful 
+ 202:codec.c       **** *   configuration update of the codec.
+ 203:codec.c       **** *
+ 204:codec.c       **** *
+ 205:codec.c       **** * Parameters:  
+ 206:codec.c       **** *	None
+ 207:codec.c       **** *
+ 208:codec.c       **** * Return:
+ 209:codec.c       **** *   uint32_t - I2C master transaction error status
+ 210:codec.c       **** *				CY_SCB_I2C_SUCCESS - Operation completed successfully                      
+ 211:codec.c       **** *				CY_SCB_I2C_MASTER_MANUAL_BUS_ERR - Bus error occurred   
+ 212:codec.c       **** *
+ 213:codec.c       **** *******************************************************************************/
+ 214:codec.c       **** uint32_t Codec_Activate(void)
+ 215:codec.c       **** {
+ 323              		.loc 1 215 0
+ 324              		.cfi_startproc
+ 325              		@ args = 0, pretend = 0, frame = 8
+ 326              		@ frame_needed = 1, uses_anonymous_args = 0
+ 327 0000 80B5     		push	{r7, lr}
+ 328              		.cfi_def_cfa_offset 8
+ 329              		.cfi_offset 7, -8
+ 330              		.cfi_offset 14, -4
+ 331 0002 82B0     		sub	sp, sp, #8
+ 332              		.cfi_def_cfa_offset 16
+ 333 0004 00AF     		add	r7, sp, #0
+ 334              		.cfi_def_cfa_register 7
+ 216:codec.c       ****     uint32_t ret;
+ 217:codec.c       ****     
+ 218:codec.c       ****     /* Enable Power Management DAC */
+ 219:codec.c       ****     ret = Codec_SendData(CODEC_REG_PWR_MGMT1, CODEC_PWR_MGMT1_PMDAC | CODEC_PWR_MGMT1_PMVCM);
+ 335              		.loc 1 219 0
+ 336 0006 4421     		movs	r1, #68
+ 337 0008 0020     		movs	r0, #0
+ 338 000a FFF7FEFF 		bl	Codec_SendData
+ 339 000e 7860     		str	r0, [r7, #4]
+ 220:codec.c       ****     if (ret) return ret;
+ 340              		.loc 1 220 0
+ 341 0010 7B68     		ldr	r3, [r7, #4]
+ 342 0012 002B     		cmp	r3, #0
+ 343 0014 01D0     		beq	.L23
+ 344              		.loc 1 220 0 is_stmt 0 discriminator 1
+ 345 0016 7B68     		ldr	r3, [r7, #4]
+ 346 0018 05E0     		b	.L24
+ 347              	.L23:
+ 221:codec.c       ****     
+ 222:codec.c       ****     /* Enable Left/Right Channels */
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 11
+
+
+ 223:codec.c       ****     ret = Codec_SendData(CODEC_REG_PWR_MGMT2, CODEC_PWR_MGMT2_PMHPL | CODEC_PWR_MGMT2_PMHPR);
+ 348              		.loc 1 223 0 is_stmt 1
+ 349 001a 3021     		movs	r1, #48
+ 350 001c 0120     		movs	r0, #1
+ 351 001e FFF7FEFF 		bl	Codec_SendData
+ 352 0022 7860     		str	r0, [r7, #4]
+ 224:codec.c       ****     return ret;
+ 353              		.loc 1 224 0
+ 354 0024 7B68     		ldr	r3, [r7, #4]
+ 355              	.L24:
+ 225:codec.c       **** }
+ 356              		.loc 1 225 0
+ 357 0026 1846     		mov	r0, r3
+ 358 0028 0837     		adds	r7, r7, #8
+ 359              		.cfi_def_cfa_offset 8
+ 360 002a BD46     		mov	sp, r7
+ 361              		.cfi_def_cfa_register 13
+ 362              		@ sp needed
+ 363 002c 80BD     		pop	{r7, pc}
+ 364              		.cfi_endproc
+ 365              	.LFE287:
+ 366              		.size	Codec_Activate, .-Codec_Activate
+ 367 002e 00BF     		.section	.text.Codec_Deactivate,"ax",%progbits
+ 368              		.align	2
+ 369              		.global	Codec_Deactivate
+ 370              		.thumb
+ 371              		.thumb_func
+ 372              		.type	Codec_Deactivate, %function
+ 373              	Codec_Deactivate:
+ 374              	.LFB288:
+ 226:codec.c       **** 
+ 227:codec.c       **** /*******************************************************************************
+ 228:codec.c       **** * Function Name: Codec_Deactivate
+ 229:codec.c       **** ********************************************************************************
+ 230:codec.c       **** * Summary:
+ 231:codec.c       **** *   Deactivates the CODEC - the configuration is retained, just the CODEC input/outputs are
+ 232:codec.c       **** *	disabled. The function should be called before changing any setting in the codec over I2C
+ 233:codec.c       **** *
+ 234:codec.c       **** *
+ 235:codec.c       **** * Parameters:  
+ 236:codec.c       **** *	None
+ 237:codec.c       **** *
+ 238:codec.c       **** * Return:
+ 239:codec.c       **** *   uint32_t - I2C master transaction error status
+ 240:codec.c       **** *				CY_SCB_I2C_SUCCESS - Operation completed successfully                      
+ 241:codec.c       **** *				CY_SCB_I2C_MASTER_MANUAL_BUS_ERR - Bus error occurred   
+ 242:codec.c       **** *
+ 243:codec.c       **** *******************************************************************************/
+ 244:codec.c       **** uint32_t Codec_Deactivate(void)
+ 245:codec.c       **** {
+ 375              		.loc 1 245 0
+ 376              		.cfi_startproc
+ 377              		@ args = 0, pretend = 0, frame = 8
+ 378              		@ frame_needed = 1, uses_anonymous_args = 0
+ 379 0000 80B5     		push	{r7, lr}
+ 380              		.cfi_def_cfa_offset 8
+ 381              		.cfi_offset 7, -8
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 12
+
+
+ 382              		.cfi_offset 14, -4
+ 383 0002 82B0     		sub	sp, sp, #8
+ 384              		.cfi_def_cfa_offset 16
+ 385 0004 00AF     		add	r7, sp, #0
+ 386              		.cfi_def_cfa_register 7
+ 246:codec.c       ****     uint32_t ret;
+ 247:codec.c       ****    
+ 248:codec.c       ****     /* Disable Left/Right Channels */
+ 249:codec.c       ****     ret = Codec_SendData(CODEC_REG_PWR_MGMT2, 0x00);
+ 387              		.loc 1 249 0
+ 388 0006 0021     		movs	r1, #0
+ 389 0008 0120     		movs	r0, #1
+ 390 000a FFF7FEFF 		bl	Codec_SendData
+ 391 000e 7860     		str	r0, [r7, #4]
+ 250:codec.c       ****     
+ 251:codec.c       ****     /* Disable Power Management DAC */
+ 252:codec.c       ****     ret = Codec_SendData(CODEC_REG_PWR_MGMT1, CODEC_PWR_MGMT1_PMVCM);
+ 392              		.loc 1 252 0
+ 393 0010 4021     		movs	r1, #64
+ 394 0012 0020     		movs	r0, #0
+ 395 0014 FFF7FEFF 		bl	Codec_SendData
+ 396 0018 7860     		str	r0, [r7, #4]
+ 253:codec.c       ****     return ret;
+ 397              		.loc 1 253 0
+ 398 001a 7B68     		ldr	r3, [r7, #4]
+ 254:codec.c       **** }
+ 399              		.loc 1 254 0
+ 400 001c 1846     		mov	r0, r3
+ 401 001e 0837     		adds	r7, r7, #8
+ 402              		.cfi_def_cfa_offset 8
+ 403 0020 BD46     		mov	sp, r7
+ 404              		.cfi_def_cfa_register 13
+ 405              		@ sp needed
+ 406 0022 80BD     		pop	{r7, pc}
+ 407              		.cfi_endproc
+ 408              	.LFE288:
+ 409              		.size	Codec_Deactivate, .-Codec_Deactivate
+ 410              		.text
+ 411              	.Letext0:
+ 412              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 413              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 414              		.file 4 "codec.h"
+ 415              		.file 5 "Generated_Source\\PSoC6\\pdl\\devices/psoc6/ip/cyip_scb.h"
+ 416              		.file 6 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/scb/cy_scb_i2c.h"
+ 417              		.file 7 "Generated_Source\\PSoC6\\pdl\\cmsis/include/core_cm4.h"
+ 418              		.file 8 "Generated_Source\\PSoC6/CodecI2CM.h"
+ 419              		.section	.debug_info,"",%progbits
+ 420              	.Ldebug_info0:
+ 421 0000 8E090000 		.4byte	0x98e
+ 422 0004 0400     		.2byte	0x4
+ 423 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 424 000a 04       		.byte	0x4
+ 425 000b 01       		.uleb128 0x1
+ 426 000c 1F080000 		.4byte	.LASF150
+ 427 0010 0C       		.byte	0xc
+ 428 0011 BD060000 		.4byte	.LASF151
+ 429 0015 B7040000 		.4byte	.LASF152
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 13
+
+
+ 430 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 431 001d 00000000 		.4byte	0
+ 432 0021 00000000 		.4byte	.Ldebug_line0
+ 433 0025 02       		.uleb128 0x2
+ 434 0026 01       		.byte	0x1
+ 435 0027 06       		.byte	0x6
+ 436 0028 1B010000 		.4byte	.LASF0
+ 437 002c 03       		.uleb128 0x3
+ 438 002d 25000000 		.4byte	.LASF4
+ 439 0031 02       		.byte	0x2
+ 440 0032 1D       		.byte	0x1d
+ 441 0033 37000000 		.4byte	0x37
+ 442 0037 02       		.uleb128 0x2
+ 443 0038 01       		.byte	0x1
+ 444 0039 08       		.byte	0x8
+ 445 003a A9050000 		.4byte	.LASF1
+ 446 003e 02       		.uleb128 0x2
+ 447 003f 02       		.byte	0x2
+ 448 0040 05       		.byte	0x5
+ 449 0041 C6050000 		.4byte	.LASF2
+ 450 0045 02       		.uleb128 0x2
+ 451 0046 02       		.byte	0x2
+ 452 0047 07       		.byte	0x7
+ 453 0048 7C030000 		.4byte	.LASF3
+ 454 004c 03       		.uleb128 0x3
+ 455 004d CE060000 		.4byte	.LASF5
+ 456 0051 02       		.byte	0x2
+ 457 0052 3F       		.byte	0x3f
+ 458 0053 57000000 		.4byte	0x57
+ 459 0057 02       		.uleb128 0x2
+ 460 0058 04       		.byte	0x4
+ 461 0059 05       		.byte	0x5
+ 462 005a FA010000 		.4byte	.LASF6
+ 463 005e 03       		.uleb128 0x3
+ 464 005f 79020000 		.4byte	.LASF7
+ 465 0063 02       		.byte	0x2
+ 466 0064 41       		.byte	0x41
+ 467 0065 69000000 		.4byte	0x69
+ 468 0069 02       		.uleb128 0x2
+ 469 006a 04       		.byte	0x4
+ 470 006b 07       		.byte	0x7
+ 471 006c 41030000 		.4byte	.LASF8
+ 472 0070 02       		.uleb128 0x2
+ 473 0071 08       		.byte	0x8
+ 474 0072 05       		.byte	0x5
+ 475 0073 0D010000 		.4byte	.LASF9
+ 476 0077 02       		.uleb128 0x2
+ 477 0078 08       		.byte	0x8
+ 478 0079 07       		.byte	0x7
+ 479 007a 75000000 		.4byte	.LASF10
+ 480 007e 04       		.uleb128 0x4
+ 481 007f 04       		.byte	0x4
+ 482 0080 05       		.byte	0x5
+ 483 0081 696E7400 		.ascii	"int\000"
+ 484 0085 02       		.uleb128 0x2
+ 485 0086 04       		.byte	0x4
+ 486 0087 07       		.byte	0x7
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 14
+
+
+ 487 0088 D5020000 		.4byte	.LASF11
+ 488 008c 03       		.uleb128 0x3
+ 489 008d EC070000 		.4byte	.LASF12
+ 490 0091 03       		.byte	0x3
+ 491 0092 18       		.byte	0x18
+ 492 0093 2C000000 		.4byte	0x2c
+ 493 0097 03       		.uleb128 0x3
+ 494 0098 60040000 		.4byte	.LASF13
+ 495 009c 03       		.byte	0x3
+ 496 009d 2C       		.byte	0x2c
+ 497 009e 4C000000 		.4byte	0x4c
+ 498 00a2 03       		.uleb128 0x3
+ 499 00a3 58060000 		.4byte	.LASF14
+ 500 00a7 03       		.byte	0x3
+ 501 00a8 30       		.byte	0x30
+ 502 00a9 5E000000 		.4byte	0x5e
+ 503 00ad 03       		.uleb128 0x3
+ 504 00ae 9F030000 		.4byte	.LASF15
+ 505 00b2 04       		.byte	0x4
+ 506 00b3 C1       		.byte	0xc1
+ 507 00b4 B8000000 		.4byte	0xb8
+ 508 00b8 05       		.uleb128 0x5
+ 509 00b9 04       		.byte	0x4
+ 510 00ba BE000000 		.4byte	0xbe
+ 511 00be 06       		.uleb128 0x6
+ 512 00bf C9000000 		.4byte	0xc9
+ 513 00c3 07       		.uleb128 0x7
+ 514 00c4 A2000000 		.4byte	0xa2
+ 515 00c8 00       		.byte	0
+ 516 00c9 02       		.uleb128 0x2
+ 517 00ca 04       		.byte	0x4
+ 518 00cb 07       		.byte	0x7
+ 519 00cc FE070000 		.4byte	.LASF16
+ 520 00d0 08       		.uleb128 0x8
+ 521 00d1 A2000000 		.4byte	0xa2
+ 522 00d5 09       		.uleb128 0x9
+ 523 00d6 D0000000 		.4byte	0xd0
+ 524 00da 0A       		.uleb128 0xa
+ 525 00db D5000000 		.4byte	0xd5
+ 526 00df EA000000 		.4byte	0xea
+ 527 00e3 0B       		.uleb128 0xb
+ 528 00e4 C9000000 		.4byte	0xc9
+ 529 00e8 03       		.byte	0x3
+ 530 00e9 00       		.byte	0
+ 531 00ea 0A       		.uleb128 0xa
+ 532 00eb D5000000 		.4byte	0xd5
+ 533 00ef FA000000 		.4byte	0xfa
+ 534 00f3 0B       		.uleb128 0xb
+ 535 00f4 C9000000 		.4byte	0xc9
+ 536 00f8 05       		.byte	0x5
+ 537 00f9 00       		.byte	0
+ 538 00fa 0A       		.uleb128 0xa
+ 539 00fb D5000000 		.4byte	0xd5
+ 540 00ff 0A010000 		.4byte	0x10a
+ 541 0103 0B       		.uleb128 0xb
+ 542 0104 C9000000 		.4byte	0xc9
+ 543 0108 7F       		.byte	0x7f
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 15
+
+
+ 544 0109 00       		.byte	0
+ 545 010a 0A       		.uleb128 0xa
+ 546 010b D5000000 		.4byte	0xd5
+ 547 010f 1A010000 		.4byte	0x11a
+ 548 0113 0B       		.uleb128 0xb
+ 549 0114 C9000000 		.4byte	0xc9
+ 550 0118 02       		.byte	0x2
+ 551 0119 00       		.byte	0
+ 552 011a 0A       		.uleb128 0xa
+ 553 011b D5000000 		.4byte	0xd5
+ 554 011f 2A010000 		.4byte	0x12a
+ 555 0123 0B       		.uleb128 0xb
+ 556 0124 C9000000 		.4byte	0xc9
+ 557 0128 3E       		.byte	0x3e
+ 558 0129 00       		.byte	0
+ 559 012a 0A       		.uleb128 0xa
+ 560 012b D5000000 		.4byte	0xd5
+ 561 012f 3A010000 		.4byte	0x13a
+ 562 0133 0B       		.uleb128 0xb
+ 563 0134 C9000000 		.4byte	0xc9
+ 564 0138 1E       		.byte	0x1e
+ 565 0139 00       		.byte	0
+ 566 013a 0A       		.uleb128 0xa
+ 567 013b D5000000 		.4byte	0xd5
+ 568 013f 4A010000 		.4byte	0x14a
+ 569 0143 0B       		.uleb128 0xb
+ 570 0144 C9000000 		.4byte	0xc9
+ 571 0148 0B       		.byte	0xb
+ 572 0149 00       		.byte	0
+ 573 014a 0A       		.uleb128 0xa
+ 574 014b D5000000 		.4byte	0xd5
+ 575 014f 5A010000 		.4byte	0x15a
+ 576 0153 0B       		.uleb128 0xb
+ 577 0154 C9000000 		.4byte	0xc9
+ 578 0158 0C       		.byte	0xc
+ 579 0159 00       		.byte	0
+ 580 015a 0A       		.uleb128 0xa
+ 581 015b 8C000000 		.4byte	0x8c
+ 582 015f 6A010000 		.4byte	0x16a
+ 583 0163 0B       		.uleb128 0xb
+ 584 0164 C9000000 		.4byte	0xc9
+ 585 0168 01       		.byte	0x1
+ 586 0169 00       		.byte	0
+ 587 016a 0A       		.uleb128 0xa
+ 588 016b D5000000 		.4byte	0xd5
+ 589 016f 7A010000 		.4byte	0x17a
+ 590 0173 0B       		.uleb128 0xb
+ 591 0174 C9000000 		.4byte	0xc9
+ 592 0178 0A       		.byte	0xa
+ 593 0179 00       		.byte	0
+ 594 017a 0A       		.uleb128 0xa
+ 595 017b D5000000 		.4byte	0xd5
+ 596 017f 8A010000 		.4byte	0x18a
+ 597 0183 0B       		.uleb128 0xb
+ 598 0184 C9000000 		.4byte	0xc9
+ 599 0188 2E       		.byte	0x2e
+ 600 0189 00       		.byte	0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 16
+
+
+ 601 018a 0A       		.uleb128 0xa
+ 602 018b D5000000 		.4byte	0xd5
+ 603 018f 9A010000 		.4byte	0x19a
+ 604 0193 0B       		.uleb128 0xb
+ 605 0194 C9000000 		.4byte	0xc9
+ 606 0198 2D       		.byte	0x2d
+ 607 0199 00       		.byte	0
+ 608 019a 0C       		.uleb128 0xc
+ 609 019b D00F     		.2byte	0xfd0
+ 610 019d 05       		.byte	0x5
+ 611 019e 21       		.byte	0x21
+ 612 019f 1E050000 		.4byte	0x51e
+ 613 01a3 0D       		.uleb128 0xd
+ 614 01a4 5E070000 		.4byte	.LASF17
+ 615 01a8 05       		.byte	0x5
+ 616 01a9 22       		.byte	0x22
+ 617 01aa D0000000 		.4byte	0xd0
+ 618 01ae 00       		.byte	0
+ 619 01af 0D       		.uleb128 0xd
+ 620 01b0 C0070000 		.4byte	.LASF18
+ 621 01b4 05       		.byte	0x5
+ 622 01b5 23       		.byte	0x23
+ 623 01b6 D5000000 		.4byte	0xd5
+ 624 01ba 04       		.byte	0x4
+ 625 01bb 0D       		.uleb128 0xd
+ 626 01bc 30040000 		.4byte	.LASF19
+ 627 01c0 05       		.byte	0x5
+ 628 01c1 24       		.byte	0x24
+ 629 01c2 D0000000 		.4byte	0xd0
+ 630 01c6 08       		.byte	0x8
+ 631 01c7 0D       		.uleb128 0xd
+ 632 01c8 8F030000 		.4byte	.LASF20
+ 633 01cc 05       		.byte	0x5
+ 634 01cd 25       		.byte	0x25
+ 635 01ce D5000000 		.4byte	0xd5
+ 636 01d2 0C       		.byte	0xc
+ 637 01d3 0D       		.uleb128 0xd
+ 638 01d4 C5060000 		.4byte	.LASF21
+ 639 01d8 05       		.byte	0x5
+ 640 01d9 26       		.byte	0x26
+ 641 01da 23050000 		.4byte	0x523
+ 642 01de 10       		.byte	0x10
+ 643 01df 0D       		.uleb128 0xd
+ 644 01e0 97020000 		.4byte	.LASF22
+ 645 01e4 05       		.byte	0x5
+ 646 01e5 27       		.byte	0x27
+ 647 01e6 D0000000 		.4byte	0xd0
+ 648 01ea 20       		.byte	0x20
+ 649 01eb 0D       		.uleb128 0xd
+ 650 01ec 6C060000 		.4byte	.LASF23
+ 651 01f0 05       		.byte	0x5
+ 652 01f1 28       		.byte	0x28
+ 653 01f2 D5000000 		.4byte	0xd5
+ 654 01f6 24       		.byte	0x24
+ 655 01f7 0D       		.uleb128 0xd
+ 656 01f8 3C050000 		.4byte	.LASF24
+ 657 01fc 05       		.byte	0x5
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 17
+
+
+ 658 01fd 29       		.byte	0x29
+ 659 01fe 2D050000 		.4byte	0x52d
+ 660 0202 28       		.byte	0x28
+ 661 0203 0D       		.uleb128 0xd
+ 662 0204 17050000 		.4byte	.LASF25
+ 663 0208 05       		.byte	0x5
+ 664 0209 2A       		.byte	0x2a
+ 665 020a D0000000 		.4byte	0xd0
+ 666 020e 40       		.byte	0x40
+ 667 020f 0D       		.uleb128 0xd
+ 668 0210 65030000 		.4byte	.LASF26
+ 669 0214 05       		.byte	0x5
+ 670 0215 2B       		.byte	0x2b
+ 671 0216 D0000000 		.4byte	0xd0
+ 672 021a 44       		.byte	0x44
+ 673 021b 0D       		.uleb128 0xd
+ 674 021c 25030000 		.4byte	.LASF27
+ 675 0220 05       		.byte	0x5
+ 676 0221 2C       		.byte	0x2c
+ 677 0222 D0000000 		.4byte	0xd0
+ 678 0226 48       		.byte	0x48
+ 679 0227 0D       		.uleb128 0xd
+ 680 0228 BC030000 		.4byte	.LASF28
+ 681 022c 05       		.byte	0x5
+ 682 022d 2D       		.byte	0x2d
+ 683 022e D5000000 		.4byte	0xd5
+ 684 0232 4C       		.byte	0x4c
+ 685 0233 0D       		.uleb128 0xd
+ 686 0234 3E040000 		.4byte	.LASF29
+ 687 0238 05       		.byte	0x5
+ 688 0239 2E       		.byte	0x2e
+ 689 023a D0000000 		.4byte	0xd0
+ 690 023e 50       		.byte	0x50
+ 691 023f 0D       		.uleb128 0xd
+ 692 0240 46050000 		.4byte	.LASF30
+ 693 0244 05       		.byte	0x5
+ 694 0245 2F       		.byte	0x2f
+ 695 0246 37050000 		.4byte	0x537
+ 696 024a 54       		.byte	0x54
+ 697 024b 0D       		.uleb128 0xd
+ 698 024c 3B000000 		.4byte	.LASF31
+ 699 0250 05       		.byte	0x5
+ 700 0251 30       		.byte	0x30
+ 701 0252 D0000000 		.4byte	0xd0
+ 702 0256 60       		.byte	0x60
+ 703 0257 0D       		.uleb128 0xd
+ 704 0258 1A000000 		.4byte	.LASF32
+ 705 025c 05       		.byte	0x5
+ 706 025d 31       		.byte	0x31
+ 707 025e D5000000 		.4byte	0xd5
+ 708 0262 64       		.byte	0x64
+ 709 0263 0D       		.uleb128 0xd
+ 710 0264 F4070000 		.4byte	.LASF33
+ 711 0268 05       		.byte	0x5
+ 712 0269 32       		.byte	0x32
+ 713 026a D0000000 		.4byte	0xd0
+ 714 026e 68       		.byte	0x68
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 18
+
+
+ 715 026f 0D       		.uleb128 0xd
+ 716 0270 D0050000 		.4byte	.LASF34
+ 717 0274 05       		.byte	0x5
+ 718 0275 33       		.byte	0x33
+ 719 0276 D0000000 		.4byte	0xd0
+ 720 027a 6C       		.byte	0x6c
+ 721 027b 0D       		.uleb128 0xd
+ 722 027c B4030000 		.4byte	.LASF35
+ 723 0280 05       		.byte	0x5
+ 724 0281 34       		.byte	0x34
+ 725 0282 D0000000 		.4byte	0xd0
+ 726 0286 70       		.byte	0x70
+ 727 0287 0D       		.uleb128 0xd
+ 728 0288 50050000 		.4byte	.LASF36
+ 729 028c 05       		.byte	0x5
+ 730 028d 35       		.byte	0x35
+ 731 028e 51050000 		.4byte	0x551
+ 732 0292 74       		.byte	0x74
+ 733 0293 0E       		.uleb128 0xe
+ 734 0294 8C000000 		.4byte	.LASF37
+ 735 0298 05       		.byte	0x5
+ 736 0299 36       		.byte	0x36
+ 737 029a D0000000 		.4byte	0xd0
+ 738 029e 0001     		.2byte	0x100
+ 739 02a0 0E       		.uleb128 0xe
+ 740 02a1 5A050000 		.4byte	.LASF38
+ 741 02a5 05       		.byte	0x5
+ 742 02a6 37       		.byte	0x37
+ 743 02a7 5B050000 		.4byte	0x55b
+ 744 02ab 0401     		.2byte	0x104
+ 745 02ad 0E       		.uleb128 0xe
+ 746 02ae 40070000 		.4byte	.LASF39
+ 747 02b2 05       		.byte	0x5
+ 748 02b3 38       		.byte	0x38
+ 749 02b4 D0000000 		.4byte	0xd0
+ 750 02b8 0002     		.2byte	0x200
+ 751 02ba 0E       		.uleb128 0xe
+ 752 02bb 0D000000 		.4byte	.LASF40
+ 753 02bf 05       		.byte	0x5
+ 754 02c0 39       		.byte	0x39
+ 755 02c1 D0000000 		.4byte	0xd0
+ 756 02c5 0402     		.2byte	0x204
+ 757 02c7 0E       		.uleb128 0xe
+ 758 02c8 44000000 		.4byte	.LASF41
+ 759 02cc 05       		.byte	0x5
+ 760 02cd 3A       		.byte	0x3a
+ 761 02ce D5000000 		.4byte	0xd5
+ 762 02d2 0802     		.2byte	0x208
+ 763 02d4 0E       		.uleb128 0xe
+ 764 02d5 64050000 		.4byte	.LASF42
+ 765 02d9 05       		.byte	0x5
+ 766 02da 3B       		.byte	0x3b
+ 767 02db 65050000 		.4byte	0x565
+ 768 02df 0C02     		.2byte	0x20c
+ 769 02e1 0E       		.uleb128 0xe
+ 770 02e2 55020000 		.4byte	.LASF43
+ 771 02e6 05       		.byte	0x5
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 19
+
+
+ 772 02e7 3C       		.byte	0x3c
+ 773 02e8 D0000000 		.4byte	0xd0
+ 774 02ec 4002     		.2byte	0x240
+ 775 02ee 0E       		.uleb128 0xe
+ 776 02ef 6E050000 		.4byte	.LASF44
+ 777 02f3 05       		.byte	0x5
+ 778 02f4 3D       		.byte	0x3d
+ 779 02f5 6F050000 		.4byte	0x56f
+ 780 02f9 4402     		.2byte	0x244
+ 781 02fb 0E       		.uleb128 0xe
+ 782 02fc 2A090000 		.4byte	.LASF45
+ 783 0300 05       		.byte	0x5
+ 784 0301 3E       		.byte	0x3e
+ 785 0302 D0000000 		.4byte	0xd0
+ 786 0306 0003     		.2byte	0x300
+ 787 0308 0E       		.uleb128 0xe
+ 788 0309 DF070000 		.4byte	.LASF46
+ 789 030d 05       		.byte	0x5
+ 790 030e 3F       		.byte	0x3f
+ 791 030f D0000000 		.4byte	0xd0
+ 792 0313 0403     		.2byte	0x304
+ 793 0315 0E       		.uleb128 0xe
+ 794 0316 D8060000 		.4byte	.LASF47
+ 795 031a 05       		.byte	0x5
+ 796 031b 40       		.byte	0x40
+ 797 031c D5000000 		.4byte	0xd5
+ 798 0320 0803     		.2byte	0x308
+ 799 0322 0E       		.uleb128 0xe
+ 800 0323 78050000 		.4byte	.LASF48
+ 801 0327 05       		.byte	0x5
+ 802 0328 41       		.byte	0x41
+ 803 0329 D5000000 		.4byte	0xd5
+ 804 032d 0C03     		.2byte	0x30c
+ 805 032f 0E       		.uleb128 0xe
+ 806 0330 DC030000 		.4byte	.LASF49
+ 807 0334 05       		.byte	0x5
+ 808 0335 42       		.byte	0x42
+ 809 0336 D0000000 		.4byte	0xd0
+ 810 033a 1003     		.2byte	0x310
+ 811 033c 0E       		.uleb128 0xe
+ 812 033d 82050000 		.4byte	.LASF50
+ 813 0341 05       		.byte	0x5
+ 814 0342 43       		.byte	0x43
+ 815 0343 79050000 		.4byte	0x579
+ 816 0347 1403     		.2byte	0x314
+ 817 0349 0E       		.uleb128 0xe
+ 818 034a 36010000 		.4byte	.LASF51
+ 819 034e 05       		.byte	0x5
+ 820 034f 44       		.byte	0x44
+ 821 0350 D5000000 		.4byte	0xd5
+ 822 0354 4003     		.2byte	0x340
+ 823 0356 0E       		.uleb128 0xe
+ 824 0357 53030000 		.4byte	.LASF52
+ 825 035b 05       		.byte	0x5
+ 826 035c 45       		.byte	0x45
+ 827 035d D5000000 		.4byte	0xd5
+ 828 0361 4403     		.2byte	0x344
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 20
+
+
+ 829 0363 0E       		.uleb128 0xe
+ 830 0364 8C050000 		.4byte	.LASF53
+ 831 0368 05       		.byte	0x5
+ 832 0369 46       		.byte	0x46
+ 833 036a 83050000 		.4byte	0x583
+ 834 036e 4803     		.2byte	0x348
+ 835 0370 0E       		.uleb128 0xe
+ 836 0371 D4030000 		.4byte	.LASF54
+ 837 0375 05       		.byte	0x5
+ 838 0376 47       		.byte	0x47
+ 839 0377 99050000 		.4byte	0x599
+ 840 037b 0004     		.2byte	0x400
+ 841 037d 0E       		.uleb128 0xe
+ 842 037e 73010000 		.4byte	.LASF55
+ 843 0382 05       		.byte	0x5
+ 844 0383 48       		.byte	0x48
+ 845 0384 A3050000 		.4byte	0x5a3
+ 846 0388 000C     		.2byte	0xc00
+ 847 038a 0E       		.uleb128 0xe
+ 848 038b 1E020000 		.4byte	.LASF56
+ 849 038f 05       		.byte	0x5
+ 850 0390 49       		.byte	0x49
+ 851 0391 D5000000 		.4byte	0xd5
+ 852 0395 000E     		.2byte	0xe00
+ 853 0397 0E       		.uleb128 0xe
+ 854 0398 7E010000 		.4byte	.LASF57
+ 855 039c 05       		.byte	0x5
+ 856 039d 4A       		.byte	0x4a
+ 857 039e AD050000 		.4byte	0x5ad
+ 858 03a2 040E     		.2byte	0xe04
+ 859 03a4 0E       		.uleb128 0xe
+ 860 03a5 29020000 		.4byte	.LASF58
+ 861 03a9 05       		.byte	0x5
+ 862 03aa 4B       		.byte	0x4b
+ 863 03ab D0000000 		.4byte	0xd0
+ 864 03af 800E     		.2byte	0xe80
+ 865 03b1 0E       		.uleb128 0xe
+ 866 03b2 89010000 		.4byte	.LASF59
+ 867 03b6 05       		.byte	0x5
+ 868 03b7 4C       		.byte	0x4c
+ 869 03b8 D5000000 		.4byte	0xd5
+ 870 03bc 840E     		.2byte	0xe84
+ 871 03be 0E       		.uleb128 0xe
+ 872 03bf 0E080000 		.4byte	.LASF60
+ 873 03c3 05       		.byte	0x5
+ 874 03c4 4D       		.byte	0x4d
+ 875 03c5 D0000000 		.4byte	0xd0
+ 876 03c9 880E     		.2byte	0xe88
+ 877 03cb 0E       		.uleb128 0xe
+ 878 03cc 4D040000 		.4byte	.LASF61
+ 879 03d0 05       		.byte	0x5
+ 880 03d1 4E       		.byte	0x4e
+ 881 03d2 D5000000 		.4byte	0xd5
+ 882 03d6 8C0E     		.2byte	0xe8c
+ 883 03d8 0E       		.uleb128 0xe
+ 884 03d9 94010000 		.4byte	.LASF62
+ 885 03dd 05       		.byte	0x5
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 21
+
+
+ 886 03de 4F       		.byte	0x4f
+ 887 03df B7050000 		.4byte	0x5b7
+ 888 03e3 900E     		.2byte	0xe90
+ 889 03e5 0E       		.uleb128 0xe
+ 890 03e6 52070000 		.4byte	.LASF63
+ 891 03ea 05       		.byte	0x5
+ 892 03eb 50       		.byte	0x50
+ 893 03ec D0000000 		.4byte	0xd0
+ 894 03f0 C00E     		.2byte	0xec0
+ 895 03f2 0E       		.uleb128 0xe
+ 896 03f3 9F010000 		.4byte	.LASF64
+ 897 03f7 05       		.byte	0x5
+ 898 03f8 51       		.byte	0x51
+ 899 03f9 D5000000 		.4byte	0xd5
+ 900 03fd C40E     		.2byte	0xec4
+ 901 03ff 0E       		.uleb128 0xe
+ 902 0400 47060000 		.4byte	.LASF65
+ 903 0404 05       		.byte	0x5
+ 904 0405 52       		.byte	0x52
+ 905 0406 D0000000 		.4byte	0xd0
+ 906 040a C80E     		.2byte	0xec8
+ 907 040c 0E       		.uleb128 0xe
+ 908 040d 84020000 		.4byte	.LASF66
+ 909 0411 05       		.byte	0x5
+ 910 0412 53       		.byte	0x53
+ 911 0413 D5000000 		.4byte	0xd5
+ 912 0417 CC0E     		.2byte	0xecc
+ 913 0419 0E       		.uleb128 0xe
+ 914 041a AA010000 		.4byte	.LASF67
+ 915 041e 05       		.byte	0x5
+ 916 041f 54       		.byte	0x54
+ 917 0420 C1050000 		.4byte	0x5c1
+ 918 0424 D00E     		.2byte	0xed0
+ 919 0426 0E       		.uleb128 0xe
+ 920 0427 21050000 		.4byte	.LASF68
+ 921 042b 05       		.byte	0x5
+ 922 042c 55       		.byte	0x55
+ 923 042d D0000000 		.4byte	0xd0
+ 924 0431 000F     		.2byte	0xf00
+ 925 0433 0E       		.uleb128 0xe
+ 926 0434 61060000 		.4byte	.LASF69
+ 927 0438 05       		.byte	0x5
+ 928 0439 56       		.byte	0x56
+ 929 043a D0000000 		.4byte	0xd0
+ 930 043e 040F     		.2byte	0xf04
+ 931 0440 0E       		.uleb128 0xe
+ 932 0441 B1060000 		.4byte	.LASF70
+ 933 0445 05       		.byte	0x5
+ 934 0446 57       		.byte	0x57
+ 935 0447 D0000000 		.4byte	0xd0
+ 936 044b 080F     		.2byte	0xf08
+ 937 044d 0E       		.uleb128 0xe
+ 938 044e 22040000 		.4byte	.LASF71
+ 939 0452 05       		.byte	0x5
+ 940 0453 58       		.byte	0x58
+ 941 0454 D5000000 		.4byte	0xd5
+ 942 0458 0C0F     		.2byte	0xf0c
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 22
+
+
+ 943 045a 0E       		.uleb128 0xe
+ 944 045b B5010000 		.4byte	.LASF72
+ 945 045f 05       		.byte	0x5
+ 946 0460 59       		.byte	0x59
+ 947 0461 CB050000 		.4byte	0x5cb
+ 948 0465 100F     		.2byte	0xf10
+ 949 0467 0E       		.uleb128 0xe
+ 950 0468 28050000 		.4byte	.LASF73
+ 951 046c 05       		.byte	0x5
+ 952 046d 5A       		.byte	0x5a
+ 953 046e D0000000 		.4byte	0xd0
+ 954 0472 400F     		.2byte	0xf40
+ 955 0474 0E       		.uleb128 0xe
+ 956 0475 32090000 		.4byte	.LASF74
+ 957 0479 05       		.byte	0x5
+ 958 047a 5B       		.byte	0x5b
+ 959 047b D0000000 		.4byte	0xd0
+ 960 047f 440F     		.2byte	0xf44
+ 961 0481 0E       		.uleb128 0xe
+ 962 0482 9B000000 		.4byte	.LASF75
+ 963 0486 05       		.byte	0x5
+ 964 0487 5C       		.byte	0x5c
+ 965 0488 D0000000 		.4byte	0xd0
+ 966 048c 480F     		.2byte	0xf48
+ 967 048e 0E       		.uleb128 0xe
+ 968 048f E5030000 		.4byte	.LASF76
+ 969 0493 05       		.byte	0x5
+ 970 0494 5D       		.byte	0x5d
+ 971 0495 D5000000 		.4byte	0xd5
+ 972 0499 4C0F     		.2byte	0xf4c
+ 973 049b 0E       		.uleb128 0xe
+ 974 049c C0010000 		.4byte	.LASF77
+ 975 04a0 05       		.byte	0x5
+ 976 04a1 5E       		.byte	0x5e
+ 977 04a2 D5050000 		.4byte	0x5d5
+ 978 04a6 500F     		.2byte	0xf50
+ 979 04a8 0E       		.uleb128 0xe
+ 980 04a9 1A040000 		.4byte	.LASF78
+ 981 04ad 05       		.byte	0x5
+ 982 04ae 5F       		.byte	0x5f
+ 983 04af D0000000 		.4byte	0xd0
+ 984 04b3 800F     		.2byte	0xf80
+ 985 04b5 0E       		.uleb128 0xe
+ 986 04b6 A5060000 		.4byte	.LASF79
+ 987 04ba 05       		.byte	0x5
+ 988 04bb 60       		.byte	0x60
+ 989 04bc D0000000 		.4byte	0xd0
+ 990 04c0 840F     		.2byte	0xf84
+ 991 04c2 0E       		.uleb128 0xe
+ 992 04c3 E7060000 		.4byte	.LASF80
+ 993 04c7 05       		.byte	0x5
+ 994 04c8 61       		.byte	0x61
+ 995 04c9 D0000000 		.4byte	0xd0
+ 996 04cd 880F     		.2byte	0xf88
+ 997 04cf 0E       		.uleb128 0xe
+ 998 04d0 B7050000 		.4byte	.LASF81
+ 999 04d4 05       		.byte	0x5
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 23
+
+
+ 1000 04d5 62       		.byte	0x62
+ 1001 04d6 D5000000 		.4byte	0xd5
+ 1002 04da 8C0F     		.2byte	0xf8c
+ 1003 04dc 0E       		.uleb128 0xe
+ 1004 04dd CB010000 		.4byte	.LASF82
+ 1005 04e1 05       		.byte	0x5
+ 1006 04e2 63       		.byte	0x63
+ 1007 04e3 DF050000 		.4byte	0x5df
+ 1008 04e7 900F     		.2byte	0xf90
+ 1009 04e9 0E       		.uleb128 0xe
+ 1010 04ea 35020000 		.4byte	.LASF83
+ 1011 04ee 05       		.byte	0x5
+ 1012 04ef 64       		.byte	0x64
+ 1013 04f0 D0000000 		.4byte	0xd0
+ 1014 04f4 C00F     		.2byte	0xfc0
+ 1015 04f6 0E       		.uleb128 0xe
+ 1016 04f7 49020000 		.4byte	.LASF84
+ 1017 04fb 05       		.byte	0x5
+ 1018 04fc 65       		.byte	0x65
+ 1019 04fd D0000000 		.4byte	0xd0
+ 1020 0501 C40F     		.2byte	0xfc4
+ 1021 0503 0E       		.uleb128 0xe
+ 1022 0504 98060000 		.4byte	.LASF85
+ 1023 0508 05       		.byte	0x5
+ 1024 0509 66       		.byte	0x66
+ 1025 050a D0000000 		.4byte	0xd0
+ 1026 050e C80F     		.2byte	0xfc8
+ 1027 0510 0E       		.uleb128 0xe
+ 1028 0511 32030000 		.4byte	.LASF86
+ 1029 0515 05       		.byte	0x5
+ 1030 0516 67       		.byte	0x67
+ 1031 0517 D5000000 		.4byte	0xd5
+ 1032 051b CC0F     		.2byte	0xfcc
+ 1033 051d 00       		.byte	0
+ 1034 051e 08       		.uleb128 0x8
+ 1035 051f DA000000 		.4byte	0xda
+ 1036 0523 09       		.uleb128 0x9
+ 1037 0524 1E050000 		.4byte	0x51e
+ 1038 0528 08       		.uleb128 0x8
+ 1039 0529 EA000000 		.4byte	0xea
+ 1040 052d 09       		.uleb128 0x9
+ 1041 052e 28050000 		.4byte	0x528
+ 1042 0532 08       		.uleb128 0x8
+ 1043 0533 0A010000 		.4byte	0x10a
+ 1044 0537 09       		.uleb128 0x9
+ 1045 0538 32050000 		.4byte	0x532
+ 1046 053c 0A       		.uleb128 0xa
+ 1047 053d D5000000 		.4byte	0xd5
+ 1048 0541 4C050000 		.4byte	0x54c
+ 1049 0545 0B       		.uleb128 0xb
+ 1050 0546 C9000000 		.4byte	0xc9
+ 1051 054a 22       		.byte	0x22
+ 1052 054b 00       		.byte	0
+ 1053 054c 08       		.uleb128 0x8
+ 1054 054d 3C050000 		.4byte	0x53c
+ 1055 0551 09       		.uleb128 0x9
+ 1056 0552 4C050000 		.4byte	0x54c
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 24
+
+
+ 1057 0556 08       		.uleb128 0x8
+ 1058 0557 1A010000 		.4byte	0x11a
+ 1059 055b 09       		.uleb128 0x9
+ 1060 055c 56050000 		.4byte	0x556
+ 1061 0560 08       		.uleb128 0x8
+ 1062 0561 4A010000 		.4byte	0x14a
+ 1063 0565 09       		.uleb128 0x9
+ 1064 0566 60050000 		.4byte	0x560
+ 1065 056a 08       		.uleb128 0x8
+ 1066 056b 7A010000 		.4byte	0x17a
+ 1067 056f 09       		.uleb128 0x9
+ 1068 0570 6A050000 		.4byte	0x56a
+ 1069 0574 08       		.uleb128 0x8
+ 1070 0575 6A010000 		.4byte	0x16a
+ 1071 0579 09       		.uleb128 0x9
+ 1072 057a 74050000 		.4byte	0x574
+ 1073 057e 08       		.uleb128 0x8
+ 1074 057f 8A010000 		.4byte	0x18a
+ 1075 0583 09       		.uleb128 0x9
+ 1076 0584 7E050000 		.4byte	0x57e
+ 1077 0588 0A       		.uleb128 0xa
+ 1078 0589 D0000000 		.4byte	0xd0
+ 1079 058d 99050000 		.4byte	0x599
+ 1080 0591 0F       		.uleb128 0xf
+ 1081 0592 C9000000 		.4byte	0xc9
+ 1082 0596 FF01     		.2byte	0x1ff
+ 1083 0598 00       		.byte	0
+ 1084 0599 08       		.uleb128 0x8
+ 1085 059a 88050000 		.4byte	0x588
+ 1086 059e 08       		.uleb128 0x8
+ 1087 059f FA000000 		.4byte	0xfa
+ 1088 05a3 09       		.uleb128 0x9
+ 1089 05a4 9E050000 		.4byte	0x59e
+ 1090 05a8 08       		.uleb128 0x8
+ 1091 05a9 2A010000 		.4byte	0x12a
+ 1092 05ad 09       		.uleb128 0x9
+ 1093 05ae A8050000 		.4byte	0x5a8
+ 1094 05b2 08       		.uleb128 0x8
+ 1095 05b3 3A010000 		.4byte	0x13a
+ 1096 05b7 09       		.uleb128 0x9
+ 1097 05b8 B2050000 		.4byte	0x5b2
+ 1098 05bc 08       		.uleb128 0x8
+ 1099 05bd 3A010000 		.4byte	0x13a
+ 1100 05c1 09       		.uleb128 0x9
+ 1101 05c2 BC050000 		.4byte	0x5bc
+ 1102 05c6 08       		.uleb128 0x8
+ 1103 05c7 3A010000 		.4byte	0x13a
+ 1104 05cb 09       		.uleb128 0x9
+ 1105 05cc C6050000 		.4byte	0x5c6
+ 1106 05d0 08       		.uleb128 0x8
+ 1107 05d1 3A010000 		.4byte	0x13a
+ 1108 05d5 09       		.uleb128 0x9
+ 1109 05d6 D0050000 		.4byte	0x5d0
+ 1110 05da 08       		.uleb128 0x8
+ 1111 05db 3A010000 		.4byte	0x13a
+ 1112 05df 09       		.uleb128 0x9
+ 1113 05e0 DA050000 		.4byte	0x5da
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 25
+
+
+ 1114 05e4 03       		.uleb128 0x3
+ 1115 05e5 9C040000 		.4byte	.LASF87
+ 1116 05e9 05       		.byte	0x5
+ 1117 05ea 68       		.byte	0x68
+ 1118 05eb 9A010000 		.4byte	0x19a
+ 1119 05ef 02       		.uleb128 0x2
+ 1120 05f0 08       		.byte	0x8
+ 1121 05f1 04       		.byte	0x4
+ 1122 05f2 77060000 		.4byte	.LASF88
+ 1123 05f6 02       		.uleb128 0x2
+ 1124 05f7 01       		.byte	0x1
+ 1125 05f8 08       		.byte	0x8
+ 1126 05f9 83060000 		.4byte	.LASF89
+ 1127 05fd 02       		.uleb128 0x2
+ 1128 05fe 04       		.byte	0x4
+ 1129 05ff 04       		.byte	0x4
+ 1130 0600 2F050000 		.4byte	.LASF90
+ 1131 0604 02       		.uleb128 0x2
+ 1132 0605 08       		.byte	0x8
+ 1133 0606 04       		.byte	0x4
+ 1134 0607 60020000 		.4byte	.LASF91
+ 1135 060b 10       		.uleb128 0x10
+ 1136 060c 04       		.byte	0x4
+ 1137 060d 85000000 		.4byte	0x85
+ 1138 0611 06       		.byte	0x6
+ 1139 0612 9801     		.2byte	0x198
+ 1140 0614 67060000 		.4byte	0x667
+ 1141 0618 11       		.uleb128 0x11
+ 1142 0619 A5020000 		.4byte	.LASF92
+ 1143 061d 00       		.byte	0
+ 1144 061e 12       		.uleb128 0x12
+ 1145 061f 23070000 		.4byte	.LASF93
+ 1146 0623 0120AA00 		.4byte	0xaa2001
+ 1147 0627 12       		.uleb128 0x12
+ 1148 0628 84070000 		.4byte	.LASF94
+ 1149 062c 0220AA00 		.4byte	0xaa2002
+ 1150 0630 12       		.uleb128 0x12
+ 1151 0631 63070000 		.4byte	.LASF95
+ 1152 0635 0320AA00 		.4byte	0xaa2003
+ 1153 0639 12       		.uleb128 0x12
+ 1154 063a 53000000 		.4byte	.LASF96
+ 1155 063e 0420AA00 		.4byte	0xaa2004
+ 1156 0642 12       		.uleb128 0x12
+ 1157 0643 B8020000 		.4byte	.LASF97
+ 1158 0647 0520AA00 		.4byte	0xaa2005
+ 1159 064b 12       		.uleb128 0x12
+ 1160 064c 68040000 		.4byte	.LASF98
+ 1161 0650 0620AA00 		.4byte	0xaa2006
+ 1162 0654 12       		.uleb128 0x12
+ 1163 0655 09090000 		.4byte	.LASF99
+ 1164 0659 0720AA00 		.4byte	0xaa2007
+ 1165 065d 12       		.uleb128 0x12
+ 1166 065e E4080000 		.4byte	.LASF100
+ 1167 0662 0820AA00 		.4byte	0xaa2008
+ 1168 0666 00       		.byte	0
+ 1169 0667 10       		.uleb128 0x10
+ 1170 0668 01       		.byte	0x1
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 26
+
+
+ 1171 0669 37000000 		.4byte	0x37
+ 1172 066d 06       		.byte	0x6
+ 1173 066e DE01     		.2byte	0x1de
+ 1174 0670 81060000 		.4byte	0x681
+ 1175 0674 11       		.uleb128 0x11
+ 1176 0675 14070000 		.4byte	.LASF101
+ 1177 0679 00       		.byte	0
+ 1178 067a 11       		.uleb128 0x11
+ 1179 067b 0F020000 		.4byte	.LASF102
+ 1180 067f 01       		.byte	0x1
+ 1181 0680 00       		.byte	0
+ 1182 0681 13       		.uleb128 0x13
+ 1183 0682 C7070000 		.4byte	.LASF103
+ 1184 0686 06       		.byte	0x6
+ 1185 0687 E101     		.2byte	0x1e1
+ 1186 0689 67060000 		.4byte	0x667
+ 1187 068d 13       		.uleb128 0x13
+ 1188 068e DC010000 		.4byte	.LASF104
+ 1189 0692 06       		.byte	0x6
+ 1190 0693 F301     		.2byte	0x1f3
+ 1191 0695 B8000000 		.4byte	0xb8
+ 1192 0699 13       		.uleb128 0x13
+ 1193 069a 0B060000 		.4byte	.LASF105
+ 1194 069e 06       		.byte	0x6
+ 1195 069f FE01     		.2byte	0x1fe
+ 1196 06a1 A5060000 		.4byte	0x6a5
+ 1197 06a5 05       		.uleb128 0x5
+ 1198 06a6 04       		.byte	0x4
+ 1199 06a7 AB060000 		.4byte	0x6ab
+ 1200 06ab 14       		.uleb128 0x14
+ 1201 06ac 81060000 		.4byte	0x681
+ 1202 06b0 BA060000 		.4byte	0x6ba
+ 1203 06b4 07       		.uleb128 0x7
+ 1204 06b5 A2000000 		.4byte	0xa2
+ 1205 06b9 00       		.byte	0
+ 1206 06ba 02       		.uleb128 0x2
+ 1207 06bb 01       		.byte	0x1
+ 1208 06bc 02       		.byte	0x2
+ 1209 06bd 96050000 		.4byte	.LASF106
+ 1210 06c1 15       		.uleb128 0x15
+ 1211 06c2 D2000000 		.4byte	.LASF129
+ 1212 06c6 4C       		.byte	0x4c
+ 1213 06c7 06       		.byte	0x6
+ 1214 06c8 6502     		.2byte	0x265
+ 1215 06ca E0070000 		.4byte	0x7e0
+ 1216 06ce 16       		.uleb128 0x16
+ 1217 06cf 48070000 		.4byte	.LASF107
+ 1218 06d3 06       		.byte	0x6
+ 1219 06d4 6802     		.2byte	0x268
+ 1220 06d6 BA060000 		.4byte	0x6ba
+ 1221 06da 00       		.byte	0
+ 1222 06db 16       		.uleb128 0x16
+ 1223 06dc 72030000 		.4byte	.LASF108
+ 1224 06e0 06       		.byte	0x6
+ 1225 06e1 6902     		.2byte	0x269
+ 1226 06e3 BA060000 		.4byte	0x6ba
+ 1227 06e7 01       		.byte	0x1
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 27
+
+
+ 1228 06e8 16       		.uleb128 0x16
+ 1229 06e9 D6010000 		.4byte	.LASF109
+ 1230 06ed 06       		.byte	0x6
+ 1231 06ee 6B02     		.2byte	0x26b
+ 1232 06f0 D0000000 		.4byte	0xd0
+ 1233 06f4 04       		.byte	0x4
+ 1234 06f5 16       		.uleb128 0x16
+ 1235 06f6 A7000000 		.4byte	.LASF110
+ 1236 06fa 06       		.byte	0x6
+ 1237 06fb 6D02     		.2byte	0x26d
+ 1238 06fd D0000000 		.4byte	0xd0
+ 1239 0701 08       		.byte	0x8
+ 1240 0702 16       		.uleb128 0x16
+ 1241 0703 FF050000 		.4byte	.LASF111
+ 1242 0707 06       		.byte	0x6
+ 1243 0708 6E02     		.2byte	0x26e
+ 1244 070a BA060000 		.4byte	0x6ba
+ 1245 070e 0C       		.byte	0xc
+ 1246 070f 16       		.uleb128 0x16
+ 1247 0710 03020000 		.4byte	.LASF112
+ 1248 0714 06       		.byte	0x6
+ 1249 0715 6F02     		.2byte	0x26f
+ 1250 0717 BA060000 		.4byte	0x6ba
+ 1251 071b 0D       		.byte	0xd
+ 1252 071c 16       		.uleb128 0x16
+ 1253 071d 00000000 		.4byte	.LASF113
+ 1254 0721 06       		.byte	0x6
+ 1255 0722 7102     		.2byte	0x271
+ 1256 0724 E0070000 		.4byte	0x7e0
+ 1257 0728 10       		.byte	0x10
+ 1258 0729 16       		.uleb128 0x16
+ 1259 072a DA050000 		.4byte	.LASF114
+ 1260 072e 06       		.byte	0x6
+ 1261 072f 7202     		.2byte	0x272
+ 1262 0731 A2000000 		.4byte	0xa2
+ 1263 0735 14       		.byte	0x14
+ 1264 0736 16       		.uleb128 0x16
+ 1265 0737 A7040000 		.4byte	.LASF115
+ 1266 073b 06       		.byte	0x6
+ 1267 073c 7302     		.2byte	0x273
+ 1268 073e D0000000 		.4byte	0xd0
+ 1269 0742 18       		.byte	0x18
+ 1270 0743 16       		.uleb128 0x16
+ 1271 0744 27060000 		.4byte	.LASF116
+ 1272 0748 06       		.byte	0x6
+ 1273 0749 7402     		.2byte	0x274
+ 1274 074b D0000000 		.4byte	0xd0
+ 1275 074f 1C       		.byte	0x1c
+ 1276 0750 16       		.uleb128 0x16
+ 1277 0751 2F000000 		.4byte	.LASF117
+ 1278 0755 06       		.byte	0x6
+ 1279 0756 7602     		.2byte	0x276
+ 1280 0758 D0000000 		.4byte	0xd0
+ 1281 075c 20       		.byte	0x20
+ 1282 075d 16       		.uleb128 0x16
+ 1283 075e F3020000 		.4byte	.LASF118
+ 1284 0762 06       		.byte	0x6
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 28
+
+
+ 1285 0763 7702     		.2byte	0x277
+ 1286 0765 E6070000 		.4byte	0x7e6
+ 1287 0769 24       		.byte	0x24
+ 1288 076a 16       		.uleb128 0x16
+ 1289 076b A0070000 		.4byte	.LASF119
+ 1290 076f 06       		.byte	0x6
+ 1291 0770 7902     		.2byte	0x279
+ 1292 0772 E0070000 		.4byte	0x7e0
+ 1293 0776 28       		.byte	0x28
+ 1294 0777 16       		.uleb128 0x16
+ 1295 0778 AE070000 		.4byte	.LASF120
+ 1296 077c 06       		.byte	0x6
+ 1297 077d 7A02     		.2byte	0x27a
+ 1298 077f A2000000 		.4byte	0xa2
+ 1299 0783 2C       		.byte	0x2c
+ 1300 0784 16       		.uleb128 0x16
+ 1301 0785 E2020000 		.4byte	.LASF121
+ 1302 0789 06       		.byte	0x6
+ 1303 078a 7B02     		.2byte	0x27b
+ 1304 078c D0000000 		.4byte	0xd0
+ 1305 0790 30       		.byte	0x30
+ 1306 0791 16       		.uleb128 0x16
+ 1307 0792 36060000 		.4byte	.LASF122
+ 1308 0796 06       		.byte	0x6
+ 1309 0797 7C02     		.2byte	0x27c
+ 1310 0799 D0000000 		.4byte	0xd0
+ 1311 079d 34       		.byte	0x34
+ 1312 079e 16       		.uleb128 0x16
+ 1313 079f 0C040000 		.4byte	.LASF123
+ 1314 07a3 06       		.byte	0x6
+ 1315 07a4 7E02     		.2byte	0x27e
+ 1316 07a6 E0070000 		.4byte	0x7e0
+ 1317 07aa 38       		.byte	0x38
+ 1318 07ab 16       		.uleb128 0x16
+ 1319 07ac 41010000 		.4byte	.LASF124
+ 1320 07b0 06       		.byte	0x6
+ 1321 07b1 7F02     		.2byte	0x27f
+ 1322 07b3 A2000000 		.4byte	0xa2
+ 1323 07b7 3C       		.byte	0x3c
+ 1324 07b8 16       		.uleb128 0x16
+ 1325 07b9 C1000000 		.4byte	.LASF125
+ 1326 07bd 06       		.byte	0x6
+ 1327 07be 8002     		.2byte	0x280
+ 1328 07c0 D0000000 		.4byte	0xd0
+ 1329 07c4 40       		.byte	0x40
+ 1330 07c5 16       		.uleb128 0x16
+ 1331 07c6 CB030000 		.4byte	.LASF126
+ 1332 07ca 06       		.byte	0x6
+ 1333 07cb 8602     		.2byte	0x286
+ 1334 07cd 8D060000 		.4byte	0x68d
+ 1335 07d1 44       		.byte	0x44
+ 1336 07d2 16       		.uleb128 0x16
+ 1337 07d3 72020000 		.4byte	.LASF127
+ 1338 07d7 06       		.byte	0x6
+ 1339 07d8 8D02     		.2byte	0x28d
+ 1340 07da 99060000 		.4byte	0x699
+ 1341 07de 48       		.byte	0x48
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 29
+
+
+ 1342 07df 00       		.byte	0
+ 1343 07e0 05       		.uleb128 0x5
+ 1344 07e1 04       		.byte	0x4
+ 1345 07e2 8C000000 		.4byte	0x8c
+ 1346 07e6 08       		.uleb128 0x8
+ 1347 07e7 BA060000 		.4byte	0x6ba
+ 1348 07eb 13       		.uleb128 0x13
+ 1349 07ec F3030000 		.4byte	.LASF128
+ 1350 07f0 06       		.byte	0x6
+ 1351 07f1 9002     		.2byte	0x290
+ 1352 07f3 C1060000 		.4byte	0x6c1
+ 1353 07f7 15       		.uleb128 0x15
+ 1354 07f8 03030000 		.4byte	.LASF130
+ 1355 07fc 10       		.byte	0x10
+ 1356 07fd 06       		.byte	0x6
+ 1357 07fe 9302     		.2byte	0x293
+ 1358 0800 39080000 		.4byte	0x839
+ 1359 0804 16       		.uleb128 0x16
+ 1360 0805 9C050000 		.4byte	.LASF131
+ 1361 0809 06       		.byte	0x6
+ 1362 080a 9602     		.2byte	0x296
+ 1363 080c 8C000000 		.4byte	0x8c
+ 1364 0810 00       		.byte	0
+ 1365 0811 16       		.uleb128 0x16
+ 1366 0812 35050000 		.4byte	.LASF132
+ 1367 0816 06       		.byte	0x6
+ 1368 0817 9C02     		.2byte	0x29c
+ 1369 0819 E0070000 		.4byte	0x7e0
+ 1370 081d 04       		.byte	0x4
+ 1371 081e 16       		.uleb128 0x16
+ 1372 081f 8D060000 		.4byte	.LASF133
+ 1373 0823 06       		.byte	0x6
+ 1374 0824 9F02     		.2byte	0x29f
+ 1375 0826 A2000000 		.4byte	0xa2
+ 1376 082a 08       		.byte	0x8
+ 1377 082b 16       		.uleb128 0x16
+ 1378 082c 3D020000 		.4byte	.LASF134
+ 1379 0830 06       		.byte	0x6
+ 1380 0831 A502     		.2byte	0x2a5
+ 1381 0833 BA060000 		.4byte	0x6ba
+ 1382 0837 0C       		.byte	0xc
+ 1383 0838 00       		.byte	0
+ 1384 0839 13       		.uleb128 0x13
+ 1385 083a E9000000 		.4byte	.LASF135
+ 1386 083e 06       		.byte	0x6
+ 1387 083f A602     		.2byte	0x2a6
+ 1388 0841 F7070000 		.4byte	0x7f7
+ 1389 0845 17       		.uleb128 0x17
+ 1390 0846 67020000 		.4byte	.LASF136
+ 1391 084a 01       		.byte	0x1
+ 1392 084b 4A       		.byte	0x4a
+ 1393 084c A2000000 		.4byte	0xa2
+ 1394 0850 00000000 		.4byte	.LFB284
+ 1395 0854 98000000 		.4byte	.LFE284-.LFB284
+ 1396 0858 01       		.uleb128 0x1
+ 1397 0859 9C       		.byte	0x9c
+ 1398 085a 7B080000 		.4byte	0x87b
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 30
+
+
+ 1399 085e 18       		.uleb128 0x18
+ 1400 085f 88060000 		.4byte	.LASF138
+ 1401 0863 01       		.byte	0x1
+ 1402 0864 4A       		.byte	0x4a
+ 1403 0865 AD000000 		.4byte	0xad
+ 1404 0869 02       		.uleb128 0x2
+ 1405 086a 91       		.byte	0x91
+ 1406 086b 6C       		.sleb128 -20
+ 1407 086c 19       		.uleb128 0x19
+ 1408 086d 72657400 		.ascii	"ret\000"
+ 1409 0871 01       		.byte	0x1
+ 1410 0872 4C       		.byte	0x4c
+ 1411 0873 A2000000 		.4byte	0xa2
+ 1412 0877 02       		.uleb128 0x2
+ 1413 0878 91       		.byte	0x91
+ 1414 0879 74       		.sleb128 -12
+ 1415 087a 00       		.byte	0
+ 1416 087b 17       		.uleb128 0x17
+ 1417 087c 27010000 		.4byte	.LASF137
+ 1418 0880 01       		.byte	0x1
+ 1419 0881 85       		.byte	0x85
+ 1420 0882 A2000000 		.4byte	0xa2
+ 1421 0886 00000000 		.4byte	.LFB285
+ 1422 088a 88000000 		.4byte	.LFE285-.LFB285
+ 1423 088e 01       		.uleb128 0x1
+ 1424 088f 9C       		.byte	0x9c
+ 1425 0890 CD080000 		.4byte	0x8cd
+ 1426 0894 18       		.uleb128 0x18
+ 1427 0895 38070000 		.4byte	.LASF139
+ 1428 0899 01       		.byte	0x1
+ 1429 089a 85       		.byte	0x85
+ 1430 089b 8C000000 		.4byte	0x8c
+ 1431 089f 02       		.uleb128 0x2
+ 1432 08a0 91       		.byte	0x91
+ 1433 08a1 6F       		.sleb128 -17
+ 1434 08a2 18       		.uleb128 0x18
+ 1435 08a3 96000000 		.4byte	.LASF140
+ 1436 08a7 01       		.byte	0x1
+ 1437 08a8 85       		.byte	0x85
+ 1438 08a9 8C000000 		.4byte	0x8c
+ 1439 08ad 02       		.uleb128 0x2
+ 1440 08ae 91       		.byte	0x91
+ 1441 08af 6E       		.sleb128 -18
+ 1442 08b0 1A       		.uleb128 0x1a
+ 1443 08b1 A0020000 		.4byte	.LASF141
+ 1444 08b5 01       		.byte	0x1
+ 1445 08b6 87       		.byte	0x87
+ 1446 08b7 A2000000 		.4byte	0xa2
+ 1447 08bb 02       		.uleb128 0x2
+ 1448 08bc 91       		.byte	0x91
+ 1449 08bd 74       		.sleb128 -12
+ 1450 08be 1A       		.uleb128 0x1a
+ 1451 08bf 35050000 		.4byte	.LASF132
+ 1452 08c3 01       		.byte	0x1
+ 1453 08c4 88       		.byte	0x88
+ 1454 08c5 5A010000 		.4byte	0x15a
+ 1455 08c9 02       		.uleb128 0x2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 31
+
+
+ 1456 08ca 91       		.byte	0x91
+ 1457 08cb 70       		.sleb128 -16
+ 1458 08cc 00       		.byte	0
+ 1459 08cd 17       		.uleb128 0x17
+ 1460 08ce 53010000 		.4byte	.LASF142
+ 1461 08d2 01       		.byte	0x1
+ 1462 08d3 BC       		.byte	0xbc
+ 1463 08d4 A2000000 		.4byte	0xa2
+ 1464 08d8 00000000 		.4byte	.LFB286
+ 1465 08dc 34000000 		.4byte	.LFE286-.LFB286
+ 1466 08e0 01       		.uleb128 0x1
+ 1467 08e1 9C       		.byte	0x9c
+ 1468 08e2 03090000 		.4byte	0x903
+ 1469 08e6 18       		.uleb128 0x18
+ 1470 08e7 07080000 		.4byte	.LASF143
+ 1471 08eb 01       		.byte	0x1
+ 1472 08ec BC       		.byte	0xbc
+ 1473 08ed 8C000000 		.4byte	0x8c
+ 1474 08f1 02       		.uleb128 0x2
+ 1475 08f2 91       		.byte	0x91
+ 1476 08f3 6F       		.sleb128 -17
+ 1477 08f4 19       		.uleb128 0x19
+ 1478 08f5 72657400 		.ascii	"ret\000"
+ 1479 08f9 01       		.byte	0x1
+ 1480 08fa BE       		.byte	0xbe
+ 1481 08fb A2000000 		.4byte	0xa2
+ 1482 08ff 02       		.uleb128 0x2
+ 1483 0900 91       		.byte	0x91
+ 1484 0901 74       		.sleb128 -12
+ 1485 0902 00       		.byte	0
+ 1486 0903 17       		.uleb128 0x17
+ 1487 0904 F4060000 		.4byte	.LASF144
+ 1488 0908 01       		.byte	0x1
+ 1489 0909 D6       		.byte	0xd6
+ 1490 090a A2000000 		.4byte	0xa2
+ 1491 090e 00000000 		.4byte	.LFB287
+ 1492 0912 2E000000 		.4byte	.LFE287-.LFB287
+ 1493 0916 01       		.uleb128 0x1
+ 1494 0917 9C       		.byte	0x9c
+ 1495 0918 2B090000 		.4byte	0x92b
+ 1496 091c 19       		.uleb128 0x19
+ 1497 091d 72657400 		.ascii	"ret\000"
+ 1498 0921 01       		.byte	0x1
+ 1499 0922 D8       		.byte	0xd8
+ 1500 0923 A2000000 		.4byte	0xa2
+ 1501 0927 02       		.uleb128 0x2
+ 1502 0928 91       		.byte	0x91
+ 1503 0929 74       		.sleb128 -12
+ 1504 092a 00       		.byte	0
+ 1505 092b 17       		.uleb128 0x17
+ 1506 092c 03070000 		.4byte	.LASF145
+ 1507 0930 01       		.byte	0x1
+ 1508 0931 F4       		.byte	0xf4
+ 1509 0932 A2000000 		.4byte	0xa2
+ 1510 0936 00000000 		.4byte	.LFB288
+ 1511 093a 24000000 		.4byte	.LFE288-.LFB288
+ 1512 093e 01       		.uleb128 0x1
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 32
+
+
+ 1513 093f 9C       		.byte	0x9c
+ 1514 0940 53090000 		.4byte	0x953
+ 1515 0944 19       		.uleb128 0x19
+ 1516 0945 72657400 		.ascii	"ret\000"
+ 1517 0949 01       		.byte	0x1
+ 1518 094a F6       		.byte	0xf6
+ 1519 094b A2000000 		.4byte	0xa2
+ 1520 094f 02       		.uleb128 0x2
+ 1521 0950 91       		.byte	0x91
+ 1522 0951 74       		.sleb128 -12
+ 1523 0952 00       		.byte	0
+ 1524 0953 1B       		.uleb128 0x1b
+ 1525 0954 B4000000 		.4byte	.LASF146
+ 1526 0958 07       		.byte	0x7
+ 1527 0959 EA07     		.2byte	0x7ea
+ 1528 095b 5F090000 		.4byte	0x95f
+ 1529 095f 08       		.uleb128 0x8
+ 1530 0960 97000000 		.4byte	0x97
+ 1531 0964 1C       		.uleb128 0x1c
+ 1532 0965 8A040000 		.4byte	.LASF147
+ 1533 0969 08       		.byte	0x8
+ 1534 096a 7F       		.byte	0x7f
+ 1535 096b EB070000 		.4byte	0x7eb
+ 1536 096f 1D       		.uleb128 0x1d
+ 1537 0970 D2080000 		.4byte	.LASF148
+ 1538 0974 01       		.byte	0x1
+ 1539 0975 31       		.byte	0x31
+ 1540 0976 39080000 		.4byte	0x839
+ 1541 097a 05       		.uleb128 0x5
+ 1542 097b 03       		.byte	0x3
+ 1543 097c 00000000 		.4byte	masterTransferCfg
+ 1544 0980 1D       		.uleb128 0x1d
+ 1545 0981 EB050000 		.4byte	.LASF149
+ 1546 0985 01       		.byte	0x1
+ 1547 0986 39       		.byte	0x39
+ 1548 0987 AD000000 		.4byte	0xad
+ 1549 098b 05       		.uleb128 0x5
+ 1550 098c 03       		.byte	0x3
+ 1551 098d 00000000 		.4byte	Codec_DelayFunction
+ 1552 0991 00       		.byte	0
+ 1553              		.section	.debug_abbrev,"",%progbits
+ 1554              	.Ldebug_abbrev0:
+ 1555 0000 01       		.uleb128 0x1
+ 1556 0001 11       		.uleb128 0x11
+ 1557 0002 01       		.byte	0x1
+ 1558 0003 25       		.uleb128 0x25
+ 1559 0004 0E       		.uleb128 0xe
+ 1560 0005 13       		.uleb128 0x13
+ 1561 0006 0B       		.uleb128 0xb
+ 1562 0007 03       		.uleb128 0x3
+ 1563 0008 0E       		.uleb128 0xe
+ 1564 0009 1B       		.uleb128 0x1b
+ 1565 000a 0E       		.uleb128 0xe
+ 1566 000b 55       		.uleb128 0x55
+ 1567 000c 17       		.uleb128 0x17
+ 1568 000d 11       		.uleb128 0x11
+ 1569 000e 01       		.uleb128 0x1
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 33
+
+
+ 1570 000f 10       		.uleb128 0x10
+ 1571 0010 17       		.uleb128 0x17
+ 1572 0011 00       		.byte	0
+ 1573 0012 00       		.byte	0
+ 1574 0013 02       		.uleb128 0x2
+ 1575 0014 24       		.uleb128 0x24
+ 1576 0015 00       		.byte	0
+ 1577 0016 0B       		.uleb128 0xb
+ 1578 0017 0B       		.uleb128 0xb
+ 1579 0018 3E       		.uleb128 0x3e
+ 1580 0019 0B       		.uleb128 0xb
+ 1581 001a 03       		.uleb128 0x3
+ 1582 001b 0E       		.uleb128 0xe
+ 1583 001c 00       		.byte	0
+ 1584 001d 00       		.byte	0
+ 1585 001e 03       		.uleb128 0x3
+ 1586 001f 16       		.uleb128 0x16
+ 1587 0020 00       		.byte	0
+ 1588 0021 03       		.uleb128 0x3
+ 1589 0022 0E       		.uleb128 0xe
+ 1590 0023 3A       		.uleb128 0x3a
+ 1591 0024 0B       		.uleb128 0xb
+ 1592 0025 3B       		.uleb128 0x3b
+ 1593 0026 0B       		.uleb128 0xb
+ 1594 0027 49       		.uleb128 0x49
+ 1595 0028 13       		.uleb128 0x13
+ 1596 0029 00       		.byte	0
+ 1597 002a 00       		.byte	0
+ 1598 002b 04       		.uleb128 0x4
+ 1599 002c 24       		.uleb128 0x24
+ 1600 002d 00       		.byte	0
+ 1601 002e 0B       		.uleb128 0xb
+ 1602 002f 0B       		.uleb128 0xb
+ 1603 0030 3E       		.uleb128 0x3e
+ 1604 0031 0B       		.uleb128 0xb
+ 1605 0032 03       		.uleb128 0x3
+ 1606 0033 08       		.uleb128 0x8
+ 1607 0034 00       		.byte	0
+ 1608 0035 00       		.byte	0
+ 1609 0036 05       		.uleb128 0x5
+ 1610 0037 0F       		.uleb128 0xf
+ 1611 0038 00       		.byte	0
+ 1612 0039 0B       		.uleb128 0xb
+ 1613 003a 0B       		.uleb128 0xb
+ 1614 003b 49       		.uleb128 0x49
+ 1615 003c 13       		.uleb128 0x13
+ 1616 003d 00       		.byte	0
+ 1617 003e 00       		.byte	0
+ 1618 003f 06       		.uleb128 0x6
+ 1619 0040 15       		.uleb128 0x15
+ 1620 0041 01       		.byte	0x1
+ 1621 0042 27       		.uleb128 0x27
+ 1622 0043 19       		.uleb128 0x19
+ 1623 0044 01       		.uleb128 0x1
+ 1624 0045 13       		.uleb128 0x13
+ 1625 0046 00       		.byte	0
+ 1626 0047 00       		.byte	0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 34
+
+
+ 1627 0048 07       		.uleb128 0x7
+ 1628 0049 05       		.uleb128 0x5
+ 1629 004a 00       		.byte	0
+ 1630 004b 49       		.uleb128 0x49
+ 1631 004c 13       		.uleb128 0x13
+ 1632 004d 00       		.byte	0
+ 1633 004e 00       		.byte	0
+ 1634 004f 08       		.uleb128 0x8
+ 1635 0050 35       		.uleb128 0x35
+ 1636 0051 00       		.byte	0
+ 1637 0052 49       		.uleb128 0x49
+ 1638 0053 13       		.uleb128 0x13
+ 1639 0054 00       		.byte	0
+ 1640 0055 00       		.byte	0
+ 1641 0056 09       		.uleb128 0x9
+ 1642 0057 26       		.uleb128 0x26
+ 1643 0058 00       		.byte	0
+ 1644 0059 49       		.uleb128 0x49
+ 1645 005a 13       		.uleb128 0x13
+ 1646 005b 00       		.byte	0
+ 1647 005c 00       		.byte	0
+ 1648 005d 0A       		.uleb128 0xa
+ 1649 005e 01       		.uleb128 0x1
+ 1650 005f 01       		.byte	0x1
+ 1651 0060 49       		.uleb128 0x49
+ 1652 0061 13       		.uleb128 0x13
+ 1653 0062 01       		.uleb128 0x1
+ 1654 0063 13       		.uleb128 0x13
+ 1655 0064 00       		.byte	0
+ 1656 0065 00       		.byte	0
+ 1657 0066 0B       		.uleb128 0xb
+ 1658 0067 21       		.uleb128 0x21
+ 1659 0068 00       		.byte	0
+ 1660 0069 49       		.uleb128 0x49
+ 1661 006a 13       		.uleb128 0x13
+ 1662 006b 2F       		.uleb128 0x2f
+ 1663 006c 0B       		.uleb128 0xb
+ 1664 006d 00       		.byte	0
+ 1665 006e 00       		.byte	0
+ 1666 006f 0C       		.uleb128 0xc
+ 1667 0070 13       		.uleb128 0x13
+ 1668 0071 01       		.byte	0x1
+ 1669 0072 0B       		.uleb128 0xb
+ 1670 0073 05       		.uleb128 0x5
+ 1671 0074 3A       		.uleb128 0x3a
+ 1672 0075 0B       		.uleb128 0xb
+ 1673 0076 3B       		.uleb128 0x3b
+ 1674 0077 0B       		.uleb128 0xb
+ 1675 0078 01       		.uleb128 0x1
+ 1676 0079 13       		.uleb128 0x13
+ 1677 007a 00       		.byte	0
+ 1678 007b 00       		.byte	0
+ 1679 007c 0D       		.uleb128 0xd
+ 1680 007d 0D       		.uleb128 0xd
+ 1681 007e 00       		.byte	0
+ 1682 007f 03       		.uleb128 0x3
+ 1683 0080 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 35
+
+
+ 1684 0081 3A       		.uleb128 0x3a
+ 1685 0082 0B       		.uleb128 0xb
+ 1686 0083 3B       		.uleb128 0x3b
+ 1687 0084 0B       		.uleb128 0xb
+ 1688 0085 49       		.uleb128 0x49
+ 1689 0086 13       		.uleb128 0x13
+ 1690 0087 38       		.uleb128 0x38
+ 1691 0088 0B       		.uleb128 0xb
+ 1692 0089 00       		.byte	0
+ 1693 008a 00       		.byte	0
+ 1694 008b 0E       		.uleb128 0xe
+ 1695 008c 0D       		.uleb128 0xd
+ 1696 008d 00       		.byte	0
+ 1697 008e 03       		.uleb128 0x3
+ 1698 008f 0E       		.uleb128 0xe
+ 1699 0090 3A       		.uleb128 0x3a
+ 1700 0091 0B       		.uleb128 0xb
+ 1701 0092 3B       		.uleb128 0x3b
+ 1702 0093 0B       		.uleb128 0xb
+ 1703 0094 49       		.uleb128 0x49
+ 1704 0095 13       		.uleb128 0x13
+ 1705 0096 38       		.uleb128 0x38
+ 1706 0097 05       		.uleb128 0x5
+ 1707 0098 00       		.byte	0
+ 1708 0099 00       		.byte	0
+ 1709 009a 0F       		.uleb128 0xf
+ 1710 009b 21       		.uleb128 0x21
+ 1711 009c 00       		.byte	0
+ 1712 009d 49       		.uleb128 0x49
+ 1713 009e 13       		.uleb128 0x13
+ 1714 009f 2F       		.uleb128 0x2f
+ 1715 00a0 05       		.uleb128 0x5
+ 1716 00a1 00       		.byte	0
+ 1717 00a2 00       		.byte	0
+ 1718 00a3 10       		.uleb128 0x10
+ 1719 00a4 04       		.uleb128 0x4
+ 1720 00a5 01       		.byte	0x1
+ 1721 00a6 0B       		.uleb128 0xb
+ 1722 00a7 0B       		.uleb128 0xb
+ 1723 00a8 49       		.uleb128 0x49
+ 1724 00a9 13       		.uleb128 0x13
+ 1725 00aa 3A       		.uleb128 0x3a
+ 1726 00ab 0B       		.uleb128 0xb
+ 1727 00ac 3B       		.uleb128 0x3b
+ 1728 00ad 05       		.uleb128 0x5
+ 1729 00ae 01       		.uleb128 0x1
+ 1730 00af 13       		.uleb128 0x13
+ 1731 00b0 00       		.byte	0
+ 1732 00b1 00       		.byte	0
+ 1733 00b2 11       		.uleb128 0x11
+ 1734 00b3 28       		.uleb128 0x28
+ 1735 00b4 00       		.byte	0
+ 1736 00b5 03       		.uleb128 0x3
+ 1737 00b6 0E       		.uleb128 0xe
+ 1738 00b7 1C       		.uleb128 0x1c
+ 1739 00b8 0B       		.uleb128 0xb
+ 1740 00b9 00       		.byte	0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 36
+
+
+ 1741 00ba 00       		.byte	0
+ 1742 00bb 12       		.uleb128 0x12
+ 1743 00bc 28       		.uleb128 0x28
+ 1744 00bd 00       		.byte	0
+ 1745 00be 03       		.uleb128 0x3
+ 1746 00bf 0E       		.uleb128 0xe
+ 1747 00c0 1C       		.uleb128 0x1c
+ 1748 00c1 06       		.uleb128 0x6
+ 1749 00c2 00       		.byte	0
+ 1750 00c3 00       		.byte	0
+ 1751 00c4 13       		.uleb128 0x13
+ 1752 00c5 16       		.uleb128 0x16
+ 1753 00c6 00       		.byte	0
+ 1754 00c7 03       		.uleb128 0x3
+ 1755 00c8 0E       		.uleb128 0xe
+ 1756 00c9 3A       		.uleb128 0x3a
+ 1757 00ca 0B       		.uleb128 0xb
+ 1758 00cb 3B       		.uleb128 0x3b
+ 1759 00cc 05       		.uleb128 0x5
+ 1760 00cd 49       		.uleb128 0x49
+ 1761 00ce 13       		.uleb128 0x13
+ 1762 00cf 00       		.byte	0
+ 1763 00d0 00       		.byte	0
+ 1764 00d1 14       		.uleb128 0x14
+ 1765 00d2 15       		.uleb128 0x15
+ 1766 00d3 01       		.byte	0x1
+ 1767 00d4 27       		.uleb128 0x27
+ 1768 00d5 19       		.uleb128 0x19
+ 1769 00d6 49       		.uleb128 0x49
+ 1770 00d7 13       		.uleb128 0x13
+ 1771 00d8 01       		.uleb128 0x1
+ 1772 00d9 13       		.uleb128 0x13
+ 1773 00da 00       		.byte	0
+ 1774 00db 00       		.byte	0
+ 1775 00dc 15       		.uleb128 0x15
+ 1776 00dd 13       		.uleb128 0x13
+ 1777 00de 01       		.byte	0x1
+ 1778 00df 03       		.uleb128 0x3
+ 1779 00e0 0E       		.uleb128 0xe
+ 1780 00e1 0B       		.uleb128 0xb
+ 1781 00e2 0B       		.uleb128 0xb
+ 1782 00e3 3A       		.uleb128 0x3a
+ 1783 00e4 0B       		.uleb128 0xb
+ 1784 00e5 3B       		.uleb128 0x3b
+ 1785 00e6 05       		.uleb128 0x5
+ 1786 00e7 01       		.uleb128 0x1
+ 1787 00e8 13       		.uleb128 0x13
+ 1788 00e9 00       		.byte	0
+ 1789 00ea 00       		.byte	0
+ 1790 00eb 16       		.uleb128 0x16
+ 1791 00ec 0D       		.uleb128 0xd
+ 1792 00ed 00       		.byte	0
+ 1793 00ee 03       		.uleb128 0x3
+ 1794 00ef 0E       		.uleb128 0xe
+ 1795 00f0 3A       		.uleb128 0x3a
+ 1796 00f1 0B       		.uleb128 0xb
+ 1797 00f2 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 37
+
+
+ 1798 00f3 05       		.uleb128 0x5
+ 1799 00f4 49       		.uleb128 0x49
+ 1800 00f5 13       		.uleb128 0x13
+ 1801 00f6 38       		.uleb128 0x38
+ 1802 00f7 0B       		.uleb128 0xb
+ 1803 00f8 00       		.byte	0
+ 1804 00f9 00       		.byte	0
+ 1805 00fa 17       		.uleb128 0x17
+ 1806 00fb 2E       		.uleb128 0x2e
+ 1807 00fc 01       		.byte	0x1
+ 1808 00fd 3F       		.uleb128 0x3f
+ 1809 00fe 19       		.uleb128 0x19
+ 1810 00ff 03       		.uleb128 0x3
+ 1811 0100 0E       		.uleb128 0xe
+ 1812 0101 3A       		.uleb128 0x3a
+ 1813 0102 0B       		.uleb128 0xb
+ 1814 0103 3B       		.uleb128 0x3b
+ 1815 0104 0B       		.uleb128 0xb
+ 1816 0105 27       		.uleb128 0x27
+ 1817 0106 19       		.uleb128 0x19
+ 1818 0107 49       		.uleb128 0x49
+ 1819 0108 13       		.uleb128 0x13
+ 1820 0109 11       		.uleb128 0x11
+ 1821 010a 01       		.uleb128 0x1
+ 1822 010b 12       		.uleb128 0x12
+ 1823 010c 06       		.uleb128 0x6
+ 1824 010d 40       		.uleb128 0x40
+ 1825 010e 18       		.uleb128 0x18
+ 1826 010f 9642     		.uleb128 0x2116
+ 1827 0111 19       		.uleb128 0x19
+ 1828 0112 01       		.uleb128 0x1
+ 1829 0113 13       		.uleb128 0x13
+ 1830 0114 00       		.byte	0
+ 1831 0115 00       		.byte	0
+ 1832 0116 18       		.uleb128 0x18
+ 1833 0117 05       		.uleb128 0x5
+ 1834 0118 00       		.byte	0
+ 1835 0119 03       		.uleb128 0x3
+ 1836 011a 0E       		.uleb128 0xe
+ 1837 011b 3A       		.uleb128 0x3a
+ 1838 011c 0B       		.uleb128 0xb
+ 1839 011d 3B       		.uleb128 0x3b
+ 1840 011e 0B       		.uleb128 0xb
+ 1841 011f 49       		.uleb128 0x49
+ 1842 0120 13       		.uleb128 0x13
+ 1843 0121 02       		.uleb128 0x2
+ 1844 0122 18       		.uleb128 0x18
+ 1845 0123 00       		.byte	0
+ 1846 0124 00       		.byte	0
+ 1847 0125 19       		.uleb128 0x19
+ 1848 0126 34       		.uleb128 0x34
+ 1849 0127 00       		.byte	0
+ 1850 0128 03       		.uleb128 0x3
+ 1851 0129 08       		.uleb128 0x8
+ 1852 012a 3A       		.uleb128 0x3a
+ 1853 012b 0B       		.uleb128 0xb
+ 1854 012c 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 38
+
+
+ 1855 012d 0B       		.uleb128 0xb
+ 1856 012e 49       		.uleb128 0x49
+ 1857 012f 13       		.uleb128 0x13
+ 1858 0130 02       		.uleb128 0x2
+ 1859 0131 18       		.uleb128 0x18
+ 1860 0132 00       		.byte	0
+ 1861 0133 00       		.byte	0
+ 1862 0134 1A       		.uleb128 0x1a
+ 1863 0135 34       		.uleb128 0x34
+ 1864 0136 00       		.byte	0
+ 1865 0137 03       		.uleb128 0x3
+ 1866 0138 0E       		.uleb128 0xe
+ 1867 0139 3A       		.uleb128 0x3a
+ 1868 013a 0B       		.uleb128 0xb
+ 1869 013b 3B       		.uleb128 0x3b
+ 1870 013c 0B       		.uleb128 0xb
+ 1871 013d 49       		.uleb128 0x49
+ 1872 013e 13       		.uleb128 0x13
+ 1873 013f 02       		.uleb128 0x2
+ 1874 0140 18       		.uleb128 0x18
+ 1875 0141 00       		.byte	0
+ 1876 0142 00       		.byte	0
+ 1877 0143 1B       		.uleb128 0x1b
+ 1878 0144 34       		.uleb128 0x34
+ 1879 0145 00       		.byte	0
+ 1880 0146 03       		.uleb128 0x3
+ 1881 0147 0E       		.uleb128 0xe
+ 1882 0148 3A       		.uleb128 0x3a
+ 1883 0149 0B       		.uleb128 0xb
+ 1884 014a 3B       		.uleb128 0x3b
+ 1885 014b 05       		.uleb128 0x5
+ 1886 014c 49       		.uleb128 0x49
+ 1887 014d 13       		.uleb128 0x13
+ 1888 014e 3F       		.uleb128 0x3f
+ 1889 014f 19       		.uleb128 0x19
+ 1890 0150 3C       		.uleb128 0x3c
+ 1891 0151 19       		.uleb128 0x19
+ 1892 0152 00       		.byte	0
+ 1893 0153 00       		.byte	0
+ 1894 0154 1C       		.uleb128 0x1c
+ 1895 0155 34       		.uleb128 0x34
+ 1896 0156 00       		.byte	0
+ 1897 0157 03       		.uleb128 0x3
+ 1898 0158 0E       		.uleb128 0xe
+ 1899 0159 3A       		.uleb128 0x3a
+ 1900 015a 0B       		.uleb128 0xb
+ 1901 015b 3B       		.uleb128 0x3b
+ 1902 015c 0B       		.uleb128 0xb
+ 1903 015d 49       		.uleb128 0x49
+ 1904 015e 13       		.uleb128 0x13
+ 1905 015f 3F       		.uleb128 0x3f
+ 1906 0160 19       		.uleb128 0x19
+ 1907 0161 3C       		.uleb128 0x3c
+ 1908 0162 19       		.uleb128 0x19
+ 1909 0163 00       		.byte	0
+ 1910 0164 00       		.byte	0
+ 1911 0165 1D       		.uleb128 0x1d
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 39
+
+
+ 1912 0166 34       		.uleb128 0x34
+ 1913 0167 00       		.byte	0
+ 1914 0168 03       		.uleb128 0x3
+ 1915 0169 0E       		.uleb128 0xe
+ 1916 016a 3A       		.uleb128 0x3a
+ 1917 016b 0B       		.uleb128 0xb
+ 1918 016c 3B       		.uleb128 0x3b
+ 1919 016d 0B       		.uleb128 0xb
+ 1920 016e 49       		.uleb128 0x49
+ 1921 016f 13       		.uleb128 0x13
+ 1922 0170 3F       		.uleb128 0x3f
+ 1923 0171 19       		.uleb128 0x19
+ 1924 0172 02       		.uleb128 0x2
+ 1925 0173 18       		.uleb128 0x18
+ 1926 0174 00       		.byte	0
+ 1927 0175 00       		.byte	0
+ 1928 0176 00       		.byte	0
+ 1929              		.section	.debug_aranges,"",%progbits
+ 1930 0000 3C000000 		.4byte	0x3c
+ 1931 0004 0200     		.2byte	0x2
+ 1932 0006 00000000 		.4byte	.Ldebug_info0
+ 1933 000a 04       		.byte	0x4
+ 1934 000b 00       		.byte	0
+ 1935 000c 0000     		.2byte	0
+ 1936 000e 0000     		.2byte	0
+ 1937 0010 00000000 		.4byte	.LFB284
+ 1938 0014 98000000 		.4byte	.LFE284-.LFB284
+ 1939 0018 00000000 		.4byte	.LFB285
+ 1940 001c 88000000 		.4byte	.LFE285-.LFB285
+ 1941 0020 00000000 		.4byte	.LFB286
+ 1942 0024 34000000 		.4byte	.LFE286-.LFB286
+ 1943 0028 00000000 		.4byte	.LFB287
+ 1944 002c 2E000000 		.4byte	.LFE287-.LFB287
+ 1945 0030 00000000 		.4byte	.LFB288
+ 1946 0034 24000000 		.4byte	.LFE288-.LFB288
+ 1947 0038 00000000 		.4byte	0
+ 1948 003c 00000000 		.4byte	0
+ 1949              		.section	.debug_ranges,"",%progbits
+ 1950              	.Ldebug_ranges0:
+ 1951 0000 00000000 		.4byte	.LFB284
+ 1952 0004 98000000 		.4byte	.LFE284
+ 1953 0008 00000000 		.4byte	.LFB285
+ 1954 000c 88000000 		.4byte	.LFE285
+ 1955 0010 00000000 		.4byte	.LFB286
+ 1956 0014 34000000 		.4byte	.LFE286
+ 1957 0018 00000000 		.4byte	.LFB287
+ 1958 001c 2E000000 		.4byte	.LFE287
+ 1959 0020 00000000 		.4byte	.LFB288
+ 1960 0024 24000000 		.4byte	.LFE288
+ 1961 0028 00000000 		.4byte	0
+ 1962 002c 00000000 		.4byte	0
+ 1963              		.section	.debug_line,"",%progbits
+ 1964              	.Ldebug_line0:
+ 1965 0000 B0020000 		.section	.debug_str,"MS",%progbits,1
+ 1965      0200FF01 
+ 1965      00000201 
+ 1965      FB0E0D00 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 40
+
+
+ 1965      01010101 
+ 1966              	.LASF113:
+ 1967 0000 6D617374 		.ascii	"masterBuffer\000"
+ 1967      65724275 
+ 1967      66666572 
+ 1967      00
+ 1968              	.LASF40:
+ 1969 000d 54585F46 		.ascii	"TX_FIFO_CTRL\000"
+ 1969      49464F5F 
+ 1969      4354524C 
+ 1969      00
+ 1970              	.LASF32:
+ 1971 001a 4932435F 		.ascii	"I2C_STATUS\000"
+ 1971      53544154 
+ 1971      555300
+ 1972              	.LASF4:
+ 1973 0025 5F5F7569 		.ascii	"__uint8_t\000"
+ 1973      6E74385F 
+ 1973      7400
+ 1974              	.LASF117:
+ 1975 002f 736C6176 		.ascii	"slaveStatus\000"
+ 1975      65537461 
+ 1975      74757300 
+ 1976              	.LASF31:
+ 1977 003b 4932435F 		.ascii	"I2C_CTRL\000"
+ 1977      4354524C 
+ 1977      00
+ 1978              	.LASF41:
+ 1979 0044 54585F46 		.ascii	"TX_FIFO_STATUS\000"
+ 1979      49464F5F 
+ 1979      53544154 
+ 1979      555300
+ 1980              	.LASF96:
+ 1981 0053 43595F53 		.ascii	"CY_SCB_I2C_MASTER_MANUAL_ADDR_NAK\000"
+ 1981      43425F49 
+ 1981      32435F4D 
+ 1981      41535445 
+ 1981      525F4D41 
+ 1982              	.LASF10:
+ 1983 0075 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1983      206C6F6E 
+ 1983      6720756E 
+ 1983      7369676E 
+ 1983      65642069 
+ 1984              	.LASF37:
+ 1985 008c 44444654 		.ascii	"DDFT_CTRL\000"
+ 1985      5F435452 
+ 1985      4C00
+ 1986              	.LASF140:
+ 1987 0096 64617461 		.ascii	"data\000"
+ 1987      00
+ 1988              	.LASF75:
+ 1989 009b 494E5452 		.ascii	"INTR_S_MASK\000"
+ 1989      5F535F4D 
+ 1989      41534B00 
+ 1990              	.LASF110:
+ 1991 00a7 6D617374 		.ascii	"masterStatus\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 41
+
+
+ 1991      65725374 
+ 1991      61747573 
+ 1991      00
+ 1992              	.LASF146:
+ 1993 00b4 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1993      52784275 
+ 1993      66666572 
+ 1993      00
+ 1994              	.LASF125:
+ 1995 00c1 736C6176 		.ascii	"slaveRxBufferIdx\000"
+ 1995      65527842 
+ 1995      75666665 
+ 1995      72496478 
+ 1995      00
+ 1996              	.LASF129:
+ 1997 00d2 63795F73 		.ascii	"cy_stc_scb_i2c_context\000"
+ 1997      74635F73 
+ 1997      63625F69 
+ 1997      32635F63 
+ 1997      6F6E7465 
+ 1998              	.LASF135:
+ 1999 00e9 63795F73 		.ascii	"cy_stc_scb_i2c_master_xfer_config_t\000"
+ 1999      74635F73 
+ 1999      63625F69 
+ 1999      32635F6D 
+ 1999      61737465 
+ 2000              	.LASF9:
+ 2001 010d 6C6F6E67 		.ascii	"long long int\000"
+ 2001      206C6F6E 
+ 2001      6720696E 
+ 2001      7400
+ 2002              	.LASF0:
+ 2003 011b 7369676E 		.ascii	"signed char\000"
+ 2003      65642063 
+ 2003      68617200 
+ 2004              	.LASF137:
+ 2005 0127 436F6465 		.ascii	"Codec_SendData\000"
+ 2005      635F5365 
+ 2005      6E644461 
+ 2005      746100
+ 2006              	.LASF51:
+ 2007 0136 52585F46 		.ascii	"RX_FIFO_RD\000"
+ 2007      49464F5F 
+ 2007      524400
+ 2008              	.LASF124:
+ 2009 0141 736C6176 		.ascii	"slaveRxBufferSize\000"
+ 2009      65527842 
+ 2009      75666665 
+ 2009      7253697A 
+ 2009      6500
+ 2010              	.LASF142:
+ 2011 0153 436F6465 		.ascii	"Codec_AdjustBothHeadphoneVolume\000"
+ 2011      635F4164 
+ 2011      6A757374 
+ 2011      426F7468 
+ 2011      48656164 
+ 2012              	.LASF55:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 42
+
+
+ 2013 0173 52455345 		.ascii	"RESERVED10\000"
+ 2013      52564544 
+ 2013      313000
+ 2014              	.LASF57:
+ 2015 017e 52455345 		.ascii	"RESERVED11\000"
+ 2015      52564544 
+ 2015      313100
+ 2016              	.LASF59:
+ 2017 0189 52455345 		.ascii	"RESERVED12\000"
+ 2017      52564544 
+ 2017      313200
+ 2018              	.LASF62:
+ 2019 0194 52455345 		.ascii	"RESERVED13\000"
+ 2019      52564544 
+ 2019      313300
+ 2020              	.LASF64:
+ 2021 019f 52455345 		.ascii	"RESERVED14\000"
+ 2021      52564544 
+ 2021      313400
+ 2022              	.LASF67:
+ 2023 01aa 52455345 		.ascii	"RESERVED15\000"
+ 2023      52564544 
+ 2023      313500
+ 2024              	.LASF72:
+ 2025 01b5 52455345 		.ascii	"RESERVED16\000"
+ 2025      52564544 
+ 2025      313600
+ 2026              	.LASF77:
+ 2027 01c0 52455345 		.ascii	"RESERVED17\000"
+ 2027      52564544 
+ 2027      313700
+ 2028              	.LASF82:
+ 2029 01cb 52455345 		.ascii	"RESERVED18\000"
+ 2029      52564544 
+ 2029      313800
+ 2030              	.LASF109:
+ 2031 01d6 73746174 		.ascii	"state\000"
+ 2031      6500
+ 2032              	.LASF104:
+ 2033 01dc 63795F63 		.ascii	"cy_cb_scb_i2c_handle_events_t\000"
+ 2033      625F7363 
+ 2033      625F6932 
+ 2033      635F6861 
+ 2033      6E646C65 
+ 2034              	.LASF6:
+ 2035 01fa 6C6F6E67 		.ascii	"long int\000"
+ 2035      20696E74 
+ 2035      00
+ 2036              	.LASF112:
+ 2037 0203 6D617374 		.ascii	"masterRdDir\000"
+ 2037      65725264 
+ 2037      44697200 
+ 2038              	.LASF102:
+ 2039 020f 43595F53 		.ascii	"CY_SCB_I2C_NAK\000"
+ 2039      43425F49 
+ 2039      32435F4E 
+ 2039      414B00
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 43
+
+
+ 2040              	.LASF56:
+ 2041 021e 494E5452 		.ascii	"INTR_CAUSE\000"
+ 2041      5F434155 
+ 2041      534500
+ 2042              	.LASF58:
+ 2043 0229 494E5452 		.ascii	"INTR_I2C_EC\000"
+ 2043      5F493243 
+ 2043      5F454300 
+ 2044              	.LASF83:
+ 2045 0235 494E5452 		.ascii	"INTR_RX\000"
+ 2045      5F525800 
+ 2046              	.LASF134:
+ 2047 023d 78666572 		.ascii	"xferPending\000"
+ 2047      50656E64 
+ 2047      696E6700 
+ 2048              	.LASF84:
+ 2049 0249 494E5452 		.ascii	"INTR_RX_SET\000"
+ 2049      5F52585F 
+ 2049      53455400 
+ 2050              	.LASF43:
+ 2051 0255 54585F46 		.ascii	"TX_FIFO_WR\000"
+ 2051      49464F5F 
+ 2051      575200
+ 2052              	.LASF91:
+ 2053 0260 646F7562 		.ascii	"double\000"
+ 2053      6C6500
+ 2054              	.LASF136:
+ 2055 0267 436F6465 		.ascii	"Codec_Init\000"
+ 2055      635F496E 
+ 2055      697400
+ 2056              	.LASF127:
+ 2057 0272 63624164 		.ascii	"cbAddr\000"
+ 2057      647200
+ 2058              	.LASF7:
+ 2059 0279 5F5F7569 		.ascii	"__uint32_t\000"
+ 2059      6E743332 
+ 2059      5F7400
+ 2060              	.LASF66:
+ 2061 0284 494E5452 		.ascii	"INTR_SPI_EC_MASKED\000"
+ 2061      5F535049 
+ 2061      5F45435F 
+ 2061      4D41534B 
+ 2061      454400
+ 2062              	.LASF22:
+ 2063 0297 5350495F 		.ascii	"SPI_CTRL\000"
+ 2063      4354524C 
+ 2063      00
+ 2064              	.LASF141:
+ 2065 02a0 74656D70 		.ascii	"temp\000"
+ 2065      00
+ 2066              	.LASF92:
+ 2067 02a5 43595F53 		.ascii	"CY_SCB_I2C_SUCCESS\000"
+ 2067      43425F49 
+ 2067      32435F53 
+ 2067      55434345 
+ 2067      535300
+ 2068              	.LASF97:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 44
+
+
+ 2069 02b8 43595F53 		.ascii	"CY_SCB_I2C_MASTER_MANUAL_NAK\000"
+ 2069      43425F49 
+ 2069      32435F4D 
+ 2069      41535445 
+ 2069      525F4D41 
+ 2070              	.LASF11:
+ 2071 02d5 756E7369 		.ascii	"unsigned int\000"
+ 2071      676E6564 
+ 2071      20696E74 
+ 2071      00
+ 2072              	.LASF121:
+ 2073 02e2 736C6176 		.ascii	"slaveTxBufferIdx\000"
+ 2073      65547842 
+ 2073      75666665 
+ 2073      72496478 
+ 2073      00
+ 2074              	.LASF118:
+ 2075 02f3 736C6176 		.ascii	"slaveRdBufEmpty\000"
+ 2075      65526442 
+ 2075      7566456D 
+ 2075      70747900 
+ 2076              	.LASF130:
+ 2077 0303 63795F73 		.ascii	"cy_stc_scb_i2c_master_xfer_config\000"
+ 2077      74635F73 
+ 2077      63625F69 
+ 2077      32635F6D 
+ 2077      61737465 
+ 2078              	.LASF27:
+ 2079 0325 55415254 		.ascii	"UART_RX_CTRL\000"
+ 2079      5F52585F 
+ 2079      4354524C 
+ 2079      00
+ 2080              	.LASF86:
+ 2081 0332 494E5452 		.ascii	"INTR_RX_MASKED\000"
+ 2081      5F52585F 
+ 2081      4D41534B 
+ 2081      454400
+ 2082              	.LASF8:
+ 2083 0341 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2083      20756E73 
+ 2083      69676E65 
+ 2083      6420696E 
+ 2083      7400
+ 2084              	.LASF52:
+ 2085 0353 52585F46 		.ascii	"RX_FIFO_RD_SILENT\000"
+ 2085      49464F5F 
+ 2085      52445F53 
+ 2085      494C454E 
+ 2085      5400
+ 2086              	.LASF26:
+ 2087 0365 55415254 		.ascii	"UART_TX_CTRL\000"
+ 2087      5F54585F 
+ 2087      4354524C 
+ 2087      00
+ 2088              	.LASF108:
+ 2089 0372 75736554 		.ascii	"useTxFifo\000"
+ 2089      78466966 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 45
+
+
+ 2089      6F00
+ 2090              	.LASF3:
+ 2091 037c 73686F72 		.ascii	"short unsigned int\000"
+ 2091      7420756E 
+ 2091      7369676E 
+ 2091      65642069 
+ 2091      6E7400
+ 2092              	.LASF20:
+ 2093 038f 434D445F 		.ascii	"CMD_RESP_STATUS\000"
+ 2093      52455350 
+ 2093      5F535441 
+ 2093      54555300 
+ 2094              	.LASF15:
+ 2095 039f 636F6465 		.ascii	"codec_delay_function\000"
+ 2095      635F6465 
+ 2095      6C61795F 
+ 2095      66756E63 
+ 2095      74696F6E 
+ 2096              	.LASF35:
+ 2097 03b4 4932435F 		.ascii	"I2C_CFG\000"
+ 2097      43464700 
+ 2098              	.LASF28:
+ 2099 03bc 55415254 		.ascii	"UART_RX_STATUS\000"
+ 2099      5F52585F 
+ 2099      53544154 
+ 2099      555300
+ 2100              	.LASF126:
+ 2101 03cb 63624576 		.ascii	"cbEvents\000"
+ 2101      656E7473 
+ 2101      00
+ 2102              	.LASF54:
+ 2103 03d4 455A5F44 		.ascii	"EZ_DATA\000"
+ 2103      41544100 
+ 2104              	.LASF49:
+ 2105 03dc 52585F4D 		.ascii	"RX_MATCH\000"
+ 2105      41544348 
+ 2105      00
+ 2106              	.LASF76:
+ 2107 03e5 494E5452 		.ascii	"INTR_S_MASKED\000"
+ 2107      5F535F4D 
+ 2107      41534B45 
+ 2107      4400
+ 2108              	.LASF128:
+ 2109 03f3 63795F73 		.ascii	"cy_stc_scb_i2c_context_t\000"
+ 2109      74635F73 
+ 2109      63625F69 
+ 2109      32635F63 
+ 2109      6F6E7465 
+ 2110              	.LASF123:
+ 2111 040c 736C6176 		.ascii	"slaveRxBuffer\000"
+ 2111      65527842 
+ 2111      75666665 
+ 2111      7200
+ 2112              	.LASF78:
+ 2113 041a 494E5452 		.ascii	"INTR_TX\000"
+ 2113      5F545800 
+ 2114              	.LASF71:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 46
+
+
+ 2115 0422 494E5452 		.ascii	"INTR_M_MASKED\000"
+ 2115      5F4D5F4D 
+ 2115      41534B45 
+ 2115      4400
+ 2116              	.LASF19:
+ 2117 0430 434D445F 		.ascii	"CMD_RESP_CTRL\000"
+ 2117      52455350 
+ 2117      5F435452 
+ 2117      4C00
+ 2118              	.LASF29:
+ 2119 043e 55415254 		.ascii	"UART_FLOW_CTRL\000"
+ 2119      5F464C4F 
+ 2119      575F4354 
+ 2119      524C00
+ 2120              	.LASF61:
+ 2121 044d 494E5452 		.ascii	"INTR_I2C_EC_MASKED\000"
+ 2121      5F493243 
+ 2121      5F45435F 
+ 2121      4D41534B 
+ 2121      454400
+ 2122              	.LASF13:
+ 2123 0460 696E7433 		.ascii	"int32_t\000"
+ 2123      325F7400 
+ 2124              	.LASF98:
+ 2125 0468 43595F53 		.ascii	"CY_SCB_I2C_MASTER_MANUAL_ARB_LOST\000"
+ 2125      43425F49 
+ 2125      32435F4D 
+ 2125      41535445 
+ 2125      525F4D41 
+ 2126              	.LASF147:
+ 2127 048a 436F6465 		.ascii	"CodecI2CM_context\000"
+ 2127      63493243 
+ 2127      4D5F636F 
+ 2127      6E746578 
+ 2127      7400
+ 2128              	.LASF87:
+ 2129 049c 43795343 		.ascii	"CySCB_Type\000"
+ 2129      425F5479 
+ 2129      706500
+ 2130              	.LASF115:
+ 2131 04a7 6D617374 		.ascii	"masterBufferIdx\000"
+ 2131      65724275 
+ 2131      66666572 
+ 2131      49647800 
+ 2132              	.LASF152:
+ 2133 04b7 433A5C55 		.ascii	"C:\\Users\\ikomb\\Documents\\PSoC Creator\\CE222221"
+ 2133      73657273 
+ 2133      5C696B6F 
+ 2133      6D625C44 
+ 2133      6F63756D 
+ 2134 04e5 5F566F69 		.ascii	"_Voice_Recorder01\\CE222221_Voice_Recorder01.cydsn\000"
+ 2134      63655F52 
+ 2134      65636F72 
+ 2134      64657230 
+ 2134      315C4345 
+ 2135              	.LASF25:
+ 2136 0517 55415254 		.ascii	"UART_CTRL\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 47
+
+
+ 2136      5F435452 
+ 2136      4C00
+ 2137              	.LASF68:
+ 2138 0521 494E5452 		.ascii	"INTR_M\000"
+ 2138      5F4D00
+ 2139              	.LASF73:
+ 2140 0528 494E5452 		.ascii	"INTR_S\000"
+ 2140      5F5300
+ 2141              	.LASF90:
+ 2142 052f 666C6F61 		.ascii	"float\000"
+ 2142      7400
+ 2143              	.LASF132:
+ 2144 0535 62756666 		.ascii	"buffer\000"
+ 2144      657200
+ 2145              	.LASF24:
+ 2146 053c 52455345 		.ascii	"RESERVED1\000"
+ 2146      52564544 
+ 2146      3100
+ 2147              	.LASF30:
+ 2148 0546 52455345 		.ascii	"RESERVED2\000"
+ 2148      52564544 
+ 2148      3200
+ 2149              	.LASF36:
+ 2150 0550 52455345 		.ascii	"RESERVED3\000"
+ 2150      52564544 
+ 2150      3300
+ 2151              	.LASF38:
+ 2152 055a 52455345 		.ascii	"RESERVED4\000"
+ 2152      52564544 
+ 2152      3400
+ 2153              	.LASF42:
+ 2154 0564 52455345 		.ascii	"RESERVED5\000"
+ 2154      52564544 
+ 2154      3500
+ 2155              	.LASF44:
+ 2156 056e 52455345 		.ascii	"RESERVED6\000"
+ 2156      52564544 
+ 2156      3600
+ 2157              	.LASF48:
+ 2158 0578 52455345 		.ascii	"RESERVED7\000"
+ 2158      52564544 
+ 2158      3700
+ 2159              	.LASF50:
+ 2160 0582 52455345 		.ascii	"RESERVED8\000"
+ 2160      52564544 
+ 2160      3800
+ 2161              	.LASF53:
+ 2162 058c 52455345 		.ascii	"RESERVED9\000"
+ 2162      52564544 
+ 2162      3900
+ 2163              	.LASF106:
+ 2164 0596 5F426F6F 		.ascii	"_Bool\000"
+ 2164      6C00
+ 2165              	.LASF131:
+ 2166 059c 736C6176 		.ascii	"slaveAddress\000"
+ 2166      65416464 
+ 2166      72657373 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 48
+
+
+ 2166      00
+ 2167              	.LASF1:
+ 2168 05a9 756E7369 		.ascii	"unsigned char\000"
+ 2168      676E6564 
+ 2168      20636861 
+ 2168      7200
+ 2169              	.LASF81:
+ 2170 05b7 494E5452 		.ascii	"INTR_TX_MASKED\000"
+ 2170      5F54585F 
+ 2170      4D41534B 
+ 2170      454400
+ 2171              	.LASF2:
+ 2172 05c6 73686F72 		.ascii	"short int\000"
+ 2172      7420696E 
+ 2172      7400
+ 2173              	.LASF34:
+ 2174 05d0 4932435F 		.ascii	"I2C_S_CMD\000"
+ 2174      535F434D 
+ 2174      4400
+ 2175              	.LASF114:
+ 2176 05da 6D617374 		.ascii	"masterBufferSize\000"
+ 2176      65724275 
+ 2176      66666572 
+ 2176      53697A65 
+ 2176      00
+ 2177              	.LASF149:
+ 2178 05eb 436F6465 		.ascii	"Codec_DelayFunction\000"
+ 2178      635F4465 
+ 2178      6C617946 
+ 2178      756E6374 
+ 2178      696F6E00 
+ 2179              	.LASF111:
+ 2180 05ff 6D617374 		.ascii	"masterPause\000"
+ 2180      65725061 
+ 2180      75736500 
+ 2181              	.LASF105:
+ 2182 060b 63795F63 		.ascii	"cy_cb_scb_i2c_handle_addr_t\000"
+ 2182      625F7363 
+ 2182      625F6932 
+ 2182      635F6861 
+ 2182      6E646C65 
+ 2183              	.LASF116:
+ 2184 0627 6D617374 		.ascii	"masterNumBytes\000"
+ 2184      65724E75 
+ 2184      6D427974 
+ 2184      657300
+ 2185              	.LASF122:
+ 2186 0636 736C6176 		.ascii	"slaveTxBufferCnt\000"
+ 2186      65547842 
+ 2186      75666665 
+ 2186      72436E74 
+ 2186      00
+ 2187              	.LASF65:
+ 2188 0647 494E5452 		.ascii	"INTR_SPI_EC_MASK\000"
+ 2188      5F535049 
+ 2188      5F45435F 
+ 2188      4D41534B 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 49
+
+
+ 2188      00
+ 2189              	.LASF14:
+ 2190 0658 75696E74 		.ascii	"uint32_t\000"
+ 2190      33325F74 
+ 2190      00
+ 2191              	.LASF69:
+ 2192 0661 494E5452 		.ascii	"INTR_M_SET\000"
+ 2192      5F4D5F53 
+ 2192      455400
+ 2193              	.LASF23:
+ 2194 066c 5350495F 		.ascii	"SPI_STATUS\000"
+ 2194      53544154 
+ 2194      555300
+ 2195              	.LASF88:
+ 2196 0677 6C6F6E67 		.ascii	"long double\000"
+ 2196      20646F75 
+ 2196      626C6500 
+ 2197              	.LASF89:
+ 2198 0683 63686172 		.ascii	"char\000"
+ 2198      00
+ 2199              	.LASF138:
+ 2200 0688 66756E63 		.ascii	"func\000"
+ 2200      00
+ 2201              	.LASF133:
+ 2202 068d 62756666 		.ascii	"bufferSize\000"
+ 2202      65725369 
+ 2202      7A6500
+ 2203              	.LASF85:
+ 2204 0698 494E5452 		.ascii	"INTR_RX_MASK\000"
+ 2204      5F52585F 
+ 2204      4D41534B 
+ 2204      00
+ 2205              	.LASF79:
+ 2206 06a5 494E5452 		.ascii	"INTR_TX_SET\000"
+ 2206      5F54585F 
+ 2206      53455400 
+ 2207              	.LASF70:
+ 2208 06b1 494E5452 		.ascii	"INTR_M_MASK\000"
+ 2208      5F4D5F4D 
+ 2208      41534B00 
+ 2209              	.LASF151:
+ 2210 06bd 636F6465 		.ascii	"codec.c\000"
+ 2210      632E6300 
+ 2211              	.LASF21:
+ 2212 06c5 52455345 		.ascii	"RESERVED\000"
+ 2212      52564544 
+ 2212      00
+ 2213              	.LASF5:
+ 2214 06ce 5F5F696E 		.ascii	"__int32_t\000"
+ 2214      7433325F 
+ 2214      7400
+ 2215              	.LASF47:
+ 2216 06d8 52585F46 		.ascii	"RX_FIFO_STATUS\000"
+ 2216      49464F5F 
+ 2216      53544154 
+ 2216      555300
+ 2217              	.LASF80:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 50
+
+
+ 2218 06e7 494E5452 		.ascii	"INTR_TX_MASK\000"
+ 2218      5F54585F 
+ 2218      4D41534B 
+ 2218      00
+ 2219              	.LASF144:
+ 2220 06f4 436F6465 		.ascii	"Codec_Activate\000"
+ 2220      635F4163 
+ 2220      74697661 
+ 2220      746500
+ 2221              	.LASF145:
+ 2222 0703 436F6465 		.ascii	"Codec_Deactivate\000"
+ 2222      635F4465 
+ 2222      61637469 
+ 2222      76617465 
+ 2222      00
+ 2223              	.LASF101:
+ 2224 0714 43595F53 		.ascii	"CY_SCB_I2C_ACK\000"
+ 2224      43425F49 
+ 2224      32435F41 
+ 2224      434B00
+ 2225              	.LASF93:
+ 2226 0723 43595F53 		.ascii	"CY_SCB_I2C_BAD_PARAM\000"
+ 2226      43425F49 
+ 2226      32435F42 
+ 2226      41445F50 
+ 2226      4152414D 
+ 2227              	.LASF139:
+ 2228 0738 72656741 		.ascii	"regAddr\000"
+ 2228      64647200 
+ 2229              	.LASF39:
+ 2230 0740 54585F43 		.ascii	"TX_CTRL\000"
+ 2230      54524C00 
+ 2231              	.LASF107:
+ 2232 0748 75736552 		.ascii	"useRxFifo\000"
+ 2232      78466966 
+ 2232      6F00
+ 2233              	.LASF63:
+ 2234 0752 494E5452 		.ascii	"INTR_SPI_EC\000"
+ 2234      5F535049 
+ 2234      5F454300 
+ 2235              	.LASF17:
+ 2236 075e 4354524C 		.ascii	"CTRL\000"
+ 2236      00
+ 2237              	.LASF95:
+ 2238 0763 43595F53 		.ascii	"CY_SCB_I2C_MASTER_MANUAL_TIMEOUT\000"
+ 2238      43425F49 
+ 2238      32435F4D 
+ 2238      41535445 
+ 2238      525F4D41 
+ 2239              	.LASF94:
+ 2240 0784 43595F53 		.ascii	"CY_SCB_I2C_MASTER_NOT_READY\000"
+ 2240      43425F49 
+ 2240      32435F4D 
+ 2240      41535445 
+ 2240      525F4E4F 
+ 2241              	.LASF119:
+ 2242 07a0 736C6176 		.ascii	"slaveTxBuffer\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 51
+
+
+ 2242      65547842 
+ 2242      75666665 
+ 2242      7200
+ 2243              	.LASF120:
+ 2244 07ae 736C6176 		.ascii	"slaveTxBufferSize\000"
+ 2244      65547842 
+ 2244      75666665 
+ 2244      7253697A 
+ 2244      6500
+ 2245              	.LASF18:
+ 2246 07c0 53544154 		.ascii	"STATUS\000"
+ 2246      555300
+ 2247              	.LASF103:
+ 2248 07c7 63795F65 		.ascii	"cy_en_scb_i2c_command_t\000"
+ 2248      6E5F7363 
+ 2248      625F6932 
+ 2248      635F636F 
+ 2248      6D6D616E 
+ 2249              	.LASF46:
+ 2250 07df 52585F46 		.ascii	"RX_FIFO_CTRL\000"
+ 2250      49464F5F 
+ 2250      4354524C 
+ 2250      00
+ 2251              	.LASF12:
+ 2252 07ec 75696E74 		.ascii	"uint8_t\000"
+ 2252      385F7400 
+ 2253              	.LASF33:
+ 2254 07f4 4932435F 		.ascii	"I2C_M_CMD\000"
+ 2254      4D5F434D 
+ 2254      4400
+ 2255              	.LASF16:
+ 2256 07fe 73697A65 		.ascii	"sizetype\000"
+ 2256      74797065 
+ 2256      00
+ 2257              	.LASF143:
+ 2258 0807 766F6C75 		.ascii	"volume\000"
+ 2258      6D6500
+ 2259              	.LASF60:
+ 2260 080e 494E5452 		.ascii	"INTR_I2C_EC_MASK\000"
+ 2260      5F493243 
+ 2260      5F45435F 
+ 2260      4D41534B 
+ 2260      00
+ 2261              	.LASF150:
+ 2262 081f 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2262      43313120 
+ 2262      352E342E 
+ 2262      31203230 
+ 2262      31363036 
+ 2263 0852 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m4 -mfloat-abi=s"
+ 2263      20726576 
+ 2263      6973696F 
+ 2263      6E203233 
+ 2263      37373135 
+ 2264 0885 6F667466 		.ascii	"oftfp -mfpu=fpv4-sp-d16 -mthumb -g -O0 -ffunction-s"
+ 2264      70202D6D 
+ 2264      6670753D 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc565hjd.s 			page 52
+
+
+ 2264      66707634 
+ 2264      2D73702D 
+ 2265 08b8 65637469 		.ascii	"ections -ffat-lto-objects\000"
+ 2265      6F6E7320 
+ 2265      2D666661 
+ 2265      742D6C74 
+ 2265      6F2D6F62 
+ 2266              	.LASF148:
+ 2267 08d2 6D617374 		.ascii	"masterTransferCfg\000"
+ 2267      65725472 
+ 2267      616E7366 
+ 2267      65724366 
+ 2267      6700
+ 2268              	.LASF100:
+ 2269 08e4 43595F53 		.ascii	"CY_SCB_I2C_MASTER_MANUAL_ABORT_START\000"
+ 2269      43425F49 
+ 2269      32435F4D 
+ 2269      41535445 
+ 2269      525F4D41 
+ 2270              	.LASF99:
+ 2271 0909 43595F53 		.ascii	"CY_SCB_I2C_MASTER_MANUAL_BUS_ERR\000"
+ 2271      43425F49 
+ 2271      32435F4D 
+ 2271      41535445 
+ 2271      525F4D41 
+ 2272              	.LASF45:
+ 2273 092a 52585F43 		.ascii	"RX_CTRL\000"
+ 2273      54524C00 
+ 2274              	.LASF74:
+ 2275 0932 494E5452 		.ascii	"INTR_S_SET\000"
+ 2275      5F535F53 
+ 2275      455400
+ 2276              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

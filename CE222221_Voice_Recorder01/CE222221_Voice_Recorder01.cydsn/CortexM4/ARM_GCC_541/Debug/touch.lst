@@ -1,0 +1,4231 @@
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.syntax unified
+  16              		.file	"touch.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.section	.text.InitTouch,"ax",%progbits
+  21              		.align	2
+  22              		.global	InitTouch
+  23              		.thumb
+  24              		.thumb_func
+  25              		.type	InitTouch, %function
+  26              	InitTouch:
+  27              	.LFB806:
+  28              		.file 1 "touch.c"
+   1:touch.c       **** /******************************************************************************
+   2:touch.c       **** * File Name: touch.c
+   3:touch.c       **** *
+   4:touch.c       **** * Version: 1.1
+   5:touch.c       **** *
+   6:touch.c       **** * Description: This file contains the functions used to initialize and read touch
+   7:touch.c       **** *              information from the CapSense sensors 
+   8:touch.c       **** *
+   9:touch.c       **** * Related Document: N/A
+  10:touch.c       **** *
+  11:touch.c       **** * Hardware Dependency: CY8CKIT-062-WiFi-BT PSoC 6 WiFi-BT Pioneer Kit
+  12:touch.c       **** *
+  13:touch.c       **** ******************************************************************************
+  14:touch.c       **** * Copyright (2018), Cypress Semiconductor Corporation.
+  15:touch.c       **** ******************************************************************************
+  16:touch.c       **** * This software, including source code, documentation and related materials
+  17:touch.c       **** * ("Software") is owned by Cypress Semiconductor Corporation (Cypress) and is
+  18:touch.c       **** * protected by and subject to worldwide patent protection (United States and
+  19:touch.c       **** * foreign), United States copyright laws and international treaty provisions.
+  20:touch.c       **** * Cypress hereby grants to licensee a personal, non-exclusive, non-transferable
+  21:touch.c       **** * license to copy, use, modify, create derivative works of, and compile the
+  22:touch.c       **** * Cypress source code and derivative works for the sole purpose of creating
+  23:touch.c       **** * custom software in support of licensee product, such licensee product to be
+  24:touch.c       **** * used only in conjunction with Cypress's integrated circuit as specified in the
+  25:touch.c       **** * applicable agreement. Any reproduction, modification, translation, compilation,
+  26:touch.c       **** * or representation of this Software except as specified above is prohibited
+  27:touch.c       **** * without the express written permission of Cypress.
+  28:touch.c       **** *
+  29:touch.c       **** * Disclaimer: THIS SOFTWARE IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND,
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 2
+
+
+  30:touch.c       **** * EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT, IMPLIED
+  31:touch.c       **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  32:touch.c       **** * Cypress reserves the right to make changes to the Software without notice.
+  33:touch.c       **** * Cypress does not assume any liability arising out of the application or use
+  34:touch.c       **** * of Software or any product or circuit described in the Software. Cypress does
+  35:touch.c       **** * not authorize its products for use as critical components in any products
+  36:touch.c       **** * where a malfunction or failure may reasonably be expected to result in
+  37:touch.c       **** * significant injury or death ("ACTIVE Risk Product"). By including Cypress's
+  38:touch.c       **** * product in a ACTIVE Risk Product, the manufacturer of such system or application
+  39:touch.c       **** * assumes all risk of such use and in doing so indemnifies Cypress against all
+  40:touch.c       **** * liability. Use of this Software may be limited by and subject to the applicable
+  41:touch.c       **** * Cypress software license agreement.
+  42:touch.c       **** *****************************************************************************/
+  43:touch.c       **** /*****************************************************************************
+  44:touch.c       **** * This file contains the functions used to initialize and read touch
+  45:touch.c       **** * information from the CapSense sensors 
+  46:touch.c       **** *******************************************************************************/
+  47:touch.c       **** 
+  48:touch.c       **** /* Header file includes */
+  49:touch.c       **** #include <project.h>
+  50:touch.c       **** #include "touch.h"
+  51:touch.c       **** #include "rtos.h"
+  52:touch.c       **** 
+  53:touch.c       **** /* Threshold used for detecting swipes on the slider */
+  54:touch.c       **** #define SLIDER_SWIPE_THRESHOLD  (uint8_t)(5u)
+  55:touch.c       **** 
+  56:touch.c       **** /* Macro used to clear the variables that track finger position on the slider */
+  57:touch.c       **** #define CLEAR_POSITION          (uint8_t)(0x00u)
+  58:touch.c       **** 
+  59:touch.c       **** /*******************************************************************************
+  60:touch.c       **** * Function Name: void InitTouch(void)
+  61:touch.c       **** ********************************************************************************
+  62:touch.c       **** *
+  63:touch.c       **** * Summary:
+  64:touch.c       **** *  Initializes the CapSense touch sensing 
+  65:touch.c       **** *
+  66:touch.c       **** * Parameters:
+  67:touch.c       **** *  None
+  68:touch.c       **** *
+  69:touch.c       **** * Return:
+  70:touch.c       **** *  None
+  71:touch.c       **** *
+  72:touch.c       **** * Side Effects:
+  73:touch.c       **** *  None
+  74:touch.c       **** *
+  75:touch.c       **** *******************************************************************************/
+  76:touch.c       **** void InitTouch(void)
+  77:touch.c       **** {
+  29              		.loc 1 77 0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 1, uses_anonymous_args = 0
+  33 0000 80B5     		push	{r7, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 7, -8
+  36              		.cfi_offset 14, -4
+  37 0002 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 3
+
+
+  38              		.cfi_def_cfa_register 7
+  78:touch.c       ****     /* Start and initialize the CapSense touch sensing */
+  79:touch.c       ****     CapSense_Start();
+  39              		.loc 1 79 0
+  40 0004 FFF7FEFF 		bl	CapSense_Start
+  80:touch.c       ****     
+  81:touch.c       **** }
+  41              		.loc 1 81 0
+  42 0008 00BF     		nop
+  43 000a 80BD     		pop	{r7, pc}
+  44              		.cfi_endproc
+  45              	.LFE806:
+  46              		.size	InitTouch, .-InitTouch
+  47              		.section	.text.TouchTask,"ax",%progbits
+  48              		.align	2
+  49              		.global	TouchTask
+  50              		.thumb
+  51              		.thumb_func
+  52              		.type	TouchTask, %function
+  53              	TouchTask:
+  54              	.LFB807:
+  82:touch.c       **** 
+  83:touch.c       **** /*******************************************************************************
+  84:touch.c       **** * Function Name: TouchTask(void)
+  85:touch.c       **** ********************************************************************************
+  86:touch.c       **** *
+  87:touch.c       **** * Summary:
+  88:touch.c       **** *   Scans the CapSense widgets, performs analysis and updates the touch 
+  89:touch.c       **** *   information
+  90:touch.c       **** *
+  91:touch.c       **** * Parameters:
+  92:touch.c       **** *  arg: Required argument for task function. 
+  93:touch.c       **** *
+  94:touch.c       **** * Side Effects :
+  95:touch.c       **** *  None
+  96:touch.c       **** *
+  97:touch.c       **** *******************************************************************************/
+  98:touch.c       **** void TouchTask(void *arg)
+  99:touch.c       **** {
+  55              		.loc 1 99 0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 24
+  58              		@ frame_needed = 1, uses_anonymous_args = 0
+  59 0000 80B5     		push	{r7, lr}
+  60              		.cfi_def_cfa_offset 8
+  61              		.cfi_offset 7, -8
+  62              		.cfi_offset 14, -4
+  63 0002 86B0     		sub	sp, sp, #24
+  64              		.cfi_def_cfa_offset 32
+  65 0004 00AF     		add	r7, sp, #0
+  66              		.cfi_def_cfa_register 7
+  67 0006 7860     		str	r0, [r7, #4]
+  68              	.L19:
+  69              	.LBB2:
+ 100:touch.c       ****     /* Variables that store the current and the previous slider positions
+ 101:touch.c       ****        and the incremental values of slider position */
+ 102:touch.c       ****     uint8_t static      currSliderPos    = CLEAR_POSITION;
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 4
+
+
+ 103:touch.c       ****     uint8_t static      prevSliderPos    = CLEAR_POSITION;
+ 104:touch.c       ****     uint8_t static      leftSliderValue  = CLEAR_POSITION;
+ 105:touch.c       ****     uint8_t static      rightSliderValue = CLEAR_POSITION;
+ 106:touch.c       ****     uint8_t static      prevLeftButton   = NO_TOUCH;
+ 107:touch.c       ****     uint8_t static      prevRightButton  = NO_TOUCH;
+ 108:touch.c       ****     uint8_t static      currLeftButton   = NO_TOUCH;
+ 109:touch.c       ****     uint8_t static      currRightButton  = NO_TOUCH;
+ 110:touch.c       ****     
+ 111:touch.c       ****     /* Variable that stores the status of touch on the slider */
+ 112:touch.c       ****     bool    static      sliderTouched       = false;
+ 113:touch.c       ****     
+ 114:touch.c       ****     /* Flags used to initiate swipe detection */
+ 115:touch.c       ****     bool    static      checkRightSwipe     = false;
+ 116:touch.c       ****     bool    static      checkLeftSwipe      = false;
+ 117:touch.c       ****     
+ 118:touch.c       ****     /* Last wake tick time */
+ 119:touch.c       ****     TickType_t          lastWakeTime;
+ 120:touch.c       ****     
+ 121:touch.c       ****     (void) arg;
+ 122:touch.c       ****     
+ 123:touch.c       ****     while (1)
+ 124:touch.c       ****     {
+ 125:touch.c       ****         /* Variable that stores the return data */
+ 126:touch.c       ****         touch_data_t        touchInformation =
+  70              		.loc 1 126 0
+  71 0008 0023     		movs	r3, #0
+  72 000a FB60     		str	r3, [r7, #12]
+  73 000c 0023     		movs	r3, #0
+  74 000e 3B74     		strb	r3, [r7, #16]
+ 127:touch.c       ****         {
+ 128:touch.c       ****             .touchType =    NO_TOUCH,
+ 129:touch.c       ****             .scanBusy  =    false
+ 130:touch.c       ****         };
+ 131:touch.c       **** 
+ 132:touch.c       ****         lastWakeTime = xTaskGetTickCount();
+  75              		.loc 1 132 0
+  76 0010 FFF7FEFF 		bl	xTaskGetTickCount
+  77 0014 0346     		mov	r3, r0
+  78 0016 7B61     		str	r3, [r7, #20]
+ 133:touch.c       ****         
+ 134:touch.c       ****         /* Do this only when the CapSense isn't busy with a previous operation*/
+ 135:touch.c       ****         if (CapSense_NOT_BUSY == CapSense_IsBusy())
+  79              		.loc 1 135 0
+  80 0018 FFF7FEFF 		bl	CapSense_IsBusy
+  81 001c 0346     		mov	r3, r0
+  82 001e 002B     		cmp	r3, #0
+  83 0020 40F0C280 		bne	.L3
+ 136:touch.c       ****         {           
+ 137:touch.c       ****             /* Process data from all the sensors and find out the touch 
+ 138:touch.c       ****                information */
+ 139:touch.c       ****             CapSense_ProcessAllWidgets();
+  84              		.loc 1 139 0
+  85 0024 FFF7FEFF 		bl	CapSense_ProcessAllWidgets
+ 140:touch.c       ****             
+ 141:touch.c       ****             /* Check if the slider is touched */
+ 142:touch.c       ****             if (CapSense_IsWidgetActive(CapSense_LINEARSLIDER0_WDGT_ID))
+  86              		.loc 1 142 0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 5
+
+
+  87 0028 0220     		movs	r0, #2
+  88 002a FFF7FEFF 		bl	CapSense_IsWidgetActive
+  89 002e 0346     		mov	r3, r0
+  90 0030 002B     		cmp	r3, #0
+  91 0032 00F08380 		beq	.L4
+ 143:touch.c       ****             {
+ 144:touch.c       ****                 /* If the slider was touched during the previous scan, 
+ 145:touch.c       ****                    find out the direction of finger swipe */
+ 146:touch.c       ****                 if (sliderTouched)
+  92              		.loc 1 146 0
+  93 0036 6E4B     		ldr	r3, .L20
+  94 0038 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  95 003a 002B     		cmp	r3, #0
+  96 003c 65D0     		beq	.L5
+ 147:touch.c       ****                 {
+ 148:touch.c       ****                     /* Backup the slider position from the previous scan and 
+ 149:touch.c       ****                        read the new slider position */
+ 150:touch.c       ****                     prevSliderPos = currSliderPos;
+  97              		.loc 1 150 0
+  98 003e 6D4B     		ldr	r3, .L20+4
+  99 0040 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 100 0042 6D4B     		ldr	r3, .L20+8
+ 101 0044 1A70     		strb	r2, [r3]
+ 151:touch.c       ****                     currSliderPos = CapSense_GetCentroidPos
+ 102              		.loc 1 151 0
+ 103 0046 0220     		movs	r0, #2
+ 104 0048 FFF7FEFF 		bl	CapSense_GetCentroidPos
+ 105 004c 0346     		mov	r3, r0
+ 106 004e DAB2     		uxtb	r2, r3
+ 107 0050 684B     		ldr	r3, .L20+4
+ 108 0052 1A70     		strb	r2, [r3]
+ 152:touch.c       ****                                     (CapSense_LINEARSLIDER0_WDGT_ID);
+ 153:touch.c       ****                     
+ 154:touch.c       ****                     /* Right swipe detected */
+ 155:touch.c       ****                     if ((currSliderPos > prevSliderPos))
+ 109              		.loc 1 155 0
+ 110 0054 674B     		ldr	r3, .L20+4
+ 111 0056 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 112 0058 674B     		ldr	r3, .L20+8
+ 113 005a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 114 005c 9A42     		cmp	r2, r3
+ 115 005e 25D9     		bls	.L6
+ 156:touch.c       ****                     {
+ 157:touch.c       ****                         /* Accumulate the finger travel distance */
+ 158:touch.c       ****                         leftSliderValue += (currSliderPos - prevSliderPos);
+ 116              		.loc 1 158 0
+ 117 0060 644B     		ldr	r3, .L20+4
+ 118 0062 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 119 0064 644B     		ldr	r3, .L20+8
+ 120 0066 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 121 0068 D31A     		subs	r3, r2, r3
+ 122 006a DAB2     		uxtb	r2, r3
+ 123 006c 634B     		ldr	r3, .L20+12
+ 124 006e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 125 0070 1344     		add	r3, r3, r2
+ 126 0072 DAB2     		uxtb	r2, r3
+ 127 0074 614B     		ldr	r3, .L20+12
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 6
+
+
+ 128 0076 1A70     		strb	r2, [r3]
+ 159:touch.c       ****                         rightSliderValue = CLEAR_POSITION;
+ 129              		.loc 1 159 0
+ 130 0078 614B     		ldr	r3, .L20+16
+ 131 007a 0022     		movs	r2, #0
+ 132 007c 1A70     		strb	r2, [r3]
+ 160:touch.c       ****                         
+ 161:touch.c       ****                         /* Report the swipe if the finger travel distance is 
+ 162:touch.c       ****                            above the threshold */
+ 163:touch.c       ****                         if (leftSliderValue > SLIDER_SWIPE_THRESHOLD)
+ 133              		.loc 1 163 0
+ 134 007e 5F4B     		ldr	r3, .L20+12
+ 135 0080 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 136 0082 052B     		cmp	r3, #5
+ 137 0084 3DD9     		bls	.L9
+ 164:touch.c       ****                         {
+ 165:touch.c       ****                             /* Clear the accumulated slider value */
+ 166:touch.c       ****                             leftSliderValue = CLEAR_POSITION;
+ 138              		.loc 1 166 0
+ 139 0086 5D4B     		ldr	r3, .L20+12
+ 140 0088 0022     		movs	r2, #0
+ 141 008a 1A70     		strb	r2, [r3]
+ 167:touch.c       ****                             
+ 168:touch.c       ****                             /* If the swipe detection is enabled, store the 
+ 169:touch.c       ****                                detected swipe */
+ 170:touch.c       ****                             if(checkLeftSwipe)
+ 142              		.loc 1 170 0
+ 143 008c 5D4B     		ldr	r3, .L20+20
+ 144 008e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 145 0090 002B     		cmp	r3, #0
+ 146 0092 05D0     		beq	.L8
+ 171:touch.c       ****                             {
+ 172:touch.c       ****                                 touchInformation.touchType = SLIDER_RIGHT;
+ 147              		.loc 1 172 0
+ 148 0094 5C4B     		ldr	r3, .L20+24
+ 149 0096 FB60     		str	r3, [r7, #12]
+ 173:touch.c       ****                                 checkLeftSwipe  = false;
+ 150              		.loc 1 173 0
+ 151 0098 5A4B     		ldr	r3, .L20+20
+ 152 009a 0022     		movs	r2, #0
+ 153 009c 1A70     		strb	r2, [r3]
+ 154 009e 30E0     		b	.L9
+ 155              	.L8:
+ 174:touch.c       ****                             }
+ 175:touch.c       ****                             /* Report a "no touch" otherwise */
+ 176:touch.c       ****                             else
+ 177:touch.c       ****                             {
+ 178:touch.c       ****                                 touchInformation.touchType = NO_TOUCH;
+ 156              		.loc 1 178 0
+ 157 00a0 0023     		movs	r3, #0
+ 158 00a2 FB60     		str	r3, [r7, #12]
+ 179:touch.c       ****                                 checkRightSwipe  = true;
+ 159              		.loc 1 179 0
+ 160 00a4 594B     		ldr	r3, .L20+28
+ 161 00a6 0122     		movs	r2, #1
+ 162 00a8 1A70     		strb	r2, [r3]
+ 163 00aa 2AE0     		b	.L9
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 7
+
+
+ 164              	.L6:
+ 180:touch.c       ****                             }
+ 181:touch.c       ****                         }
+ 182:touch.c       ****                     }
+ 183:touch.c       ****                     /* Left swipe detected*/
+ 184:touch.c       ****                     else if ((currSliderPos < prevSliderPos))
+ 165              		.loc 1 184 0
+ 166 00ac 514B     		ldr	r3, .L20+4
+ 167 00ae 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 168 00b0 514B     		ldr	r3, .L20+8
+ 169 00b2 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 170 00b4 9A42     		cmp	r2, r3
+ 171 00b6 24D2     		bcs	.L9
+ 185:touch.c       ****                     {
+ 186:touch.c       ****                         /* Accumulate the finger travel distance */
+ 187:touch.c       ****                         rightSliderValue += (prevSliderPos - currSliderPos);
+ 172              		.loc 1 187 0
+ 173 00b8 4F4B     		ldr	r3, .L20+8
+ 174 00ba 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 175 00bc 4D4B     		ldr	r3, .L20+4
+ 176 00be 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 177 00c0 D31A     		subs	r3, r2, r3
+ 178 00c2 DAB2     		uxtb	r2, r3
+ 179 00c4 4E4B     		ldr	r3, .L20+16
+ 180 00c6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 181 00c8 1344     		add	r3, r3, r2
+ 182 00ca DAB2     		uxtb	r2, r3
+ 183 00cc 4C4B     		ldr	r3, .L20+16
+ 184 00ce 1A70     		strb	r2, [r3]
+ 188:touch.c       ****                         leftSliderValue   = CLEAR_POSITION;
+ 185              		.loc 1 188 0
+ 186 00d0 4A4B     		ldr	r3, .L20+12
+ 187 00d2 0022     		movs	r2, #0
+ 188 00d4 1A70     		strb	r2, [r3]
+ 189:touch.c       ****                         
+ 190:touch.c       ****                         /* Report the swipe if the finger travel distance is 
+ 191:touch.c       ****                            above the threshold */
+ 192:touch.c       ****                         if (rightSliderValue > SLIDER_SWIPE_THRESHOLD)
+ 189              		.loc 1 192 0
+ 190 00d6 4A4B     		ldr	r3, .L20+16
+ 191 00d8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 192 00da 052B     		cmp	r3, #5
+ 193 00dc 11D9     		bls	.L9
+ 193:touch.c       ****                         {
+ 194:touch.c       ****                             /* Clear the accumulated slider value */
+ 195:touch.c       ****                             rightSliderValue = CLEAR_POSITION;
+ 194              		.loc 1 195 0
+ 195 00de 484B     		ldr	r3, .L20+16
+ 196 00e0 0022     		movs	r2, #0
+ 197 00e2 1A70     		strb	r2, [r3]
+ 196:touch.c       ****                             
+ 197:touch.c       ****                             /* If the swipe detection is enabled, store the 
+ 198:touch.c       ****                                detected swipe */
+ 199:touch.c       ****                             if(checkRightSwipe)
+ 198              		.loc 1 199 0
+ 199 00e4 494B     		ldr	r3, .L20+28
+ 200 00e6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 8
+
+
+ 201 00e8 002B     		cmp	r3, #0
+ 202 00ea 05D0     		beq	.L10
+ 200:touch.c       ****                             {
+ 201:touch.c       ****                                 touchInformation.touchType = SLIDER_LEFT;
+ 203              		.loc 1 201 0
+ 204 00ec 484B     		ldr	r3, .L20+32
+ 205 00ee FB60     		str	r3, [r7, #12]
+ 202:touch.c       ****                                 checkRightSwipe = false;
+ 206              		.loc 1 202 0
+ 207 00f0 464B     		ldr	r3, .L20+28
+ 208 00f2 0022     		movs	r2, #0
+ 209 00f4 1A70     		strb	r2, [r3]
+ 210 00f6 04E0     		b	.L9
+ 211              	.L10:
+ 203:touch.c       ****                             }
+ 204:touch.c       ****                             /* Report a "no touch" otherwise */
+ 205:touch.c       ****                             else
+ 206:touch.c       ****                             {
+ 207:touch.c       ****                                 touchInformation.touchType = NO_TOUCH;
+ 212              		.loc 1 207 0
+ 213 00f8 0023     		movs	r3, #0
+ 214 00fa FB60     		str	r3, [r7, #12]
+ 208:touch.c       ****                                 checkLeftSwipe  = true;
+ 215              		.loc 1 208 0
+ 216 00fc 414B     		ldr	r3, .L20+20
+ 217 00fe 0122     		movs	r2, #1
+ 218 0100 1A70     		strb	r2, [r3]
+ 219              	.L9:
+ 209:touch.c       ****                             }
+ 210:touch.c       ****                         }
+ 211:touch.c       ****                     }
+ 212:touch.c       ****                     /* Report that slider is touched */
+ 213:touch.c       ****                     sliderTouched = true;
+ 220              		.loc 1 213 0
+ 221 0102 3B4B     		ldr	r3, .L20
+ 222 0104 0122     		movs	r2, #1
+ 223 0106 1A70     		strb	r2, [r3]
+ 224 0108 4BE0     		b	.L12
+ 225              	.L5:
+ 214:touch.c       ****                 }
+ 215:touch.c       ****                 /* If no previous touch */
+ 216:touch.c       ****                 else
+ 217:touch.c       ****                 {
+ 218:touch.c       ****                     /* Get the current slider position and update the slider touch
+ 219:touch.c       ****                        flag */
+ 220:touch.c       ****                     currSliderPos       = CapSense_GetCentroidPos
+ 226              		.loc 1 220 0
+ 227 010a 0220     		movs	r0, #2
+ 228 010c FFF7FEFF 		bl	CapSense_GetCentroidPos
+ 229 0110 0346     		mov	r3, r0
+ 230 0112 DAB2     		uxtb	r2, r3
+ 231 0114 374B     		ldr	r3, .L20+4
+ 232 0116 1A70     		strb	r2, [r3]
+ 221:touch.c       ****                                          (CapSense_LINEARSLIDER0_WDGT_ID);
+ 222:touch.c       ****                     leftSliderValue     = CLEAR_POSITION;
+ 233              		.loc 1 222 0
+ 234 0118 384B     		ldr	r3, .L20+12
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 9
+
+
+ 235 011a 0022     		movs	r2, #0
+ 236 011c 1A70     		strb	r2, [r3]
+ 223:touch.c       ****                     rightSliderValue    = CLEAR_POSITION;
+ 237              		.loc 1 223 0
+ 238 011e 384B     		ldr	r3, .L20+16
+ 239 0120 0022     		movs	r2, #0
+ 240 0122 1A70     		strb	r2, [r3]
+ 224:touch.c       ****                                     
+ 225:touch.c       ****                     /* Report that slider is touched */
+ 226:touch.c       ****                     sliderTouched       = true;
+ 241              		.loc 1 226 0
+ 242 0124 324B     		ldr	r3, .L20
+ 243 0126 0122     		movs	r2, #1
+ 244 0128 1A70     		strb	r2, [r3]
+ 227:touch.c       ****                                     
+ 228:touch.c       ****                     /* Set the flag to check swipe for the next scan */
+ 229:touch.c       ****                     checkLeftSwipe      = true;                
+ 245              		.loc 1 229 0
+ 246 012a 364B     		ldr	r3, .L20+20
+ 247 012c 0122     		movs	r2, #1
+ 248 012e 1A70     		strb	r2, [r3]
+ 230:touch.c       ****                     checkRightSwipe     = true;  
+ 249              		.loc 1 230 0
+ 250 0130 364B     		ldr	r3, .L20+28
+ 251 0132 0122     		movs	r2, #1
+ 252 0134 1A70     		strb	r2, [r3]
+ 231:touch.c       ****                                     
+ 232:touch.c       ****                     /* Send a "no touch" for this scan */
+ 233:touch.c       ****                     touchInformation.touchType = NO_TOUCH;
+ 253              		.loc 1 233 0
+ 254 0136 0023     		movs	r3, #0
+ 255 0138 FB60     		str	r3, [r7, #12]
+ 256 013a 32E0     		b	.L12
+ 257              	.L4:
+ 234:touch.c       ****                 }
+ 235:touch.c       ****             }
+ 236:touch.c       ****             /* Check if the select button (button 0) is touched */
+ 237:touch.c       ****             else if (CapSense_IsWidgetActive(CapSense_BUTTON0_WDGT_ID))
+ 258              		.loc 1 237 0
+ 259 013c 0020     		movs	r0, #0
+ 260 013e FFF7FEFF 		bl	CapSense_IsWidgetActive
+ 261 0142 0346     		mov	r3, r0
+ 262 0144 002B     		cmp	r3, #0
+ 263 0146 03D0     		beq	.L13
+ 238:touch.c       ****             {
+ 239:touch.c       ****                 /* Send the select button (button 0)touch detection */
+ 240:touch.c       ****                 currLeftButton = true;
+ 264              		.loc 1 240 0
+ 265 0148 324B     		ldr	r3, .L20+36
+ 266 014a 0122     		movs	r2, #1
+ 267 014c 1A70     		strb	r2, [r3]
+ 268 014e 28E0     		b	.L12
+ 269              	.L13:
+ 241:touch.c       ****             }
+ 242:touch.c       ****             /* Check if the back button (button 1) is touched */
+ 243:touch.c       ****             else if (CapSense_IsWidgetActive(CapSense_BUTTON1_WDGT_ID))
+ 270              		.loc 1 243 0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 10
+
+
+ 271 0150 0120     		movs	r0, #1
+ 272 0152 FFF7FEFF 		bl	CapSense_IsWidgetActive
+ 273 0156 0346     		mov	r3, r0
+ 274 0158 002B     		cmp	r3, #0
+ 275 015a 03D0     		beq	.L14
+ 244:touch.c       ****             {
+ 245:touch.c       ****                 /* Send the back button (button 1) touch detection */
+ 246:touch.c       ****                  currRightButton = true;
+ 276              		.loc 1 246 0
+ 277 015c 2E4B     		ldr	r3, .L20+40
+ 278 015e 0122     		movs	r2, #1
+ 279 0160 1A70     		strb	r2, [r3]
+ 280 0162 1EE0     		b	.L12
+ 281              	.L14:
+ 247:touch.c       ****             }
+ 248:touch.c       ****             /* No widgets are active */
+ 249:touch.c       ****             else
+ 250:touch.c       ****             {
+ 251:touch.c       ****                 /* Clear the slider touch flag and the variables that store the 
+ 252:touch.c       ****                    finger position */
+ 253:touch.c       ****                 sliderTouched       = false;
+ 282              		.loc 1 253 0
+ 283 0164 224B     		ldr	r3, .L20
+ 284 0166 0022     		movs	r2, #0
+ 285 0168 1A70     		strb	r2, [r3]
+ 254:touch.c       ****                 leftSliderValue     = CLEAR_POSITION;
+ 286              		.loc 1 254 0
+ 287 016a 244B     		ldr	r3, .L20+12
+ 288 016c 0022     		movs	r2, #0
+ 289 016e 1A70     		strb	r2, [r3]
+ 255:touch.c       ****                 rightSliderValue    = CLEAR_POSITION;
+ 290              		.loc 1 255 0
+ 291 0170 234B     		ldr	r3, .L20+16
+ 292 0172 0022     		movs	r2, #0
+ 293 0174 1A70     		strb	r2, [r3]
+ 256:touch.c       ****                 currLeftButton      = false;
+ 294              		.loc 1 256 0
+ 295 0176 274B     		ldr	r3, .L20+36
+ 296 0178 0022     		movs	r2, #0
+ 297 017a 1A70     		strb	r2, [r3]
+ 257:touch.c       ****                 currRightButton     = false;
+ 298              		.loc 1 257 0
+ 299 017c 264B     		ldr	r3, .L20+40
+ 300 017e 0022     		movs	r2, #0
+ 301 0180 1A70     		strb	r2, [r3]
+ 258:touch.c       ****                 
+ 259:touch.c       ****                 if (prevLeftButton)
+ 302              		.loc 1 259 0
+ 303 0182 264B     		ldr	r3, .L20+44
+ 304 0184 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 305 0186 002B     		cmp	r3, #0
+ 306 0188 02D0     		beq	.L15
+ 260:touch.c       ****                 {
+ 261:touch.c       ****                     touchInformation.touchType = LEFT_BUTTON;
+ 307              		.loc 1 261 0
+ 308 018a 254B     		ldr	r3, .L20+48
+ 309 018c FB60     		str	r3, [r7, #12]
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 11
+
+
+ 310 018e 08E0     		b	.L12
+ 311              	.L15:
+ 262:touch.c       ****                 }
+ 263:touch.c       ****                 else if (prevRightButton)
+ 312              		.loc 1 263 0
+ 313 0190 244B     		ldr	r3, .L20+52
+ 314 0192 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 315 0194 002B     		cmp	r3, #0
+ 316 0196 02D0     		beq	.L16
+ 264:touch.c       ****                 {
+ 265:touch.c       ****                     touchInformation.touchType = RIGHT_BUTTON;
+ 317              		.loc 1 265 0
+ 318 0198 234B     		ldr	r3, .L20+56
+ 319 019a FB60     		str	r3, [r7, #12]
+ 320 019c 01E0     		b	.L12
+ 321              	.L16:
+ 266:touch.c       ****                 }
+ 267:touch.c       ****                 else
+ 268:touch.c       ****                 {
+ 269:touch.c       ****                     /* Send a "no touch" for this scan */
+ 270:touch.c       ****                     touchInformation.touchType = NO_TOUCH;
+ 322              		.loc 1 270 0
+ 323 019e 0023     		movs	r3, #0
+ 324 01a0 FB60     		str	r3, [r7, #12]
+ 325              	.L12:
+ 271:touch.c       ****                 }
+ 272:touch.c       ****             }
+ 273:touch.c       ****             /* Start CapSense scan */
+ 274:touch.c       ****             CapSense_ScanAllWidgets();
+ 326              		.loc 1 274 0
+ 327 01a2 FFF7FEFF 		bl	CapSense_ScanAllWidgets
+ 328 01a6 03E0     		b	.L17
+ 329              	.L3:
+ 275:touch.c       ****         }
+ 276:touch.c       ****         else
+ 277:touch.c       ****         {
+ 278:touch.c       ****             /* Send a "no touch" as CapSense is busy with a previous operation */
+ 279:touch.c       ****              touchInformation.touchType = NO_TOUCH;
+ 330              		.loc 1 279 0
+ 331 01a8 0023     		movs	r3, #0
+ 332 01aa FB60     		str	r3, [r7, #12]
+ 280:touch.c       ****              touchInformation.scanBusy  = true;
+ 333              		.loc 1 280 0
+ 334 01ac 0123     		movs	r3, #1
+ 335 01ae 3B74     		strb	r3, [r7, #16]
+ 336              	.L17:
+ 281:touch.c       ****         }      
+ 282:touch.c       ****         
+ 283:touch.c       ****         prevLeftButton = currLeftButton;
+ 337              		.loc 1 283 0
+ 338 01b0 184B     		ldr	r3, .L20+36
+ 339 01b2 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 340 01b4 194B     		ldr	r3, .L20+44
+ 341 01b6 1A70     		strb	r2, [r3]
+ 284:touch.c       ****         prevRightButton = currRightButton;
+ 342              		.loc 1 284 0
+ 343 01b8 174B     		ldr	r3, .L20+40
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 12
+
+
+ 344 01ba 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 345 01bc 194B     		ldr	r3, .L20+52
+ 346 01be 1A70     		strb	r2, [r3]
+ 285:touch.c       ****         
+ 286:touch.c       ****         /* Only send events if a touch is detected */
+ 287:touch.c       ****         if ((touchInformation.touchType != NO_TOUCH) &&
+ 347              		.loc 1 287 0
+ 348 01c0 FB68     		ldr	r3, [r7, #12]
+ 349 01c2 002B     		cmp	r3, #0
+ 350 01c4 0DD0     		beq	.L18
+ 288:touch.c       ****             (touchInformation.scanBusy == false))
+ 351              		.loc 1 288 0 discriminator 1
+ 352 01c6 3B7C     		ldrb	r3, [r7, #16]	@ zero_extendqisi2
+ 353 01c8 83F00103 		eor	r3, r3, #1
+ 354 01cc DBB2     		uxtb	r3, r3
+ 287:touch.c       ****             (touchInformation.scanBusy == false))
+ 355              		.loc 1 287 0 discriminator 1
+ 356 01ce 002B     		cmp	r3, #0
+ 357 01d0 07D0     		beq	.L18
+ 289:touch.c       ****         {
+ 290:touch.c       ****             xQueueSend(EventsQueue, &touchInformation.touchType, 0);
+ 358              		.loc 1 290 0
+ 359 01d2 164B     		ldr	r3, .L20+60
+ 360 01d4 1868     		ldr	r0, [r3]
+ 361 01d6 07F10C01 		add	r1, r7, #12
+ 362 01da 0023     		movs	r3, #0
+ 363 01dc 0022     		movs	r2, #0
+ 364 01de FFF7FEFF 		bl	xQueueGenericSend
+ 365              	.L18:
+ 291:touch.c       ****         }
+ 292:touch.c       **** 
+ 293:touch.c       ****         /* Delay 10 ms till next scan */
+ 294:touch.c       ****         vTaskDelayUntil(&lastWakeTime, pdMS_TO_TICKS(10));
+ 366              		.loc 1 294 0
+ 367 01e2 07F11403 		add	r3, r7, #20
+ 368 01e6 0A21     		movs	r1, #10
+ 369 01e8 1846     		mov	r0, r3
+ 370 01ea FFF7FEFF 		bl	vTaskDelayUntil
+ 371              	.LBE2:
+ 295:touch.c       ****     }
+ 372              		.loc 1 295 0
+ 373 01ee 0BE7     		b	.L19
+ 374              	.L21:
+ 375              		.align	2
+ 376              	.L20:
+ 377 01f0 00000000 		.word	sliderTouched.17340
+ 378 01f4 01000000 		.word	currSliderPos.17332
+ 379 01f8 02000000 		.word	prevSliderPos.17333
+ 380 01fc 03000000 		.word	leftSliderValue.17334
+ 381 0200 04000000 		.word	rightSliderValue.17335
+ 382 0204 05000000 		.word	checkLeftSwipe.17342
+ 383 0208 04000010 		.word	268435460
+ 384 020c 06000000 		.word	checkRightSwipe.17341
+ 385 0210 03000010 		.word	268435459
+ 386 0214 07000000 		.word	currLeftButton.17338
+ 387 0218 08000000 		.word	currRightButton.17339
+ 388 021c 09000000 		.word	prevLeftButton.17336
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 13
+
+
+ 389 0220 01000010 		.word	268435457
+ 390 0224 0A000000 		.word	prevRightButton.17337
+ 391 0228 02000010 		.word	268435458
+ 392 022c 00000000 		.word	EventsQueue
+ 393              		.cfi_endproc
+ 394              	.LFE807:
+ 395              		.size	TouchTask, .-TouchTask
+ 396              		.bss
+ 397              	sliderTouched.17340:
+ 398 0000 00       		.space	1
+ 399              	currSliderPos.17332:
+ 400 0001 00       		.space	1
+ 401              	prevSliderPos.17333:
+ 402 0002 00       		.space	1
+ 403              	leftSliderValue.17334:
+ 404 0003 00       		.space	1
+ 405              	rightSliderValue.17335:
+ 406 0004 00       		.space	1
+ 407              	checkLeftSwipe.17342:
+ 408 0005 00       		.space	1
+ 409              	checkRightSwipe.17341:
+ 410 0006 00       		.space	1
+ 411              	currLeftButton.17338:
+ 412 0007 00       		.space	1
+ 413              	currRightButton.17339:
+ 414 0008 00       		.space	1
+ 415              	prevLeftButton.17336:
+ 416 0009 00       		.space	1
+ 417              	prevRightButton.17337:
+ 418 000a 00       		.space	1
+ 419              		.text
+ 420              	.Letext0:
+ 421              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 422              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 423              		.file 4 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/syslib/cy_syslib.h"
+ 424              		.file 5 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/smif/cy_smif.h"
+ 425              		.file 6 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/smif/cy_smif_memslot.h"
+ 426              		.file 7 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/scb/cy_scb_i2c.h"
+ 427              		.file 8 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/i2s/cy_i2s.h"
+ 428              		.file 9 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/pdm_pcm/cy_pdm_pcm.h"
+ 429              		.file 10 "touch.h"
+ 430              		.file 11 "Generated_Source\\PSoC6\\pdl\\rtos/FreeRTOS/9.0.0/Source/portable/GCC/CM4F/portmacro.h"
+ 431              		.file 12 "Generated_Source\\PSoC6\\pdl\\rtos/FreeRTOS/9.0.0/Source/include/queue.h"
+ 432              		.file 13 "Generated_Source\\PSoC6\\pdl\\cmsis/include/core_cm4.h"
+ 433              		.file 14 "Generated_Source\\PSoC6/PDM_PCM.h"
+ 434              		.file 15 "Generated_Source\\PSoC6/CodecI2CM.h"
+ 435              		.file 16 "Generated_Source\\PSoC6/I2S.h"
+ 436              		.file 17 "Generated_Source\\PSoC6/SMIF_1.h"
+ 437              		.file 18 "rtos.h"
+ 438              		.section	.debug_info,"",%progbits
+ 439              	.Ldebug_info0:
+ 440 0000 BE0C0000 		.4byte	0xcbe
+ 441 0004 0400     		.2byte	0x4
+ 442 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 443 000a 04       		.byte	0x4
+ 444 000b 01       		.uleb128 0x1
+ 445 000c 76100000 		.4byte	.LASF255
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 14
+
+
+ 446 0010 0C       		.byte	0xc
+ 447 0011 2D010000 		.4byte	.LASF256
+ 448 0015 AC000000 		.4byte	.LASF257
+ 449 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 450 001d 00000000 		.4byte	0
+ 451 0021 00000000 		.4byte	.Ldebug_line0
+ 452 0025 02       		.uleb128 0x2
+ 453 0026 02       		.byte	0x2
+ 454 0027 05       		.byte	0x5
+ 455 0028 E50B0000 		.4byte	.LASF0
+ 456 002c 02       		.uleb128 0x2
+ 457 002d 01       		.byte	0x1
+ 458 002e 06       		.byte	0x6
+ 459 002f 490F0000 		.4byte	.LASF1
+ 460 0033 03       		.uleb128 0x3
+ 461 0034 A10C0000 		.4byte	.LASF4
+ 462 0038 02       		.byte	0x2
+ 463 0039 1D       		.byte	0x1d
+ 464 003a 3E000000 		.4byte	0x3e
+ 465 003e 02       		.uleb128 0x2
+ 466 003f 01       		.byte	0x1
+ 467 0040 08       		.byte	0x8
+ 468 0041 260E0000 		.4byte	.LASF2
+ 469 0045 02       		.uleb128 0x2
+ 470 0046 02       		.byte	0x2
+ 471 0047 07       		.byte	0x7
+ 472 0048 6B0F0000 		.4byte	.LASF3
+ 473 004c 03       		.uleb128 0x3
+ 474 004d C5010000 		.4byte	.LASF5
+ 475 0051 02       		.byte	0x2
+ 476 0052 3F       		.byte	0x3f
+ 477 0053 57000000 		.4byte	0x57
+ 478 0057 02       		.uleb128 0x2
+ 479 0058 04       		.byte	0x4
+ 480 0059 05       		.byte	0x5
+ 481 005a 010C0000 		.4byte	.LASF6
+ 482 005e 03       		.uleb128 0x3
+ 483 005f 340E0000 		.4byte	.LASF7
+ 484 0063 02       		.byte	0x2
+ 485 0064 41       		.byte	0x41
+ 486 0065 69000000 		.4byte	0x69
+ 487 0069 02       		.uleb128 0x2
+ 488 006a 04       		.byte	0x4
+ 489 006b 07       		.byte	0x7
+ 490 006c 150D0000 		.4byte	.LASF8
+ 491 0070 02       		.uleb128 0x2
+ 492 0071 08       		.byte	0x8
+ 493 0072 05       		.byte	0x5
+ 494 0073 B3090000 		.4byte	.LASF9
+ 495 0077 02       		.uleb128 0x2
+ 496 0078 08       		.byte	0x8
+ 497 0079 07       		.byte	0x7
+ 498 007a D9040000 		.4byte	.LASF10
+ 499 007e 04       		.uleb128 0x4
+ 500 007f 04       		.byte	0x4
+ 501 0080 05       		.byte	0x5
+ 502 0081 696E7400 		.ascii	"int\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 15
+
+
+ 503 0085 02       		.uleb128 0x2
+ 504 0086 04       		.byte	0x4
+ 505 0087 07       		.byte	0x7
+ 506 0088 4D010000 		.4byte	.LASF11
+ 507 008c 03       		.uleb128 0x3
+ 508 008d 0A090000 		.4byte	.LASF12
+ 509 0091 03       		.byte	0x3
+ 510 0092 18       		.byte	0x18
+ 511 0093 33000000 		.4byte	0x33
+ 512 0097 03       		.uleb128 0x3
+ 513 0098 3B0D0000 		.4byte	.LASF13
+ 514 009c 03       		.byte	0x3
+ 515 009d 2C       		.byte	0x2c
+ 516 009e 4C000000 		.4byte	0x4c
+ 517 00a2 03       		.uleb128 0x3
+ 518 00a3 52040000 		.4byte	.LASF14
+ 519 00a7 03       		.byte	0x3
+ 520 00a8 30       		.byte	0x30
+ 521 00a9 5E000000 		.4byte	0x5e
+ 522 00ad 02       		.uleb128 0x2
+ 523 00ae 04       		.byte	0x4
+ 524 00af 07       		.byte	0x7
+ 525 00b0 C70B0000 		.4byte	.LASF15
+ 526 00b4 05       		.uleb128 0x5
+ 527 00b5 A2000000 		.4byte	0xa2
+ 528 00b9 05       		.uleb128 0x5
+ 529 00ba 8C000000 		.4byte	0x8c
+ 530 00be 02       		.uleb128 0x2
+ 531 00bf 08       		.byte	0x8
+ 532 00c0 04       		.byte	0x4
+ 533 00c1 750B0000 		.4byte	.LASF16
+ 534 00c5 02       		.uleb128 0x2
+ 535 00c6 01       		.byte	0x1
+ 536 00c7 08       		.byte	0x8
+ 537 00c8 FB070000 		.4byte	.LASF17
+ 538 00cc 02       		.uleb128 0x2
+ 539 00cd 04       		.byte	0x4
+ 540 00ce 04       		.byte	0x4
+ 541 00cf 84040000 		.4byte	.LASF18
+ 542 00d3 02       		.uleb128 0x2
+ 543 00d4 08       		.byte	0x8
+ 544 00d5 04       		.byte	0x4
+ 545 00d6 EB0F0000 		.4byte	.LASF19
+ 546 00da 06       		.uleb128 0x6
+ 547 00db E50F0000 		.4byte	.LASF20
+ 548 00df 04       		.byte	0x4
+ 549 00e0 8503     		.2byte	0x385
+ 550 00e2 8C000000 		.4byte	0x8c
+ 551 00e6 07       		.uleb128 0x7
+ 552 00e7 04       		.byte	0x4
+ 553 00e8 02       		.uleb128 0x2
+ 554 00e9 01       		.byte	0x1
+ 555 00ea 02       		.byte	0x2
+ 556 00eb 65060000 		.4byte	.LASF21
+ 557 00ef 08       		.uleb128 0x8
+ 558 00f0 01       		.byte	0x1
+ 559 00f1 3E000000 		.4byte	0x3e
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 16
+
+
+ 560 00f5 05       		.byte	0x5
+ 561 00f6 A401     		.2byte	0x1a4
+ 562 00f8 15010000 		.4byte	0x115
+ 563 00fc 09       		.uleb128 0x9
+ 564 00fd 0C010000 		.4byte	.LASF22
+ 565 0101 00       		.byte	0
+ 566 0102 09       		.uleb128 0x9
+ 567 0103 F20F0000 		.4byte	.LASF23
+ 568 0107 01       		.byte	0x1
+ 569 0108 09       		.uleb128 0x9
+ 570 0109 4E0E0000 		.4byte	.LASF24
+ 571 010d 02       		.byte	0x2
+ 572 010e 09       		.uleb128 0x9
+ 573 010f 51090000 		.4byte	.LASF25
+ 574 0113 03       		.byte	0x3
+ 575 0114 00       		.byte	0
+ 576 0115 06       		.uleb128 0x6
+ 577 0116 5D0A0000 		.4byte	.LASF26
+ 578 011a 05       		.byte	0x5
+ 579 011b A901     		.2byte	0x1a9
+ 580 011d EF000000 		.4byte	0xef
+ 581 0121 08       		.uleb128 0x8
+ 582 0122 01       		.byte	0x1
+ 583 0123 3E000000 		.4byte	0x3e
+ 584 0127 05       		.byte	0x5
+ 585 0128 B801     		.2byte	0x1b8
+ 586 012a 47010000 		.4byte	0x147
+ 587 012e 09       		.uleb128 0x9
+ 588 012f DE010000 		.4byte	.LASF27
+ 589 0133 00       		.byte	0
+ 590 0134 09       		.uleb128 0x9
+ 591 0135 55050000 		.4byte	.LASF28
+ 592 0139 01       		.byte	0x1
+ 593 013a 09       		.uleb128 0x9
+ 594 013b F8010000 		.4byte	.LASF29
+ 595 013f 02       		.byte	0x2
+ 596 0140 09       		.uleb128 0x9
+ 597 0141 0A020000 		.4byte	.LASF30
+ 598 0145 03       		.byte	0x3
+ 599 0146 00       		.byte	0
+ 600 0147 06       		.uleb128 0x6
+ 601 0148 7D090000 		.4byte	.LASF31
+ 602 014c 05       		.byte	0x5
+ 603 014d CD01     		.2byte	0x1cd
+ 604 014f 21010000 		.4byte	0x121
+ 605 0153 08       		.uleb128 0x8
+ 606 0154 01       		.byte	0x1
+ 607 0155 3E000000 		.4byte	0x3e
+ 608 0159 05       		.byte	0x5
+ 609 015a 0502     		.2byte	0x205
+ 610 015c 79010000 		.4byte	0x179
+ 611 0160 09       		.uleb128 0x9
+ 612 0161 8F060000 		.4byte	.LASF32
+ 613 0165 01       		.byte	0x1
+ 614 0166 09       		.uleb128 0x9
+ 615 0167 A6060000 		.4byte	.LASF33
+ 616 016b 02       		.byte	0x2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 17
+
+
+ 617 016c 09       		.uleb128 0x9
+ 618 016d BD060000 		.4byte	.LASF34
+ 619 0171 04       		.byte	0x4
+ 620 0172 09       		.uleb128 0x9
+ 621 0173 D4060000 		.4byte	.LASF35
+ 622 0177 08       		.byte	0x8
+ 623 0178 00       		.byte	0
+ 624 0179 06       		.uleb128 0x6
+ 625 017a 510C0000 		.4byte	.LASF36
+ 626 017e 05       		.byte	0x5
+ 627 017f 0A02     		.2byte	0x20a
+ 628 0181 53010000 		.4byte	0x153
+ 629 0185 06       		.uleb128 0x6
+ 630 0186 75030000 		.4byte	.LASF37
+ 631 018a 05       		.byte	0x5
+ 632 018b 2D02     		.2byte	0x22d
+ 633 018d 91010000 		.4byte	0x191
+ 634 0191 0A       		.uleb128 0xa
+ 635 0192 04       		.byte	0x4
+ 636 0193 97010000 		.4byte	0x197
+ 637 0197 0B       		.uleb128 0xb
+ 638 0198 A2010000 		.4byte	0x1a2
+ 639 019c 0C       		.uleb128 0xc
+ 640 019d A2000000 		.4byte	0xa2
+ 641 01a1 00       		.byte	0
+ 642 01a2 0D       		.uleb128 0xd
+ 643 01a3 28       		.byte	0x28
+ 644 01a4 05       		.byte	0x5
+ 645 01a5 4502     		.2byte	0x245
+ 646 01a7 2E020000 		.4byte	0x22e
+ 647 01ab 0E       		.uleb128 0xe
+ 648 01ac 050D0000 		.4byte	.LASF38
+ 649 01b0 05       		.byte	0x5
+ 650 01b1 4702     		.2byte	0x247
+ 651 01b3 34020000 		.4byte	0x234
+ 652 01b7 00       		.byte	0
+ 653 01b8 0E       		.uleb128 0xe
+ 654 01b9 6F0D0000 		.4byte	.LASF39
+ 655 01bd 05       		.byte	0x5
+ 656 01be 4802     		.2byte	0x248
+ 657 01c0 A2000000 		.4byte	0xa2
+ 658 01c4 04       		.byte	0x4
+ 659 01c5 0E       		.uleb128 0xe
+ 660 01c6 0A0C0000 		.4byte	.LASF40
+ 661 01ca 05       		.byte	0x5
+ 662 01cb 4C02     		.2byte	0x24c
+ 663 01cd B4000000 		.4byte	0xb4
+ 664 01d1 08       		.byte	0x8
+ 665 01d2 0E       		.uleb128 0xe
+ 666 01d3 F8030000 		.4byte	.LASF41
+ 667 01d7 05       		.byte	0x5
+ 668 01d8 4D02     		.2byte	0x24d
+ 669 01da 34020000 		.4byte	0x234
+ 670 01de 0C       		.byte	0xc
+ 671 01df 0E       		.uleb128 0xe
+ 672 01e0 B90A0000 		.4byte	.LASF42
+ 673 01e4 05       		.byte	0x5
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 18
+
+
+ 674 01e5 4E02     		.2byte	0x24e
+ 675 01e7 A2000000 		.4byte	0xa2
+ 676 01eb 10       		.byte	0x10
+ 677 01ec 0E       		.uleb128 0xe
+ 678 01ed AC0D0000 		.4byte	.LASF43
+ 679 01f1 05       		.byte	0x5
+ 680 01f2 5202     		.2byte	0x252
+ 681 01f4 B4000000 		.4byte	0xb4
+ 682 01f8 14       		.byte	0x14
+ 683 01f9 0E       		.uleb128 0xe
+ 684 01fa 3A0F0000 		.4byte	.LASF44
+ 685 01fe 05       		.byte	0x5
+ 686 01ff 5602     		.2byte	0x256
+ 687 0201 B4000000 		.4byte	0xb4
+ 688 0205 18       		.byte	0x18
+ 689 0206 0E       		.uleb128 0xe
+ 690 0207 61000000 		.4byte	.LASF45
+ 691 020b 05       		.byte	0x5
+ 692 020c 5702     		.2byte	0x257
+ 693 020e 39020000 		.4byte	0x239
+ 694 0212 1C       		.byte	0x1c
+ 695 0213 0E       		.uleb128 0xe
+ 696 0214 00090000 		.4byte	.LASF46
+ 697 0218 05       		.byte	0x5
+ 698 0219 5802     		.2byte	0x258
+ 699 021b 39020000 		.4byte	0x239
+ 700 021f 20       		.byte	0x20
+ 701 0220 0E       		.uleb128 0xe
+ 702 0221 AF0B0000 		.4byte	.LASF47
+ 703 0225 05       		.byte	0x5
+ 704 0226 5C02     		.2byte	0x25c
+ 705 0228 A2000000 		.4byte	0xa2
+ 706 022c 24       		.byte	0x24
+ 707 022d 00       		.byte	0
+ 708 022e 0A       		.uleb128 0xa
+ 709 022f 04       		.byte	0x4
+ 710 0230 B9000000 		.4byte	0xb9
+ 711 0234 05       		.uleb128 0x5
+ 712 0235 2E020000 		.4byte	0x22e
+ 713 0239 05       		.uleb128 0x5
+ 714 023a 85010000 		.4byte	0x185
+ 715 023e 06       		.uleb128 0x6
+ 716 023f 590D0000 		.4byte	.LASF48
+ 717 0243 05       		.byte	0x5
+ 718 0244 5D02     		.2byte	0x25d
+ 719 0246 A2010000 		.4byte	0x1a2
+ 720 024a 0D       		.uleb128 0xd
+ 721 024b 18       		.byte	0x18
+ 722 024c 06       		.byte	0x6
+ 723 024d 0601     		.2byte	0x106
+ 724 024f AF020000 		.4byte	0x2af
+ 725 0253 0E       		.uleb128 0xe
+ 726 0254 C60A0000 		.4byte	.LASF49
+ 727 0258 06       		.byte	0x6
+ 728 0259 0801     		.2byte	0x108
+ 729 025b A2000000 		.4byte	0xa2
+ 730 025f 00       		.byte	0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 19
+
+
+ 731 0260 0E       		.uleb128 0xe
+ 732 0261 1F070000 		.4byte	.LASF50
+ 733 0265 06       		.byte	0x6
+ 734 0266 0901     		.2byte	0x109
+ 735 0268 15010000 		.4byte	0x115
+ 736 026c 04       		.byte	0x4
+ 737 026d 0E       		.uleb128 0xe
+ 738 026e 9A0B0000 		.4byte	.LASF51
+ 739 0272 06       		.byte	0x6
+ 740 0273 0A01     		.2byte	0x10a
+ 741 0275 15010000 		.4byte	0x115
+ 742 0279 05       		.byte	0x5
+ 743 027a 0E       		.uleb128 0xe
+ 744 027b CE020000 		.4byte	.LASF52
+ 745 027f 06       		.byte	0x6
+ 746 0280 0B01     		.2byte	0x10b
+ 747 0282 A2000000 		.4byte	0xa2
+ 748 0286 08       		.byte	0x8
+ 749 0287 0E       		.uleb128 0xe
+ 750 0288 45020000 		.4byte	.LASF53
+ 751 028c 06       		.byte	0x6
+ 752 028d 0C01     		.2byte	0x10c
+ 753 028f 15010000 		.4byte	0x115
+ 754 0293 0C       		.byte	0xc
+ 755 0294 0E       		.uleb128 0xe
+ 756 0295 C3030000 		.4byte	.LASF54
+ 757 0299 06       		.byte	0x6
+ 758 029a 0D01     		.2byte	0x10d
+ 759 029c A2000000 		.4byte	0xa2
+ 760 02a0 10       		.byte	0x10
+ 761 02a1 0E       		.uleb128 0xe
+ 762 02a2 15070000 		.4byte	.LASF55
+ 763 02a6 06       		.byte	0x6
+ 764 02a7 0E01     		.2byte	0x10e
+ 765 02a9 15010000 		.4byte	0x115
+ 766 02ad 14       		.byte	0x14
+ 767 02ae 00       		.byte	0
+ 768 02af 06       		.uleb128 0x6
+ 769 02b0 430D0000 		.4byte	.LASF56
+ 770 02b4 06       		.byte	0x6
+ 771 02b5 0F01     		.2byte	0x10f
+ 772 02b7 4A020000 		.4byte	0x24a
+ 773 02bb 0D       		.uleb128 0xd
+ 774 02bc 4C       		.byte	0x4c
+ 775 02bd 06       		.byte	0x6
+ 776 02be 1901     		.2byte	0x119
+ 777 02c0 BC030000 		.4byte	0x3bc
+ 778 02c4 0E       		.uleb128 0xe
+ 779 02c5 B5040000 		.4byte	.LASF57
+ 780 02c9 06       		.byte	0x6
+ 781 02ca 1B01     		.2byte	0x11b
+ 782 02cc A2000000 		.4byte	0xa2
+ 783 02d0 00       		.byte	0
+ 784 02d1 0E       		.uleb128 0xe
+ 785 02d2 F0010000 		.4byte	.LASF58
+ 786 02d6 06       		.byte	0x6
+ 787 02d7 1D01     		.2byte	0x11d
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 20
+
+
+ 788 02d9 A2000000 		.4byte	0xa2
+ 789 02dd 04       		.byte	0x4
+ 790 02de 0E       		.uleb128 0xe
+ 791 02df B30E0000 		.4byte	.LASF59
+ 792 02e3 06       		.byte	0x6
+ 793 02e4 1E01     		.2byte	0x11e
+ 794 02e6 BC030000 		.4byte	0x3bc
+ 795 02ea 08       		.byte	0x8
+ 796 02eb 0E       		.uleb128 0xe
+ 797 02ec 98070000 		.4byte	.LASF60
+ 798 02f0 06       		.byte	0x6
+ 799 02f1 1F01     		.2byte	0x11f
+ 800 02f3 BC030000 		.4byte	0x3bc
+ 801 02f7 0C       		.byte	0xc
+ 802 02f8 0E       		.uleb128 0xe
+ 803 02f9 CF090000 		.4byte	.LASF61
+ 804 02fd 06       		.byte	0x6
+ 805 02fe 2001     		.2byte	0x120
+ 806 0300 BC030000 		.4byte	0x3bc
+ 807 0304 10       		.byte	0x10
+ 808 0305 0E       		.uleb128 0xe
+ 809 0306 D9080000 		.4byte	.LASF62
+ 810 030a 06       		.byte	0x6
+ 811 030b 2101     		.2byte	0x121
+ 812 030d BC030000 		.4byte	0x3bc
+ 813 0311 14       		.byte	0x14
+ 814 0312 0E       		.uleb128 0xe
+ 815 0313 DA0A0000 		.4byte	.LASF63
+ 816 0317 06       		.byte	0x6
+ 817 0318 2201     		.2byte	0x122
+ 818 031a A2000000 		.4byte	0xa2
+ 819 031e 18       		.byte	0x18
+ 820 031f 0E       		.uleb128 0xe
+ 821 0320 38020000 		.4byte	.LASF64
+ 822 0324 06       		.byte	0x6
+ 823 0325 2301     		.2byte	0x123
+ 824 0327 BC030000 		.4byte	0x3bc
+ 825 032b 1C       		.byte	0x1c
+ 826 032c 0E       		.uleb128 0xe
+ 827 032d 010B0000 		.4byte	.LASF65
+ 828 0331 06       		.byte	0x6
+ 829 0332 2401     		.2byte	0x124
+ 830 0334 BC030000 		.4byte	0x3bc
+ 831 0338 20       		.byte	0x20
+ 832 0339 0E       		.uleb128 0xe
+ 833 033a 690B0000 		.4byte	.LASF66
+ 834 033e 06       		.byte	0x6
+ 835 033f 2501     		.2byte	0x125
+ 836 0341 A2000000 		.4byte	0xa2
+ 837 0345 24       		.byte	0x24
+ 838 0346 0E       		.uleb128 0xe
+ 839 0347 36080000 		.4byte	.LASF67
+ 840 034b 06       		.byte	0x6
+ 841 034c 2601     		.2byte	0x126
+ 842 034e BC030000 		.4byte	0x3bc
+ 843 0352 28       		.byte	0x28
+ 844 0353 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 21
+
+
+ 845 0354 42110000 		.4byte	.LASF68
+ 846 0358 06       		.byte	0x6
+ 847 0359 2701     		.2byte	0x127
+ 848 035b BC030000 		.4byte	0x3bc
+ 849 035f 2C       		.byte	0x2c
+ 850 0360 0E       		.uleb128 0xe
+ 851 0361 A6020000 		.4byte	.LASF69
+ 852 0365 06       		.byte	0x6
+ 853 0366 2801     		.2byte	0x128
+ 854 0368 BC030000 		.4byte	0x3bc
+ 855 036c 30       		.byte	0x30
+ 856 036d 0E       		.uleb128 0xe
+ 857 036e 980E0000 		.4byte	.LASF70
+ 858 0372 06       		.byte	0x6
+ 859 0373 2901     		.2byte	0x129
+ 860 0375 BC030000 		.4byte	0x3bc
+ 861 0379 34       		.byte	0x34
+ 862 037a 0E       		.uleb128 0xe
+ 863 037b 850A0000 		.4byte	.LASF71
+ 864 037f 06       		.byte	0x6
+ 865 0380 2A01     		.2byte	0x12a
+ 866 0382 A2000000 		.4byte	0xa2
+ 867 0386 38       		.byte	0x38
+ 868 0387 0E       		.uleb128 0xe
+ 869 0388 3C0C0000 		.4byte	.LASF72
+ 870 038c 06       		.byte	0x6
+ 871 038d 2B01     		.2byte	0x12b
+ 872 038f A2000000 		.4byte	0xa2
+ 873 0393 3C       		.byte	0x3c
+ 874 0394 0E       		.uleb128 0xe
+ 875 0395 82050000 		.4byte	.LASF73
+ 876 0399 06       		.byte	0x6
+ 877 039a 2C01     		.2byte	0x12c
+ 878 039c A2000000 		.4byte	0xa2
+ 879 03a0 40       		.byte	0x40
+ 880 03a1 0E       		.uleb128 0xe
+ 881 03a2 88030000 		.4byte	.LASF74
+ 882 03a6 06       		.byte	0x6
+ 883 03a7 2D01     		.2byte	0x12d
+ 884 03a9 A2000000 		.4byte	0xa2
+ 885 03ad 44       		.byte	0x44
+ 886 03ae 0E       		.uleb128 0xe
+ 887 03af 6B060000 		.4byte	.LASF75
+ 888 03b3 06       		.byte	0x6
+ 889 03b4 2E01     		.2byte	0x12e
+ 890 03b6 A2000000 		.4byte	0xa2
+ 891 03ba 48       		.byte	0x48
+ 892 03bb 00       		.byte	0
+ 893 03bc 0A       		.uleb128 0xa
+ 894 03bd 04       		.byte	0x4
+ 895 03be AF020000 		.4byte	0x2af
+ 896 03c2 06       		.uleb128 0x6
+ 897 03c3 0F000000 		.4byte	.LASF76
+ 898 03c7 06       		.byte	0x6
+ 899 03c8 2F01     		.2byte	0x12f
+ 900 03ca BB020000 		.4byte	0x2bb
+ 901 03ce 0D       		.uleb128 0xd
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 22
+
+
+ 902 03cf 1C       		.byte	0x1c
+ 903 03d0 06       		.byte	0x6
+ 904 03d1 3801     		.2byte	0x138
+ 905 03d3 33040000 		.4byte	0x433
+ 906 03d7 0E       		.uleb128 0xe
+ 907 03d8 DB090000 		.4byte	.LASF77
+ 908 03dc 06       		.byte	0x6
+ 909 03dd 3B01     		.2byte	0x13b
+ 910 03df 79010000 		.4byte	0x179
+ 911 03e3 00       		.byte	0
+ 912 03e4 0E       		.uleb128 0xe
+ 913 03e5 8D000000 		.4byte	.LASF78
+ 914 03e9 06       		.byte	0x6
+ 915 03ea 3F01     		.2byte	0x13f
+ 916 03ec A2000000 		.4byte	0xa2
+ 917 03f0 04       		.byte	0x4
+ 918 03f1 0E       		.uleb128 0xe
+ 919 03f2 29110000 		.4byte	.LASF79
+ 920 03f6 06       		.byte	0x6
+ 921 03f7 4101     		.2byte	0x141
+ 922 03f9 47010000 		.4byte	0x147
+ 923 03fd 08       		.byte	0x8
+ 924 03fe 0E       		.uleb128 0xe
+ 925 03ff B60F0000 		.4byte	.LASF80
+ 926 0403 06       		.byte	0x6
+ 927 0404 4801     		.2byte	0x148
+ 928 0406 A2000000 		.4byte	0xa2
+ 929 040a 0C       		.byte	0xc
+ 930 040b 0E       		.uleb128 0xe
+ 931 040c 68100000 		.4byte	.LASF81
+ 932 0410 06       		.byte	0x6
+ 933 0411 4E01     		.2byte	0x14e
+ 934 0413 A2000000 		.4byte	0xa2
+ 935 0417 10       		.byte	0x10
+ 936 0418 0E       		.uleb128 0xe
+ 937 0419 1C020000 		.4byte	.LASF82
+ 938 041d 06       		.byte	0x6
+ 939 041e 5101     		.2byte	0x151
+ 940 0420 A2000000 		.4byte	0xa2
+ 941 0424 14       		.byte	0x14
+ 942 0425 0E       		.uleb128 0xe
+ 943 0426 BB0E0000 		.4byte	.LASF83
+ 944 042a 06       		.byte	0x6
+ 945 042b 5201     		.2byte	0x152
+ 946 042d 33040000 		.4byte	0x433
+ 947 0431 18       		.byte	0x18
+ 948 0432 00       		.byte	0
+ 949 0433 0A       		.uleb128 0xa
+ 950 0434 04       		.byte	0x4
+ 951 0435 C2030000 		.4byte	0x3c2
+ 952 0439 06       		.uleb128 0x6
+ 953 043a E70D0000 		.4byte	.LASF84
+ 954 043e 06       		.byte	0x6
+ 955 043f 5301     		.2byte	0x153
+ 956 0441 CE030000 		.4byte	0x3ce
+ 957 0445 0A       		.uleb128 0xa
+ 958 0446 04       		.byte	0x4
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 23
+
+
+ 959 0447 39040000 		.4byte	0x439
+ 960 044b 08       		.uleb128 0x8
+ 961 044c 01       		.byte	0x1
+ 962 044d 3E000000 		.4byte	0x3e
+ 963 0451 07       		.byte	0x7
+ 964 0452 DE01     		.2byte	0x1de
+ 965 0454 65040000 		.4byte	0x465
+ 966 0458 09       		.uleb128 0x9
+ 967 0459 72020000 		.4byte	.LASF85
+ 968 045d 00       		.byte	0
+ 969 045e 09       		.uleb128 0x9
+ 970 045f 15030000 		.4byte	.LASF86
+ 971 0463 01       		.byte	0x1
+ 972 0464 00       		.byte	0
+ 973 0465 06       		.uleb128 0x6
+ 974 0466 8E020000 		.4byte	.LASF87
+ 975 046a 07       		.byte	0x7
+ 976 046b E101     		.2byte	0x1e1
+ 977 046d 4B040000 		.4byte	0x44b
+ 978 0471 06       		.uleb128 0x6
+ 979 0472 5A010000 		.4byte	.LASF88
+ 980 0476 07       		.byte	0x7
+ 981 0477 F301     		.2byte	0x1f3
+ 982 0479 91010000 		.4byte	0x191
+ 983 047d 06       		.uleb128 0x6
+ 984 047e 3B030000 		.4byte	.LASF89
+ 985 0482 07       		.byte	0x7
+ 986 0483 FE01     		.2byte	0x1fe
+ 987 0485 89040000 		.4byte	0x489
+ 988 0489 0A       		.uleb128 0xa
+ 989 048a 04       		.byte	0x4
+ 990 048b 8F040000 		.4byte	0x48f
+ 991 048f 0F       		.uleb128 0xf
+ 992 0490 65040000 		.4byte	0x465
+ 993 0494 9E040000 		.4byte	0x49e
+ 994 0498 0C       		.uleb128 0xc
+ 995 0499 A2000000 		.4byte	0xa2
+ 996 049d 00       		.byte	0
+ 997 049e 10       		.uleb128 0x10
+ 998 049f 5E030000 		.4byte	.LASF258
+ 999 04a3 4C       		.byte	0x4c
+ 1000 04a4 07       		.byte	0x7
+ 1001 04a5 6502     		.2byte	0x265
+ 1002 04a7 BD050000 		.4byte	0x5bd
+ 1003 04ab 0E       		.uleb128 0xe
+ 1004 04ac 77060000 		.4byte	.LASF90
+ 1005 04b0 07       		.byte	0x7
+ 1006 04b1 6802     		.2byte	0x268
+ 1007 04b3 E8000000 		.4byte	0xe8
+ 1008 04b7 00       		.byte	0
+ 1009 04b8 0E       		.uleb128 0xe
+ 1010 04b9 200A0000 		.4byte	.LASF91
+ 1011 04bd 07       		.byte	0x7
+ 1012 04be 6902     		.2byte	0x269
+ 1013 04c0 E8000000 		.4byte	0xe8
+ 1014 04c4 01       		.byte	0x1
+ 1015 04c5 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 24
+
+
+ 1016 04c6 920E0000 		.4byte	.LASF92
+ 1017 04ca 07       		.byte	0x7
+ 1018 04cb 6B02     		.2byte	0x26b
+ 1019 04cd B4000000 		.4byte	0xb4
+ 1020 04d1 04       		.byte	0x4
+ 1021 04d2 0E       		.uleb128 0xe
+ 1022 04d3 6B000000 		.4byte	.LASF93
+ 1023 04d7 07       		.byte	0x7
+ 1024 04d8 6D02     		.2byte	0x26d
+ 1025 04da B4000000 		.4byte	0xb4
+ 1026 04de 08       		.byte	0x8
+ 1027 04df 0E       		.uleb128 0xe
+ 1028 04e0 F50A0000 		.4byte	.LASF94
+ 1029 04e4 07       		.byte	0x7
+ 1030 04e5 6E02     		.2byte	0x26e
+ 1031 04e7 E8000000 		.4byte	0xe8
+ 1032 04eb 0C       		.byte	0xc
+ 1033 04ec 0E       		.uleb128 0xe
+ 1034 04ed 2A0A0000 		.4byte	.LASF95
+ 1035 04f1 07       		.byte	0x7
+ 1036 04f2 6F02     		.2byte	0x26f
+ 1037 04f4 E8000000 		.4byte	0xe8
+ 1038 04f8 0D       		.byte	0xd
+ 1039 04f9 0E       		.uleb128 0xe
+ 1040 04fa B8010000 		.4byte	.LASF96
+ 1041 04fe 07       		.byte	0x7
+ 1042 04ff 7102     		.2byte	0x271
+ 1043 0501 BD050000 		.4byte	0x5bd
+ 1044 0505 10       		.byte	0x10
+ 1045 0506 0E       		.uleb128 0xe
+ 1046 0507 A3080000 		.4byte	.LASF97
+ 1047 050b 07       		.byte	0x7
+ 1048 050c 7202     		.2byte	0x272
+ 1049 050e A2000000 		.4byte	0xa2
+ 1050 0512 14       		.byte	0x14
+ 1051 0513 0E       		.uleb128 0xe
+ 1052 0514 78010000 		.4byte	.LASF98
+ 1053 0518 07       		.byte	0x7
+ 1054 0519 7302     		.2byte	0x273
+ 1055 051b B4000000 		.4byte	0xb4
+ 1056 051f 18       		.byte	0x18
+ 1057 0520 0E       		.uleb128 0xe
+ 1058 0521 62070000 		.4byte	.LASF99
+ 1059 0525 07       		.byte	0x7
+ 1060 0526 7402     		.2byte	0x274
+ 1061 0528 B4000000 		.4byte	0xb4
+ 1062 052c 1C       		.byte	0x1c
+ 1063 052d 0E       		.uleb128 0xe
+ 1064 052e 21010000 		.4byte	.LASF100
+ 1065 0532 07       		.byte	0x7
+ 1066 0533 7602     		.2byte	0x276
+ 1067 0535 B4000000 		.4byte	0xb4
+ 1068 0539 20       		.byte	0x20
+ 1069 053a 0E       		.uleb128 0xe
+ 1070 053b B8050000 		.4byte	.LASF101
+ 1071 053f 07       		.byte	0x7
+ 1072 0540 7702     		.2byte	0x277
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 25
+
+
+ 1073 0542 C3050000 		.4byte	0x5c3
+ 1074 0546 24       		.byte	0x24
+ 1075 0547 0E       		.uleb128 0xe
+ 1076 0548 610E0000 		.4byte	.LASF102
+ 1077 054c 07       		.byte	0x7
+ 1078 054d 7902     		.2byte	0x279
+ 1079 054f BD050000 		.4byte	0x5bd
+ 1080 0553 28       		.byte	0x28
+ 1081 0554 0E       		.uleb128 0xe
+ 1082 0555 8C050000 		.4byte	.LASF103
+ 1083 0559 07       		.byte	0x7
+ 1084 055a 7A02     		.2byte	0x27a
+ 1085 055c A2000000 		.4byte	0xa2
+ 1086 0560 2C       		.byte	0x2c
+ 1087 0561 0E       		.uleb128 0xe
+ 1088 0562 32040000 		.4byte	.LASF104
+ 1089 0566 07       		.byte	0x7
+ 1090 0567 7B02     		.2byte	0x27b
+ 1091 0569 B4000000 		.4byte	0xb4
+ 1092 056d 30       		.byte	0x30
+ 1093 056e 0E       		.uleb128 0xe
+ 1094 056f 40090000 		.4byte	.LASF105
+ 1095 0573 07       		.byte	0x7
+ 1096 0574 7C02     		.2byte	0x27c
+ 1097 0576 B4000000 		.4byte	0xb4
+ 1098 057a 34       		.byte	0x34
+ 1099 057b 0E       		.uleb128 0xe
+ 1100 057c 2A020000 		.4byte	.LASF106
+ 1101 0580 07       		.byte	0x7
+ 1102 0581 7E02     		.2byte	0x27e
+ 1103 0583 BD050000 		.4byte	0x5bd
+ 1104 0587 38       		.byte	0x38
+ 1105 0588 0E       		.uleb128 0xe
+ 1106 0589 470B0000 		.4byte	.LASF107
+ 1107 058d 07       		.byte	0x7
+ 1108 058e 7F02     		.2byte	0x27f
+ 1109 0590 A2000000 		.4byte	0xa2
+ 1110 0594 3C       		.byte	0x3c
+ 1111 0595 0E       		.uleb128 0xe
+ 1112 0596 E40A0000 		.4byte	.LASF108
+ 1113 059a 07       		.byte	0x7
+ 1114 059b 8002     		.2byte	0x280
+ 1115 059d B4000000 		.4byte	0xb4
+ 1116 05a1 40       		.byte	0x40
+ 1117 05a2 0E       		.uleb128 0xe
+ 1118 05a3 31060000 		.4byte	.LASF109
+ 1119 05a7 07       		.byte	0x7
+ 1120 05a8 8602     		.2byte	0x286
+ 1121 05aa 71040000 		.4byte	0x471
+ 1122 05ae 44       		.byte	0x44
+ 1123 05af 0E       		.uleb128 0xe
+ 1124 05b0 5B020000 		.4byte	.LASF110
+ 1125 05b4 07       		.byte	0x7
+ 1126 05b5 8D02     		.2byte	0x28d
+ 1127 05b7 7D040000 		.4byte	0x47d
+ 1128 05bb 48       		.byte	0x48
+ 1129 05bc 00       		.byte	0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 26
+
+
+ 1130 05bd 0A       		.uleb128 0xa
+ 1131 05be 04       		.byte	0x4
+ 1132 05bf 8C000000 		.4byte	0x8c
+ 1133 05c3 05       		.uleb128 0x5
+ 1134 05c4 E8000000 		.4byte	0xe8
+ 1135 05c8 06       		.uleb128 0x6
+ 1136 05c9 14100000 		.4byte	.LASF111
+ 1137 05cd 07       		.byte	0x7
+ 1138 05ce 9002     		.2byte	0x290
+ 1139 05d0 9E040000 		.4byte	0x49e
+ 1140 05d4 11       		.uleb128 0x11
+ 1141 05d5 01       		.byte	0x1
+ 1142 05d6 3E000000 		.4byte	0x3e
+ 1143 05da 08       		.byte	0x8
+ 1144 05db F1       		.byte	0xf1
+ 1145 05dc F9050000 		.4byte	0x5f9
+ 1146 05e0 09       		.uleb128 0x9
+ 1147 05e1 C3080000 		.4byte	.LASF112
+ 1148 05e5 00       		.byte	0
+ 1149 05e6 09       		.uleb128 0x9
+ 1150 05e7 88010000 		.4byte	.LASF113
+ 1151 05eb 01       		.byte	0x1
+ 1152 05ec 09       		.uleb128 0x9
+ 1153 05ed 1C090000 		.4byte	.LASF114
+ 1154 05f1 02       		.byte	0x2
+ 1155 05f2 09       		.uleb128 0x9
+ 1156 05f3 2E090000 		.4byte	.LASF115
+ 1157 05f7 03       		.byte	0x3
+ 1158 05f8 00       		.byte	0
+ 1159 05f9 03       		.uleb128 0x3
+ 1160 05fa 100E0000 		.4byte	.LASF116
+ 1161 05fe 08       		.byte	0x8
+ 1162 05ff F6       		.byte	0xf6
+ 1163 0600 D4050000 		.4byte	0x5d4
+ 1164 0604 11       		.uleb128 0x11
+ 1165 0605 01       		.byte	0x1
+ 1166 0606 3E000000 		.4byte	0x3e
+ 1167 060a 08       		.byte	0x8
+ 1168 060b FC       		.byte	0xfc
+ 1169 060c 35060000 		.4byte	0x635
+ 1170 0610 09       		.uleb128 0x9
+ 1171 0611 CE0A0000 		.4byte	.LASF117
+ 1172 0615 00       		.byte	0
+ 1173 0616 09       		.uleb128 0x9
+ 1174 0617 9E050000 		.4byte	.LASF118
+ 1175 061b 01       		.byte	0x1
+ 1176 061c 09       		.uleb128 0x9
+ 1177 061d AB050000 		.4byte	.LASF119
+ 1178 0621 02       		.byte	0x2
+ 1179 0622 09       		.uleb128 0x9
+ 1180 0623 3A060000 		.4byte	.LASF120
+ 1181 0627 03       		.byte	0x3
+ 1182 0628 09       		.uleb128 0x9
+ 1183 0629 47060000 		.4byte	.LASF121
+ 1184 062d 04       		.byte	0x4
+ 1185 062e 09       		.uleb128 0x9
+ 1186 062f 71070000 		.4byte	.LASF122
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 27
+
+
+ 1187 0633 05       		.byte	0x5
+ 1188 0634 00       		.byte	0
+ 1189 0635 06       		.uleb128 0x6
+ 1190 0636 72080000 		.4byte	.LASF123
+ 1191 063a 08       		.byte	0x8
+ 1192 063b 0301     		.2byte	0x103
+ 1193 063d 04060000 		.4byte	0x604
+ 1194 0641 08       		.uleb128 0x8
+ 1195 0642 01       		.byte	0x1
+ 1196 0643 3E000000 		.4byte	0x3e
+ 1197 0647 08       		.byte	0x8
+ 1198 0648 0901     		.2byte	0x109
+ 1199 064a 5B060000 		.4byte	0x65b
+ 1200 064e 09       		.uleb128 0x9
+ 1201 064f 01070000 		.4byte	.LASF124
+ 1202 0653 00       		.byte	0
+ 1203 0654 09       		.uleb128 0x9
+ 1204 0655 0D0A0000 		.4byte	.LASF125
+ 1205 0659 01       		.byte	0x1
+ 1206 065a 00       		.byte	0
+ 1207 065b 06       		.uleb128 0x6
+ 1208 065c 78000000 		.4byte	.LASF126
+ 1209 0660 08       		.byte	0x8
+ 1210 0661 0C01     		.2byte	0x10c
+ 1211 0663 41060000 		.4byte	0x641
+ 1212 0667 08       		.uleb128 0x8
+ 1213 0668 01       		.byte	0x1
+ 1214 0669 3E000000 		.4byte	0x3e
+ 1215 066d 08       		.byte	0x8
+ 1216 066e 1201     		.2byte	0x112
+ 1217 0670 81060000 		.4byte	0x681
+ 1218 0674 09       		.uleb128 0x9
+ 1219 0675 35050000 		.4byte	.LASF127
+ 1220 0679 00       		.byte	0
+ 1221 067a 09       		.uleb128 0x9
+ 1222 067b 7C0D0000 		.4byte	.LASF128
+ 1223 067f 01       		.byte	0x1
+ 1224 0680 00       		.byte	0
+ 1225 0681 06       		.uleb128 0x6
+ 1226 0682 E50E0000 		.4byte	.LASF129
+ 1227 0686 08       		.byte	0x8
+ 1228 0687 1501     		.2byte	0x115
+ 1229 0689 67060000 		.4byte	0x667
+ 1230 068d 0D       		.uleb128 0xd
+ 1231 068e 28       		.byte	0x28
+ 1232 068f 08       		.byte	0x8
+ 1233 0690 2101     		.2byte	0x121
+ 1234 0692 37080000 		.4byte	0x837
+ 1235 0696 0E       		.uleb128 0xe
+ 1236 0697 6E040000 		.4byte	.LASF130
+ 1237 069b 08       		.byte	0x8
+ 1238 069c 2301     		.2byte	0x123
+ 1239 069e E8000000 		.4byte	0xe8
+ 1240 06a2 00       		.byte	0
+ 1241 06a3 0E       		.uleb128 0xe
+ 1242 06a4 900B0000 		.4byte	.LASF131
+ 1243 06a8 08       		.byte	0x8
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 28
+
+
+ 1244 06a9 2401     		.2byte	0x124
+ 1245 06ab E8000000 		.4byte	0xe8
+ 1246 06af 01       		.byte	0x1
+ 1247 06b0 0E       		.uleb128 0xe
+ 1248 06b1 9F000000 		.4byte	.LASF132
+ 1249 06b5 08       		.byte	0x8
+ 1250 06b6 2501     		.2byte	0x125
+ 1251 06b8 E8000000 		.4byte	0xe8
+ 1252 06bc 02       		.byte	0x2
+ 1253 06bd 0E       		.uleb128 0xe
+ 1254 06be D8050000 		.4byte	.LASF133
+ 1255 06c2 08       		.byte	0x8
+ 1256 06c3 2601     		.2byte	0x126
+ 1257 06c5 E8000000 		.4byte	0xe8
+ 1258 06c9 03       		.byte	0x3
+ 1259 06ca 0E       		.uleb128 0xe
+ 1260 06cb 340D0000 		.4byte	.LASF134
+ 1261 06cf 08       		.byte	0x8
+ 1262 06d0 2701     		.2byte	0x127
+ 1263 06d2 8C000000 		.4byte	0x8c
+ 1264 06d6 04       		.byte	0x4
+ 1265 06d7 0E       		.uleb128 0xe
+ 1266 06d8 65090000 		.4byte	.LASF135
+ 1267 06dc 08       		.byte	0x8
+ 1268 06dd 2801     		.2byte	0x128
+ 1269 06df E8000000 		.4byte	0xe8
+ 1270 06e3 05       		.byte	0x5
+ 1271 06e4 0E       		.uleb128 0xe
+ 1272 06e5 81020000 		.4byte	.LASF136
+ 1273 06e9 08       		.byte	0x8
+ 1274 06ea 2901     		.2byte	0x129
+ 1275 06ec E8000000 		.4byte	0xe8
+ 1276 06f0 06       		.byte	0x6
+ 1277 06f1 0E       		.uleb128 0xe
+ 1278 06f2 DB0D0000 		.4byte	.LASF137
+ 1279 06f6 08       		.byte	0x8
+ 1280 06f7 2A01     		.2byte	0x12a
+ 1281 06f9 F9050000 		.4byte	0x5f9
+ 1282 06fd 07       		.byte	0x7
+ 1283 06fe 0E       		.uleb128 0xe
+ 1284 06ff 3F0E0000 		.4byte	.LASF138
+ 1285 0703 08       		.byte	0x8
+ 1286 0704 2B01     		.2byte	0x12b
+ 1287 0706 81060000 		.4byte	0x681
+ 1288 070a 08       		.byte	0x8
+ 1289 070b 0E       		.uleb128 0xe
+ 1290 070c 08040000 		.4byte	.LASF139
+ 1291 0710 08       		.byte	0x8
+ 1292 0711 2E01     		.2byte	0x12e
+ 1293 0713 E8000000 		.4byte	0xe8
+ 1294 0717 09       		.byte	0x9
+ 1295 0718 0E       		.uleb128 0xe
+ 1296 0719 96090000 		.4byte	.LASF140
+ 1297 071d 08       		.byte	0x8
+ 1298 071e 2F01     		.2byte	0x12f
+ 1299 0720 A2000000 		.4byte	0xa2
+ 1300 0724 0C       		.byte	0xc
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 29
+
+
+ 1301 0725 0E       		.uleb128 0xe
+ 1302 0726 EF0B0000 		.4byte	.LASF141
+ 1303 072a 08       		.byte	0x8
+ 1304 072b 3001     		.2byte	0x130
+ 1305 072d E8000000 		.4byte	0xe8
+ 1306 0731 10       		.byte	0x10
+ 1307 0732 0E       		.uleb128 0xe
+ 1308 0733 62020000 		.4byte	.LASF142
+ 1309 0737 08       		.byte	0x8
+ 1310 0738 3801     		.2byte	0x138
+ 1311 073a E8000000 		.4byte	0xe8
+ 1312 073e 11       		.byte	0x11
+ 1313 073f 0E       		.uleb128 0xe
+ 1314 0740 B70B0000 		.4byte	.LASF143
+ 1315 0744 08       		.byte	0x8
+ 1316 0745 3F01     		.2byte	0x13f
+ 1317 0747 E8000000 		.4byte	0xe8
+ 1318 074b 12       		.byte	0x12
+ 1319 074c 0E       		.uleb128 0xe
+ 1320 074d A40B0000 		.4byte	.LASF144
+ 1321 0751 08       		.byte	0x8
+ 1322 0752 4601     		.2byte	0x146
+ 1323 0754 8C000000 		.4byte	0x8c
+ 1324 0758 13       		.byte	0x13
+ 1325 0759 0E       		.uleb128 0xe
+ 1326 075a C8050000 		.4byte	.LASF145
+ 1327 075e 08       		.byte	0x8
+ 1328 075f 4901     		.2byte	0x149
+ 1329 0761 35060000 		.4byte	0x635
+ 1330 0765 14       		.byte	0x14
+ 1331 0766 0E       		.uleb128 0xe
+ 1332 0767 AC0A0000 		.4byte	.LASF146
+ 1333 076b 08       		.byte	0x8
+ 1334 076c 4C01     		.2byte	0x14c
+ 1335 076e 35060000 		.4byte	0x635
+ 1336 0772 15       		.byte	0x15
+ 1337 0773 0E       		.uleb128 0xe
+ 1338 0774 000E0000 		.4byte	.LASF147
+ 1339 0778 08       		.byte	0x8
+ 1340 0779 4E01     		.2byte	0x14e
+ 1341 077b 5B060000 		.4byte	0x65b
+ 1342 077f 16       		.byte	0x16
+ 1343 0780 0E       		.uleb128 0xe
+ 1344 0781 990D0000 		.4byte	.LASF148
+ 1345 0785 08       		.byte	0x8
+ 1346 0786 5001     		.2byte	0x150
+ 1347 0788 8C000000 		.4byte	0x8c
+ 1348 078c 17       		.byte	0x17
+ 1349 078d 0E       		.uleb128 0xe
+ 1350 078e 270B0000 		.4byte	.LASF149
+ 1351 0792 08       		.byte	0x8
+ 1352 0793 5101     		.2byte	0x151
+ 1353 0795 E8000000 		.4byte	0xe8
+ 1354 0799 18       		.byte	0x18
+ 1355 079a 0E       		.uleb128 0xe
+ 1356 079b 78040000 		.4byte	.LASF150
+ 1357 079f 08       		.byte	0x8
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 30
+
+
+ 1358 07a0 5201     		.2byte	0x152
+ 1359 07a2 F9050000 		.4byte	0x5f9
+ 1360 07a6 19       		.byte	0x19
+ 1361 07a7 0E       		.uleb128 0xe
+ 1362 07a8 00000000 		.4byte	.LASF151
+ 1363 07ac 08       		.byte	0x8
+ 1364 07ad 5301     		.2byte	0x153
+ 1365 07af 81060000 		.4byte	0x681
+ 1366 07b3 1A       		.byte	0x1a
+ 1367 07b4 0E       		.uleb128 0xe
+ 1368 07b5 6C090000 		.4byte	.LASF152
+ 1369 07b9 08       		.byte	0x8
+ 1370 07ba 5601     		.2byte	0x156
+ 1371 07bc E8000000 		.4byte	0xe8
+ 1372 07c0 1B       		.byte	0x1b
+ 1373 07c1 0E       		.uleb128 0xe
+ 1374 07c2 590B0000 		.4byte	.LASF153
+ 1375 07c6 08       		.byte	0x8
+ 1376 07c7 5701     		.2byte	0x157
+ 1377 07c9 A2000000 		.4byte	0xa2
+ 1378 07cd 1C       		.byte	0x1c
+ 1379 07ce 0E       		.uleb128 0xe
+ 1380 07cf DB030000 		.4byte	.LASF154
+ 1381 07d3 08       		.byte	0x8
+ 1382 07d4 5801     		.2byte	0x158
+ 1383 07d6 E8000000 		.4byte	0xe8
+ 1384 07da 20       		.byte	0x20
+ 1385 07db 0E       		.uleb128 0xe
+ 1386 07dc 67050000 		.4byte	.LASF155
+ 1387 07e0 08       		.byte	0x8
+ 1388 07e1 6001     		.2byte	0x160
+ 1389 07e3 E8000000 		.4byte	0xe8
+ 1390 07e7 21       		.byte	0x21
+ 1391 07e8 0E       		.uleb128 0xe
+ 1392 07e9 F50C0000 		.4byte	.LASF156
+ 1393 07ed 08       		.byte	0x8
+ 1394 07ee 6701     		.2byte	0x167
+ 1395 07f0 E8000000 		.4byte	0xe8
+ 1396 07f4 22       		.byte	0x22
+ 1397 07f5 0E       		.uleb128 0xe
+ 1398 07f6 ED030000 		.4byte	.LASF157
+ 1399 07fa 08       		.byte	0x8
+ 1400 07fb 6E01     		.2byte	0x16e
+ 1401 07fd 8C000000 		.4byte	0x8c
+ 1402 0801 23       		.byte	0x23
+ 1403 0802 0E       		.uleb128 0xe
+ 1404 0803 93080000 		.4byte	.LASF158
+ 1405 0807 08       		.byte	0x8
+ 1406 0808 7101     		.2byte	0x171
+ 1407 080a 35060000 		.4byte	0x635
+ 1408 080e 24       		.byte	0x24
+ 1409 080f 0E       		.uleb128 0xe
+ 1410 0810 140F0000 		.4byte	.LASF159
+ 1411 0814 08       		.byte	0x8
+ 1412 0815 7401     		.2byte	0x174
+ 1413 0817 35060000 		.4byte	0x635
+ 1414 081b 25       		.byte	0x25
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 31
+
+
+ 1415 081c 0E       		.uleb128 0xe
+ 1416 081d 360A0000 		.4byte	.LASF160
+ 1417 0821 08       		.byte	0x8
+ 1418 0822 7601     		.2byte	0x176
+ 1419 0824 E8000000 		.4byte	0xe8
+ 1420 0828 26       		.byte	0x26
+ 1421 0829 0E       		.uleb128 0xe
+ 1422 082a 5B040000 		.4byte	.LASF161
+ 1423 082e 08       		.byte	0x8
+ 1424 082f 7901     		.2byte	0x179
+ 1425 0831 8C000000 		.4byte	0x8c
+ 1426 0835 27       		.byte	0x27
+ 1427 0836 00       		.byte	0
+ 1428 0837 06       		.uleb128 0x6
+ 1429 0838 8A040000 		.4byte	.LASF162
+ 1430 083c 08       		.byte	0x8
+ 1431 083d 7B01     		.2byte	0x17b
+ 1432 083f 8D060000 		.4byte	0x68d
+ 1433 0843 11       		.uleb128 0x11
+ 1434 0844 01       		.byte	0x1
+ 1435 0845 3E000000 		.4byte	0x3e
+ 1436 0849 09       		.byte	0x9
+ 1437 084a E1       		.byte	0xe1
+ 1438 084b 68080000 		.4byte	0x868
+ 1439 084f 09       		.uleb128 0x9
+ 1440 0850 8F0F0000 		.4byte	.LASF163
+ 1441 0854 00       		.byte	0
+ 1442 0855 09       		.uleb128 0x9
+ 1443 0856 9E040000 		.4byte	.LASF164
+ 1444 085a 01       		.byte	0x1
+ 1445 085b 09       		.uleb128 0x9
+ 1446 085c 460A0000 		.4byte	.LASF165
+ 1447 0860 02       		.byte	0x2
+ 1448 0861 09       		.uleb128 0x9
+ 1449 0862 24030000 		.4byte	.LASF166
+ 1450 0866 03       		.byte	0x3
+ 1451 0867 00       		.byte	0
+ 1452 0868 03       		.uleb128 0x3
+ 1453 0869 D3020000 		.4byte	.LASF167
+ 1454 086d 09       		.byte	0x9
+ 1455 086e E6       		.byte	0xe6
+ 1456 086f 43080000 		.4byte	0x843
+ 1457 0873 11       		.uleb128 0x11
+ 1458 0874 01       		.byte	0x1
+ 1459 0875 3E000000 		.4byte	0x3e
+ 1460 0879 09       		.byte	0x9
+ 1461 087a EA       		.byte	0xea
+ 1462 087b 98080000 		.4byte	0x898
+ 1463 087f 09       		.uleb128 0x9
+ 1464 0880 7E070000 		.4byte	.LASF168
+ 1465 0884 00       		.byte	0
+ 1466 0885 09       		.uleb128 0x9
+ 1467 0886 F0040000 		.4byte	.LASF169
+ 1468 088a 01       		.byte	0x1
+ 1469 088b 09       		.uleb128 0x9
+ 1470 088c 07050000 		.4byte	.LASF170
+ 1471 0890 02       		.byte	0x2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 32
+
+
+ 1472 0891 09       		.uleb128 0x9
+ 1473 0892 1E050000 		.4byte	.LASF171
+ 1474 0896 03       		.byte	0x3
+ 1475 0897 00       		.byte	0
+ 1476 0898 03       		.uleb128 0x3
+ 1477 0899 E3070000 		.4byte	.LASF172
+ 1478 089d 09       		.byte	0x9
+ 1479 089e EF       		.byte	0xef
+ 1480 089f 73080000 		.4byte	0x873
+ 1481 08a3 11       		.uleb128 0x11
+ 1482 08a4 01       		.byte	0x1
+ 1483 08a5 3E000000 		.4byte	0x3e
+ 1484 08a9 09       		.byte	0x9
+ 1485 08aa F3       		.byte	0xf3
+ 1486 08ab C2080000 		.4byte	0x8c2
+ 1487 08af 09       		.uleb128 0x9
+ 1488 08b0 19040000 		.4byte	.LASF173
+ 1489 08b4 01       		.byte	0x1
+ 1490 08b5 09       		.uleb128 0x9
+ 1491 08b6 6F0E0000 		.4byte	.LASF174
+ 1492 08ba 02       		.byte	0x2
+ 1493 08bb 09       		.uleb128 0x9
+ 1494 08bc 550F0000 		.4byte	.LASF175
+ 1495 08c0 03       		.byte	0x3
+ 1496 08c1 00       		.byte	0
+ 1497 08c2 03       		.uleb128 0x3
+ 1498 08c3 7D0C0000 		.4byte	.LASF176
+ 1499 08c7 09       		.byte	0x9
+ 1500 08c8 F7       		.byte	0xf7
+ 1501 08c9 A3080000 		.4byte	0x8a3
+ 1502 08cd 08       		.uleb128 0x8
+ 1503 08ce 01       		.byte	0x1
+ 1504 08cf 3E000000 		.4byte	0x3e
+ 1505 08d3 09       		.byte	0x9
+ 1506 08d4 0201     		.2byte	0x102
+ 1507 08d6 3B090000 		.4byte	0x93b
+ 1508 08da 09       		.uleb128 0x9
+ 1509 08db 20080000 		.4byte	.LASF177
+ 1510 08df 00       		.byte	0
+ 1511 08e0 09       		.uleb128 0x9
+ 1512 08e1 B50C0000 		.4byte	.LASF178
+ 1513 08e5 01       		.byte	0x1
+ 1514 08e6 09       		.uleb128 0x9
+ 1515 08e7 1A0C0000 		.4byte	.LASF179
+ 1516 08eb 02       		.byte	0x2
+ 1517 08ec 09       		.uleb128 0x9
+ 1518 08ed B7020000 		.4byte	.LASF180
+ 1519 08f1 03       		.byte	0x3
+ 1520 08f2 09       		.uleb128 0x9
+ 1521 08f3 2D100000 		.4byte	.LASF181
+ 1522 08f7 04       		.byte	0x4
+ 1523 08f8 09       		.uleb128 0x9
+ 1524 08f9 1A060000 		.4byte	.LASF182
+ 1525 08fd 05       		.byte	0x5
+ 1526 08fe 09       		.uleb128 0x9
+ 1527 08ff C4040000 		.4byte	.LASF183
+ 1528 0903 06       		.byte	0x6
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 33
+
+
+ 1529 0904 09       		.uleb128 0x9
+ 1530 0905 F6090000 		.4byte	.LASF184
+ 1531 0909 07       		.byte	0x7
+ 1532 090a 09       		.uleb128 0x9
+ 1533 090b FC050000 		.4byte	.LASF185
+ 1534 090f 08       		.byte	0x8
+ 1535 0910 09       		.uleb128 0x9
+ 1536 0911 CD0C0000 		.4byte	.LASF186
+ 1537 0915 09       		.byte	0x9
+ 1538 0916 09       		.uleb128 0x9
+ 1539 0917 D00F0000 		.4byte	.LASF187
+ 1540 091b 0A       		.byte	0xa
+ 1541 091c 09       		.uleb128 0x9
+ 1542 091d E5050000 		.4byte	.LASF188
+ 1543 0921 0B       		.byte	0xb
+ 1544 0922 09       		.uleb128 0x9
+ 1545 0923 D00B0000 		.4byte	.LASF189
+ 1546 0927 0C       		.byte	0xc
+ 1547 0928 09       		.uleb128 0x9
+ 1548 0929 4B070000 		.4byte	.LASF190
+ 1549 092d 0D       		.byte	0xd
+ 1550 092e 09       		.uleb128 0x9
+ 1551 092f 36070000 		.4byte	.LASF191
+ 1552 0933 0E       		.byte	0xe
+ 1553 0934 09       		.uleb128 0x9
+ 1554 0935 940A0000 		.4byte	.LASF192
+ 1555 0939 0F       		.byte	0xf
+ 1556 093a 00       		.byte	0
+ 1557 093b 06       		.uleb128 0x6
+ 1558 093c F70E0000 		.4byte	.LASF193
+ 1559 0940 09       		.byte	0x9
+ 1560 0941 1301     		.2byte	0x113
+ 1561 0943 CD080000 		.4byte	0x8cd
+ 1562 0947 08       		.uleb128 0x8
+ 1563 0948 01       		.byte	0x1
+ 1564 0949 3E000000 		.4byte	0x3e
+ 1565 094d 09       		.byte	0x9
+ 1566 094e 1901     		.2byte	0x119
+ 1567 0950 85090000 		.4byte	0x985
+ 1568 0954 09       		.uleb128 0x9
+ 1569 0955 BC0D0000 		.4byte	.LASF194
+ 1570 0959 00       		.byte	0
+ 1571 095a 09       		.uleb128 0x9
+ 1572 095b 38000000 		.4byte	.LASF195
+ 1573 095f 01       		.byte	0x1
+ 1574 0960 09       		.uleb128 0x9
+ 1575 0961 00080000 		.4byte	.LASF196
+ 1576 0965 02       		.byte	0x2
+ 1577 0966 09       		.uleb128 0x9
+ 1578 0967 C50E0000 		.4byte	.LASF197
+ 1579 096b 03       		.byte	0x3
+ 1580 096c 09       		.uleb128 0x9
+ 1581 096d 98010000 		.4byte	.LASF198
+ 1582 0971 04       		.byte	0x4
+ 1583 0972 09       		.uleb128 0x9
+ 1584 0973 47080000 		.4byte	.LASF199
+ 1585 0977 05       		.byte	0x5
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 34
+
+
+ 1586 0978 09       		.uleb128 0x9
+ 1587 0979 A3070000 		.4byte	.LASF200
+ 1588 097d 06       		.byte	0x6
+ 1589 097e 09       		.uleb128 0x9
+ 1590 097f F5020000 		.4byte	.LASF201
+ 1591 0983 07       		.byte	0x7
+ 1592 0984 00       		.byte	0
+ 1593 0985 06       		.uleb128 0x6
+ 1594 0986 9F030000 		.4byte	.LASF202
+ 1595 098a 09       		.byte	0x9
+ 1596 098b 2201     		.2byte	0x122
+ 1597 098d 47090000 		.4byte	0x947
+ 1598 0991 0D       		.uleb128 0xd
+ 1599 0992 1C       		.byte	0x1c
+ 1600 0993 09       		.byte	0x9
+ 1601 0994 3801     		.2byte	0x138
+ 1602 0996 920A0000 		.4byte	0xa92
+ 1603 099a 0E       		.uleb128 0xe
+ 1604 099b 340D0000 		.4byte	.LASF134
+ 1605 099f 09       		.byte	0x9
+ 1606 09a0 3A01     		.2byte	0x13a
+ 1607 09a2 98080000 		.4byte	0x898
+ 1608 09a6 00       		.byte	0
+ 1609 09a7 0E       		.uleb128 0xe
+ 1610 09a8 4D050000 		.4byte	.LASF203
+ 1611 09ac 09       		.byte	0x9
+ 1612 09ad 3E01     		.2byte	0x13e
+ 1613 09af 98080000 		.4byte	0x898
+ 1614 09b3 01       		.byte	0x1
+ 1615 09b4 0E       		.uleb128 0xe
+ 1616 09b5 57030000 		.4byte	.LASF204
+ 1617 09b9 09       		.byte	0x9
+ 1618 09ba 3F01     		.2byte	0x13f
+ 1619 09bc 8C000000 		.4byte	0x8c
+ 1620 09c0 02       		.byte	0x2
+ 1621 09c1 0E       		.uleb128 0xe
+ 1622 09c2 EC020000 		.4byte	.LASF205
+ 1623 09c6 09       		.byte	0x9
+ 1624 09c7 4201     		.2byte	0x142
+ 1625 09c9 8C000000 		.4byte	0x8c
+ 1626 09cd 03       		.byte	0x3
+ 1627 09ce 0E       		.uleb128 0xe
+ 1628 09cf 0E060000 		.4byte	.LASF206
+ 1629 09d3 09       		.byte	0x9
+ 1630 09d4 4B01     		.2byte	0x14b
+ 1631 09d6 8C000000 		.4byte	0x8c
+ 1632 09da 04       		.byte	0x4
+ 1633 09db 0E       		.uleb128 0xe
+ 1634 09dc B8030000 		.4byte	.LASF207
+ 1635 09e0 09       		.byte	0x9
+ 1636 09e1 4D01     		.2byte	0x14d
+ 1637 09e3 C2080000 		.4byte	0x8c2
+ 1638 09e7 05       		.byte	0x5
+ 1639 09e8 0E       		.uleb128 0xe
+ 1640 09e9 05100000 		.4byte	.LASF208
+ 1641 09ed 09       		.byte	0x9
+ 1642 09ee 4E01     		.2byte	0x14e
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 35
+
+
+ 1643 09f0 E8000000 		.4byte	0xe8
+ 1644 09f4 06       		.byte	0x6
+ 1645 09f5 0E       		.uleb128 0xe
+ 1646 09f6 340B0000 		.4byte	.LASF209
+ 1647 09fa 09       		.byte	0x9
+ 1648 09fb 4F01     		.2byte	0x14f
+ 1649 09fd 8C000000 		.4byte	0x8c
+ 1650 0a01 07       		.byte	0x7
+ 1651 0a02 0E       		.uleb128 0xe
+ 1652 0a03 2A0F0000 		.4byte	.LASF210
+ 1653 0a07 09       		.byte	0x9
+ 1654 0a08 5101     		.2byte	0x151
+ 1655 0a0a E8000000 		.4byte	0xe8
+ 1656 0a0e 08       		.byte	0x8
+ 1657 0a0f 0E       		.uleb128 0xe
+ 1658 0a10 43040000 		.4byte	.LASF211
+ 1659 0a14 09       		.byte	0x9
+ 1660 0a15 5201     		.2byte	0x152
+ 1661 0a17 85090000 		.4byte	0x985
+ 1662 0a1b 09       		.byte	0x9
+ 1663 0a1c 0E       		.uleb128 0xe
+ 1664 0a1d 82080000 		.4byte	.LASF212
+ 1665 0a21 09       		.byte	0x9
+ 1666 0a22 5401     		.2byte	0x154
+ 1667 0a24 A2000000 		.4byte	0xa2
+ 1668 0a28 0C       		.byte	0xc
+ 1669 0a29 0E       		.uleb128 0xe
+ 1670 0a2a 810B0000 		.4byte	.LASF213
+ 1671 0a2e 09       		.byte	0x9
+ 1672 0a2f 5501     		.2byte	0x155
+ 1673 0a31 E8000000 		.4byte	0xe8
+ 1674 0a35 10       		.byte	0x10
+ 1675 0a36 0E       		.uleb128 0xe
+ 1676 0a37 0C0F0000 		.4byte	.LASF214
+ 1677 0a3b 09       		.byte	0x9
+ 1678 0a3c 5601     		.2byte	0x156
+ 1679 0a3e 68080000 		.4byte	0x868
+ 1680 0a42 11       		.byte	0x11
+ 1681 0a43 0E       		.uleb128 0xe
+ 1682 0a44 C1090000 		.4byte	.LASF215
+ 1683 0a48 09       		.byte	0x9
+ 1684 0a49 5701     		.2byte	0x157
+ 1685 0a4b E8000000 		.4byte	0xe8
+ 1686 0a4f 12       		.byte	0x12
+ 1687 0a50 0E       		.uleb128 0xe
+ 1688 0a51 890E0000 		.4byte	.LASF216
+ 1689 0a55 09       		.byte	0x9
+ 1690 0a56 5A01     		.2byte	0x15a
+ 1691 0a58 3B090000 		.4byte	0x93b
+ 1692 0a5c 13       		.byte	0x13
+ 1693 0a5d 0E       		.uleb128 0xe
+ 1694 0a5e AB0C0000 		.4byte	.LASF217
+ 1695 0a62 09       		.byte	0x9
+ 1696 0a63 5B01     		.2byte	0x15b
+ 1697 0a65 3B090000 		.4byte	0x93b
+ 1698 0a69 14       		.byte	0x14
+ 1699 0a6a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 36
+
+
+ 1700 0a6b 5B040000 		.4byte	.LASF161
+ 1701 0a6f 09       		.byte	0x9
+ 1702 0a70 5C01     		.2byte	0x15c
+ 1703 0a72 8C000000 		.4byte	0x8c
+ 1704 0a76 15       		.byte	0x15
+ 1705 0a77 0E       		.uleb128 0xe
+ 1706 0a78 E40C0000 		.4byte	.LASF218
+ 1707 0a7c 09       		.byte	0x9
+ 1708 0a7d 5E01     		.2byte	0x15e
+ 1709 0a7f E8000000 		.4byte	0xe8
+ 1710 0a83 16       		.byte	0x16
+ 1711 0a84 0E       		.uleb128 0xe
+ 1712 0a85 34110000 		.4byte	.LASF219
+ 1713 0a89 09       		.byte	0x9
+ 1714 0a8a 5F01     		.2byte	0x15f
+ 1715 0a8c A2000000 		.4byte	0xa2
+ 1716 0a90 18       		.byte	0x18
+ 1717 0a91 00       		.byte	0
+ 1718 0a92 06       		.uleb128 0x6
+ 1719 0a93 35010000 		.4byte	.LASF220
+ 1720 0a97 09       		.byte	0x9
+ 1721 0a98 6001     		.2byte	0x160
+ 1722 0a9a 91090000 		.4byte	0x991
+ 1723 0a9e 11       		.uleb128 0x11
+ 1724 0a9f 04       		.byte	0x4
+ 1725 0aa0 85000000 		.4byte	0x85
+ 1726 0aa4 0A       		.byte	0xa
+ 1727 0aa5 3C       		.byte	0x3c
+ 1728 0aa6 D50A0000 		.4byte	0xad5
+ 1729 0aaa 09       		.uleb128 0x9
+ 1730 0aab 210F0000 		.4byte	.LASF221
+ 1731 0aaf 00       		.byte	0
+ 1732 0ab0 12       		.uleb128 0x12
+ 1733 0ab1 93000000 		.4byte	.LASF222
+ 1734 0ab5 01000010 		.4byte	0x10000001
+ 1735 0ab9 12       		.uleb128 0x12
+ 1736 0aba C3070000 		.4byte	.LASF223
+ 1737 0abe 02000010 		.4byte	0x10000002
+ 1738 0ac2 12       		.uleb128 0x12
+ 1739 0ac3 4F020000 		.4byte	.LASF224
+ 1740 0ac7 03000010 		.4byte	0x10000003
+ 1741 0acb 12       		.uleb128 0x12
+ 1742 0acc 270D0000 		.4byte	.LASF225
+ 1743 0ad0 04000010 		.4byte	0x10000004
+ 1744 0ad4 00       		.byte	0
+ 1745 0ad5 03       		.uleb128 0x3
+ 1746 0ad6 D0070000 		.4byte	.LASF226
+ 1747 0ada 0A       		.byte	0xa
+ 1748 0adb 42       		.byte	0x42
+ 1749 0adc 9E0A0000 		.4byte	0xa9e
+ 1750 0ae0 13       		.uleb128 0x13
+ 1751 0ae1 08       		.byte	0x8
+ 1752 0ae2 0A       		.byte	0xa
+ 1753 0ae3 45       		.byte	0x45
+ 1754 0ae4 010B0000 		.4byte	0xb01
+ 1755 0ae8 14       		.uleb128 0x14
+ 1756 0ae9 12090000 		.4byte	.LASF227
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 37
+
+
+ 1757 0aed 0A       		.byte	0xa
+ 1758 0aee 47       		.byte	0x47
+ 1759 0aef D50A0000 		.4byte	0xad5
+ 1760 0af3 00       		.byte	0
+ 1761 0af4 14       		.uleb128 0x14
+ 1762 0af5 96030000 		.4byte	.LASF228
+ 1763 0af9 0A       		.byte	0xa
+ 1764 0afa 48       		.byte	0x48
+ 1765 0afb E8000000 		.4byte	0xe8
+ 1766 0aff 04       		.byte	0x4
+ 1767 0b00 00       		.byte	0
+ 1768 0b01 03       		.uleb128 0x3
+ 1769 0b02 51100000 		.4byte	.LASF229
+ 1770 0b06 0A       		.byte	0xa
+ 1771 0b07 49       		.byte	0x49
+ 1772 0b08 E00A0000 		.4byte	0xae0
+ 1773 0b0c 03       		.uleb128 0x3
+ 1774 0b0d 77050000 		.4byte	.LASF230
+ 1775 0b11 0B       		.byte	0xb
+ 1776 0b12 62       		.byte	0x62
+ 1777 0b13 57000000 		.4byte	0x57
+ 1778 0b17 03       		.uleb128 0x3
+ 1779 0b18 1C0B0000 		.4byte	.LASF231
+ 1780 0b1c 0B       		.byte	0xb
+ 1781 0b1d 69       		.byte	0x69
+ 1782 0b1e A2000000 		.4byte	0xa2
+ 1783 0b22 03       		.uleb128 0x3
+ 1784 0b23 E2080000 		.4byte	.LASF232
+ 1785 0b27 0C       		.byte	0xc
+ 1786 0b28 58       		.byte	0x58
+ 1787 0b29 E6000000 		.4byte	0xe6
+ 1788 0b2d 15       		.uleb128 0x15
+ 1789 0b2e 57000000 		.4byte	.LASF259
+ 1790 0b32 01       		.byte	0x1
+ 1791 0b33 4C       		.byte	0x4c
+ 1792 0b34 00000000 		.4byte	.LFB806
+ 1793 0b38 0C000000 		.4byte	.LFE806-.LFB806
+ 1794 0b3c 01       		.uleb128 0x1
+ 1795 0b3d 9C       		.byte	0x9c
+ 1796 0b3e 16       		.uleb128 0x16
+ 1797 0b3f 5E100000 		.4byte	.LASF260
+ 1798 0b43 01       		.byte	0x1
+ 1799 0b44 62       		.byte	0x62
+ 1800 0b45 00000000 		.4byte	.LFB807
+ 1801 0b49 30020000 		.4byte	.LFE807-.LFB807
+ 1802 0b4d 01       		.uleb128 0x1
+ 1803 0b4e 9C       		.byte	0x9c
+ 1804 0b4f 430C0000 		.4byte	0xc43
+ 1805 0b53 17       		.uleb128 0x17
+ 1806 0b54 61726700 		.ascii	"arg\000"
+ 1807 0b58 01       		.byte	0x1
+ 1808 0b59 62       		.byte	0x62
+ 1809 0b5a E6000000 		.4byte	0xe6
+ 1810 0b5e 02       		.uleb128 0x2
+ 1811 0b5f 91       		.byte	0x91
+ 1812 0b60 64       		.sleb128 -28
+ 1813 0b61 18       		.uleb128 0x18
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 38
+
+
+ 1814 0b62 28070000 		.4byte	.LASF233
+ 1815 0b66 01       		.byte	0x1
+ 1816 0b67 66       		.byte	0x66
+ 1817 0b68 8C000000 		.4byte	0x8c
+ 1818 0b6c 05       		.uleb128 0x5
+ 1819 0b6d 03       		.byte	0x3
+ 1820 0b6e 01000000 		.4byte	currSliderPos.17332
+ 1821 0b72 18       		.uleb128 0x18
+ 1822 0b73 C20F0000 		.4byte	.LASF234
+ 1823 0b77 01       		.byte	0x1
+ 1824 0b78 67       		.byte	0x67
+ 1825 0b79 8C000000 		.4byte	0x8c
+ 1826 0b7d 05       		.uleb128 0x5
+ 1827 0b7e 03       		.byte	0x3
+ 1828 0b7f 02000000 		.4byte	prevSliderPos.17333
+ 1829 0b83 18       		.uleb128 0x18
+ 1830 0b84 0C0B0000 		.4byte	.LASF235
+ 1831 0b88 01       		.byte	0x1
+ 1832 0b89 68       		.byte	0x68
+ 1833 0b8a 8C000000 		.4byte	0x8c
+ 1834 0b8e 05       		.uleb128 0x5
+ 1835 0b8f 03       		.byte	0x3
+ 1836 0b90 03000000 		.4byte	leftSliderValue.17334
+ 1837 0b94 18       		.uleb128 0x18
+ 1838 0b95 7E0F0000 		.4byte	.LASF236
+ 1839 0b99 01       		.byte	0x1
+ 1840 0b9a 69       		.byte	0x69
+ 1841 0b9b 8C000000 		.4byte	0x8c
+ 1842 0b9f 05       		.uleb128 0x5
+ 1843 0ba0 03       		.byte	0x3
+ 1844 0ba1 04000000 		.4byte	rightSliderValue.17335
+ 1845 0ba5 18       		.uleb128 0x18
+ 1846 0ba6 42100000 		.4byte	.LASF237
+ 1847 0baa 01       		.byte	0x1
+ 1848 0bab 6A       		.byte	0x6a
+ 1849 0bac 8C000000 		.4byte	0x8c
+ 1850 0bb0 05       		.uleb128 0x5
+ 1851 0bb1 03       		.byte	0x3
+ 1852 0bb2 09000000 		.4byte	prevLeftButton.17336
+ 1853 0bb6 18       		.uleb128 0x18
+ 1854 0bb7 A60F0000 		.4byte	.LASF238
+ 1855 0bbb 01       		.byte	0x1
+ 1856 0bbc 6B       		.byte	0x6b
+ 1857 0bbd 8C000000 		.4byte	0x8c
+ 1858 0bc1 05       		.uleb128 0x5
+ 1859 0bc2 03       		.byte	0x3
+ 1860 0bc3 0A000000 		.4byte	prevRightButton.17337
+ 1861 0bc7 18       		.uleb128 0x18
+ 1862 0bc8 A40E0000 		.4byte	.LASF239
+ 1863 0bcc 01       		.byte	0x1
+ 1864 0bcd 6C       		.byte	0x6c
+ 1865 0bce 8C000000 		.4byte	0x8c
+ 1866 0bd2 05       		.uleb128 0x5
+ 1867 0bd3 03       		.byte	0x3
+ 1868 0bd4 07000000 		.4byte	currLeftButton.17338
+ 1869 0bd8 18       		.uleb128 0x18
+ 1870 0bd9 750A0000 		.4byte	.LASF240
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 39
+
+
+ 1871 0bdd 01       		.byte	0x1
+ 1872 0bde 6D       		.byte	0x6d
+ 1873 0bdf 8C000000 		.4byte	0x8c
+ 1874 0be3 05       		.uleb128 0x5
+ 1875 0be4 03       		.byte	0x3
+ 1876 0be5 08000000 		.4byte	currRightButton.17339
+ 1877 0be9 18       		.uleb128 0x18
+ 1878 0bea 81060000 		.4byte	.LASF241
+ 1879 0bee 01       		.byte	0x1
+ 1880 0bef 70       		.byte	0x70
+ 1881 0bf0 E8000000 		.4byte	0xe8
+ 1882 0bf4 05       		.uleb128 0x5
+ 1883 0bf5 03       		.byte	0x3
+ 1884 0bf6 00000000 		.4byte	sliderTouched.17340
+ 1885 0bfa 18       		.uleb128 0x18
+ 1886 0bfb F0080000 		.4byte	.LASF242
+ 1887 0bff 01       		.byte	0x1
+ 1888 0c00 73       		.byte	0x73
+ 1889 0c01 E8000000 		.4byte	0xe8
+ 1890 0c05 05       		.uleb128 0x5
+ 1891 0c06 03       		.byte	0x3
+ 1892 0c07 06000000 		.4byte	checkRightSwipe.17341
+ 1893 0c0b 18       		.uleb128 0x18
+ 1894 0c0c CF010000 		.4byte	.LASF243
+ 1895 0c10 01       		.byte	0x1
+ 1896 0c11 74       		.byte	0x74
+ 1897 0c12 E8000000 		.4byte	0xe8
+ 1898 0c16 05       		.uleb128 0x5
+ 1899 0c17 03       		.byte	0x3
+ 1900 0c18 05000000 		.4byte	checkLeftSwipe.17342
+ 1901 0c1c 18       		.uleb128 0x18
+ 1902 0c1d A6090000 		.4byte	.LASF244
+ 1903 0c21 01       		.byte	0x1
+ 1904 0c22 77       		.byte	0x77
+ 1905 0c23 170B0000 		.4byte	0xb17
+ 1906 0c27 02       		.uleb128 0x2
+ 1907 0c28 91       		.byte	0x91
+ 1908 0c29 74       		.sleb128 -12
+ 1909 0c2a 19       		.uleb128 0x19
+ 1910 0c2b 08000000 		.4byte	.LBB2
+ 1911 0c2f E6010000 		.4byte	.LBE2-.LBB2
+ 1912 0c33 18       		.uleb128 0x18
+ 1913 0c34 54060000 		.4byte	.LASF245
+ 1914 0c38 01       		.byte	0x1
+ 1915 0c39 7E       		.byte	0x7e
+ 1916 0c3a 010B0000 		.4byte	0xb01
+ 1917 0c3e 02       		.uleb128 0x2
+ 1918 0c3f 91       		.byte	0x91
+ 1919 0c40 6C       		.sleb128 -20
+ 1920 0c41 00       		.byte	0
+ 1921 0c42 00       		.byte	0
+ 1922 0c43 1A       		.uleb128 0x1a
+ 1923 0c44 2F0C0000 		.4byte	.LASF246
+ 1924 0c48 0D       		.byte	0xd
+ 1925 0c49 EA07     		.2byte	0x7ea
+ 1926 0c4b 4F0C0000 		.4byte	0xc4f
+ 1927 0c4f 05       		.uleb128 0x5
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 40
+
+
+ 1928 0c50 97000000 		.4byte	0x97
+ 1929 0c54 1B       		.uleb128 0x1b
+ 1930 0c55 910C0000 		.4byte	.LASF247
+ 1931 0c59 0E       		.byte	0xe
+ 1932 0c5a 55       		.byte	0x55
+ 1933 0c5b DA000000 		.4byte	0xda
+ 1934 0c5f 1B       		.uleb128 0x1b
+ 1935 0c60 B4080000 		.4byte	.LASF248
+ 1936 0c64 0E       		.byte	0xe
+ 1937 0c65 56       		.byte	0x56
+ 1938 0c66 920A0000 		.4byte	0xa92
+ 1939 0c6a 1B       		.uleb128 0x1b
+ 1940 0c6b 6B0C0000 		.4byte	.LASF249
+ 1941 0c6f 0F       		.byte	0xf
+ 1942 0c70 7F       		.byte	0x7f
+ 1943 0c71 C8050000 		.4byte	0x5c8
+ 1944 0c75 1B       		.uleb128 0x1b
+ 1945 0c76 67080000 		.4byte	.LASF250
+ 1946 0c7a 10       		.byte	0x10
+ 1947 0c7b 24       		.byte	0x24
+ 1948 0c7c 800C0000 		.4byte	0xc80
+ 1949 0c80 1C       		.uleb128 0x1c
+ 1950 0c81 37080000 		.4byte	0x837
+ 1951 0c85 1B       		.uleb128 0x1b
+ 1952 0c86 2C000000 		.4byte	.LASF251
+ 1953 0c8a 10       		.byte	0x10
+ 1954 0c8b 27       		.byte	0x27
+ 1955 0c8c 8C000000 		.4byte	0x8c
+ 1956 0c90 1B       		.uleb128 0x1b
+ 1957 0c91 E7090000 		.4byte	.LASF252
+ 1958 0c95 11       		.byte	0x11
+ 1959 0c96 95       		.byte	0x95
+ 1960 0c97 3E020000 		.4byte	0x23e
+ 1961 0c9b 1D       		.uleb128 0x1d
+ 1962 0c9c 45040000 		.4byte	0x445
+ 1963 0ca0 AB0C0000 		.4byte	0xcab
+ 1964 0ca4 1E       		.uleb128 0x1e
+ 1965 0ca5 AD000000 		.4byte	0xad
+ 1966 0ca9 03       		.byte	0x3
+ 1967 0caa 00       		.byte	0
+ 1968 0cab 1B       		.uleb128 0x1b
+ 1969 0cac EB060000 		.4byte	.LASF253
+ 1970 0cb0 11       		.byte	0x11
+ 1971 0cb1 98       		.byte	0x98
+ 1972 0cb2 9B0C0000 		.4byte	0xc9b
+ 1973 0cb6 1B       		.uleb128 0x1b
+ 1974 0cb7 CF030000 		.4byte	.LASF254
+ 1975 0cbb 12       		.byte	0x12
+ 1976 0cbc 38       		.byte	0x38
+ 1977 0cbd 220B0000 		.4byte	0xb22
+ 1978 0cc1 00       		.byte	0
+ 1979              		.section	.debug_abbrev,"",%progbits
+ 1980              	.Ldebug_abbrev0:
+ 1981 0000 01       		.uleb128 0x1
+ 1982 0001 11       		.uleb128 0x11
+ 1983 0002 01       		.byte	0x1
+ 1984 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 41
+
+
+ 1985 0004 0E       		.uleb128 0xe
+ 1986 0005 13       		.uleb128 0x13
+ 1987 0006 0B       		.uleb128 0xb
+ 1988 0007 03       		.uleb128 0x3
+ 1989 0008 0E       		.uleb128 0xe
+ 1990 0009 1B       		.uleb128 0x1b
+ 1991 000a 0E       		.uleb128 0xe
+ 1992 000b 55       		.uleb128 0x55
+ 1993 000c 17       		.uleb128 0x17
+ 1994 000d 11       		.uleb128 0x11
+ 1995 000e 01       		.uleb128 0x1
+ 1996 000f 10       		.uleb128 0x10
+ 1997 0010 17       		.uleb128 0x17
+ 1998 0011 00       		.byte	0
+ 1999 0012 00       		.byte	0
+ 2000 0013 02       		.uleb128 0x2
+ 2001 0014 24       		.uleb128 0x24
+ 2002 0015 00       		.byte	0
+ 2003 0016 0B       		.uleb128 0xb
+ 2004 0017 0B       		.uleb128 0xb
+ 2005 0018 3E       		.uleb128 0x3e
+ 2006 0019 0B       		.uleb128 0xb
+ 2007 001a 03       		.uleb128 0x3
+ 2008 001b 0E       		.uleb128 0xe
+ 2009 001c 00       		.byte	0
+ 2010 001d 00       		.byte	0
+ 2011 001e 03       		.uleb128 0x3
+ 2012 001f 16       		.uleb128 0x16
+ 2013 0020 00       		.byte	0
+ 2014 0021 03       		.uleb128 0x3
+ 2015 0022 0E       		.uleb128 0xe
+ 2016 0023 3A       		.uleb128 0x3a
+ 2017 0024 0B       		.uleb128 0xb
+ 2018 0025 3B       		.uleb128 0x3b
+ 2019 0026 0B       		.uleb128 0xb
+ 2020 0027 49       		.uleb128 0x49
+ 2021 0028 13       		.uleb128 0x13
+ 2022 0029 00       		.byte	0
+ 2023 002a 00       		.byte	0
+ 2024 002b 04       		.uleb128 0x4
+ 2025 002c 24       		.uleb128 0x24
+ 2026 002d 00       		.byte	0
+ 2027 002e 0B       		.uleb128 0xb
+ 2028 002f 0B       		.uleb128 0xb
+ 2029 0030 3E       		.uleb128 0x3e
+ 2030 0031 0B       		.uleb128 0xb
+ 2031 0032 03       		.uleb128 0x3
+ 2032 0033 08       		.uleb128 0x8
+ 2033 0034 00       		.byte	0
+ 2034 0035 00       		.byte	0
+ 2035 0036 05       		.uleb128 0x5
+ 2036 0037 35       		.uleb128 0x35
+ 2037 0038 00       		.byte	0
+ 2038 0039 49       		.uleb128 0x49
+ 2039 003a 13       		.uleb128 0x13
+ 2040 003b 00       		.byte	0
+ 2041 003c 00       		.byte	0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 42
+
+
+ 2042 003d 06       		.uleb128 0x6
+ 2043 003e 16       		.uleb128 0x16
+ 2044 003f 00       		.byte	0
+ 2045 0040 03       		.uleb128 0x3
+ 2046 0041 0E       		.uleb128 0xe
+ 2047 0042 3A       		.uleb128 0x3a
+ 2048 0043 0B       		.uleb128 0xb
+ 2049 0044 3B       		.uleb128 0x3b
+ 2050 0045 05       		.uleb128 0x5
+ 2051 0046 49       		.uleb128 0x49
+ 2052 0047 13       		.uleb128 0x13
+ 2053 0048 00       		.byte	0
+ 2054 0049 00       		.byte	0
+ 2055 004a 07       		.uleb128 0x7
+ 2056 004b 0F       		.uleb128 0xf
+ 2057 004c 00       		.byte	0
+ 2058 004d 0B       		.uleb128 0xb
+ 2059 004e 0B       		.uleb128 0xb
+ 2060 004f 00       		.byte	0
+ 2061 0050 00       		.byte	0
+ 2062 0051 08       		.uleb128 0x8
+ 2063 0052 04       		.uleb128 0x4
+ 2064 0053 01       		.byte	0x1
+ 2065 0054 0B       		.uleb128 0xb
+ 2066 0055 0B       		.uleb128 0xb
+ 2067 0056 49       		.uleb128 0x49
+ 2068 0057 13       		.uleb128 0x13
+ 2069 0058 3A       		.uleb128 0x3a
+ 2070 0059 0B       		.uleb128 0xb
+ 2071 005a 3B       		.uleb128 0x3b
+ 2072 005b 05       		.uleb128 0x5
+ 2073 005c 01       		.uleb128 0x1
+ 2074 005d 13       		.uleb128 0x13
+ 2075 005e 00       		.byte	0
+ 2076 005f 00       		.byte	0
+ 2077 0060 09       		.uleb128 0x9
+ 2078 0061 28       		.uleb128 0x28
+ 2079 0062 00       		.byte	0
+ 2080 0063 03       		.uleb128 0x3
+ 2081 0064 0E       		.uleb128 0xe
+ 2082 0065 1C       		.uleb128 0x1c
+ 2083 0066 0B       		.uleb128 0xb
+ 2084 0067 00       		.byte	0
+ 2085 0068 00       		.byte	0
+ 2086 0069 0A       		.uleb128 0xa
+ 2087 006a 0F       		.uleb128 0xf
+ 2088 006b 00       		.byte	0
+ 2089 006c 0B       		.uleb128 0xb
+ 2090 006d 0B       		.uleb128 0xb
+ 2091 006e 49       		.uleb128 0x49
+ 2092 006f 13       		.uleb128 0x13
+ 2093 0070 00       		.byte	0
+ 2094 0071 00       		.byte	0
+ 2095 0072 0B       		.uleb128 0xb
+ 2096 0073 15       		.uleb128 0x15
+ 2097 0074 01       		.byte	0x1
+ 2098 0075 27       		.uleb128 0x27
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 43
+
+
+ 2099 0076 19       		.uleb128 0x19
+ 2100 0077 01       		.uleb128 0x1
+ 2101 0078 13       		.uleb128 0x13
+ 2102 0079 00       		.byte	0
+ 2103 007a 00       		.byte	0
+ 2104 007b 0C       		.uleb128 0xc
+ 2105 007c 05       		.uleb128 0x5
+ 2106 007d 00       		.byte	0
+ 2107 007e 49       		.uleb128 0x49
+ 2108 007f 13       		.uleb128 0x13
+ 2109 0080 00       		.byte	0
+ 2110 0081 00       		.byte	0
+ 2111 0082 0D       		.uleb128 0xd
+ 2112 0083 13       		.uleb128 0x13
+ 2113 0084 01       		.byte	0x1
+ 2114 0085 0B       		.uleb128 0xb
+ 2115 0086 0B       		.uleb128 0xb
+ 2116 0087 3A       		.uleb128 0x3a
+ 2117 0088 0B       		.uleb128 0xb
+ 2118 0089 3B       		.uleb128 0x3b
+ 2119 008a 05       		.uleb128 0x5
+ 2120 008b 01       		.uleb128 0x1
+ 2121 008c 13       		.uleb128 0x13
+ 2122 008d 00       		.byte	0
+ 2123 008e 00       		.byte	0
+ 2124 008f 0E       		.uleb128 0xe
+ 2125 0090 0D       		.uleb128 0xd
+ 2126 0091 00       		.byte	0
+ 2127 0092 03       		.uleb128 0x3
+ 2128 0093 0E       		.uleb128 0xe
+ 2129 0094 3A       		.uleb128 0x3a
+ 2130 0095 0B       		.uleb128 0xb
+ 2131 0096 3B       		.uleb128 0x3b
+ 2132 0097 05       		.uleb128 0x5
+ 2133 0098 49       		.uleb128 0x49
+ 2134 0099 13       		.uleb128 0x13
+ 2135 009a 38       		.uleb128 0x38
+ 2136 009b 0B       		.uleb128 0xb
+ 2137 009c 00       		.byte	0
+ 2138 009d 00       		.byte	0
+ 2139 009e 0F       		.uleb128 0xf
+ 2140 009f 15       		.uleb128 0x15
+ 2141 00a0 01       		.byte	0x1
+ 2142 00a1 27       		.uleb128 0x27
+ 2143 00a2 19       		.uleb128 0x19
+ 2144 00a3 49       		.uleb128 0x49
+ 2145 00a4 13       		.uleb128 0x13
+ 2146 00a5 01       		.uleb128 0x1
+ 2147 00a6 13       		.uleb128 0x13
+ 2148 00a7 00       		.byte	0
+ 2149 00a8 00       		.byte	0
+ 2150 00a9 10       		.uleb128 0x10
+ 2151 00aa 13       		.uleb128 0x13
+ 2152 00ab 01       		.byte	0x1
+ 2153 00ac 03       		.uleb128 0x3
+ 2154 00ad 0E       		.uleb128 0xe
+ 2155 00ae 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 44
+
+
+ 2156 00af 0B       		.uleb128 0xb
+ 2157 00b0 3A       		.uleb128 0x3a
+ 2158 00b1 0B       		.uleb128 0xb
+ 2159 00b2 3B       		.uleb128 0x3b
+ 2160 00b3 05       		.uleb128 0x5
+ 2161 00b4 01       		.uleb128 0x1
+ 2162 00b5 13       		.uleb128 0x13
+ 2163 00b6 00       		.byte	0
+ 2164 00b7 00       		.byte	0
+ 2165 00b8 11       		.uleb128 0x11
+ 2166 00b9 04       		.uleb128 0x4
+ 2167 00ba 01       		.byte	0x1
+ 2168 00bb 0B       		.uleb128 0xb
+ 2169 00bc 0B       		.uleb128 0xb
+ 2170 00bd 49       		.uleb128 0x49
+ 2171 00be 13       		.uleb128 0x13
+ 2172 00bf 3A       		.uleb128 0x3a
+ 2173 00c0 0B       		.uleb128 0xb
+ 2174 00c1 3B       		.uleb128 0x3b
+ 2175 00c2 0B       		.uleb128 0xb
+ 2176 00c3 01       		.uleb128 0x1
+ 2177 00c4 13       		.uleb128 0x13
+ 2178 00c5 00       		.byte	0
+ 2179 00c6 00       		.byte	0
+ 2180 00c7 12       		.uleb128 0x12
+ 2181 00c8 28       		.uleb128 0x28
+ 2182 00c9 00       		.byte	0
+ 2183 00ca 03       		.uleb128 0x3
+ 2184 00cb 0E       		.uleb128 0xe
+ 2185 00cc 1C       		.uleb128 0x1c
+ 2186 00cd 06       		.uleb128 0x6
+ 2187 00ce 00       		.byte	0
+ 2188 00cf 00       		.byte	0
+ 2189 00d0 13       		.uleb128 0x13
+ 2190 00d1 13       		.uleb128 0x13
+ 2191 00d2 01       		.byte	0x1
+ 2192 00d3 0B       		.uleb128 0xb
+ 2193 00d4 0B       		.uleb128 0xb
+ 2194 00d5 3A       		.uleb128 0x3a
+ 2195 00d6 0B       		.uleb128 0xb
+ 2196 00d7 3B       		.uleb128 0x3b
+ 2197 00d8 0B       		.uleb128 0xb
+ 2198 00d9 01       		.uleb128 0x1
+ 2199 00da 13       		.uleb128 0x13
+ 2200 00db 00       		.byte	0
+ 2201 00dc 00       		.byte	0
+ 2202 00dd 14       		.uleb128 0x14
+ 2203 00de 0D       		.uleb128 0xd
+ 2204 00df 00       		.byte	0
+ 2205 00e0 03       		.uleb128 0x3
+ 2206 00e1 0E       		.uleb128 0xe
+ 2207 00e2 3A       		.uleb128 0x3a
+ 2208 00e3 0B       		.uleb128 0xb
+ 2209 00e4 3B       		.uleb128 0x3b
+ 2210 00e5 0B       		.uleb128 0xb
+ 2211 00e6 49       		.uleb128 0x49
+ 2212 00e7 13       		.uleb128 0x13
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 45
+
+
+ 2213 00e8 38       		.uleb128 0x38
+ 2214 00e9 0B       		.uleb128 0xb
+ 2215 00ea 00       		.byte	0
+ 2216 00eb 00       		.byte	0
+ 2217 00ec 15       		.uleb128 0x15
+ 2218 00ed 2E       		.uleb128 0x2e
+ 2219 00ee 00       		.byte	0
+ 2220 00ef 3F       		.uleb128 0x3f
+ 2221 00f0 19       		.uleb128 0x19
+ 2222 00f1 03       		.uleb128 0x3
+ 2223 00f2 0E       		.uleb128 0xe
+ 2224 00f3 3A       		.uleb128 0x3a
+ 2225 00f4 0B       		.uleb128 0xb
+ 2226 00f5 3B       		.uleb128 0x3b
+ 2227 00f6 0B       		.uleb128 0xb
+ 2228 00f7 27       		.uleb128 0x27
+ 2229 00f8 19       		.uleb128 0x19
+ 2230 00f9 11       		.uleb128 0x11
+ 2231 00fa 01       		.uleb128 0x1
+ 2232 00fb 12       		.uleb128 0x12
+ 2233 00fc 06       		.uleb128 0x6
+ 2234 00fd 40       		.uleb128 0x40
+ 2235 00fe 18       		.uleb128 0x18
+ 2236 00ff 9642     		.uleb128 0x2116
+ 2237 0101 19       		.uleb128 0x19
+ 2238 0102 00       		.byte	0
+ 2239 0103 00       		.byte	0
+ 2240 0104 16       		.uleb128 0x16
+ 2241 0105 2E       		.uleb128 0x2e
+ 2242 0106 01       		.byte	0x1
+ 2243 0107 3F       		.uleb128 0x3f
+ 2244 0108 19       		.uleb128 0x19
+ 2245 0109 03       		.uleb128 0x3
+ 2246 010a 0E       		.uleb128 0xe
+ 2247 010b 3A       		.uleb128 0x3a
+ 2248 010c 0B       		.uleb128 0xb
+ 2249 010d 3B       		.uleb128 0x3b
+ 2250 010e 0B       		.uleb128 0xb
+ 2251 010f 27       		.uleb128 0x27
+ 2252 0110 19       		.uleb128 0x19
+ 2253 0111 11       		.uleb128 0x11
+ 2254 0112 01       		.uleb128 0x1
+ 2255 0113 12       		.uleb128 0x12
+ 2256 0114 06       		.uleb128 0x6
+ 2257 0115 40       		.uleb128 0x40
+ 2258 0116 18       		.uleb128 0x18
+ 2259 0117 9642     		.uleb128 0x2116
+ 2260 0119 19       		.uleb128 0x19
+ 2261 011a 01       		.uleb128 0x1
+ 2262 011b 13       		.uleb128 0x13
+ 2263 011c 00       		.byte	0
+ 2264 011d 00       		.byte	0
+ 2265 011e 17       		.uleb128 0x17
+ 2266 011f 05       		.uleb128 0x5
+ 2267 0120 00       		.byte	0
+ 2268 0121 03       		.uleb128 0x3
+ 2269 0122 08       		.uleb128 0x8
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 46
+
+
+ 2270 0123 3A       		.uleb128 0x3a
+ 2271 0124 0B       		.uleb128 0xb
+ 2272 0125 3B       		.uleb128 0x3b
+ 2273 0126 0B       		.uleb128 0xb
+ 2274 0127 49       		.uleb128 0x49
+ 2275 0128 13       		.uleb128 0x13
+ 2276 0129 02       		.uleb128 0x2
+ 2277 012a 18       		.uleb128 0x18
+ 2278 012b 00       		.byte	0
+ 2279 012c 00       		.byte	0
+ 2280 012d 18       		.uleb128 0x18
+ 2281 012e 34       		.uleb128 0x34
+ 2282 012f 00       		.byte	0
+ 2283 0130 03       		.uleb128 0x3
+ 2284 0131 0E       		.uleb128 0xe
+ 2285 0132 3A       		.uleb128 0x3a
+ 2286 0133 0B       		.uleb128 0xb
+ 2287 0134 3B       		.uleb128 0x3b
+ 2288 0135 0B       		.uleb128 0xb
+ 2289 0136 49       		.uleb128 0x49
+ 2290 0137 13       		.uleb128 0x13
+ 2291 0138 02       		.uleb128 0x2
+ 2292 0139 18       		.uleb128 0x18
+ 2293 013a 00       		.byte	0
+ 2294 013b 00       		.byte	0
+ 2295 013c 19       		.uleb128 0x19
+ 2296 013d 0B       		.uleb128 0xb
+ 2297 013e 01       		.byte	0x1
+ 2298 013f 11       		.uleb128 0x11
+ 2299 0140 01       		.uleb128 0x1
+ 2300 0141 12       		.uleb128 0x12
+ 2301 0142 06       		.uleb128 0x6
+ 2302 0143 00       		.byte	0
+ 2303 0144 00       		.byte	0
+ 2304 0145 1A       		.uleb128 0x1a
+ 2305 0146 34       		.uleb128 0x34
+ 2306 0147 00       		.byte	0
+ 2307 0148 03       		.uleb128 0x3
+ 2308 0149 0E       		.uleb128 0xe
+ 2309 014a 3A       		.uleb128 0x3a
+ 2310 014b 0B       		.uleb128 0xb
+ 2311 014c 3B       		.uleb128 0x3b
+ 2312 014d 05       		.uleb128 0x5
+ 2313 014e 49       		.uleb128 0x49
+ 2314 014f 13       		.uleb128 0x13
+ 2315 0150 3F       		.uleb128 0x3f
+ 2316 0151 19       		.uleb128 0x19
+ 2317 0152 3C       		.uleb128 0x3c
+ 2318 0153 19       		.uleb128 0x19
+ 2319 0154 00       		.byte	0
+ 2320 0155 00       		.byte	0
+ 2321 0156 1B       		.uleb128 0x1b
+ 2322 0157 34       		.uleb128 0x34
+ 2323 0158 00       		.byte	0
+ 2324 0159 03       		.uleb128 0x3
+ 2325 015a 0E       		.uleb128 0xe
+ 2326 015b 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 47
+
+
+ 2327 015c 0B       		.uleb128 0xb
+ 2328 015d 3B       		.uleb128 0x3b
+ 2329 015e 0B       		.uleb128 0xb
+ 2330 015f 49       		.uleb128 0x49
+ 2331 0160 13       		.uleb128 0x13
+ 2332 0161 3F       		.uleb128 0x3f
+ 2333 0162 19       		.uleb128 0x19
+ 2334 0163 3C       		.uleb128 0x3c
+ 2335 0164 19       		.uleb128 0x19
+ 2336 0165 00       		.byte	0
+ 2337 0166 00       		.byte	0
+ 2338 0167 1C       		.uleb128 0x1c
+ 2339 0168 26       		.uleb128 0x26
+ 2340 0169 00       		.byte	0
+ 2341 016a 49       		.uleb128 0x49
+ 2342 016b 13       		.uleb128 0x13
+ 2343 016c 00       		.byte	0
+ 2344 016d 00       		.byte	0
+ 2345 016e 1D       		.uleb128 0x1d
+ 2346 016f 01       		.uleb128 0x1
+ 2347 0170 01       		.byte	0x1
+ 2348 0171 49       		.uleb128 0x49
+ 2349 0172 13       		.uleb128 0x13
+ 2350 0173 01       		.uleb128 0x1
+ 2351 0174 13       		.uleb128 0x13
+ 2352 0175 00       		.byte	0
+ 2353 0176 00       		.byte	0
+ 2354 0177 1E       		.uleb128 0x1e
+ 2355 0178 21       		.uleb128 0x21
+ 2356 0179 00       		.byte	0
+ 2357 017a 49       		.uleb128 0x49
+ 2358 017b 13       		.uleb128 0x13
+ 2359 017c 2F       		.uleb128 0x2f
+ 2360 017d 0B       		.uleb128 0xb
+ 2361 017e 00       		.byte	0
+ 2362 017f 00       		.byte	0
+ 2363 0180 00       		.byte	0
+ 2364              		.section	.debug_aranges,"",%progbits
+ 2365 0000 24000000 		.4byte	0x24
+ 2366 0004 0200     		.2byte	0x2
+ 2367 0006 00000000 		.4byte	.Ldebug_info0
+ 2368 000a 04       		.byte	0x4
+ 2369 000b 00       		.byte	0
+ 2370 000c 0000     		.2byte	0
+ 2371 000e 0000     		.2byte	0
+ 2372 0010 00000000 		.4byte	.LFB806
+ 2373 0014 0C000000 		.4byte	.LFE806-.LFB806
+ 2374 0018 00000000 		.4byte	.LFB807
+ 2375 001c 30020000 		.4byte	.LFE807-.LFB807
+ 2376 0020 00000000 		.4byte	0
+ 2377 0024 00000000 		.4byte	0
+ 2378              		.section	.debug_ranges,"",%progbits
+ 2379              	.Ldebug_ranges0:
+ 2380 0000 00000000 		.4byte	.LFB806
+ 2381 0004 0C000000 		.4byte	.LFE806
+ 2382 0008 00000000 		.4byte	.LFB807
+ 2383 000c 30020000 		.4byte	.LFE807
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 48
+
+
+ 2384 0010 00000000 		.4byte	0
+ 2385 0014 00000000 		.4byte	0
+ 2386              		.section	.debug_line,"",%progbits
+ 2387              	.Ldebug_line0:
+ 2388 0000 1D040000 		.section	.debug_str,"MS",%progbits,1
+ 2388      0200AE03 
+ 2388      00000201 
+ 2388      FB0E0D00 
+ 2388      01010101 
+ 2389              	.LASF151:
+ 2390 0000 72785773 		.ascii	"rxWsPulseWidth\000"
+ 2390      50756C73 
+ 2390      65576964 
+ 2390      746800
+ 2391              	.LASF76:
+ 2392 000f 63795F73 		.ascii	"cy_stc_smif_mem_device_cfg_t\000"
+ 2392      74635F73 
+ 2392      6D69665F 
+ 2392      6D656D5F 
+ 2392      64657669 
+ 2393              	.LASF251:
+ 2394 002c 4932535F 		.ascii	"I2S_initVar\000"
+ 2394      696E6974 
+ 2394      56617200 
+ 2395              	.LASF195:
+ 2396 0038 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_96\000"
+ 2396      444D5F50 
+ 2396      434D5F53 
+ 2396      4F46545F 
+ 2396      4D555445 
+ 2397              	.LASF259:
+ 2398 0057 496E6974 		.ascii	"InitTouch\000"
+ 2398      546F7563 
+ 2398      6800
+ 2399              	.LASF45:
+ 2400 0061 7478436D 		.ascii	"txCmpltCb\000"
+ 2400      706C7443 
+ 2400      6200
+ 2401              	.LASF93:
+ 2402 006b 6D617374 		.ascii	"masterStatus\000"
+ 2402      65725374 
+ 2402      61747573 
+ 2402      00
+ 2403              	.LASF126:
+ 2404 0078 63795F65 		.ascii	"cy_en_i2s_overhead_t\000"
+ 2404      6E5F6932 
+ 2404      735F6F76 
+ 2404      65726865 
+ 2404      61645F74 
+ 2405              	.LASF78:
+ 2406 008d 666C6167 		.ascii	"flags\000"
+ 2406      7300
+ 2407              	.LASF222:
+ 2408 0093 4C454654 		.ascii	"LEFT_BUTTON\000"
+ 2408      5F425554 
+ 2408      544F4E00 
+ 2409              	.LASF132:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 49
+
+
+ 2410 009f 7478446D 		.ascii	"txDmaTrigger\000"
+ 2410      61547269 
+ 2410      67676572 
+ 2410      00
+ 2411              	.LASF257:
+ 2412 00ac 433A5C55 		.ascii	"C:\\Users\\ikomb\\Documents\\PSoC Creator\\CE222221"
+ 2412      73657273 
+ 2412      5C696B6F 
+ 2412      6D625C44 
+ 2412      6F63756D 
+ 2413 00da 5F566F69 		.ascii	"_Voice_Recorder01\\CE222221_Voice_Recorder01.cydsn\000"
+ 2413      63655F52 
+ 2413      65636F72 
+ 2413      64657230 
+ 2413      315C4345 
+ 2414              	.LASF22:
+ 2415 010c 43595F53 		.ascii	"CY_SMIF_WIDTH_SINGLE\000"
+ 2415      4D49465F 
+ 2415      57494454 
+ 2415      485F5349 
+ 2415      4E474C45 
+ 2416              	.LASF100:
+ 2417 0121 736C6176 		.ascii	"slaveStatus\000"
+ 2417      65537461 
+ 2417      74757300 
+ 2418              	.LASF256:
+ 2419 012d 746F7563 		.ascii	"touch.c\000"
+ 2419      682E6300 
+ 2420              	.LASF220:
+ 2421 0135 63795F73 		.ascii	"cy_stc_pdm_pcm_config_t\000"
+ 2421      74635F70 
+ 2421      646D5F70 
+ 2421      636D5F63 
+ 2421      6F6E6669 
+ 2422              	.LASF11:
+ 2423 014d 756E7369 		.ascii	"unsigned int\000"
+ 2423      676E6564 
+ 2423      20696E74 
+ 2423      00
+ 2424              	.LASF88:
+ 2425 015a 63795F63 		.ascii	"cy_cb_scb_i2c_handle_events_t\000"
+ 2425      625F7363 
+ 2425      625F6932 
+ 2425      635F6861 
+ 2425      6E646C65 
+ 2426              	.LASF98:
+ 2427 0178 6D617374 		.ascii	"masterBufferIdx\000"
+ 2427      65724275 
+ 2427      66666572 
+ 2427      49647800 
+ 2428              	.LASF113:
+ 2429 0188 43595F49 		.ascii	"CY_I2S_I2S_MODE\000"
+ 2429      32535F49 
+ 2429      32535F4D 
+ 2429      4F444500 
+ 2430              	.LASF198:
+ 2431 0198 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_192\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 50
+
+
+ 2431      444D5F50 
+ 2431      434D5F53 
+ 2431      4F46545F 
+ 2431      4D555445 
+ 2432              	.LASF96:
+ 2433 01b8 6D617374 		.ascii	"masterBuffer\000"
+ 2433      65724275 
+ 2433      66666572 
+ 2433      00
+ 2434              	.LASF5:
+ 2435 01c5 5F5F696E 		.ascii	"__int32_t\000"
+ 2435      7433325F 
+ 2435      7400
+ 2436              	.LASF243:
+ 2437 01cf 63686563 		.ascii	"checkLeftSwipe\000"
+ 2437      6B4C6566 
+ 2437      74537769 
+ 2437      706500
+ 2438              	.LASF27:
+ 2439 01de 43595F53 		.ascii	"CY_SMIF_DATA_SEL0\000"
+ 2439      4D49465F 
+ 2439      44415441 
+ 2439      5F53454C 
+ 2439      3000
+ 2440              	.LASF58:
+ 2441 01f0 6D656D53 		.ascii	"memSize\000"
+ 2441      697A6500 
+ 2442              	.LASF29:
+ 2443 01f8 43595F53 		.ascii	"CY_SMIF_DATA_SEL2\000"
+ 2443      4D49465F 
+ 2443      44415441 
+ 2443      5F53454C 
+ 2443      3200
+ 2444              	.LASF30:
+ 2445 020a 43595F53 		.ascii	"CY_SMIF_DATA_SEL3\000"
+ 2445      4D49465F 
+ 2445      44415441 
+ 2445      5F53454C 
+ 2445      3300
+ 2446              	.LASF82:
+ 2447 021c 6475616C 		.ascii	"dualQuadSlots\000"
+ 2447      51756164 
+ 2447      536C6F74 
+ 2447      7300
+ 2448              	.LASF106:
+ 2449 022a 736C6176 		.ascii	"slaveRxBuffer\000"
+ 2449      65527842 
+ 2449      75666665 
+ 2449      7200
+ 2450              	.LASF64:
+ 2451 0238 63686970 		.ascii	"chipEraseCmd\000"
+ 2451      45726173 
+ 2451      65436D64 
+ 2451      00
+ 2452              	.LASF53:
+ 2453 0245 6D6F6465 		.ascii	"modeWidth\000"
+ 2453      57696474 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 51
+
+
+ 2453      6800
+ 2454              	.LASF224:
+ 2455 024f 534C4944 		.ascii	"SLIDER_LEFT\000"
+ 2455      45525F4C 
+ 2455      45465400 
+ 2456              	.LASF110:
+ 2457 025b 63624164 		.ascii	"cbAddr\000"
+ 2457      647200
+ 2458              	.LASF142:
+ 2459 0262 74785363 		.ascii	"txSckoInversion\000"
+ 2459      6B6F496E 
+ 2459      76657273 
+ 2459      696F6E00 
+ 2460              	.LASF85:
+ 2461 0272 43595F53 		.ascii	"CY_SCB_I2C_ACK\000"
+ 2461      43425F49 
+ 2461      32435F41 
+ 2461      434B00
+ 2462              	.LASF136:
+ 2463 0281 74784D61 		.ascii	"txMasterMode\000"
+ 2463      73746572 
+ 2463      4D6F6465 
+ 2463      00
+ 2464              	.LASF87:
+ 2465 028e 63795F65 		.ascii	"cy_en_scb_i2c_command_t\000"
+ 2465      6E5F7363 
+ 2465      625F6932 
+ 2465      635F636F 
+ 2465      6D6D616E 
+ 2466              	.LASF69:
+ 2467 02a6 77726974 		.ascii	"writeStsRegQeCmd\000"
+ 2467      65537473 
+ 2467      52656751 
+ 2467      65436D64 
+ 2467      00
+ 2468              	.LASF180:
+ 2469 02b7 43595F50 		.ascii	"CY_PDM_PCM_ATTN_7_5_DB\000"
+ 2469      444D5F50 
+ 2469      434D5F41 
+ 2469      54544E5F 
+ 2469      375F355F 
+ 2470              	.LASF52:
+ 2471 02ce 6D6F6465 		.ascii	"mode\000"
+ 2471      00
+ 2472              	.LASF167:
+ 2473 02d3 63795F65 		.ascii	"cy_en_pdm_pcm_word_len_t\000"
+ 2473      6E5F7064 
+ 2473      6D5F7063 
+ 2473      6D5F776F 
+ 2473      72645F6C 
+ 2474              	.LASF205:
+ 2475 02ec 636B6F44 		.ascii	"ckoDelay\000"
+ 2475      656C6179 
+ 2475      00
+ 2476              	.LASF201:
+ 2477 02f5 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_512\000"
+ 2477      444D5F50 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 52
+
+
+ 2477      434D5F53 
+ 2477      4F46545F 
+ 2477      4D555445 
+ 2478              	.LASF86:
+ 2479 0315 43595F53 		.ascii	"CY_SCB_I2C_NAK\000"
+ 2479      43425F49 
+ 2479      32435F4E 
+ 2479      414B00
+ 2480              	.LASF166:
+ 2481 0324 43595F50 		.ascii	"CY_PDM_PCM_WLEN_24_BIT\000"
+ 2481      444D5F50 
+ 2481      434D5F57 
+ 2481      4C454E5F 
+ 2481      32345F42 
+ 2482              	.LASF89:
+ 2483 033b 63795F63 		.ascii	"cy_cb_scb_i2c_handle_addr_t\000"
+ 2483      625F7363 
+ 2483      625F6932 
+ 2483      635F6861 
+ 2483      6E646C65 
+ 2484              	.LASF204:
+ 2485 0357 636B6F44 		.ascii	"ckoDiv\000"
+ 2485      697600
+ 2486              	.LASF258:
+ 2487 035e 63795F73 		.ascii	"cy_stc_scb_i2c_context\000"
+ 2487      74635F73 
+ 2487      63625F69 
+ 2487      32635F63 
+ 2487      6F6E7465 
+ 2488              	.LASF37:
+ 2489 0375 63795F73 		.ascii	"cy_smif_event_cb_t\000"
+ 2489      6D69665F 
+ 2489      6576656E 
+ 2489      745F6362 
+ 2489      5F7400
+ 2490              	.LASF74:
+ 2491 0388 63686970 		.ascii	"chipEraseTime\000"
+ 2491      45726173 
+ 2491      6554696D 
+ 2491      6500
+ 2492              	.LASF228:
+ 2493 0396 7363616E 		.ascii	"scanBusy\000"
+ 2493      42757379 
+ 2493      00
+ 2494              	.LASF202:
+ 2495 039f 63795F65 		.ascii	"cy_en_pdm_pcm_s_cycles_t\000"
+ 2495      6E5F7064 
+ 2495      6D5F7063 
+ 2495      6D5F735F 
+ 2495      6379636C 
+ 2496              	.LASF207:
+ 2497 03b8 6368616E 		.ascii	"chanSelect\000"
+ 2497      53656C65 
+ 2497      637400
+ 2498              	.LASF54:
+ 2499 03c3 64756D6D 		.ascii	"dummyCycles\000"
+ 2499      79437963 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 53
+
+
+ 2499      6C657300 
+ 2500              	.LASF254:
+ 2501 03cf 4576656E 		.ascii	"EventsQueue\000"
+ 2501      74735175 
+ 2501      65756500 
+ 2502              	.LASF154:
+ 2503 03db 72785364 		.ascii	"rxSdiLatchingTime\000"
+ 2503      694C6174 
+ 2503      6368696E 
+ 2503      6754696D 
+ 2503      6500
+ 2504              	.LASF157:
+ 2505 03ed 72784368 		.ascii	"rxChannels\000"
+ 2505      616E6E65 
+ 2505      6C7300
+ 2506              	.LASF41:
+ 2507 03f8 72784275 		.ascii	"rxBufferAddress\000"
+ 2507      66666572 
+ 2507      41646472 
+ 2507      65737300 
+ 2508              	.LASF139:
+ 2509 0408 74785761 		.ascii	"txWatchdogEnable\000"
+ 2509      74636864 
+ 2509      6F67456E 
+ 2509      61626C65 
+ 2509      00
+ 2510              	.LASF173:
+ 2511 0419 43595F50 		.ascii	"CY_PDM_PCM_OUT_CHAN_LEFT\000"
+ 2511      444D5F50 
+ 2511      434D5F4F 
+ 2511      55545F43 
+ 2511      48414E5F 
+ 2512              	.LASF104:
+ 2513 0432 736C6176 		.ascii	"slaveTxBufferIdx\000"
+ 2513      65547842 
+ 2513      75666665 
+ 2513      72496478 
+ 2513      00
+ 2514              	.LASF211:
+ 2515 0443 736F6674 		.ascii	"softMuteCycles\000"
+ 2515      4D757465 
+ 2515      4379636C 
+ 2515      657300
+ 2516              	.LASF14:
+ 2517 0452 75696E74 		.ascii	"uint32_t\000"
+ 2517      33325F74 
+ 2517      00
+ 2518              	.LASF161:
+ 2519 045b 72784669 		.ascii	"rxFifoTriggerLevel\000"
+ 2519      666F5472 
+ 2519      69676765 
+ 2519      724C6576 
+ 2519      656C00
+ 2520              	.LASF130:
+ 2521 046e 7478456E 		.ascii	"txEnabled\000"
+ 2521      61626C65 
+ 2521      6400
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 54
+
+
+ 2522              	.LASF150:
+ 2523 0478 7278416C 		.ascii	"rxAlignment\000"
+ 2523      69676E6D 
+ 2523      656E7400 
+ 2524              	.LASF18:
+ 2525 0484 666C6F61 		.ascii	"float\000"
+ 2525      7400
+ 2526              	.LASF162:
+ 2527 048a 63795F73 		.ascii	"cy_stc_i2s_config_t\000"
+ 2527      74635F69 
+ 2527      32735F63 
+ 2527      6F6E6669 
+ 2527      675F7400 
+ 2528              	.LASF164:
+ 2529 049e 43595F50 		.ascii	"CY_PDM_PCM_WLEN_18_BIT\000"
+ 2529      444D5F50 
+ 2529      434D5F57 
+ 2529      4C454E5F 
+ 2529      31385F42 
+ 2530              	.LASF57:
+ 2531 04b5 6E756D4F 		.ascii	"numOfAddrBytes\000"
+ 2531      66416464 
+ 2531      72427974 
+ 2531      657300
+ 2532              	.LASF183:
+ 2533 04c4 43595F50 		.ascii	"CY_PDM_PCM_ATTN_3_DB\000"
+ 2533      444D5F50 
+ 2533      434D5F41 
+ 2533      54544E5F 
+ 2533      335F4442 
+ 2534              	.LASF10:
+ 2535 04d9 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2535      206C6F6E 
+ 2535      6720756E 
+ 2535      7369676E 
+ 2535      65642069 
+ 2536              	.LASF169:
+ 2537 04f0 43595F50 		.ascii	"CY_PDM_PCM_CLK_DIV_1_2\000"
+ 2537      444D5F50 
+ 2537      434D5F43 
+ 2537      4C4B5F44 
+ 2537      49565F31 
+ 2538              	.LASF170:
+ 2539 0507 43595F50 		.ascii	"CY_PDM_PCM_CLK_DIV_1_3\000"
+ 2539      444D5F50 
+ 2539      434D5F43 
+ 2539      4C4B5F44 
+ 2539      49565F31 
+ 2540              	.LASF171:
+ 2541 051e 43595F50 		.ascii	"CY_PDM_PCM_CLK_DIV_1_4\000"
+ 2541      444D5F50 
+ 2541      434D5F43 
+ 2541      4C4B5F44 
+ 2541      49565F31 
+ 2542              	.LASF127:
+ 2543 0535 43595F49 		.ascii	"CY_I2S_WS_ONE_SCK_CYCLE\000"
+ 2543      32535F57 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 55
+
+
+ 2543      535F4F4E 
+ 2543      455F5343 
+ 2543      4B5F4359 
+ 2544              	.LASF203:
+ 2545 054d 6D636C6B 		.ascii	"mclkDiv\000"
+ 2545      44697600 
+ 2546              	.LASF28:
+ 2547 0555 43595F53 		.ascii	"CY_SMIF_DATA_SEL1\000"
+ 2547      4D49465F 
+ 2547      44415441 
+ 2547      5F53454C 
+ 2547      3100
+ 2548              	.LASF155:
+ 2549 0567 72785363 		.ascii	"rxSckoInversion\000"
+ 2549      6B6F496E 
+ 2549      76657273 
+ 2549      696F6E00 
+ 2550              	.LASF230:
+ 2551 0577 42617365 		.ascii	"BaseType_t\000"
+ 2551      54797065 
+ 2551      5F7400
+ 2552              	.LASF73:
+ 2553 0582 65726173 		.ascii	"eraseTime\000"
+ 2553      6554696D 
+ 2553      6500
+ 2554              	.LASF103:
+ 2555 058c 736C6176 		.ascii	"slaveTxBufferSize\000"
+ 2555      65547842 
+ 2555      75666665 
+ 2555      7253697A 
+ 2555      6500
+ 2556              	.LASF118:
+ 2557 059e 43595F49 		.ascii	"CY_I2S_LEN16\000"
+ 2557      32535F4C 
+ 2557      454E3136 
+ 2557      00
+ 2558              	.LASF119:
+ 2559 05ab 43595F49 		.ascii	"CY_I2S_LEN18\000"
+ 2559      32535F4C 
+ 2559      454E3138 
+ 2559      00
+ 2560              	.LASF101:
+ 2561 05b8 736C6176 		.ascii	"slaveRdBufEmpty\000"
+ 2561      65526442 
+ 2561      7566456D 
+ 2561      70747900 
+ 2562              	.LASF145:
+ 2563 05c8 74784368 		.ascii	"txChannelLength\000"
+ 2563      616E6E65 
+ 2563      6C4C656E 
+ 2563      67746800 
+ 2564              	.LASF133:
+ 2565 05d8 7278446D 		.ascii	"rxDmaTrigger\000"
+ 2565      61547269 
+ 2565      67676572 
+ 2565      00
+ 2566              	.LASF188:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 56
+
+
+ 2567 05e5 43595F50 		.ascii	"CY_PDM_PCM_GAIN_4_5_DB\000"
+ 2567      444D5F50 
+ 2567      434D5F47 
+ 2567      41494E5F 
+ 2567      345F355F 
+ 2568              	.LASF185:
+ 2569 05fc 43595F50 		.ascii	"CY_PDM_PCM_BYPASS\000"
+ 2569      444D5F50 
+ 2569      434D5F42 
+ 2569      59504153 
+ 2569      5300
+ 2570              	.LASF206:
+ 2571 060e 73696E63 		.ascii	"sincDecRate\000"
+ 2571      44656352 
+ 2571      61746500 
+ 2572              	.LASF182:
+ 2573 061a 43595F50 		.ascii	"CY_PDM_PCM_ATTN_4_5_DB\000"
+ 2573      444D5F50 
+ 2573      434D5F41 
+ 2573      54544E5F 
+ 2573      345F355F 
+ 2574              	.LASF109:
+ 2575 0631 63624576 		.ascii	"cbEvents\000"
+ 2575      656E7473 
+ 2575      00
+ 2576              	.LASF120:
+ 2577 063a 43595F49 		.ascii	"CY_I2S_LEN20\000"
+ 2577      32535F4C 
+ 2577      454E3230 
+ 2577      00
+ 2578              	.LASF121:
+ 2579 0647 43595F49 		.ascii	"CY_I2S_LEN24\000"
+ 2579      32535F4C 
+ 2579      454E3234 
+ 2579      00
+ 2580              	.LASF245:
+ 2581 0654 746F7563 		.ascii	"touchInformation\000"
+ 2581      68496E66 
+ 2581      6F726D61 
+ 2581      74696F6E 
+ 2581      00
+ 2582              	.LASF21:
+ 2583 0665 5F426F6F 		.ascii	"_Bool\000"
+ 2583      6C00
+ 2584              	.LASF75:
+ 2585 066b 70726F67 		.ascii	"programTime\000"
+ 2585      72616D54 
+ 2585      696D6500 
+ 2586              	.LASF90:
+ 2587 0677 75736552 		.ascii	"useRxFifo\000"
+ 2587      78466966 
+ 2587      6F00
+ 2588              	.LASF241:
+ 2589 0681 736C6964 		.ascii	"sliderTouched\000"
+ 2589      6572546F 
+ 2589      75636865 
+ 2589      6400
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 57
+
+
+ 2590              	.LASF32:
+ 2591 068f 43595F53 		.ascii	"CY_SMIF_SLAVE_SELECT_0\000"
+ 2591      4D49465F 
+ 2591      534C4156 
+ 2591      455F5345 
+ 2591      4C454354 
+ 2592              	.LASF33:
+ 2593 06a6 43595F53 		.ascii	"CY_SMIF_SLAVE_SELECT_1\000"
+ 2593      4D49465F 
+ 2593      534C4156 
+ 2593      455F5345 
+ 2593      4C454354 
+ 2594              	.LASF34:
+ 2595 06bd 43595F53 		.ascii	"CY_SMIF_SLAVE_SELECT_2\000"
+ 2595      4D49465F 
+ 2595      534C4156 
+ 2595      455F5345 
+ 2595      4C454354 
+ 2596              	.LASF35:
+ 2597 06d4 43595F53 		.ascii	"CY_SMIF_SLAVE_SELECT_3\000"
+ 2597      4D49465F 
+ 2597      534C4156 
+ 2597      455F5345 
+ 2597      4C454354 
+ 2598              	.LASF253:
+ 2599 06eb 534D4946 		.ascii	"SMIF_1_memSlotConfigs\000"
+ 2599      5F315F6D 
+ 2599      656D536C 
+ 2599      6F74436F 
+ 2599      6E666967 
+ 2600              	.LASF124:
+ 2601 0701 43595F49 		.ascii	"CY_I2S_OVHDATA_ZERO\000"
+ 2601      32535F4F 
+ 2601      56484441 
+ 2601      54415F5A 
+ 2601      45524F00 
+ 2602              	.LASF55:
+ 2603 0715 64617461 		.ascii	"dataWidth\000"
+ 2603      57696474 
+ 2603      6800
+ 2604              	.LASF50:
+ 2605 071f 636D6457 		.ascii	"cmdWidth\000"
+ 2605      69647468 
+ 2605      00
+ 2606              	.LASF233:
+ 2607 0728 63757272 		.ascii	"currSliderPos\000"
+ 2607      536C6964 
+ 2607      6572506F 
+ 2607      7300
+ 2608              	.LASF191:
+ 2609 0736 43595F50 		.ascii	"CY_PDM_PCM_GAIN_9_DB\000"
+ 2609      444D5F50 
+ 2609      434D5F47 
+ 2609      41494E5F 
+ 2609      395F4442 
+ 2610              	.LASF190:
+ 2611 074b 43595F50 		.ascii	"CY_PDM_PCM_GAIN_7_5_DB\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 58
+
+
+ 2611      444D5F50 
+ 2611      434D5F47 
+ 2611      41494E5F 
+ 2611      375F355F 
+ 2612              	.LASF99:
+ 2613 0762 6D617374 		.ascii	"masterNumBytes\000"
+ 2613      65724E75 
+ 2613      6D427974 
+ 2613      657300
+ 2614              	.LASF122:
+ 2615 0771 43595F49 		.ascii	"CY_I2S_LEN32\000"
+ 2615      32535F4C 
+ 2615      454E3332 
+ 2615      00
+ 2616              	.LASF168:
+ 2617 077e 43595F50 		.ascii	"CY_PDM_PCM_CLK_DIV_BYPASS\000"
+ 2617      444D5F50 
+ 2617      434D5F43 
+ 2617      4C4B5F44 
+ 2617      49565F42 
+ 2618              	.LASF60:
+ 2619 0798 77726974 		.ascii	"writeEnCmd\000"
+ 2619      65456E43 
+ 2619      6D6400
+ 2620              	.LASF200:
+ 2621 07a3 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_384\000"
+ 2621      444D5F50 
+ 2621      434D5F53 
+ 2621      4F46545F 
+ 2621      4D555445 
+ 2622              	.LASF223:
+ 2623 07c3 52494748 		.ascii	"RIGHT_BUTTON\000"
+ 2623      545F4255 
+ 2623      54544F4E 
+ 2623      00
+ 2624              	.LASF226:
+ 2625 07d0 746F7563 		.ascii	"touch_data_types_t\000"
+ 2625      685F6461 
+ 2625      74615F74 
+ 2625      79706573 
+ 2625      5F7400
+ 2626              	.LASF172:
+ 2627 07e3 63795F65 		.ascii	"cy_en_pdm_pcm_clk_div_t\000"
+ 2627      6E5F7064 
+ 2627      6D5F7063 
+ 2627      6D5F636C 
+ 2627      6B5F6469 
+ 2628              	.LASF17:
+ 2629 07fb 63686172 		.ascii	"char\000"
+ 2629      00
+ 2630              	.LASF196:
+ 2631 0800 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_128\000"
+ 2631      444D5F50 
+ 2631      434D5F53 
+ 2631      4F46545F 
+ 2631      4D555445 
+ 2632              	.LASF177:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 59
+
+
+ 2633 0820 43595F50 		.ascii	"CY_PDM_PCM_ATTN_12_DB\000"
+ 2633      444D5F50 
+ 2633      434D5F41 
+ 2633      54544E5F 
+ 2633      31325F44 
+ 2634              	.LASF67:
+ 2635 0836 72656164 		.ascii	"readStsRegWipCmd\000"
+ 2635      53747352 
+ 2635      65675769 
+ 2635      70436D64 
+ 2635      00
+ 2636              	.LASF199:
+ 2637 0847 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_256\000"
+ 2637      444D5F50 
+ 2637      434D5F53 
+ 2637      4F46545F 
+ 2637      4D555445 
+ 2638              	.LASF250:
+ 2639 0867 4932535F 		.ascii	"I2S_config\000"
+ 2639      636F6E66 
+ 2639      696700
+ 2640              	.LASF123:
+ 2641 0872 63795F65 		.ascii	"cy_en_i2s_len_t\000"
+ 2641      6E5F6932 
+ 2641      735F6C65 
+ 2641      6E5F7400 
+ 2642              	.LASF212:
+ 2643 0882 736F6674 		.ascii	"softMuteFineGain\000"
+ 2643      4D757465 
+ 2643      46696E65 
+ 2643      4761696E 
+ 2643      00
+ 2644              	.LASF158:
+ 2645 0893 72784368 		.ascii	"rxChannelLength\000"
+ 2645      616E6E65 
+ 2645      6C4C656E 
+ 2645      67746800 
+ 2646              	.LASF97:
+ 2647 08a3 6D617374 		.ascii	"masterBufferSize\000"
+ 2647      65724275 
+ 2647      66666572 
+ 2647      53697A65 
+ 2647      00
+ 2648              	.LASF248:
+ 2649 08b4 50444D5F 		.ascii	"PDM_PCM_config\000"
+ 2649      50434D5F 
+ 2649      636F6E66 
+ 2649      696700
+ 2650              	.LASF112:
+ 2651 08c3 43595F49 		.ascii	"CY_I2S_LEFT_JUSTIFIED\000"
+ 2651      32535F4C 
+ 2651      4546545F 
+ 2651      4A555354 
+ 2651      49464945 
+ 2652              	.LASF62:
+ 2653 08d9 65726173 		.ascii	"eraseCmd\000"
+ 2653      65436D64 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 60
+
+
+ 2653      00
+ 2654              	.LASF232:
+ 2655 08e2 51756575 		.ascii	"QueueHandle_t\000"
+ 2655      6548616E 
+ 2655      646C655F 
+ 2655      7400
+ 2656              	.LASF242:
+ 2657 08f0 63686563 		.ascii	"checkRightSwipe\000"
+ 2657      6B526967 
+ 2657      68745377 
+ 2657      69706500 
+ 2658              	.LASF46:
+ 2659 0900 7278436D 		.ascii	"rxCmpltCb\000"
+ 2659      706C7443 
+ 2659      6200
+ 2660              	.LASF12:
+ 2661 090a 75696E74 		.ascii	"uint8_t\000"
+ 2661      385F7400 
+ 2662              	.LASF227:
+ 2663 0912 746F7563 		.ascii	"touchType\000"
+ 2663      68547970 
+ 2663      6500
+ 2664              	.LASF114:
+ 2665 091c 43595F49 		.ascii	"CY_I2S_TDM_MODE_A\000"
+ 2665      32535F54 
+ 2665      444D5F4D 
+ 2665      4F44455F 
+ 2665      4100
+ 2666              	.LASF115:
+ 2667 092e 43595F49 		.ascii	"CY_I2S_TDM_MODE_B\000"
+ 2667      32535F54 
+ 2667      444D5F4D 
+ 2667      4F44455F 
+ 2667      4200
+ 2668              	.LASF105:
+ 2669 0940 736C6176 		.ascii	"slaveTxBufferCnt\000"
+ 2669      65547842 
+ 2669      75666665 
+ 2669      72436E74 
+ 2669      00
+ 2670              	.LASF25:
+ 2671 0951 43595F53 		.ascii	"CY_SMIF_WIDTH_OCTAL\000"
+ 2671      4D49465F 
+ 2671      57494454 
+ 2671      485F4F43 
+ 2671      54414C00 
+ 2672              	.LASF135:
+ 2673 0965 65787443 		.ascii	"extClk\000"
+ 2673      6C6B00
+ 2674              	.LASF152:
+ 2675 096c 72785761 		.ascii	"rxWatchdogEnable\000"
+ 2675      74636864 
+ 2675      6F67456E 
+ 2675      61626C65 
+ 2675      00
+ 2676              	.LASF31:
+ 2677 097d 63795F65 		.ascii	"cy_en_smif_data_select_t\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 61
+
+
+ 2677      6E5F736D 
+ 2677      69665F64 
+ 2677      6174615F 
+ 2677      73656C65 
+ 2678              	.LASF140:
+ 2679 0996 74785761 		.ascii	"txWatchdogValue\000"
+ 2679      74636864 
+ 2679      6F675661 
+ 2679      6C756500 
+ 2680              	.LASF244:
+ 2681 09a6 6C617374 		.ascii	"lastWakeTime\000"
+ 2681      57616B65 
+ 2681      54696D65 
+ 2681      00
+ 2682              	.LASF9:
+ 2683 09b3 6C6F6E67 		.ascii	"long long int\000"
+ 2683      206C6F6E 
+ 2683      6720696E 
+ 2683      7400
+ 2684              	.LASF215:
+ 2685 09c1 7369676E 		.ascii	"signExtension\000"
+ 2685      45787465 
+ 2685      6E73696F 
+ 2685      6E00
+ 2686              	.LASF61:
+ 2687 09cf 77726974 		.ascii	"writeDisCmd\000"
+ 2687      65446973 
+ 2687      436D6400 
+ 2688              	.LASF77:
+ 2689 09db 736C6176 		.ascii	"slaveSelect\000"
+ 2689      6553656C 
+ 2689      65637400 
+ 2690              	.LASF252:
+ 2691 09e7 534D4946 		.ascii	"SMIF_1_context\000"
+ 2691      5F315F63 
+ 2691      6F6E7465 
+ 2691      787400
+ 2692              	.LASF184:
+ 2693 09f6 43595F50 		.ascii	"CY_PDM_PCM_ATTN_1_5_DB\000"
+ 2693      444D5F50 
+ 2693      434D5F41 
+ 2693      54544E5F 
+ 2693      315F355F 
+ 2694              	.LASF125:
+ 2695 0a0d 43595F49 		.ascii	"CY_I2S_OVHDATA_ONE\000"
+ 2695      32535F4F 
+ 2695      56484441 
+ 2695      54415F4F 
+ 2695      4E4500
+ 2696              	.LASF91:
+ 2697 0a20 75736554 		.ascii	"useTxFifo\000"
+ 2697      78466966 
+ 2697      6F00
+ 2698              	.LASF95:
+ 2699 0a2a 6D617374 		.ascii	"masterRdDir\000"
+ 2699      65725264 
+ 2699      44697200 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 62
+
+
+ 2700              	.LASF160:
+ 2701 0a36 72785369 		.ascii	"rxSignExtension\000"
+ 2701      676E4578 
+ 2701      74656E73 
+ 2701      696F6E00 
+ 2702              	.LASF165:
+ 2703 0a46 43595F50 		.ascii	"CY_PDM_PCM_WLEN_20_BIT\000"
+ 2703      444D5F50 
+ 2703      434D5F57 
+ 2703      4C454E5F 
+ 2703      32305F42 
+ 2704              	.LASF26:
+ 2705 0a5d 63795F65 		.ascii	"cy_en_smif_txfr_width_t\000"
+ 2705      6E5F736D 
+ 2705      69665F74 
+ 2705      7866725F 
+ 2705      77696474 
+ 2706              	.LASF240:
+ 2707 0a75 63757272 		.ascii	"currRightButton\000"
+ 2707      52696768 
+ 2707      74427574 
+ 2707      746F6E00 
+ 2708              	.LASF71:
+ 2709 0a85 73747352 		.ascii	"stsRegBusyMask\000"
+ 2709      65674275 
+ 2709      73794D61 
+ 2709      736B00
+ 2710              	.LASF192:
+ 2711 0a94 43595F50 		.ascii	"CY_PDM_PCM_GAIN_10_5_DB\000"
+ 2711      444D5F50 
+ 2711      434D5F47 
+ 2711      41494E5F 
+ 2711      31305F35 
+ 2712              	.LASF146:
+ 2713 0aac 7478576F 		.ascii	"txWordLength\000"
+ 2713      72644C65 
+ 2713      6E677468 
+ 2713      00
+ 2714              	.LASF42:
+ 2715 0ab9 72784275 		.ascii	"rxBufferSize\000"
+ 2715      66666572 
+ 2715      53697A65 
+ 2715      00
+ 2716              	.LASF49:
+ 2717 0ac6 636F6D6D 		.ascii	"command\000"
+ 2717      616E6400 
+ 2718              	.LASF117:
+ 2719 0ace 43595F49 		.ascii	"CY_I2S_LEN8\000"
+ 2719      32535F4C 
+ 2719      454E3800 
+ 2720              	.LASF63:
+ 2721 0ada 65726173 		.ascii	"eraseSize\000"
+ 2721      6553697A 
+ 2721      6500
+ 2722              	.LASF108:
+ 2723 0ae4 736C6176 		.ascii	"slaveRxBufferIdx\000"
+ 2723      65527842 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 63
+
+
+ 2723      75666665 
+ 2723      72496478 
+ 2723      00
+ 2724              	.LASF94:
+ 2725 0af5 6D617374 		.ascii	"masterPause\000"
+ 2725      65725061 
+ 2725      75736500 
+ 2726              	.LASF65:
+ 2727 0b01 70726F67 		.ascii	"programCmd\000"
+ 2727      72616D43 
+ 2727      6D6400
+ 2728              	.LASF235:
+ 2729 0b0c 6C656674 		.ascii	"leftSliderValue\000"
+ 2729      536C6964 
+ 2729      65725661 
+ 2729      6C756500 
+ 2730              	.LASF231:
+ 2731 0b1c 5469636B 		.ascii	"TickType_t\000"
+ 2731      54797065 
+ 2731      5F7400
+ 2732              	.LASF149:
+ 2733 0b27 72784D61 		.ascii	"rxMasterMode\000"
+ 2733      73746572 
+ 2733      4D6F6465 
+ 2733      00
+ 2734              	.LASF209:
+ 2735 0b34 68696768 		.ascii	"highPassFilterGain\000"
+ 2735      50617373 
+ 2735      46696C74 
+ 2735      65724761 
+ 2735      696E00
+ 2736              	.LASF107:
+ 2737 0b47 736C6176 		.ascii	"slaveRxBufferSize\000"
+ 2737      65527842 
+ 2737      75666665 
+ 2737      7253697A 
+ 2737      6500
+ 2738              	.LASF153:
+ 2739 0b59 72785761 		.ascii	"rxWatchdogValue\000"
+ 2739      74636864 
+ 2739      6F675661 
+ 2739      6C756500 
+ 2740              	.LASF66:
+ 2741 0b69 70726F67 		.ascii	"programSize\000"
+ 2741      72616D53 
+ 2741      697A6500 
+ 2742              	.LASF16:
+ 2743 0b75 6C6F6E67 		.ascii	"long double\000"
+ 2743      20646F75 
+ 2743      626C6500 
+ 2744              	.LASF213:
+ 2745 0b81 736F6674 		.ascii	"softMuteEnable\000"
+ 2745      4D757465 
+ 2745      456E6162 
+ 2745      6C6500
+ 2746              	.LASF131:
+ 2747 0b90 7278456E 		.ascii	"rxEnabled\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 64
+
+
+ 2747      61626C65 
+ 2747      6400
+ 2748              	.LASF51:
+ 2749 0b9a 61646472 		.ascii	"addrWidth\000"
+ 2749      57696474 
+ 2749      6800
+ 2750              	.LASF144:
+ 2751 0ba4 74784368 		.ascii	"txChannels\000"
+ 2751      616E6E65 
+ 2751      6C7300
+ 2752              	.LASF47:
+ 2753 0baf 74696D65 		.ascii	"timeout\000"
+ 2753      6F757400 
+ 2754              	.LASF143:
+ 2755 0bb7 74785363 		.ascii	"txSckiInversion\000"
+ 2755      6B69496E 
+ 2755      76657273 
+ 2755      696F6E00 
+ 2756              	.LASF15:
+ 2757 0bc7 73697A65 		.ascii	"sizetype\000"
+ 2757      74797065 
+ 2757      00
+ 2758              	.LASF189:
+ 2759 0bd0 43595F50 		.ascii	"CY_PDM_PCM_GAIN_6_DB\000"
+ 2759      444D5F50 
+ 2759      434D5F47 
+ 2759      41494E5F 
+ 2759      365F4442 
+ 2760              	.LASF0:
+ 2761 0be5 73686F72 		.ascii	"short int\000"
+ 2761      7420696E 
+ 2761      7400
+ 2762              	.LASF141:
+ 2763 0bef 74785364 		.ascii	"txSdoLatchingTime\000"
+ 2763      6F4C6174 
+ 2763      6368696E 
+ 2763      6754696D 
+ 2763      6500
+ 2764              	.LASF6:
+ 2765 0c01 6C6F6E67 		.ascii	"long int\000"
+ 2765      20696E74 
+ 2765      00
+ 2766              	.LASF40:
+ 2767 0c0a 74784275 		.ascii	"txBufferCounter\000"
+ 2767      66666572 
+ 2767      436F756E 
+ 2767      74657200 
+ 2768              	.LASF179:
+ 2769 0c1a 43595F50 		.ascii	"CY_PDM_PCM_ATTN_9_DB\000"
+ 2769      444D5F50 
+ 2769      434D5F41 
+ 2769      54544E5F 
+ 2769      395F4442 
+ 2770              	.LASF246:
+ 2771 0c2f 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2771      52784275 
+ 2771      66666572 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 65
+
+
+ 2771      00
+ 2772              	.LASF72:
+ 2773 0c3c 73747352 		.ascii	"stsRegQuadEnableMask\000"
+ 2773      65675175 
+ 2773      6164456E 
+ 2773      61626C65 
+ 2773      4D61736B 
+ 2774              	.LASF36:
+ 2775 0c51 63795F65 		.ascii	"cy_en_smif_slave_select_t\000"
+ 2775      6E5F736D 
+ 2775      69665F73 
+ 2775      6C617665 
+ 2775      5F73656C 
+ 2776              	.LASF249:
+ 2777 0c6b 436F6465 		.ascii	"CodecI2CM_context\000"
+ 2777      63493243 
+ 2777      4D5F636F 
+ 2777      6E746578 
+ 2777      7400
+ 2778              	.LASF176:
+ 2779 0c7d 63795F65 		.ascii	"cy_en_pdm_pcm_out_t\000"
+ 2779      6E5F7064 
+ 2779      6D5F7063 
+ 2779      6D5F6F75 
+ 2779      745F7400 
+ 2780              	.LASF247:
+ 2781 0c91 50444D5F 		.ascii	"PDM_PCM_initVar\000"
+ 2781      50434D5F 
+ 2781      696E6974 
+ 2781      56617200 
+ 2782              	.LASF4:
+ 2783 0ca1 5F5F7569 		.ascii	"__uint8_t\000"
+ 2783      6E74385F 
+ 2783      7400
+ 2784              	.LASF217:
+ 2785 0cab 6761696E 		.ascii	"gainRight\000"
+ 2785      52696768 
+ 2785      7400
+ 2786              	.LASF178:
+ 2787 0cb5 43595F50 		.ascii	"CY_PDM_PCM_ATTN_10_5_DB\000"
+ 2787      444D5F50 
+ 2787      434D5F41 
+ 2787      54544E5F 
+ 2787      31305F35 
+ 2788              	.LASF186:
+ 2789 0ccd 43595F50 		.ascii	"CY_PDM_PCM_GAIN_1_5_DB\000"
+ 2789      444D5F50 
+ 2789      434D5F47 
+ 2789      41494E5F 
+ 2789      315F355F 
+ 2790              	.LASF218:
+ 2791 0ce4 646D6154 		.ascii	"dmaTriggerEnable\000"
+ 2791      72696767 
+ 2791      6572456E 
+ 2791      61626C65 
+ 2791      00
+ 2792              	.LASF156:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 66
+
+
+ 2793 0cf5 72785363 		.ascii	"rxSckiInversion\000"
+ 2793      6B69496E 
+ 2793      76657273 
+ 2793      696F6E00 
+ 2794              	.LASF38:
+ 2795 0d05 74784275 		.ascii	"txBufferAddress\000"
+ 2795      66666572 
+ 2795      41646472 
+ 2795      65737300 
+ 2796              	.LASF8:
+ 2797 0d15 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2797      20756E73 
+ 2797      69676E65 
+ 2797      6420696E 
+ 2797      7400
+ 2798              	.LASF225:
+ 2799 0d27 534C4944 		.ascii	"SLIDER_RIGHT\000"
+ 2799      45525F52 
+ 2799      49474854 
+ 2799      00
+ 2800              	.LASF134:
+ 2801 0d34 636C6B44 		.ascii	"clkDiv\000"
+ 2801      697600
+ 2802              	.LASF13:
+ 2803 0d3b 696E7433 		.ascii	"int32_t\000"
+ 2803      325F7400 
+ 2804              	.LASF56:
+ 2805 0d43 63795F73 		.ascii	"cy_stc_smif_mem_cmd_t\000"
+ 2805      74635F73 
+ 2805      6D69665F 
+ 2805      6D656D5F 
+ 2805      636D645F 
+ 2806              	.LASF48:
+ 2807 0d59 63795F73 		.ascii	"cy_stc_smif_context_t\000"
+ 2807      74635F73 
+ 2807      6D69665F 
+ 2807      636F6E74 
+ 2807      6578745F 
+ 2808              	.LASF39:
+ 2809 0d6f 74784275 		.ascii	"txBufferSize\000"
+ 2809      66666572 
+ 2809      53697A65 
+ 2809      00
+ 2810              	.LASF128:
+ 2811 0d7c 43595F49 		.ascii	"CY_I2S_WS_ONE_CHANNEL_LENGTH\000"
+ 2811      32535F57 
+ 2811      535F4F4E 
+ 2811      455F4348 
+ 2811      414E4E45 
+ 2812              	.LASF148:
+ 2813 0d99 74784669 		.ascii	"txFifoTriggerLevel\000"
+ 2813      666F5472 
+ 2813      69676765 
+ 2813      724C6576 
+ 2813      656C00
+ 2814              	.LASF43:
+ 2815 0dac 72784275 		.ascii	"rxBufferCounter\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 67
+
+
+ 2815      66666572 
+ 2815      436F756E 
+ 2815      74657200 
+ 2816              	.LASF194:
+ 2817 0dbc 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_64\000"
+ 2817      444D5F50 
+ 2817      434D5F53 
+ 2817      4F46545F 
+ 2817      4D555445 
+ 2818              	.LASF137:
+ 2819 0ddb 7478416C 		.ascii	"txAlignment\000"
+ 2819      69676E6D 
+ 2819      656E7400 
+ 2820              	.LASF84:
+ 2821 0de7 63795F73 		.ascii	"cy_stc_smif_mem_config_t\000"
+ 2821      74635F73 
+ 2821      6D69665F 
+ 2821      6D656D5F 
+ 2821      636F6E66 
+ 2822              	.LASF147:
+ 2823 0e00 74784F76 		.ascii	"txOverheadValue\000"
+ 2823      65726865 
+ 2823      61645661 
+ 2823      6C756500 
+ 2824              	.LASF116:
+ 2825 0e10 63795F65 		.ascii	"cy_en_i2s_alignment_t\000"
+ 2825      6E5F6932 
+ 2825      735F616C 
+ 2825      69676E6D 
+ 2825      656E745F 
+ 2826              	.LASF2:
+ 2827 0e26 756E7369 		.ascii	"unsigned char\000"
+ 2827      676E6564 
+ 2827      20636861 
+ 2827      7200
+ 2828              	.LASF7:
+ 2829 0e34 5F5F7569 		.ascii	"__uint32_t\000"
+ 2829      6E743332 
+ 2829      5F7400
+ 2830              	.LASF138:
+ 2831 0e3f 74785773 		.ascii	"txWsPulseWidth\000"
+ 2831      50756C73 
+ 2831      65576964 
+ 2831      746800
+ 2832              	.LASF24:
+ 2833 0e4e 43595F53 		.ascii	"CY_SMIF_WIDTH_QUAD\000"
+ 2833      4D49465F 
+ 2833      57494454 
+ 2833      485F5155 
+ 2833      414400
+ 2834              	.LASF102:
+ 2835 0e61 736C6176 		.ascii	"slaveTxBuffer\000"
+ 2835      65547842 
+ 2835      75666665 
+ 2835      7200
+ 2836              	.LASF174:
+ 2837 0e6f 43595F50 		.ascii	"CY_PDM_PCM_OUT_CHAN_RIGHT\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 68
+
+
+ 2837      444D5F50 
+ 2837      434D5F4F 
+ 2837      55545F43 
+ 2837      48414E5F 
+ 2838              	.LASF216:
+ 2839 0e89 6761696E 		.ascii	"gainLeft\000"
+ 2839      4C656674 
+ 2839      00
+ 2840              	.LASF92:
+ 2841 0e92 73746174 		.ascii	"state\000"
+ 2841      6500
+ 2842              	.LASF70:
+ 2843 0e98 72656164 		.ascii	"readSfdpCmd\000"
+ 2843      53666470 
+ 2843      436D6400 
+ 2844              	.LASF239:
+ 2845 0ea4 63757272 		.ascii	"currLeftButton\000"
+ 2845      4C656674 
+ 2845      42757474 
+ 2845      6F6E00
+ 2846              	.LASF59:
+ 2847 0eb3 72656164 		.ascii	"readCmd\000"
+ 2847      436D6400 
+ 2848              	.LASF83:
+ 2849 0ebb 64657669 		.ascii	"deviceCfg\000"
+ 2849      63654366 
+ 2849      6700
+ 2850              	.LASF197:
+ 2851 0ec5 43595F50 		.ascii	"CY_PDM_PCM_SOFT_MUTE_CYCLES_160\000"
+ 2851      444D5F50 
+ 2851      434D5F53 
+ 2851      4F46545F 
+ 2851      4D555445 
+ 2852              	.LASF129:
+ 2853 0ee5 63795F65 		.ascii	"cy_en_i2s_ws_pw_t\000"
+ 2853      6E5F6932 
+ 2853      735F7773 
+ 2853      5F70775F 
+ 2853      7400
+ 2854              	.LASF193:
+ 2855 0ef7 63795F65 		.ascii	"cy_en_pdm_pcm_gain_t\000"
+ 2855      6E5F7064 
+ 2855      6D5F7063 
+ 2855      6D5F6761 
+ 2855      696E5F74 
+ 2856              	.LASF214:
+ 2857 0f0c 776F7264 		.ascii	"wordLen\000"
+ 2857      4C656E00 
+ 2858              	.LASF159:
+ 2859 0f14 7278576F 		.ascii	"rxWordLength\000"
+ 2859      72644C65 
+ 2859      6E677468 
+ 2859      00
+ 2860              	.LASF221:
+ 2861 0f21 4E4F5F54 		.ascii	"NO_TOUCH\000"
+ 2861      4F554348 
+ 2861      00
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 69
+
+
+ 2862              	.LASF210:
+ 2863 0f2a 68696768 		.ascii	"highPassDisable\000"
+ 2863      50617373 
+ 2863      44697361 
+ 2863      626C6500 
+ 2864              	.LASF44:
+ 2865 0f3a 7472616E 		.ascii	"transferStatus\000"
+ 2865      73666572 
+ 2865      53746174 
+ 2865      757300
+ 2866              	.LASF1:
+ 2867 0f49 7369676E 		.ascii	"signed char\000"
+ 2867      65642063 
+ 2867      68617200 
+ 2868              	.LASF175:
+ 2869 0f55 43595F50 		.ascii	"CY_PDM_PCM_OUT_STEREO\000"
+ 2869      444D5F50 
+ 2869      434D5F4F 
+ 2869      55545F53 
+ 2869      54455245 
+ 2870              	.LASF3:
+ 2871 0f6b 73686F72 		.ascii	"short unsigned int\000"
+ 2871      7420756E 
+ 2871      7369676E 
+ 2871      65642069 
+ 2871      6E7400
+ 2872              	.LASF236:
+ 2873 0f7e 72696768 		.ascii	"rightSliderValue\000"
+ 2873      74536C69 
+ 2873      64657256 
+ 2873      616C7565 
+ 2873      00
+ 2874              	.LASF163:
+ 2875 0f8f 43595F50 		.ascii	"CY_PDM_PCM_WLEN_16_BIT\000"
+ 2875      444D5F50 
+ 2875      434D5F57 
+ 2875      4C454E5F 
+ 2875      31365F42 
+ 2876              	.LASF238:
+ 2877 0fa6 70726576 		.ascii	"prevRightButton\000"
+ 2877      52696768 
+ 2877      74427574 
+ 2877      746F6E00 
+ 2878              	.LASF80:
+ 2879 0fb6 62617365 		.ascii	"baseAddress\000"
+ 2879      41646472 
+ 2879      65737300 
+ 2880              	.LASF234:
+ 2881 0fc2 70726576 		.ascii	"prevSliderPos\000"
+ 2881      536C6964 
+ 2881      6572506F 
+ 2881      7300
+ 2882              	.LASF187:
+ 2883 0fd0 43595F50 		.ascii	"CY_PDM_PCM_GAIN_3_DB\000"
+ 2883      444D5F50 
+ 2883      434D5F47 
+ 2883      41494E5F 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 70
+
+
+ 2883      335F4442 
+ 2884              	.LASF20:
+ 2885 0fe5 75696E74 		.ascii	"uint8\000"
+ 2885      3800
+ 2886              	.LASF19:
+ 2887 0feb 646F7562 		.ascii	"double\000"
+ 2887      6C6500
+ 2888              	.LASF23:
+ 2889 0ff2 43595F53 		.ascii	"CY_SMIF_WIDTH_DUAL\000"
+ 2889      4D49465F 
+ 2889      57494454 
+ 2889      485F4455 
+ 2889      414C00
+ 2890              	.LASF208:
+ 2891 1005 6368616E 		.ascii	"chanSwapEnable\000"
+ 2891      53776170 
+ 2891      456E6162 
+ 2891      6C6500
+ 2892              	.LASF111:
+ 2893 1014 63795F73 		.ascii	"cy_stc_scb_i2c_context_t\000"
+ 2893      74635F73 
+ 2893      63625F69 
+ 2893      32635F63 
+ 2893      6F6E7465 
+ 2894              	.LASF181:
+ 2895 102d 43595F50 		.ascii	"CY_PDM_PCM_ATTN_6_DB\000"
+ 2895      444D5F50 
+ 2895      434D5F41 
+ 2895      54544E5F 
+ 2895      365F4442 
+ 2896              	.LASF237:
+ 2897 1042 70726576 		.ascii	"prevLeftButton\000"
+ 2897      4C656674 
+ 2897      42757474 
+ 2897      6F6E00
+ 2898              	.LASF229:
+ 2899 1051 746F7563 		.ascii	"touch_data_t\000"
+ 2899      685F6461 
+ 2899      74615F74 
+ 2899      00
+ 2900              	.LASF260:
+ 2901 105e 546F7563 		.ascii	"TouchTask\000"
+ 2901      68546173 
+ 2901      6B00
+ 2902              	.LASF81:
+ 2903 1068 6D656D4D 		.ascii	"memMappedSize\000"
+ 2903      61707065 
+ 2903      6453697A 
+ 2903      6500
+ 2904              	.LASF255:
+ 2905 1076 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2905      43313120 
+ 2905      352E342E 
+ 2905      31203230 
+ 2905      31363036 
+ 2906 10a9 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m4 -mfloat-abi=s"
+ 2906      20726576 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccahIC0B.s 			page 71
+
+
+ 2906      6973696F 
+ 2906      6E203233 
+ 2906      37373135 
+ 2907 10dc 6F667466 		.ascii	"oftfp -mfpu=fpv4-sp-d16 -mthumb -g -O0 -ffunction-s"
+ 2907      70202D6D 
+ 2907      6670753D 
+ 2907      66707634 
+ 2907      2D73702D 
+ 2908 110f 65637469 		.ascii	"ections -ffat-lto-objects\000"
+ 2908      6F6E7320 
+ 2908      2D666661 
+ 2908      742D6C74 
+ 2908      6F2D6F62 
+ 2909              	.LASF79:
+ 2910 1129 64617461 		.ascii	"dataSelect\000"
+ 2910      53656C65 
+ 2910      637400
+ 2911              	.LASF219:
+ 2912 1134 696E7465 		.ascii	"interruptMask\000"
+ 2912      72727570 
+ 2912      744D6173 
+ 2912      6B00
+ 2913              	.LASF68:
+ 2914 1142 72656164 		.ascii	"readStsRegQeCmd\000"
+ 2914      53747352 
+ 2914      65675165 
+ 2914      436D6400 
+ 2915              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Analog">
+<ExpandedNodeIds>
+<v>HelloWorld</v>
+<v>HelloWorld\HelloWorldPWM</v>
+<v>HelloWorld\HelloWorldPWM\TopDesign</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Pins</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Analog</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Clocks</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Interrupts</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\DMA</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\System</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Directives</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Flash Security</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\EEPROM</v>
+<v>HelloWorld\HelloWorldPWM\Header Files</v>
+<v>HelloWorld\HelloWorldPWM\Header Files\cyapicallbacks.h</v>
+<v>HelloWorld\HelloWorldPWM\Source Files</v>
+<v>HelloWorld\HelloWorldPWM\Source Files\main.c</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>HelloWorld</v>
+<v>HelloWorld\HelloWorldPWM</v>
+<v>HelloWorld\HelloWorldPWM\TopDesign</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Pins</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Analog</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Clocks</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Interrupts</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\DMA</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\System</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Directives</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\Flash Security</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.cydwr\EEPROM</v>
+<v>HelloWorld\HelloWorldPWM\Header Files</v>
+<v>HelloWorld\HelloWorldPWM\Header Files\cyapicallbacks.h</v>
+<v>HelloWorld\HelloWorldPWM\Source Files</v>
+<v>HelloWorld\HelloWorldPWM\Source Files\main.c</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>HelloWorld</v>
+<v>HelloWorld\HelloWorldPWM</v>
+<v>HelloWorld\HelloWorldPWM\TopDesign</v>
+<v>HelloWorld\HelloWorldPWM\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>HelloWorld</v>
+<v>HelloWorld\HelloWorldPWM</v>
+<v>HelloWorld\HelloWorldPWM\TopDesign</v>
+<v>HelloWorld\HelloWorldPWM\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>HelloWorld</v>
+<v>HelloWorld\HelloWorldPWM</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.gpdsc</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.rpt</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>HelloWorld</v>
+<v>HelloWorld\HelloWorldPWM</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.gpdsc</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM.rpt</v>
+<v>HelloWorld\HelloWorldPWM\HelloWorldPWM_timing.html</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>HelloWorld</v>
+<v>HelloWorld\HelloWorldPWM</v>
+<v>HelloWorld\HelloWorldPWM\PSoC 5LP Architecture TRM</v>
+<v>HelloWorld\HelloWorldPWM\CY8C58LP Family Datasheet</v>
+<v>HelloWorld\HelloWorldPWM\System Reference Guides</v>
+<v>HelloWorld\HelloWorldPWM\System Reference Guides\cy_boot_v6_0</v>
+<v>HelloWorld\HelloWorldPWM\Counter_v3_0.pdf</v>
+<v>HelloWorld\HelloWorldPWM\cy_clock_v2_20.pdf</v>
+<v>HelloWorld\HelloWorldPWM\cy_pins_v2_20.pdf</v>
+<v>HelloWorld\HelloWorldPWM\PWM_v3_30.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>HelloWorld</v>
+<v>HelloWorld\HelloWorldPWM</v>
+<v>HelloWorld\HelloWorldPWM\PSoC 5LP Architecture TRM</v>
+<v>HelloWorld\HelloWorldPWM\CY8C58LP Family Datasheet</v>
+<v>HelloWorld\HelloWorldPWM\System Reference Guides</v>
+<v>HelloWorld\HelloWorldPWM\System Reference Guides\cy_boot_v6_0</v>
+<v>HelloWorld\HelloWorldPWM\Counter_v3_0.pdf</v>
+<v>HelloWorld\HelloWorldPWM\cy_clock_v2_20.pdf</v>
+<v>HelloWorld\HelloWorldPWM\cy_pins_v2_20.pdf</v>
+<v>HelloWorld\HelloWorldPWM\PWM_v3_30.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\HelloWorldPWM.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\HelloWorldPWM.cydsn\HelloWorldPWM.cydwr" />
+<name v=".\HelloWorldPWM.cydsn\main.c" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1693, 703" SelectedTabbedMdiWindow="4bf5f117-3dc9-4c3c-b33f-af5bf9a87932"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="9c2e1443-dad3-42f4-9d92-d6167cb84a11" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\HelloWorld\HelloWorldPWM.cydsn\TopDesign\TopDesign.cysch" Guid="84382936-869b-455d-9331-aa86a4ae9cbd" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\HelloWorld\HelloWorldPWM.cydsn\HelloWorldPWM.cydwr" Guid="4bf5f117-3dc9-4c3c-b33f-af5bf9a87932" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\HelloWorld\HelloWorldPWM.cydsn\main.c" Guid="b72ab20f-582e-490c-b53f-0506dd45d4e4" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

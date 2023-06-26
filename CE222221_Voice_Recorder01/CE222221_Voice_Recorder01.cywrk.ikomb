@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\TopDesign</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydwr</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydwr\Pins</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydwr\Analog</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydwr\DMA</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydwr\Clocks</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydwr\Interrupts</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydwr\System</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydwr\Directives</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\ARM GCC Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\ARM GCC Generic\cy8c6xx7_cm0plus.ld</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\ARM IAR Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\ARM IAR Generic\cy8c6xx7_cm0plus.icf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\ARM MDK Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\ARM MDK Generic\cy8c6xx7_cm0plus.scat</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Header Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM GCC Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM GCC Generic\startup_psoc63_cm0plus.S</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM IAR Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM IAR Generic\startup_psoc63_cm0plus.s</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM MDK Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM MDK Generic\startup_psoc63_cm0plus.s</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\main_cm0p.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\system_psoc63_cm0plus.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM GCC Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM GCC Generic\cy8c6xx7_cm4_dual.ld</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM IAR Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM IAR Generic\cy8c6xx7_cm4_dual.icf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM MDK Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM MDK Generic\cy8c6xx7_cm4_dual.scat</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\codec.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\events.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\FreeRTOSConfig.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\graphics.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\recorder.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\rtos.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\smif_mem.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\tft_display.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\touch.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\ugui.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM GCC Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM GCC Generic\startup_psoc63_cm4.S</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM IAR Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM IAR Generic\startup_psoc63_cm4.s</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM MDK Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM MDK Generic\startup_psoc63_cm4.s</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\codec.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\events.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\graphics.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\main_cm4.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\recorder.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\smif_mem.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\system_psoc63_cm4.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\tft_display.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\touch.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ugui.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\cy_ble_config.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\cy_ipc_config.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\cy_ipc_config.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\cyapicallbacks.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\system_psoc63.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Generated_Source</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Generated_Source\PSoC6</v>
+<v>CE222221_Voice_Recorder01\CE222221.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM GCC Generic\startup_psoc63_cm0plus.S</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM IAR Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM IAR Generic\startup_psoc63_cm0plus.s</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM MDK Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\ARM MDK Generic\startup_psoc63_cm0plus.s</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\main_cm0p.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM0p (Core 0)\Source Files\system_psoc63_cm0plus.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM GCC Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM GCC Generic\cy8c6xx7_cm4_dual.ld</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM IAR Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM IAR Generic\cy8c6xx7_cm4_dual.icf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM MDK Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\ARM MDK Generic\cy8c6xx7_cm4_dual.scat</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\codec.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\events.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\FreeRTOSConfig.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\graphics.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\recorder.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\rtos.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\smif_mem.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\tft_display.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\touch.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Header Files\ugui.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM GCC Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM GCC Generic\startup_psoc63_cm4.S</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM IAR Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM IAR Generic\startup_psoc63_cm4.s</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM MDK Generic</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ARM MDK Generic\startup_psoc63_cm4.s</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\codec.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\events.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\graphics.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\main_cm4.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\recorder.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\smif_mem.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\system_psoc63_cm4.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\tft_display.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\touch.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CM4 (Core 1)\Source Files\ugui.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\cy_ble_config.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\cy_ipc_config.c</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\cy_ipc_config.h</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Shared Files\cyapicallbacks.h</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\TopDesign</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\TopDesign</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Centroid_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Control.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Filter.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_INT.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Processing.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Sensing.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_SensingCSD_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_SensingCSX_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Structure.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Tuner.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CodecI2CM.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ble_clk.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_dma.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_efuse.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_flash.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_gpio.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_i2s.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ipc_config.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ipc_drv.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ipc_pipe.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ipc_sema.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_lvd.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_pdm_pcm.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_profile.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_prot.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_common.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_ezi2c.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_i2c.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_spi.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_uart.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_smif.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_smif_memconfig.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_smif_memslot.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_sysanalog.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_sysclk.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_sysint.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_syslib.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_syslib_gcc.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_syspm.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_systick.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_trigmux.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_wdt.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cyfitter_sysint_cfg.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\DMA_PlayLeft.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\DMA_PlayRight.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\DMA_Record.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\GraphicLCDIntf.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\GraphicLCDIntf_PM.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\I2S.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\main_cm0p.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\PDM_PCM.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\SMIF_1.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\startup_psoc63_cm0plus.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\system_psoc63_cm0plus.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\CE222221_Voice_Recorder01.elf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\CE222221_Voice_Recorder01.hex</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\CE222221_Voice_Recorder01.map</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_Centroid_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_Control.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_Filter.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_INT.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_Processing.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_Sensing.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_SensingCSD_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_SensingCSX_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_Structure.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CapSense_Tuner.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\codec.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\CodecI2CM.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\croutine.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_ble_clk.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_dma.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_efuse.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_flash.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_gpio.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_i2s.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_ipc_config.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_ipc_drv.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_ipc_pipe.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_ipc_sema.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_lvd.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_pdm_pcm.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_profile.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_prot.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_scb_common.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_scb_ezi2c.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_scb_i2c.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_scb_spi.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_scb_uart.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_smif.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_smif_memconfig.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_smif_memslot.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_sysanalog.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_sysclk.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_sysint.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_syslib.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_syslib_gcc.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_syspm.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_systick.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_trigmux.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cy_wdt.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cyfitter_sysint_cfg.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\DMA_PlayLeft.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\DMA_PlayRight.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\DMA_Record.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\event_groups.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\events.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\GraphicLCDIntf.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\GraphicLCDIntf_PM.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\graphics.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\heap_1.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\I2S.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\list.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\main_cm4.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\PDM_PCM.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\port.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\queue.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\recorder.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\SMIF_1.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\smif_mem.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\startup_psoc63_cm4.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\system_psoc63_cm4.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\tasks.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\tft_display.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\timers.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\touch.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\Listing Files\ugui.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\CE222221_Voice_Recorder01.elf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\CE222221_Voice_Recorder01.hex</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM4\ARM_GCC_541\Debug\CE222221_Voice_Recorder01.map</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.gpdsc</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.rpt</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Centroid_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Control.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Filter.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_INT.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Processing.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Sensing.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_SensingCSD_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_SensingCSX_LL.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Structure.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CapSense_Tuner.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\CodecI2CM.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ble_clk.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_dma.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_efuse.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_flash.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_gpio.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_i2s.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ipc_config.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ipc_drv.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ipc_pipe.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_ipc_sema.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_lvd.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_pdm_pcm.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_profile.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_prot.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_common.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_ezi2c.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_i2c.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_spi.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_scb_uart.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_smif.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_smif_memconfig.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_smif_memslot.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_sysanalog.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_sysclk.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_sysint.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_syslib.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_syslib_gcc.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_syspm.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_systick.lst</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CortexM0p\ARM_GCC_541\Debug\Listing Files\cy_trigmux.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\PSoC 6 Architecture TRM</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\PSoC 63 Family Datasheet</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Peripheral Driver Library</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\System Reference Guides</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CapSense_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\DMA_PDL_v2_0</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\DMA_PDL_v2_0\DMA_PDL_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\GPIO_PDL_v1_0</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\GPIO_PDL_v1_0\GPIO_PDL_v1_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\GraphicLCDIntf_v1_80.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\I2S_PDL_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\PDM_PCM_PDL_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SCB_I2C_PDL_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SMIF_PDL_v1_10.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SysClk_PDL_v1_0</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SysClk_PDL_v1_0\SysClk_PDL_v1_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SysInt_PDL_v1_0</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SysInt_PDL_v1_0\SysInt_PDL_v1_0.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\PSoC 6 Architecture TRM</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\PSoC 63 Family Datasheet</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\Peripheral Driver Library</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\System Reference Guides</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\CapSense_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\DMA_PDL_v2_0</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\DMA_PDL_v2_0\DMA_PDL_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\GPIO_PDL_v1_0</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\GPIO_PDL_v1_0\GPIO_PDL_v1_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\GraphicLCDIntf_v1_80.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\I2S_PDL_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\PDM_PCM_PDL_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SCB_I2C_PDL_v2_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SMIF_PDL_v1_10.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SysClk_PDL_v1_0</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SysClk_PDL_v1_0\SysClk_PDL_v1_0.pdf</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SysInt_PDL_v1_0</v>
+<v>CE222221_Voice_Recorder01\CE222221_Voice_Recorder01\SysInt_PDL_v1_0\SysInt_PDL_v1_0.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\CE222221_Voice_Recorder01.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\CE222221_Voice_Recorder01.cydsn\CE222221_Voice_Recorder01.cydwr" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1693, 703" SelectedTabbedMdiWindow="be48eff3-8391-4aff-a6dd-5f4736ae3810"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="9c2e1443-dad3-42f4-9d92-d6167cb84a11" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydsn\TopDesign\TopDesign.cysch" Guid="81d23b8e-3d89-40f2-83c6-0583e8f5d731" /><DocumentWindow Key="C:\Users\ikomb\Documents\PSoC Creator\CE222221_Voice_Recorder01\CE222221_Voice_Recorder01.cydsn\CE222221_Voice_Recorder01.cydwr" Guid="be48eff3-8391-4aff-a6dd-5f4736ae3810" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

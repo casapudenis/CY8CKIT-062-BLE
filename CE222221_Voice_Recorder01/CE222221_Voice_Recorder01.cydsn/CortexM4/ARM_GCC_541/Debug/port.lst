@@ -1,0 +1,3073 @@
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.syntax unified
+  16              		.file	"port.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.data
+  21              		.align	2
+  22              		.type	uxCriticalNesting, %object
+  23              		.size	uxCriticalNesting, 4
+  24              	uxCriticalNesting:
+  25 0000 AAAAAAAA 		.word	-1431655766
+  26              		.bss
+  27              	ucMaxSysCallPriority:
+  28 0000 00       		.space	1
+  29 0001 000000   		.align	2
+  30              	ulMaxPRIGROUPValue:
+  31 0004 00000000 		.space	4
+  32              		.section	.rodata
+  33              		.align	2
+  34              		.type	pcInterruptPriorityRegisters, %object
+  35              		.size	pcInterruptPriorityRegisters, 4
+  36              	pcInterruptPriorityRegisters:
+  37 0000 F0E300E0 		.word	-536812560
+  38              		.section	.text.pxPortInitialiseStack,"ax",%progbits
+  39              		.align	2
+  40              		.global	pxPortInitialiseStack
+  41              		.thumb
+  42              		.thumb_func
+  43              		.type	pxPortInitialiseStack, %function
+  44              	pxPortInitialiseStack:
+  45              	.LFB129:
+  46              		.file 1 "Generated_Source\\PSoC6\\pdl\\rtos\\FreeRTOS\\9.0.0\\Source\\portable\\GCC\\CM4F\\port.c"
+   1:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+   2:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     All rights reserved
+   4:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+   5:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+   7:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     This file is part of the FreeRTOS distribution.
+   8:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+   9:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 2
+
+
+  12:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  13:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     ***************************************************************************
+  14:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     ***************************************************************************
+  19:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  20:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     link: http://www.freertos.org/a00114.html
+  24:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  25:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     ***************************************************************************
+  26:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *                                                                       *
+  27:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *    platform software that is more than just the market leader, it     *
+  30:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *    is the industry's de facto standard.                               *
+  31:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *                                                                       *
+  32:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *    tutorial book, reference manual, or both:                          *
+  35:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      *                                                                       *
+  37:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     ***************************************************************************
+  38:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  39:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     defined configASSERT()?
+  42:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  43:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     embedded software for free we request you assist our global community by
+  45:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     participating in the support forum.
+  46:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  47:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  52:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  56:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  59:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  63:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     mission critical applications that require provable dependability.
+  66:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  67:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     1 tab == 4 spaces!
+  68:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** */
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 3
+
+
+  69:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  70:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------
+  71:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Implementation of functions defined in portable.h for the ARM CM4F port.
+  72:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  *----------------------------------------------------------*/
+  73:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  74:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* Scheduler includes. */
+  75:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #include "FreeRTOS.h"
+  76:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #include "task.h"
+  77:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  78:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #ifndef __VFP_FP__
+  79:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #error This port can only be used when the project options are configured to enable hardware fl
+  80:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif
+  81:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  82:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #ifndef configSYSTICK_CLOCK_HZ
+  83:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #define configSYSTICK_CLOCK_HZ configCPU_CLOCK_HZ
+  84:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Ensure the SysTick is clocked at the same frequency as the core. */
+  85:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #define portNVIC_SYSTICK_CLK_BIT    ( 1UL << 2UL )
+  86:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #else
+  87:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* The way the SysTick is clocked is not modified in case it is not the same
+  88:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     as the core. */
+  89:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #define portNVIC_SYSTICK_CLK_BIT    ( 0 )
+  90:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif
+  91:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+  92:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* Constants required to manipulate the core.  Registers first... */
+  93:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_SYSTICK_CTRL_REG            ( * ( ( volatile uint32_t * ) 0xe000e010 ) )
+  94:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_SYSTICK_LOAD_REG            ( * ( ( volatile uint32_t * ) 0xe000e014 ) )
+  95:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_SYSTICK_CURRENT_VALUE_REG   ( * ( ( volatile uint32_t * ) 0xe000e018 ) )
+  96:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_SYSPRI2_REG                 ( * ( ( volatile uint32_t * ) 0xe000ed20 ) )
+  97:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* ...then bits in the registers. */
+  98:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_SYSTICK_INT_BIT             ( 1UL << 1UL )
+  99:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_SYSTICK_ENABLE_BIT          ( 1UL << 0UL )
+ 100:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_SYSTICK_COUNT_FLAG_BIT      ( 1UL << 16UL )
+ 101:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_PENDSVCLEAR_BIT             ( 1UL << 27UL )
+ 102:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_PEND_SYSTICK_CLEAR_BIT      ( 1UL << 25UL )
+ 103:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 104:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_PENDSV_PRI                  ( ( ( uint32_t ) configKERNEL_INTERRUPT_PRIORITY ) << 
+ 105:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_SYSTICK_PRI                 ( ( ( uint32_t ) configKERNEL_INTERRUPT_PRIORITY ) << 
+ 106:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 107:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* Constants required to check the validity of an interrupt priority. */
+ 108:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portFIRST_USER_INTERRUPT_NUMBER      ( 16 )
+ 109:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portNVIC_IP_REGISTERS_OFFSET_16      ( 0xE000E3F0 )
+ 110:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portAIRCR_REG                        ( * ( ( volatile uint32_t * ) 0xE000ED0C ) )
+ 111:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portMAX_8_BIT_VALUE                  ( ( uint8_t ) 0xff )
+ 112:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portTOP_BIT_OF_BYTE                  ( ( uint8_t ) 0x80 )
+ 113:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portMAX_PRIGROUP_BITS                ( ( uint8_t ) 7 )
+ 114:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portPRIORITY_GROUP_MASK              ( 0x07UL << 8UL )
+ 115:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portPRIGROUP_SHIFT                   ( 8UL )
+ 116:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 117:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* Masks off all bits but the VECTACTIVE bits in the ICSR register. */
+ 118:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portVECTACTIVE_MASK                  ( 0xFFUL )
+ 119:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 120:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* Constants required to manipulate the VFP. */
+ 121:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portFPCCR                            ( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating poi
+ 122:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portASPEN_AND_LSPEN_BITS             ( 0x3UL << 30UL )
+ 123:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 124:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* Constants required to set up the initial stack. */
+ 125:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portINITIAL_XPSR                     ( 0x01000000 )
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 4
+
+
+ 126:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portINITIAL_EXEC_RETURN              ( 0xfffffffd )
+ 127:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 128:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* The systick is a 24-bit counter. */
+ 129:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portMAX_24_BIT_NUMBER                ( 0xffffffUL )
+ 130:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 131:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* For strict compliance with the Cortex-M spec the task start address should
+ 132:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** have bit-0 clear, as it is loaded into the PC on exit from an ISR. */
+ 133:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portSTART_ADDRESS_MASK               ( ( StackType_t ) 0xfffffffeUL )
+ 134:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 135:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* A fiddle factor to estimate the number of SysTick counts that would have
+ 136:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** occurred while the SysTick counter is stopped during tickless idle
+ 137:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** calculations. */
+ 138:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #define portMISSED_COUNTS_FACTOR             ( 45UL )
+ 139:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 140:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* Let the user override the pre-loading of the initial LR with the address of
+ 141:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** prvTaskExitError() in case it messes up unwinding of the stack in the
+ 142:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** debugger. */
+ 143:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #ifdef configTASK_RETURN_ADDRESS
+ 144:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
+ 145:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #else
+ 146:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #define portTASK_RETURN_ADDRESS    prvTaskExitError
+ 147:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif
+ 148:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 149:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* Each task maintains its own interrupt status in the critical nesting
+ 150:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** variable. */
+ 151:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
+ 152:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 153:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 154:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Setup the timer to generate the tick interrupts.  The implementation in this
+ 155:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * file is weak to allow application writers to change the timer used to
+ 156:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * generate the tick interrupt.
+ 157:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 158:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void vPortSetupTimerInterrupt( void );
+ 159:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 160:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 161:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Exception handlers.
+ 162:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 163:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void xPortPendSVHandler( void ) __attribute__ (( naked ));
+ 164:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void xPortSysTickHandler( void );
+ 165:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void vPortSVCHandler( void ) __attribute__ (( naked ));
+ 166:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 167:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 168:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Start first task is a separate function so it can be tested in isolation.
+ 169:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 170:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** static void prvPortStartFirstTask( void ) __attribute__ (( naked ));
+ 171:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 172:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 173:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Function to enable the VFP.
+ 174:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 175:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** static void vPortEnableVFP( void ) __attribute__ (( naked ));
+ 176:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 177:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 178:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Used to catch tasks that attempt to return from their implementing function.
+ 179:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 180:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** static void prvTaskExitError( void );
+ 181:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 182:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 5
+
+
+ 183:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 184:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 185:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * The number of SysTick increments that make up one tick period.
+ 186:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 187:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #if configUSE_TICKLESS_IDLE == 1
+ 188:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     static uint32_t ulTimerCountsForOneTick = 0;
+ 189:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif /* configUSE_TICKLESS_IDLE */
+ 190:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 191:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 192:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * The maximum number of tick periods that can be suppressed is limited by the
+ 193:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * 24 bit resolution of the SysTick timer.
+ 194:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 195:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #if configUSE_TICKLESS_IDLE == 1
+ 196:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     static uint32_t xMaximumPossibleSuppressedTicks = 0;
+ 197:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif /* configUSE_TICKLESS_IDLE */
+ 198:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 199:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 200:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Compensate for the CPU cycles that pass while the SysTick is stopped (low
+ 201:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * power functionality only.
+ 202:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 203:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #if configUSE_TICKLESS_IDLE == 1
+ 204:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     static uint32_t ulStoppedTimerCompensation = 0;
+ 205:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif /* configUSE_TICKLESS_IDLE */
+ 206:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 207:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 208:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Used by the portASSERT_IF_INTERRUPT_PRIORITY_INVALID() macro to ensure
+ 209:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * FreeRTOS API functions are not called from interrupts that have been assigned
+ 210:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * a priority above configMAX_SYSCALL_INTERRUPT_PRIORITY.
+ 211:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 212:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #if ( configASSERT_DEFINED == 1 )
+ 213:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      static uint8_t ucMaxSysCallPriority = 0;
+ 214:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      static uint32_t ulMaxPRIGROUPValue = 0;
+ 215:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****      static const volatile uint8_t * const pcInterruptPriorityRegisters = ( const volatile uint8_t 
+ 216:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif /* configASSERT_DEFINED */
+ 217:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 218:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 219:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 220:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 221:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * See header file for description.
+ 222:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 223:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParam
+ 224:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+  47              		.loc 1 224 0
+  48              		.cfi_startproc
+  49              		@ args = 0, pretend = 0, frame = 16
+  50              		@ frame_needed = 1, uses_anonymous_args = 0
+  51              		@ link register save eliminated.
+  52 0000 80B4     		push	{r7}
+  53              		.cfi_def_cfa_offset 4
+  54              		.cfi_offset 7, -4
+  55 0002 85B0     		sub	sp, sp, #20
+  56              		.cfi_def_cfa_offset 24
+  57 0004 00AF     		add	r7, sp, #0
+  58              		.cfi_def_cfa_register 7
+  59 0006 F860     		str	r0, [r7, #12]
+  60 0008 B960     		str	r1, [r7, #8]
+  61 000a 7A60     		str	r2, [r7, #4]
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 6
+
+
+ 225:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Simulate the stack frame as it would be created by a context switch
+ 226:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     interrupt. */
+ 227:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 228:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Offset added to account for the way the MCU uses the stack on entry/exit
+ 229:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     of interrupts, and to ensure alignment. */
+ 230:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     pxTopOfStack--;
+  62              		.loc 1 230 0
+  63 000c FB68     		ldr	r3, [r7, #12]
+  64 000e 043B     		subs	r3, r3, #4
+  65 0010 FB60     		str	r3, [r7, #12]
+ 231:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 232:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     *pxTopOfStack = portINITIAL_XPSR;    /* xPSR */
+  66              		.loc 1 232 0
+  67 0012 FB68     		ldr	r3, [r7, #12]
+  68 0014 4FF08072 		mov	r2, #16777216
+  69 0018 1A60     		str	r2, [r3]
+ 233:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     pxTopOfStack--;
+  70              		.loc 1 233 0
+  71 001a FB68     		ldr	r3, [r7, #12]
+  72 001c 043B     		subs	r3, r3, #4
+  73 001e FB60     		str	r3, [r7, #12]
+ 234:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     *pxTopOfStack = ( ( StackType_t ) pxCode ) & portSTART_ADDRESS_MASK;    /* PC */
+  74              		.loc 1 234 0
+  75 0020 BB68     		ldr	r3, [r7, #8]
+  76 0022 23F00102 		bic	r2, r3, #1
+  77 0026 FB68     		ldr	r3, [r7, #12]
+  78 0028 1A60     		str	r2, [r3]
+ 235:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     pxTopOfStack--;
+  79              		.loc 1 235 0
+  80 002a FB68     		ldr	r3, [r7, #12]
+  81 002c 043B     		subs	r3, r3, #4
+  82 002e FB60     		str	r3, [r7, #12]
+ 236:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS;    /* LR */
+  83              		.loc 1 236 0
+  84 0030 0C4A     		ldr	r2, .L3
+  85 0032 FB68     		ldr	r3, [r7, #12]
+  86 0034 1A60     		str	r2, [r3]
+ 237:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 238:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Save code space by skipping register initialisation. */
+ 239:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     pxTopOfStack -= 5;    /* R12, R3, R2 and R1. */
+  87              		.loc 1 239 0
+  88 0036 FB68     		ldr	r3, [r7, #12]
+  89 0038 143B     		subs	r3, r3, #20
+  90 003a FB60     		str	r3, [r7, #12]
+ 240:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     *pxTopOfStack = ( StackType_t ) pvParameters;    /* R0 */
+  91              		.loc 1 240 0
+  92 003c 7A68     		ldr	r2, [r7, #4]
+  93 003e FB68     		ldr	r3, [r7, #12]
+  94 0040 1A60     		str	r2, [r3]
+ 241:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 242:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* A save method is being used that requires each task to maintain its
+ 243:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     own exec return value. */
+ 244:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     pxTopOfStack--;
+  95              		.loc 1 244 0
+  96 0042 FB68     		ldr	r3, [r7, #12]
+  97 0044 043B     		subs	r3, r3, #4
+  98 0046 FB60     		str	r3, [r7, #12]
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 7
+
+
+ 245:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     *pxTopOfStack = portINITIAL_EXEC_RETURN;
+  99              		.loc 1 245 0
+ 100 0048 FB68     		ldr	r3, [r7, #12]
+ 101 004a 6FF00202 		mvn	r2, #2
+ 102 004e 1A60     		str	r2, [r3]
+ 246:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 247:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     pxTopOfStack -= 8;    /* R11, R10, R9, R8, R7, R6, R5 and R4. */
+ 103              		.loc 1 247 0
+ 104 0050 FB68     		ldr	r3, [r7, #12]
+ 105 0052 203B     		subs	r3, r3, #32
+ 106 0054 FB60     		str	r3, [r7, #12]
+ 248:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 249:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     return pxTopOfStack;
+ 107              		.loc 1 249 0
+ 108 0056 FB68     		ldr	r3, [r7, #12]
+ 250:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 109              		.loc 1 250 0
+ 110 0058 1846     		mov	r0, r3
+ 111 005a 1437     		adds	r7, r7, #20
+ 112              		.cfi_def_cfa_offset 4
+ 113 005c BD46     		mov	sp, r7
+ 114              		.cfi_def_cfa_register 13
+ 115              		@ sp needed
+ 116 005e 5DF8047B 		ldr	r7, [sp], #4
+ 117              		.cfi_restore 7
+ 118              		.cfi_def_cfa_offset 0
+ 119 0062 7047     		bx	lr
+ 120              	.L4:
+ 121              		.align	2
+ 122              	.L3:
+ 123 0064 00000000 		.word	prvTaskExitError
+ 124              		.cfi_endproc
+ 125              	.LFE129:
+ 126              		.size	pxPortInitialiseStack, .-pxPortInitialiseStack
+ 127              		.section	.text.prvTaskExitError,"ax",%progbits
+ 128              		.align	2
+ 129              		.thumb
+ 130              		.thumb_func
+ 131              		.type	prvTaskExitError, %function
+ 132              	prvTaskExitError:
+ 133              	.LFB130:
+ 251:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 252:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 253:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** static void prvTaskExitError( void )
+ 254:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 134              		.loc 1 254 0
+ 135              		.cfi_startproc
+ 136              		@ args = 0, pretend = 0, frame = 0
+ 137              		@ frame_needed = 1, uses_anonymous_args = 0
+ 138              		@ link register save eliminated.
+ 139 0000 80B4     		push	{r7}
+ 140              		.cfi_def_cfa_offset 4
+ 141              		.cfi_offset 7, -4
+ 142 0002 00AF     		add	r7, sp, #0
+ 143              		.cfi_def_cfa_register 7
+ 255:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* A function that implements a task must not exit or attempt to return to
+ 256:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     its caller as there is nothing to return to.  If a task wants to exit it
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 8
+
+
+ 257:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     should instead call vTaskDelete( NULL ).
+ 258:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 259:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     Artificially force an assert() to be triggered if configASSERT() is
+ 260:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     defined, then stop here so application writers can catch the error. */
+ 261:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     configASSERT( uxCriticalNesting == ~0UL );
+ 144              		.loc 1 261 0
+ 145 0004 044B     		ldr	r3, .L9
+ 146 0006 1B68     		ldr	r3, [r3]
+ 147 0008 B3F1FF3F 		cmp	r3, #-1
+ 148 000c 01D0     		beq	.L6
+ 149              		.loc 1 261 0 is_stmt 0 discriminator 1
+ 150              		.syntax unified
+ 151              	@ 261 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 152 000e 72B6     		 cpsid i 
+ 153              	@ 0 "" 2
+ 154              		.thumb
+ 155              		.syntax unified
+ 156              	.L7:
+ 157 0010 FEE7     		b	.L7
+ 158              	.L6:
+ 262:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     portDISABLE_INTERRUPTS();
+ 159              		.loc 1 262 0 is_stmt 1
+ 160              		.syntax unified
+ 161              	@ 262 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 162 0012 72B6     		 cpsid i 
+ 163              	@ 0 "" 2
+ 164              		.thumb
+ 165              		.syntax unified
+ 166              	.L8:
+ 263:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     for( ;; );
+ 167              		.loc 1 263 0 discriminator 2
+ 168 0014 FEE7     		b	.L8
+ 169              	.L10:
+ 170 0016 00BF     		.align	2
+ 171              	.L9:
+ 172 0018 00000000 		.word	uxCriticalNesting
+ 173              		.cfi_endproc
+ 174              	.LFE130:
+ 175              		.size	prvTaskExitError, .-prvTaskExitError
+ 176              		.section	.text.SVC_Handler,"ax",%progbits
+ 177              		.align	2
+ 178              		.global	SVC_Handler
+ 179              		.thumb
+ 180              		.thumb_func
+ 181              		.type	SVC_Handler, %function
+ 182              	SVC_Handler:
+ 183              	.LFB131:
+ 264:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 265:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 266:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 267:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void vPortSVCHandler( void )
+ 268:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 184              		.loc 1 268 0
+ 185              		.cfi_startproc
+ 186              		@ Naked Function: prologue and epilogue provided by programmer.
+ 187              		@ args = 0, pretend = 0, frame = 0
+ 188              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 9
+
+
+ 269:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     __asm volatile (
+ 189              		.loc 1 269 0
+ 190              		.syntax unified
+ 191              	@ 269 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 192 0000 074B     		 ldr    r3, pxCurrentTCBConst2      
+ 193 0002 1968     	 ldr r1, [r3]                       
+ 194 0004 0868     	 ldr r0, [r1]                       
+ 195 0006 B0E8F04F 	 ldmia r0!, {r4-r11, r14}           
+ 196 000a 80F30988 	 msr psp, r0                        
+ 197 000e BFF36F8F 	 isb                                
+ 198 0012 4FF00000 	 mov r0, #0                         
+ 199 0016 80F31188 	 msr basepri, r0                    
+ 200 001a 7047     	 bx r14                             
+ 201              	                                    
+ 202 001c AFF30080 	 .align 4                           
+ 203 0020 00000000 	pxCurrentTCBConst2: .word pxCurrentTCB 
+ 204              	
+ 205              	@ 0 "" 2
+ 270:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Restore the context. */
+ 271:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr    r3, pxCurrentTCBConst2      \n"
+ 272:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Use pxCurrentTCBConst to get the pxCurrentTCB address. */
+ 273:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr r1, [r3]                       \n"
+ 274:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* The first item in pxCurrentTCB is the task top of stack. */
+ 275:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr r0, [r1]                       \n"
+ 276:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Pop the registers that are not automatically saved on exception
+ 277:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****          *  entry and the critical nesting count.
+ 278:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****          */
+ 279:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldmia r0!, {r4-r11, r14}           \n"
+ 280:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Restore the task stack pointer. */
+ 281:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " msr psp, r0                        \n" 
+ 282:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " isb                                \n"
+ 283:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " mov r0, #0                         \n"
+ 284:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " msr basepri, r0                    \n"
+ 285:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " bx r14                             \n"
+ 286:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 287:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " .align 4                           \n"
+ 288:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "pxCurrentTCBConst2: .word pxCurrentTCB \n"
+ 289:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         );
+ 290:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 206              		.loc 1 290 0
+ 207              		.thumb
+ 208              		.syntax unified
+ 209 0024 00BF     		nop
+ 210              		.cfi_endproc
+ 211              	.LFE131:
+ 212              		.size	SVC_Handler, .-SVC_Handler
+ 213 0026 00BF     		.section	.text.prvPortStartFirstTask,"ax",%progbits
+ 214              		.align	2
+ 215              		.thumb
+ 216              		.thumb_func
+ 217              		.type	prvPortStartFirstTask, %function
+ 218              	prvPortStartFirstTask:
+ 219              	.LFB132:
+ 291:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 292:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 293:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** static void prvPortStartFirstTask( void )
+ 294:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 10
+
+
+ 220              		.loc 1 294 0
+ 221              		.cfi_startproc
+ 222              		@ Naked Function: prologue and epilogue provided by programmer.
+ 223              		@ args = 0, pretend = 0, frame = 0
+ 224              		@ frame_needed = 1, uses_anonymous_args = 0
+ 295:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     __asm volatile(
+ 225              		.loc 1 295 0
+ 226              		.syntax unified
+ 227              	@ 295 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 228 0000 0648     		 ldr r0, =0xE000ED08                
+ 229 0002 0068     	 ldr r0, [r0]                       
+ 230 0004 0068     	 ldr r0, [r0]                       
+ 231 0006 80F30888 	 msr msp, r0                        
+ 232 000a 62B6     	 cpsie i                            
+ 233 000c 61B6     	 cpsie f                            
+ 234 000e BFF34F8F 	 dsb                                
+ 235 0012 BFF36F8F 	 isb                                
+ 236 0016 00DF     	 svc 0                              
+ 237 0018 00BF     	 nop                                
+ 238              	
+ 239              	@ 0 "" 2
+ 296:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Use the NVIC offset register to locate the stack. */
+ 297:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr r0, =0xE000ED08                \n"
+ 298:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr r0, [r0]                       \n"
+ 299:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr r0, [r0]                       \n"
+ 300:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Set the msp back to the start of the stack. */
+ 301:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " msr msp, r0                        \n"
+ 302:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Globally enable interrupts. */
+ 303:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " cpsie i                            \n"
+ 304:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " cpsie f                            \n"
+ 305:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " dsb                                \n"
+ 306:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " isb                                \n"
+ 307:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* System call to start first task. */
+ 308:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " svc 0                              \n"
+ 309:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " nop                                \n"
+ 310:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         );
+ 311:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 240              		.loc 1 311 0
+ 241              		.thumb
+ 242              		.syntax unified
+ 243 001a 00BF     		nop
+ 244              		.cfi_endproc
+ 245              	.LFE132:
+ 246              		.size	prvPortStartFirstTask, .-prvPortStartFirstTask
+ 247              		.section	.text.xPortStartScheduler,"ax",%progbits
+ 248              		.align	2
+ 249              		.global	xPortStartScheduler
+ 250              		.thumb
+ 251              		.thumb_func
+ 252              		.type	xPortStartScheduler, %function
+ 253              	xPortStartScheduler:
+ 254              	.LFB133:
+ 312:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 313:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 314:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** BaseType_t xPortStartScheduler( void )
+ 315:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 255              		.loc 1 315 0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 11
+
+
+ 256              		.cfi_startproc
+ 257              		@ args = 0, pretend = 0, frame = 16
+ 258              		@ frame_needed = 1, uses_anonymous_args = 0
+ 259 0000 80B5     		push	{r7, lr}
+ 260              		.cfi_def_cfa_offset 8
+ 261              		.cfi_offset 7, -8
+ 262              		.cfi_offset 14, -4
+ 263 0002 84B0     		sub	sp, sp, #16
+ 264              		.cfi_def_cfa_offset 24
+ 265 0004 00AF     		add	r7, sp, #0
+ 266              		.cfi_def_cfa_register 7
+ 267              	.LBB2:
+ 316:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* configMAX_SYSCALL_INTERRUPT_PRIORITY must not be set to 0.
+ 317:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     See http://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
+ 318:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     configASSERT( configMAX_SYSCALL_INTERRUPT_PRIORITY );
+ 319:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 320:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #if( configASSERT_DEFINED == 1 )
+ 321:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ 322:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         volatile uint32_t ulOriginalPriority;
+ 323:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( port
+ 268              		.loc 1 323 0
+ 269 0006 2C4B     		ldr	r3, .L17
+ 270 0008 FB60     		str	r3, [r7, #12]
+ 324:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         volatile uint8_t ucMaxPriorityValue;
+ 325:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 326:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Determine the maximum priority from which ISR safe FreeRTOS API
+ 327:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         functions can be called.  ISR safe functions are those that end in
+ 328:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "FromISR".  FreeRTOS maintains separate thread and ISR API functions to
+ 329:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ensure interrupt entry is as fast and simple as possible.
+ 330:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 331:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         Save the interrupt priority value that is about to be clobbered. */
+ 332:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ulOriginalPriority = *pucFirstUserPriorityRegister;
+ 271              		.loc 1 332 0
+ 272 000a FB68     		ldr	r3, [r7, #12]
+ 273 000c 1B78     		ldrb	r3, [r3]
+ 274 000e DBB2     		uxtb	r3, r3
+ 275 0010 BB60     		str	r3, [r7, #8]
+ 333:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 334:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Determine the number of priority bits available.  First write to all
+ 335:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         possible bits. */
+ 336:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         *pucFirstUserPriorityRegister = portMAX_8_BIT_VALUE;
+ 276              		.loc 1 336 0
+ 277 0012 FB68     		ldr	r3, [r7, #12]
+ 278 0014 FF22     		movs	r2, #255
+ 279 0016 1A70     		strb	r2, [r3]
+ 337:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 338:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Read the value back to see how many bits stuck. */
+ 339:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ucMaxPriorityValue = *pucFirstUserPriorityRegister;
+ 280              		.loc 1 339 0
+ 281 0018 FB68     		ldr	r3, [r7, #12]
+ 282 001a 1B78     		ldrb	r3, [r3]
+ 283 001c DBB2     		uxtb	r3, r3
+ 284 001e FB71     		strb	r3, [r7, #7]
+ 340:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 341:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Use the same mask on the maximum system call priority. */
+ 342:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & ucMaxPriorityValue;
+ 285              		.loc 1 342 0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 12
+
+
+ 286 0020 FB79     		ldrb	r3, [r7, #7]
+ 287 0022 DBB2     		uxtb	r3, r3
+ 288 0024 23F04003 		bic	r3, r3, #64
+ 289 0028 DAB2     		uxtb	r2, r3
+ 290 002a 244B     		ldr	r3, .L17+4
+ 291 002c 1A70     		strb	r2, [r3]
+ 343:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 344:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Calculate the maximum acceptable priority group value for the number
+ 345:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         of bits read back. */
+ 346:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ulMaxPRIGROUPValue = portMAX_PRIGROUP_BITS;
+ 292              		.loc 1 346 0
+ 293 002e 244B     		ldr	r3, .L17+8
+ 294 0030 0722     		movs	r2, #7
+ 295 0032 1A60     		str	r2, [r3]
+ 347:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
+ 296              		.loc 1 347 0
+ 297 0034 09E0     		b	.L14
+ 298              	.L15:
+ 348:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ 349:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             ulMaxPRIGROUPValue--;
+ 299              		.loc 1 349 0
+ 300 0036 224B     		ldr	r3, .L17+8
+ 301 0038 1B68     		ldr	r3, [r3]
+ 302 003a 013B     		subs	r3, r3, #1
+ 303 003c 204A     		ldr	r2, .L17+8
+ 304 003e 1360     		str	r3, [r2]
+ 350:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             ucMaxPriorityValue <<= ( uint8_t ) 0x01;
+ 305              		.loc 1 350 0
+ 306 0040 FB79     		ldrb	r3, [r7, #7]
+ 307 0042 DBB2     		uxtb	r3, r3
+ 308 0044 5B00     		lsls	r3, r3, #1
+ 309 0046 DBB2     		uxtb	r3, r3
+ 310 0048 FB71     		strb	r3, [r7, #7]
+ 311              	.L14:
+ 347:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
+ 312              		.loc 1 347 0
+ 313 004a FB79     		ldrb	r3, [r7, #7]
+ 314 004c DBB2     		uxtb	r3, r3
+ 315 004e 5BB2     		sxtb	r3, r3
+ 316 0050 002B     		cmp	r3, #0
+ 317 0052 F0DB     		blt	.L15
+ 351:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 352:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 353:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Shift the priority group value back to its position within the AIRCR
+ 354:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         register. */
+ 355:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ulMaxPRIGROUPValue <<= portPRIGROUP_SHIFT;
+ 318              		.loc 1 355 0
+ 319 0054 1A4B     		ldr	r3, .L17+8
+ 320 0056 1B68     		ldr	r3, [r3]
+ 321 0058 1B02     		lsls	r3, r3, #8
+ 322 005a 194A     		ldr	r2, .L17+8
+ 323 005c 1360     		str	r3, [r2]
+ 356:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ulMaxPRIGROUPValue &= portPRIORITY_GROUP_MASK;
+ 324              		.loc 1 356 0
+ 325 005e 184B     		ldr	r3, .L17+8
+ 326 0060 1B68     		ldr	r3, [r3]
+ 327 0062 03F4E063 		and	r3, r3, #1792
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 13
+
+
+ 328 0066 164A     		ldr	r2, .L17+8
+ 329 0068 1360     		str	r3, [r2]
+ 357:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 358:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Restore the clobbered interrupt priority register to its original
+ 359:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         value. */
+ 360:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         *pucFirstUserPriorityRegister = ulOriginalPriority;
+ 330              		.loc 1 360 0
+ 331 006a BB68     		ldr	r3, [r7, #8]
+ 332 006c DAB2     		uxtb	r2, r3
+ 333 006e FB68     		ldr	r3, [r7, #12]
+ 334 0070 1A70     		strb	r2, [r3]
+ 335              	.LBE2:
+ 361:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     }
+ 362:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #endif /* conifgASSERT_DEFINED */
+ 363:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 364:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Make PendSV and SysTick the lowest priority interrupts. */
+ 365:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     portNVIC_SYSPRI2_REG |= portNVIC_PENDSV_PRI;
+ 336              		.loc 1 365 0
+ 337 0072 144A     		ldr	r2, .L17+12
+ 338 0074 134B     		ldr	r3, .L17+12
+ 339 0076 1B68     		ldr	r3, [r3]
+ 340 0078 43F47F03 		orr	r3, r3, #16711680
+ 341 007c 1360     		str	r3, [r2]
+ 366:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     portNVIC_SYSPRI2_REG |= portNVIC_SYSTICK_PRI;
+ 342              		.loc 1 366 0
+ 343 007e 114A     		ldr	r2, .L17+12
+ 344 0080 104B     		ldr	r3, .L17+12
+ 345 0082 1B68     		ldr	r3, [r3]
+ 346 0084 43F07F43 		orr	r3, r3, #-16777216
+ 347 0088 1360     		str	r3, [r2]
+ 367:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 368:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Start the timer that generates the tick ISR.  Interrupts are disabled
+ 369:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     here already. */
+ 370:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     vPortSetupTimerInterrupt();
+ 348              		.loc 1 370 0
+ 349 008a FFF7FEFF 		bl	vPortSetupTimerInterrupt
+ 371:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 372:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Initialise the critical nesting count ready for the first task. */
+ 373:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     uxCriticalNesting = 0;
+ 350              		.loc 1 373 0
+ 351 008e 0E4B     		ldr	r3, .L17+16
+ 352 0090 0022     		movs	r2, #0
+ 353 0092 1A60     		str	r2, [r3]
+ 374:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 375:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Ensure the VFP is enabled - it should be anyway. */
+ 376:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     vPortEnableVFP();
+ 354              		.loc 1 376 0
+ 355 0094 FFF7FEFF 		bl	vPortEnableVFP
+ 377:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 378:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Lazy save always. */
+ 379:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     *( portFPCCR ) |= portASPEN_AND_LSPEN_BITS;
+ 356              		.loc 1 379 0
+ 357 0098 0C4A     		ldr	r2, .L17+20
+ 358 009a 0C4B     		ldr	r3, .L17+20
+ 359 009c 1B68     		ldr	r3, [r3]
+ 360 009e 43F04043 		orr	r3, r3, #-1073741824
+ 361 00a2 1360     		str	r3, [r2]
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 14
+
+
+ 380:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 381:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Start the first task. */
+ 382:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     prvPortStartFirstTask();
+ 362              		.loc 1 382 0
+ 363 00a4 FFF7FEFF 		bl	prvPortStartFirstTask
+ 383:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 384:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Should never get here as the tasks will now be executing!  Call the task
+ 385:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     exit error function to prevent compiler warnings about a static function
+ 386:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     not being called in the case that the application writer overrides this
+ 387:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     functionality by defining configTASK_RETURN_ADDRESS. */
+ 388:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     prvTaskExitError();
+ 364              		.loc 1 388 0
+ 365 00a8 FFF7FEFF 		bl	prvTaskExitError
+ 389:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 390:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Should not get here! */
+ 391:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     return 0;
+ 366              		.loc 1 391 0
+ 367 00ac 0023     		movs	r3, #0
+ 392:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 368              		.loc 1 392 0
+ 369 00ae 1846     		mov	r0, r3
+ 370 00b0 1037     		adds	r7, r7, #16
+ 371              		.cfi_def_cfa_offset 8
+ 372 00b2 BD46     		mov	sp, r7
+ 373              		.cfi_def_cfa_register 13
+ 374              		@ sp needed
+ 375 00b4 80BD     		pop	{r7, pc}
+ 376              	.L18:
+ 377 00b6 00BF     		.align	2
+ 378              	.L17:
+ 379 00b8 00E400E0 		.word	-536812544
+ 380 00bc 00000000 		.word	ucMaxSysCallPriority
+ 381 00c0 04000000 		.word	ulMaxPRIGROUPValue
+ 382 00c4 20ED00E0 		.word	-536810208
+ 383 00c8 00000000 		.word	uxCriticalNesting
+ 384 00cc 34EF00E0 		.word	-536809676
+ 385              		.cfi_endproc
+ 386              	.LFE133:
+ 387              		.size	xPortStartScheduler, .-xPortStartScheduler
+ 388              		.section	.text.vPortEndScheduler,"ax",%progbits
+ 389              		.align	2
+ 390              		.global	vPortEndScheduler
+ 391              		.thumb
+ 392              		.thumb_func
+ 393              		.type	vPortEndScheduler, %function
+ 394              	vPortEndScheduler:
+ 395              	.LFB134:
+ 393:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 394:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 395:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void vPortEndScheduler( void )
+ 396:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 396              		.loc 1 396 0
+ 397              		.cfi_startproc
+ 398              		@ args = 0, pretend = 0, frame = 0
+ 399              		@ frame_needed = 1, uses_anonymous_args = 0
+ 400              		@ link register save eliminated.
+ 401 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 15
+
+
+ 402              		.cfi_def_cfa_offset 4
+ 403              		.cfi_offset 7, -4
+ 404 0002 00AF     		add	r7, sp, #0
+ 405              		.cfi_def_cfa_register 7
+ 397:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Not implemented in ports where there is nothing to return to.
+ 398:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     Artificially force an assert. */
+ 399:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     configASSERT( uxCriticalNesting == 1000UL );
+ 406              		.loc 1 399 0
+ 407 0004 054B     		ldr	r3, .L23
+ 408 0006 1B68     		ldr	r3, [r3]
+ 409 0008 B3F57A7F 		cmp	r3, #1000
+ 410 000c 01D0     		beq	.L22
+ 411              		.loc 1 399 0 is_stmt 0 discriminator 1
+ 412              		.syntax unified
+ 413              	@ 399 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 414 000e 72B6     		 cpsid i 
+ 415              	@ 0 "" 2
+ 416              		.thumb
+ 417              		.syntax unified
+ 418              	.L21:
+ 419 0010 FEE7     		b	.L21
+ 420              	.L22:
+ 400:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 421              		.loc 1 400 0 is_stmt 1
+ 422 0012 00BF     		nop
+ 423 0014 BD46     		mov	sp, r7
+ 424              		.cfi_def_cfa_register 13
+ 425              		@ sp needed
+ 426 0016 5DF8047B 		ldr	r7, [sp], #4
+ 427              		.cfi_restore 7
+ 428              		.cfi_def_cfa_offset 0
+ 429 001a 7047     		bx	lr
+ 430              	.L24:
+ 431              		.align	2
+ 432              	.L23:
+ 433 001c 00000000 		.word	uxCriticalNesting
+ 434              		.cfi_endproc
+ 435              	.LFE134:
+ 436              		.size	vPortEndScheduler, .-vPortEndScheduler
+ 437              		.section	.text.vPortEnterCritical,"ax",%progbits
+ 438              		.align	2
+ 439              		.global	vPortEnterCritical
+ 440              		.thumb
+ 441              		.thumb_func
+ 442              		.type	vPortEnterCritical, %function
+ 443              	vPortEnterCritical:
+ 444              	.LFB135:
+ 401:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 402:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 403:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void vPortEnterCritical( void )
+ 404:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 445              		.loc 1 404 0
+ 446              		.cfi_startproc
+ 447              		@ args = 0, pretend = 0, frame = 0
+ 448              		@ frame_needed = 1, uses_anonymous_args = 0
+ 449              		@ link register save eliminated.
+ 450 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 16
+
+
+ 451              		.cfi_def_cfa_offset 4
+ 452              		.cfi_offset 7, -4
+ 453 0002 00AF     		add	r7, sp, #0
+ 454              		.cfi_def_cfa_register 7
+ 405:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     portDISABLE_INTERRUPTS();
+ 455              		.loc 1 405 0
+ 456              		.syntax unified
+ 457              	@ 405 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 458 0004 72B6     		 cpsid i 
+ 459              	@ 0 "" 2
+ 406:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     uxCriticalNesting++;
+ 460              		.loc 1 406 0
+ 461              		.thumb
+ 462              		.syntax unified
+ 463 0006 0A4B     		ldr	r3, .L29
+ 464 0008 1B68     		ldr	r3, [r3]
+ 465 000a 0133     		adds	r3, r3, #1
+ 466 000c 084A     		ldr	r2, .L29
+ 467 000e 1360     		str	r3, [r2]
+ 407:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 408:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* This is not the interrupt safe version of the enter critical function so
+ 409:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     assert() if it is being called from an interrupt context.  Only API
+ 410:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     functions that end in "FromISR" can be used in an interrupt.  Only assert if
+ 411:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     the critical nesting count is 1 to protect against recursive calls if the
+ 412:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     assert function also uses a critical section. */
+ 413:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     if( uxCriticalNesting == 1 )
+ 468              		.loc 1 413 0
+ 469 0010 074B     		ldr	r3, .L29
+ 470 0012 1B68     		ldr	r3, [r3]
+ 471 0014 012B     		cmp	r3, #1
+ 472 0016 06D1     		bne	.L28
+ 414:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ 415:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         configASSERT( ( portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK ) == 0 );
+ 473              		.loc 1 415 0
+ 474 0018 064B     		ldr	r3, .L29+4
+ 475 001a 1B68     		ldr	r3, [r3]
+ 476 001c DBB2     		uxtb	r3, r3
+ 477 001e 002B     		cmp	r3, #0
+ 478 0020 01D0     		beq	.L28
+ 479              		.loc 1 415 0 is_stmt 0 discriminator 1
+ 480              		.syntax unified
+ 481              	@ 415 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 482 0022 72B6     		 cpsid i 
+ 483              	@ 0 "" 2
+ 484              		.thumb
+ 485              		.syntax unified
+ 486              	.L27:
+ 487 0024 FEE7     		b	.L27
+ 488              	.L28:
+ 416:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     }
+ 417:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 489              		.loc 1 417 0 is_stmt 1
+ 490 0026 00BF     		nop
+ 491 0028 BD46     		mov	sp, r7
+ 492              		.cfi_def_cfa_register 13
+ 493              		@ sp needed
+ 494 002a 5DF8047B 		ldr	r7, [sp], #4
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 17
+
+
+ 495              		.cfi_restore 7
+ 496              		.cfi_def_cfa_offset 0
+ 497 002e 7047     		bx	lr
+ 498              	.L30:
+ 499              		.align	2
+ 500              	.L29:
+ 501 0030 00000000 		.word	uxCriticalNesting
+ 502 0034 04ED00E0 		.word	-536810236
+ 503              		.cfi_endproc
+ 504              	.LFE135:
+ 505              		.size	vPortEnterCritical, .-vPortEnterCritical
+ 506              		.section	.text.vPortExitCritical,"ax",%progbits
+ 507              		.align	2
+ 508              		.global	vPortExitCritical
+ 509              		.thumb
+ 510              		.thumb_func
+ 511              		.type	vPortExitCritical, %function
+ 512              	vPortExitCritical:
+ 513              	.LFB136:
+ 418:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 419:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 420:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void vPortExitCritical( void )
+ 421:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 514              		.loc 1 421 0
+ 515              		.cfi_startproc
+ 516              		@ args = 0, pretend = 0, frame = 0
+ 517              		@ frame_needed = 1, uses_anonymous_args = 0
+ 518              		@ link register save eliminated.
+ 519 0000 80B4     		push	{r7}
+ 520              		.cfi_def_cfa_offset 4
+ 521              		.cfi_offset 7, -4
+ 522 0002 00AF     		add	r7, sp, #0
+ 523              		.cfi_def_cfa_register 7
+ 422:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     configASSERT( uxCriticalNesting );
+ 524              		.loc 1 422 0
+ 525 0004 0A4B     		ldr	r3, .L36
+ 526 0006 1B68     		ldr	r3, [r3]
+ 527 0008 002B     		cmp	r3, #0
+ 528 000a 01D1     		bne	.L32
+ 529              		.loc 1 422 0 is_stmt 0 discriminator 1
+ 530              		.syntax unified
+ 531              	@ 422 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 532 000c 72B6     		 cpsid i 
+ 533              	@ 0 "" 2
+ 534              		.thumb
+ 535              		.syntax unified
+ 536              	.L33:
+ 537 000e FEE7     		b	.L33
+ 538              	.L32:
+ 423:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     uxCriticalNesting--;
+ 539              		.loc 1 423 0 is_stmt 1
+ 540 0010 074B     		ldr	r3, .L36
+ 541 0012 1B68     		ldr	r3, [r3]
+ 542 0014 013B     		subs	r3, r3, #1
+ 543 0016 064A     		ldr	r2, .L36
+ 544 0018 1360     		str	r3, [r2]
+ 424:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     if( uxCriticalNesting == 0 )
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 18
+
+
+ 545              		.loc 1 424 0
+ 546 001a 054B     		ldr	r3, .L36
+ 547 001c 1B68     		ldr	r3, [r3]
+ 548 001e 002B     		cmp	r3, #0
+ 549 0020 00D1     		bne	.L35
+ 425:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ 426:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         portENABLE_INTERRUPTS();
+ 550              		.loc 1 426 0
+ 551              		.syntax unified
+ 552              	@ 426 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 553 0022 62B6     		 cpsie i 
+ 554              	@ 0 "" 2
+ 555              		.thumb
+ 556              		.syntax unified
+ 557              	.L35:
+ 427:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     }
+ 428:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 558              		.loc 1 428 0
+ 559 0024 00BF     		nop
+ 560 0026 BD46     		mov	sp, r7
+ 561              		.cfi_def_cfa_register 13
+ 562              		@ sp needed
+ 563 0028 5DF8047B 		ldr	r7, [sp], #4
+ 564              		.cfi_restore 7
+ 565              		.cfi_def_cfa_offset 0
+ 566 002c 7047     		bx	lr
+ 567              	.L37:
+ 568 002e 00BF     		.align	2
+ 569              	.L36:
+ 570 0030 00000000 		.word	uxCriticalNesting
+ 571              		.cfi_endproc
+ 572              	.LFE136:
+ 573              		.size	vPortExitCritical, .-vPortExitCritical
+ 574              		.section	.text.PendSV_Handler,"ax",%progbits
+ 575              		.align	2
+ 576              		.global	PendSV_Handler
+ 577              		.thumb
+ 578              		.thumb_func
+ 579              		.type	PendSV_Handler, %function
+ 580              	PendSV_Handler:
+ 581              	.LFB137:
+ 429:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 430:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 431:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void xPortPendSVHandler( void )
+ 432:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 582              		.loc 1 432 0
+ 583              		.cfi_startproc
+ 584              		@ Naked Function: prologue and epilogue provided by programmer.
+ 585              		@ args = 0, pretend = 0, frame = 0
+ 586              		@ frame_needed = 1, uses_anonymous_args = 0
+ 433:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* This is a naked function. */
+ 434:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 435:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     __asm volatile
+ 587              		.loc 1 435 0
+ 588              		.syntax unified
+ 589              	@ 435 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 590 0000 EFF30980 		 mrs r0, psp                        
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 19
+
+
+ 591 0004 BFF36F8F 	 isb                                
+ 592              	                                    
+ 593 0008 154B     	 ldr    r3, pxCurrentTCBConst       
+ 594 000a 1A68     	 ldr    r2, [r3]                    
+ 595              	                                    
+ 596 000c 1EF0100F 	 tst r14, #0x10                     
+ 597 0010 08BF     	 it eq                              
+ 598 0012 20ED108A 	 vstmdbeq r0!, {s16-s31}            
+ 599              	                                    
+ 600 0016 20E9F04F 	 stmdb r0!, {r4-r11, r14}           
+ 601              	                                    
+ 602 001a 1060     	 str r0, [r2]                       
+ 603              	                                    
+ 604 001c 4DF8043D 	 stmdb sp!, {r3}                    
+ 605 0020 4FF0BF00 	 mov r0, #191                         
+ 606 0024 80F31188 	 msr basepri, r0                    
+ 607 0028 BFF34F8F 	 dsb                                
+ 608 002c BFF36F8F 	 isb                                
+ 609 0030 FFF7FEFF 	 bl vTaskSwitchContext              
+ 610 0034 4FF00000 	 mov r0, #0                         
+ 611 0038 80F31188 	 msr basepri, r0                    
+ 612 003c 08BC     	 ldmia sp!, {r3}                    
+ 613              	                                    
+ 614 003e 1968     	 ldr r1, [r3]                       
+ 615 0040 0868     	 ldr r0, [r1]                       
+ 616              	                                    
+ 617 0042 B0E8F04F 	 ldmia r0!, {r4-r11, r14}           
+ 618              	                                    
+ 619 0046 1EF0100F 	 tst r14, #0x10                     
+ 620 004a 08BF     	 it eq                              
+ 621 004c B0EC108A 	 vldmiaeq r0!, {s16-s31}            
+ 622              	                                    
+ 623 0050 80F30988 	 msr psp, r0                        
+ 624 0054 BFF36F8F 	 isb                                
+ 625 0058 7047     	 bx r14                             
+ 626              	                                    
+ 627 005a 00BFAFF3 	 .align 4                           
+ 627      0080
+ 628 0060 00000000 	pxCurrentTCBConst: .word pxCurrentTCB 
+ 629              	
+ 630              	@ 0 "" 2
+ 436:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     (
+ 437:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " mrs r0, psp                        \n"
+ 438:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " isb                                \n"
+ 439:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 440:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Get the location of the current TCB. */
+ 441:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr    r3, pxCurrentTCBConst       \n"
+ 442:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr    r2, [r3]                    \n"
+ 443:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 444:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Is the task using the FPU context?  If so, push high vfp registers. */
+ 445:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " tst r14, #0x10                     \n"
+ 446:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " it eq                              \n"
+ 447:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " vstmdbeq r0!, {s16-s31}            \n"
+ 448:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 449:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Save the core registers. */
+ 450:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " stmdb r0!, {r4-r11, r14}           \n" 
+ 451:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 20
+
+
+ 452:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Save the new top of stack into the first member of the TCB. */
+ 453:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " str r0, [r2]                       \n"
+ 454:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 455:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " stmdb sp!, {r3}                    \n"
+ 456:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " mov r0, %0                         \n"
+ 457:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " msr basepri, r0                    \n"
+ 458:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " dsb                                \n"
+ 459:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " isb                                \n"
+ 460:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " bl vTaskSwitchContext              \n"
+ 461:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " mov r0, #0                         \n"
+ 462:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " msr basepri, r0                    \n"
+ 463:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldmia sp!, {r3}                    \n"
+ 464:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 465:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* The first item in pxCurrentTCB is the task top of stack. */
+ 466:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr r1, [r3]                       \n"
+ 467:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr r0, [r1]                       \n"
+ 468:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 469:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Pop the core registers. */
+ 470:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldmia r0!, {r4-r11, r14}           \n" 
+ 471:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 472:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Is the task using the FPU context?  If so, pop the high vfp registers too. */
+ 473:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " tst r14, #0x10                     \n"
+ 474:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " it eq                              \n"
+ 475:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " vldmiaeq r0!, {s16-s31}            \n"
+ 476:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 477:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " msr psp, r0                        \n"
+ 478:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " isb                                \n"
+ 479:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " bx r14                             \n"
+ 480:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 481:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " .align 4                           \n"
+ 482:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "pxCurrentTCBConst: .word pxCurrentTCB \n"
+ 483:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     ::"i"(configMAX_SYSCALL_INTERRUPT_PRIORITY)
+ 484:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     );
+ 485:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 631              		.loc 1 485 0
+ 632              		.thumb
+ 633              		.syntax unified
+ 634 0064 00BF     		nop
+ 635              		.cfi_endproc
+ 636              	.LFE137:
+ 637              		.size	PendSV_Handler, .-PendSV_Handler
+ 638 0066 00BF     		.section	.text.SysTick_Handler,"ax",%progbits
+ 639              		.align	2
+ 640              		.global	SysTick_Handler
+ 641              		.thumb
+ 642              		.thumb_func
+ 643              		.type	SysTick_Handler, %function
+ 644              	SysTick_Handler:
+ 645              	.LFB138:
+ 486:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 487:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 488:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** void xPortSysTickHandler( void )
+ 489:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 646              		.loc 1 489 0
+ 647              		.cfi_startproc
+ 648              		@ args = 0, pretend = 0, frame = 0
+ 649              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 21
+
+
+ 650 0000 80B5     		push	{r7, lr}
+ 651              		.cfi_def_cfa_offset 8
+ 652              		.cfi_offset 7, -8
+ 653              		.cfi_offset 14, -4
+ 654 0002 00AF     		add	r7, sp, #0
+ 655              		.cfi_def_cfa_register 7
+ 490:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* The SysTick runs at the lowest interrupt priority, so when this interrupt
+ 491:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     executes all interrupts must be unmasked.  There is therefore no need to
+ 492:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     save and then restore the interrupt mask value as its value is already
+ 493:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     known. */
+ 494:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     portDISABLE_INTERRUPTS();
+ 656              		.loc 1 494 0
+ 657              		.syntax unified
+ 658              	@ 494 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 659 0004 72B6     		 cpsid i 
+ 660              	@ 0 "" 2
+ 495:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ 496:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Increment the RTOS tick. */
+ 497:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         if( xTaskIncrementTick() != pdFALSE )
+ 661              		.loc 1 497 0
+ 662              		.thumb
+ 663              		.syntax unified
+ 664 0006 FFF7FEFF 		bl	xTaskIncrementTick
+ 665 000a 0346     		mov	r3, r0
+ 666 000c 002B     		cmp	r3, #0
+ 667 000e 03D0     		beq	.L40
+ 498:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ 499:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* A context switch is required.  Context switching is performed in
+ 500:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             the PendSV interrupt.  Pend the PendSV interrupt. */
+ 501:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+ 668              		.loc 1 501 0
+ 669 0010 034B     		ldr	r3, .L41
+ 670 0012 4FF08052 		mov	r2, #268435456
+ 671 0016 1A60     		str	r2, [r3]
+ 672              	.L40:
+ 502:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 503:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     }
+ 504:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     portENABLE_INTERRUPTS();
+ 673              		.loc 1 504 0
+ 674              		.syntax unified
+ 675              	@ 504 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 676 0018 62B6     		 cpsie i 
+ 677              	@ 0 "" 2
+ 505:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 678              		.loc 1 505 0
+ 679              		.thumb
+ 680              		.syntax unified
+ 681 001a 00BF     		nop
+ 682 001c 80BD     		pop	{r7, pc}
+ 683              	.L42:
+ 684 001e 00BF     		.align	2
+ 685              	.L41:
+ 686 0020 04ED00E0 		.word	-536810236
+ 687              		.cfi_endproc
+ 688              	.LFE138:
+ 689              		.size	SysTick_Handler, .-SysTick_Handler
+ 690              		.section	.text.vPortSetupTimerInterrupt,"ax",%progbits
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 22
+
+
+ 691              		.align	2
+ 692              		.weak	vPortSetupTimerInterrupt
+ 693              		.thumb
+ 694              		.thumb_func
+ 695              		.type	vPortSetupTimerInterrupt, %function
+ 696              	vPortSetupTimerInterrupt:
+ 697              	.LFB139:
+ 506:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 507:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 508:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #if configUSE_TICKLESS_IDLE == 1
+ 509:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 510:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     __attribute__((weak)) void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+ 511:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ 512:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ulSysTickCTRL;
+ 513:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     TickType_t xModifiableIdleTime;
+ 514:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 515:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Make sure the SysTick reload value does not overflow the counter. */
+ 516:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+ 517:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ 518:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
+ 519:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 520:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 521:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Stop the SysTick momentarily.  The time the SysTick is stopped for
+ 522:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         is accounted for as best it can be, but using the tickless mode will
+ 523:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         inevitably result in some tiny drift of the time maintained by the
+ 524:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         kernel with respect to calendar time. */
+ 525:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         portNVIC_SYSTICK_CTRL_REG &= ~portNVIC_SYSTICK_ENABLE_BIT;
+ 526:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 527:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Calculate the reload value required to wait xExpectedIdleTime
+ 528:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         tick periods.  -1 is used because this code will execute part way
+ 529:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         through one of the tick periods. */
+ 530:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ulReloadValue = portNVIC_SYSTICK_CURRENT_VALUE_REG + ( ulTimerCountsForOneTick * ( xExpecte
+ 531:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         if( ulReloadValue > ulStoppedTimerCompensation )
+ 532:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ 533:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             ulReloadValue -= ulStoppedTimerCompensation;
+ 534:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 535:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 536:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Enter a critical section but don't use the taskENTER_CRITICAL()
+ 537:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         method as that will mask interrupts that should exit sleep mode. */
+ 538:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         __asm volatile( "cpsid i" );
+ 539:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         __asm volatile( "dsb" );
+ 540:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         __asm volatile( "isb" );
+ 541:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 542:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* If a context switch is pending or a task is waiting for the scheduler
+ 543:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         to be unsuspended then abandon the low power entry. */
+ 544:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         if( eTaskConfirmSleepModeStatus() == eAbortSleep )
+ 545:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ 546:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Restart from whatever is left in the count register to complete
+ 547:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             this tick period. */
+ 548:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_SYSTICK_LOAD_REG = portNVIC_SYSTICK_CURRENT_VALUE_REG;
+ 549:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 550:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Restart SysTick. */
+ 551:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
+ 552:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 553:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Reset the reload register to the value required for normal tick
+ 554:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             periods. */
+ 555:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 23
+
+
+ 556:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 557:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Re-enable interrupts - see comments above the cpsid instruction()
+ 558:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             above. */
+ 559:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             __asm volatile( "cpsie i" );
+ 560:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 561:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         else
+ 562:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ 563:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Set the new reload value. */
+ 564:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
+ 565:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 566:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Clear the SysTick count flag and set the count value back to
+ 567:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             zero. */
+ 568:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+ 569:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 570:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Restart SysTick. */
+ 571:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
+ 572:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 573:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Sleep until something happens.  configPRE_SLEEP_PROCESSING() can
+ 574:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             set its parameter to 0 to indicate that its implementation contains
+ 575:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             its own wait for interrupt or wait for event instruction, and so wfi
+ 576:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             should not be executed again.  However, the original expected idle
+ 577:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             time variable must remain unmodified, so a copy is taken. */
+ 578:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             xModifiableIdleTime = xExpectedIdleTime;
+ 579:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
+ 580:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             if( xModifiableIdleTime > 0 )
+ 581:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             {
+ 582:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 __asm volatile( "dsb" );
+ 583:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 __asm volatile( "wfi" );
+ 584:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 __asm volatile( "isb" );
+ 585:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             }
+ 586:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             configPOST_SLEEP_PROCESSING( xExpectedIdleTime );
+ 587:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 588:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Stop SysTick.  Again, the time the SysTick is stopped for is
+ 589:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             accounted for as best it can be, but using the tickless mode will
+ 590:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             inevitably result in some tiny drift of the time maintained by the
+ 591:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             kernel with respect to calendar time. */
+ 592:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             ulSysTickCTRL = portNVIC_SYSTICK_CTRL_REG;
+ 593:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_SYSTICK_CTRL_REG = ( ulSysTickCTRL & ~portNVIC_SYSTICK_ENABLE_BIT );
+ 594:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 595:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Re-enable interrupts - see comments above the cpsid instruction()
+ 596:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             above. */
+ 597:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             __asm volatile( "cpsie i" );
+ 598:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 599:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             if( ( ulSysTickCTRL & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+ 600:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             {
+ 601:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 uint32_t ulCalculatedLoadValue;
+ 602:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 603:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 /* The tick interrupt has already executed, and the SysTick
+ 604:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 count reloaded with ulReloadValue.  Reset the
+ 605:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 portNVIC_SYSTICK_LOAD_REG with whatever remains of this tick
+ 606:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 period. */
+ 607:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL ) - ( ulReloadValue - portN
+ 608:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 609:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 /* Don't allow a tiny value, or values that have somehow
+ 610:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 underflowed because the post sleep hook did something
+ 611:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 that took too long. */
+ 612:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 if( ( ulCalculatedLoadValue < ulStoppedTimerCompensation ) || ( ulCalculatedLoadVal
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 24
+
+
+ 613:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 {
+ 614:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                     ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
+ 615:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 }
+ 616:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 617:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 portNVIC_SYSTICK_LOAD_REG = ulCalculatedLoadValue;
+ 618:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 619:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 /* The tick interrupt handler will already have pended the tick
+ 620:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 processing in the kernel.  As the pending tick will be
+ 621:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 processed as soon as this function exits, the tick value
+ 622:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 maintained by the tick is stepped forward by one less than the
+ 623:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 time spent waiting. */
+ 624:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
+ 625:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             }
+ 626:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             else
+ 627:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             {
+ 628:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 /* Something other than the tick interrupt ended the sleep.
+ 629:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 Work out how long the sleep lasted rounded to complete tick
+ 630:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 periods (not the ulReload value which accounted for part
+ 631:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 ticks). */
+ 632:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - po
+ 633:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 634:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 /* How many complete tick periods passed while the processor
+ 635:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 was waiting? */
+ 636:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 ulCompleteTickPeriods = ulCompletedSysTickDecrements / ulTimerCountsForOneTick;
+ 637:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 638:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 /* The reload value is set to whatever fraction of a single tick
+ 639:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 period remains. */
+ 640:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 portNVIC_SYSTICK_LOAD_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOne
+ 641:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             }
+ 642:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 643:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Restart SysTick so it runs from portNVIC_SYSTICK_LOAD_REG
+ 644:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             again, then set portNVIC_SYSTICK_LOAD_REG back to its standard
+ 645:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             value.  The critical section is used to ensure the tick interrupt
+ 646:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             can only execute once in the case that the reload register is near
+ 647:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             zero. */
+ 648:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+ 649:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portENTER_CRITICAL();
+ 650:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             {
+ 651:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
+ 652:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 vTaskStepTick( ulCompleteTickPeriods );
+ 653:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****                 portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
+ 654:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             }
+ 655:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             portEXIT_CRITICAL();
+ 656:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 657:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     }
+ 658:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 659:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif /* #if configUSE_TICKLESS_IDLE */
+ 660:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 661:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 662:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*
+ 663:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * Setup the systick timer to generate the tick interrupts at the required
+ 664:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  * frequency.
+ 665:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****  */
+ 666:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** __attribute__(( weak )) void vPortSetupTimerInterrupt( void )
+ 667:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 698              		.loc 1 667 0
+ 699              		.cfi_startproc
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 25
+
+
+ 700              		@ args = 0, pretend = 0, frame = 0
+ 701              		@ frame_needed = 1, uses_anonymous_args = 0
+ 702              		@ link register save eliminated.
+ 703 0000 80B4     		push	{r7}
+ 704              		.cfi_def_cfa_offset 4
+ 705              		.cfi_offset 7, -4
+ 706 0002 00AF     		add	r7, sp, #0
+ 707              		.cfi_def_cfa_register 7
+ 668:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Calculate the constants required to configure the tick interrupt. */
+ 669:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #if( configUSE_TICKLESS_IDLE == 1 )
+ 670:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ 671:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ );
+ 672:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
+ 673:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         ulStoppedTimerCompensation = portMISSED_COUNTS_FACTOR / ( configCPU_CLOCK_HZ / configSYSTIC
+ 674:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     }
+ 675:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     #endif /* configUSE_TICKLESS_IDLE */
+ 676:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 677:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     /* Configure SysTick to interrupt at the requested rate. */
+ 678:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     portNVIC_SYSTICK_LOAD_REG = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
+ 708              		.loc 1 678 0
+ 709 0004 084A     		ldr	r2, .L44
+ 710 0006 094B     		ldr	r3, .L44+4
+ 711 0008 1B68     		ldr	r3, [r3]
+ 712 000a 0949     		ldr	r1, .L44+8
+ 713 000c A1FB0313 		umull	r1, r3, r1, r3
+ 714 0010 9B09     		lsrs	r3, r3, #6
+ 715 0012 013B     		subs	r3, r3, #1
+ 716 0014 1360     		str	r3, [r2]
+ 679:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SY
+ 717              		.loc 1 679 0
+ 718 0016 074B     		ldr	r3, .L44+12
+ 719 0018 0722     		movs	r2, #7
+ 720 001a 1A60     		str	r2, [r3]
+ 680:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 721              		.loc 1 680 0
+ 722 001c 00BF     		nop
+ 723 001e BD46     		mov	sp, r7
+ 724              		.cfi_def_cfa_register 13
+ 725              		@ sp needed
+ 726 0020 5DF8047B 		ldr	r7, [sp], #4
+ 727              		.cfi_restore 7
+ 728              		.cfi_def_cfa_offset 0
+ 729 0024 7047     		bx	lr
+ 730              	.L45:
+ 731 0026 00BF     		.align	2
+ 732              	.L44:
+ 733 0028 14E000E0 		.word	-536813548
+ 734 002c 00000000 		.word	cy_delayFreqHz
+ 735 0030 D34D6210 		.word	274877907
+ 736 0034 10E000E0 		.word	-536813552
+ 737              		.cfi_endproc
+ 738              	.LFE139:
+ 739              		.size	vPortSetupTimerInterrupt, .-vPortSetupTimerInterrupt
+ 740              		.section	.text.vPortEnableVFP,"ax",%progbits
+ 741              		.align	2
+ 742              		.thumb
+ 743              		.thumb_func
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 26
+
+
+ 744              		.type	vPortEnableVFP, %function
+ 745              	vPortEnableVFP:
+ 746              	.LFB140:
+ 681:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 682:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 683:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /* This is a naked function. */
+ 684:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** static void vPortEnableVFP( void )
+ 685:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** {
+ 747              		.loc 1 685 0
+ 748              		.cfi_startproc
+ 749              		@ Naked Function: prologue and epilogue provided by programmer.
+ 750              		@ args = 0, pretend = 0, frame = 0
+ 751              		@ frame_needed = 1, uses_anonymous_args = 0
+ 686:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     __asm volatile
+ 752              		.loc 1 686 0
+ 753              		.syntax unified
+ 754              	@ 686 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 755 0000 DFF80C00 		 ldr.w r0, =0xE000ED88              
+ 756 0004 0168     	 ldr r1, [r0]                       
+ 757              	                                    
+ 758 0006 41F47001 	 orr r1, r1, #( 0xf << 20 )         
+ 759 000a 0160     	 str r1, [r0]                       
+ 760 000c 7047     	 bx r14                             
+ 761              	
+ 762              	@ 0 "" 2
+ 687:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     (
+ 688:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* The FPU enable bits are in the CPACR. */
+ 689:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr.w r0, =0xE000ED88              \n"
+ 690:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " ldr r1, [r0]                       \n"
+ 691:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         "                                    \n"
+ 692:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Enable CP10 and CP11 coprocessors, then save back. */
+ 693:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " orr r1, r1, #( 0xf << 20 )         \n" 
+ 694:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " str r1, [r0]                       \n"
+ 695:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         " bx r14                             \n"
+ 696:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     );
+ 697:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** }
+ 763              		.loc 1 697 0
+ 764              		.thumb
+ 765              		.syntax unified
+ 766 000e 00BF     		nop
+ 767              		.cfi_endproc
+ 768              	.LFE140:
+ 769              		.size	vPortEnableVFP, .-vPortEnableVFP
+ 770              		.section	.text.vPortValidateInterruptPriority,"ax",%progbits
+ 771              		.align	2
+ 772              		.global	vPortValidateInterruptPriority
+ 773              		.thumb
+ 774              		.thumb_func
+ 775              		.type	vPortValidateInterruptPriority, %function
+ 776              	vPortValidateInterruptPriority:
+ 777              	.LFB141:
+ 698:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** /*-----------------------------------------------------------*/
+ 699:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 700:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #if( configASSERT_DEFINED == 1 )
+ 701:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 702:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     void vPortValidateInterruptPriority( void )
+ 703:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 27
+
+
+ 778              		.loc 1 703 0
+ 779              		.cfi_startproc
+ 780              		@ args = 0, pretend = 0, frame = 8
+ 781              		@ frame_needed = 1, uses_anonymous_args = 0
+ 782              		@ link register save eliminated.
+ 783 0000 80B4     		push	{r7}
+ 784              		.cfi_def_cfa_offset 4
+ 785              		.cfi_offset 7, -4
+ 786 0002 83B0     		sub	sp, sp, #12
+ 787              		.cfi_def_cfa_offset 16
+ 788 0004 00AF     		add	r7, sp, #0
+ 789              		.cfi_def_cfa_register 7
+ 704:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     uint32_t ulCurrentInterrupt;
+ 705:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     uint8_t ucCurrentPriority;
+ 706:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 707:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Obtain the number of the currently executing interrupt. */
+ 708:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         __asm volatile( "mrs %0, ipsr" : "=r"( ulCurrentInterrupt ) );
+ 790              		.loc 1 708 0
+ 791              		.syntax unified
+ 792              	@ 708 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 793 0006 EFF30583 		mrs r3, ipsr
+ 794              	@ 0 "" 2
+ 795              		.thumb
+ 796              		.syntax unified
+ 797 000a 7B60     		str	r3, [r7, #4]
+ 709:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 710:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Is the interrupt number a user defined interrupt? */
+ 711:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         if( ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER )
+ 798              		.loc 1 711 0
+ 799 000c 7B68     		ldr	r3, [r7, #4]
+ 800 000e 0F2B     		cmp	r3, #15
+ 801 0010 0BD9     		bls	.L48
+ 712:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ 713:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* Look up the interrupt's priority. */
+ 714:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             ucCurrentPriority = pcInterruptPriorityRegisters[ ulCurrentInterrupt ];
+ 802              		.loc 1 714 0
+ 803 0012 0E4A     		ldr	r2, .L53
+ 804 0014 7B68     		ldr	r3, [r7, #4]
+ 805 0016 1344     		add	r3, r3, r2
+ 806 0018 1B78     		ldrb	r3, [r3]
+ 807 001a FB70     		strb	r3, [r7, #3]
+ 715:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 716:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             /* The following assertion will fail if a service routine (ISR) for
+ 717:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             an interrupt that has been assigned a priority above
+ 718:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             configMAX_SYSCALL_INTERRUPT_PRIORITY calls an ISR safe FreeRTOS API
+ 719:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             function.  ISR safe FreeRTOS API functions must *only* be called
+ 720:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             from interrupts that have been assigned a priority at or below
+ 721:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             configMAX_SYSCALL_INTERRUPT_PRIORITY.
+ 722:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 723:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             Numerically low interrupt priority numbers represent logically high
+ 724:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             interrupt priorities, therefore the priority of the interrupt must
+ 725:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             be set to a value equal to or numerically *higher* than
+ 726:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             configMAX_SYSCALL_INTERRUPT_PRIORITY.
+ 727:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 728:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             Interrupts that    use the FreeRTOS API must not be left at their
+ 729:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             default priority of    zero as that is the highest possible priority,
+ 730:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             which is guaranteed to be above configMAX_SYSCALL_INTERRUPT_PRIORITY,
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 28
+
+
+ 731:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             and    therefore also guaranteed to be invalid.
+ 732:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 733:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             FreeRTOS maintains separate thread and ISR API functions to ensure
+ 734:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             interrupt entry is as fast and simple as possible.
+ 735:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 736:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             The following links provide detailed information:
+ 737:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             http://www.freertos.org/RTOS-Cortex-M3-M4.html
+ 738:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             http://www.freertos.org/FAQHelp.html */
+ 739:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****             configASSERT( ucCurrentPriority >= ucMaxSysCallPriority );
+ 808              		.loc 1 739 0
+ 809 001c 0C4B     		ldr	r3, .L53+4
+ 810 001e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 811 0020 FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+ 812 0022 9A42     		cmp	r2, r3
+ 813 0024 01D2     		bcs	.L48
+ 814              		.loc 1 739 0 is_stmt 0 discriminator 1
+ 815              		.syntax unified
+ 816              	@ 739 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 817 0026 72B6     		 cpsid i 
+ 818              	@ 0 "" 2
+ 819              		.thumb
+ 820              		.syntax unified
+ 821              	.L49:
+ 822 0028 FEE7     		b	.L49
+ 823              	.L48:
+ 740:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 741:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 742:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* Priority grouping:  The interrupt controller (NVIC) allows the bits
+ 743:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         that define each interrupt's priority to be split between bits that
+ 744:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         define the interrupt's pre-emption priority bits and bits that define
+ 745:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         the interrupt's sub-priority.  For simplicity all bits must be defined
+ 746:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         to be pre-emption priority bits.  The following assertion will fail if
+ 747:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         this is not the case (if some bits represent a sub-priority).
+ 748:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 749:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         If the application only uses CMSIS libraries for interrupt
+ 750:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         configuration then the correct setting can be achieved on all Cortex-M
+ 751:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         devices by calling NVIC_SetPriorityGrouping( 0 ); before starting the
+ 752:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         scheduler.  Note however that some vendor specific peripheral libraries
+ 753:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         assume a non-zero priority group setting, in which cases using a value
+ 754:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         of zero will result in unpredicable behaviour. */
+ 755:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         configASSERT( ( portAIRCR_REG & portPRIORITY_GROUP_MASK ) <= ulMaxPRIGROUPValue );
+ 824              		.loc 1 755 0 is_stmt 1
+ 825 002a 0A4B     		ldr	r3, .L53+8
+ 826 002c 1B68     		ldr	r3, [r3]
+ 827 002e 03F4E062 		and	r2, r3, #1792
+ 828 0032 094B     		ldr	r3, .L53+12
+ 829 0034 1B68     		ldr	r3, [r3]
+ 830 0036 9A42     		cmp	r2, r3
+ 831 0038 01D9     		bls	.L52
+ 832              		.loc 1 755 0 is_stmt 0 discriminator 1
+ 833              		.syntax unified
+ 834              	@ 755 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 835 003a 72B6     		 cpsid i 
+ 836              	@ 0 "" 2
+ 837              		.thumb
+ 838              		.syntax unified
+ 839              	.L51:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 29
+
+
+ 840              		.loc 1 755 0 discriminator 2
+ 841 003c FEE7     		b	.L51
+ 842              	.L52:
+ 756:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     }
+ 843              		.loc 1 756 0 is_stmt 1
+ 844 003e 00BF     		nop
+ 845 0040 0C37     		adds	r7, r7, #12
+ 846              		.cfi_def_cfa_offset 4
+ 847 0042 BD46     		mov	sp, r7
+ 848              		.cfi_def_cfa_register 13
+ 849              		@ sp needed
+ 850 0044 5DF8047B 		ldr	r7, [sp], #4
+ 851              		.cfi_restore 7
+ 852              		.cfi_def_cfa_offset 0
+ 853 0048 7047     		bx	lr
+ 854              	.L54:
+ 855 004a 00BF     		.align	2
+ 856              	.L53:
+ 857 004c F0E300E0 		.word	-536812560
+ 858 0050 00000000 		.word	ucMaxSysCallPriority
+ 859 0054 0CED00E0 		.word	-536810228
+ 860 0058 04000000 		.word	ulMaxPRIGROUPValue
+ 861              		.cfi_endproc
+ 862              	.LFE141:
+ 863              		.size	vPortValidateInterruptPriority, .-vPortValidateInterruptPriority
+ 864              		.section	.rodata
+ 865              		.align	2
+ 866              	.LC0:
+ 867 0004 47656E65 		.ascii	"Generated_Source\\PSoC6\\pdl\\rtos\\FreeRTOS\\9.0.0"
+ 867      72617465 
+ 867      645F536F 
+ 867      75726365 
+ 867      5C50536F 
+ 868 0032 5C536F75 		.ascii	"\\Source\\portable\\GCC\\CM4F\\port.c\000"
+ 868      7263655C 
+ 868      706F7274 
+ 868      61626C65 
+ 868      5C474343 
+ 869              		.section	.text.vApplicationStackOverflowHook,"ax",%progbits
+ 870              		.align	2
+ 871              		.weak	vApplicationStackOverflowHook
+ 872              		.thumb
+ 873              		.thumb_func
+ 874              		.type	vApplicationStackOverflowHook, %function
+ 875              	vApplicationStackOverflowHook:
+ 876              	.LFB142:
+ 757:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 758:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif /* configASSERT_DEFINED */
+ 759:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 760:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #if configUSE_MALLOC_FAILED_HOOK == 1
+ 761:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     __WEAK void vApplicationMallocFailedHook( void )
+ 762:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ 763:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* The heap space has been exceeded. */
+ 764:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         taskDISABLE_INTERRUPTS();
+ 765:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         CY_ASSERT(0U != 0U);
+ 766:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         for( ;; )
+ 767:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 30
+
+
+ 768:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 769:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     }
+ 770:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #endif
+ 771:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** 
+ 772:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c **** #if configCHECK_FOR_STACK_OVERFLOW  != 0
+ 773:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     __WEAK void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName )
+ 774:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****     {
+ 877              		.loc 1 774 0
+ 878              		.cfi_startproc
+ 879              		@ args = 0, pretend = 0, frame = 8
+ 880              		@ frame_needed = 1, uses_anonymous_args = 0
+ 881 0000 80B5     		push	{r7, lr}
+ 882              		.cfi_def_cfa_offset 8
+ 883              		.cfi_offset 7, -8
+ 884              		.cfi_offset 14, -4
+ 885 0002 82B0     		sub	sp, sp, #8
+ 886              		.cfi_def_cfa_offset 16
+ 887 0004 00AF     		add	r7, sp, #0
+ 888              		.cfi_def_cfa_register 7
+ 889 0006 7860     		str	r0, [r7, #4]
+ 890 0008 3960     		str	r1, [r7]
+ 775:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         (void)xTask;
+ 776:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         (void)pcTaskName;
+ 777:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         /* The stack space has been exceeded for a task, considering allocating more. */
+ 778:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         taskDISABLE_INTERRUPTS();
+ 891              		.loc 1 778 0
+ 892              		.syntax unified
+ 893              	@ 778 "Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F\port.c" 1
+ 894 000a 72B6     		 cpsid i 
+ 895              	@ 0 "" 2
+ 779:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         CY_ASSERT(0U != 0U);
+ 896              		.loc 1 779 0
+ 897              		.thumb
+ 898              		.syntax unified
+ 899 000c 40F20B31 		movw	r1, #779
+ 900 0010 0148     		ldr	r0, .L57
+ 901 0012 FFF7FEFF 		bl	Cy_SysLib_AssertFailed
+ 902              	.L56:
+ 780:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         for( ;; )
+ 781:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         {
+ 782:Generated_Source\PSoC6\pdl\rtos\FreeRTOS\9.0.0\Source\portable\GCC\CM4F/port.c ****         }
+ 903              		.loc 1 782 0 discriminator 1
+ 904 0016 FEE7     		b	.L56
+ 905              	.L58:
+ 906              		.align	2
+ 907              	.L57:
+ 908 0018 04000000 		.word	.LC0
+ 909              		.cfi_endproc
+ 910              	.LFE142:
+ 911              		.size	vApplicationStackOverflowHook, .-vApplicationStackOverflowHook
+ 912              		.text
+ 913              	.Letext0:
+ 914              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 915              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 916              		.file 4 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/syslib/cy_syslib.h"
+ 917              		.file 5 "Generated_Source\\PSoC6\\pdl\\rtos/FreeRTOS/9.0.0/Source/include/projdefs.h"
+ 918              		.file 6 "Generated_Source\\PSoC6\\pdl\\rtos/FreeRTOS/9.0.0/Source/portable/GCC/CM4F/portmacro.h"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 31
+
+
+ 919              		.file 7 "Generated_Source\\PSoC6\\pdl\\rtos/FreeRTOS/9.0.0/Source/include/task.h"
+ 920              		.file 8 "Generated_Source\\PSoC6\\pdl\\cmsis/include/core_cm4.h"
+ 921              		.file 9 "./system_psoc63.h"
+ 922              		.section	.debug_info,"",%progbits
+ 923              	.Ldebug_info0:
+ 924 0000 68030000 		.4byte	0x368
+ 925 0004 0400     		.2byte	0x4
+ 926 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 927 000a 04       		.byte	0x4
+ 928 000b 01       		.uleb128 0x1
+ 929 000c 53010000 		.4byte	.LASF56
+ 930 0010 0C       		.byte	0xc
+ 931 0011 56040000 		.4byte	.LASF57
+ 932 0015 00030000 		.4byte	.LASF58
+ 933 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 934 001d 00000000 		.4byte	0
+ 935 0021 00000000 		.4byte	.Ldebug_line0
+ 936 0025 02       		.uleb128 0x2
+ 937 0026 04       		.byte	0x4
+ 938 0027 05       		.byte	0x5
+ 939 0028 696E7400 		.ascii	"int\000"
+ 940 002c 03       		.uleb128 0x3
+ 941 002d 04       		.byte	0x4
+ 942 002e 07       		.byte	0x7
+ 943 002f 61020000 		.4byte	.LASF0
+ 944 0033 03       		.uleb128 0x3
+ 945 0034 08       		.byte	0x8
+ 946 0035 05       		.byte	0x5
+ 947 0036 D5020000 		.4byte	.LASF1
+ 948 003a 03       		.uleb128 0x3
+ 949 003b 08       		.byte	0x8
+ 950 003c 04       		.byte	0x4
+ 951 003d 06040000 		.4byte	.LASF2
+ 952 0041 03       		.uleb128 0x3
+ 953 0042 01       		.byte	0x1
+ 954 0043 06       		.byte	0x6
+ 955 0044 12040000 		.4byte	.LASF3
+ 956 0048 04       		.uleb128 0x4
+ 957 0049 15000000 		.4byte	.LASF7
+ 958 004d 02       		.byte	0x2
+ 959 004e 1D       		.byte	0x1d
+ 960 004f 53000000 		.4byte	0x53
+ 961 0053 03       		.uleb128 0x3
+ 962 0054 01       		.byte	0x1
+ 963 0055 08       		.byte	0x8
+ 964 0056 11020000 		.4byte	.LASF4
+ 965 005a 03       		.uleb128 0x3
+ 966 005b 02       		.byte	0x2
+ 967 005c 05       		.byte	0x5
+ 968 005d 77000000 		.4byte	.LASF5
+ 969 0061 03       		.uleb128 0x3
+ 970 0062 02       		.byte	0x2
+ 971 0063 07       		.byte	0x7
+ 972 0064 40010000 		.4byte	.LASF6
+ 973 0068 04       		.uleb128 0x4
+ 974 0069 6D000000 		.4byte	.LASF8
+ 975 006d 02       		.byte	0x2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 32
+
+
+ 976 006e 3F       		.byte	0x3f
+ 977 006f 73000000 		.4byte	0x73
+ 978 0073 03       		.uleb128 0x3
+ 979 0074 04       		.byte	0x4
+ 980 0075 05       		.byte	0x5
+ 981 0076 55000000 		.4byte	.LASF9
+ 982 007a 04       		.uleb128 0x4
+ 983 007b 06020000 		.4byte	.LASF10
+ 984 007f 02       		.byte	0x2
+ 985 0080 41       		.byte	0x41
+ 986 0081 85000000 		.4byte	0x85
+ 987 0085 03       		.uleb128 0x3
+ 988 0086 04       		.byte	0x4
+ 989 0087 07       		.byte	0x7
+ 990 0088 2E010000 		.4byte	.LASF11
+ 991 008c 03       		.uleb128 0x3
+ 992 008d 08       		.byte	0x8
+ 993 008e 07       		.byte	0x7
+ 994 008f D5000000 		.4byte	.LASF12
+ 995 0093 04       		.uleb128 0x4
+ 996 0094 99020000 		.4byte	.LASF13
+ 997 0098 03       		.byte	0x3
+ 998 0099 18       		.byte	0x18
+ 999 009a 48000000 		.4byte	0x48
+ 1000 009e 04       		.uleb128 0x4
+ 1001 009f B8000000 		.4byte	.LASF14
+ 1002 00a3 03       		.byte	0x3
+ 1003 00a4 2C       		.byte	0x2c
+ 1004 00a5 68000000 		.4byte	0x68
+ 1005 00a9 04       		.uleb128 0x4
+ 1006 00aa D3030000 		.4byte	.LASF15
+ 1007 00ae 03       		.byte	0x3
+ 1008 00af 30       		.byte	0x30
+ 1009 00b0 7A000000 		.4byte	0x7a
+ 1010 00b4 03       		.uleb128 0x3
+ 1011 00b5 04       		.byte	0x4
+ 1012 00b6 07       		.byte	0x7
+ 1013 00b7 CC020000 		.4byte	.LASF16
+ 1014 00bb 05       		.uleb128 0x5
+ 1015 00bc A9000000 		.4byte	0xa9
+ 1016 00c0 05       		.uleb128 0x5
+ 1017 00c1 93000000 		.4byte	0x93
+ 1018 00c5 06       		.uleb128 0x6
+ 1019 00c6 C0000000 		.4byte	0xc0
+ 1020 00ca 07       		.uleb128 0x7
+ 1021 00cb 31040000 		.4byte	.LASF17
+ 1022 00cf 04       		.byte	0x4
+ 1023 00d0 C401     		.2byte	0x1c4
+ 1024 00d2 D6000000 		.4byte	0xd6
+ 1025 00d6 03       		.uleb128 0x3
+ 1026 00d7 01       		.byte	0x1
+ 1027 00d8 08       		.byte	0x8
+ 1028 00d9 EB030000 		.4byte	.LASF18
+ 1029 00dd 03       		.uleb128 0x3
+ 1030 00de 04       		.byte	0x4
+ 1031 00df 04       		.byte	0x4
+ 1032 00e0 CF000000 		.4byte	.LASF19
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 33
+
+
+ 1033 00e4 03       		.uleb128 0x3
+ 1034 00e5 08       		.byte	0x8
+ 1035 00e6 04       		.byte	0x4
+ 1036 00e7 1F020000 		.4byte	.LASF20
+ 1037 00eb 04       		.uleb128 0x4
+ 1038 00ec C0000000 		.4byte	.LASF21
+ 1039 00f0 05       		.byte	0x5
+ 1040 00f1 4D       		.byte	0x4d
+ 1041 00f2 F6000000 		.4byte	0xf6
+ 1042 00f6 08       		.uleb128 0x8
+ 1043 00f7 04       		.byte	0x4
+ 1044 00f8 FC000000 		.4byte	0xfc
+ 1045 00fc 09       		.uleb128 0x9
+ 1046 00fd 07010000 		.4byte	0x107
+ 1047 0101 0A       		.uleb128 0xa
+ 1048 0102 07010000 		.4byte	0x107
+ 1049 0106 00       		.byte	0
+ 1050 0107 0B       		.uleb128 0xb
+ 1051 0108 04       		.byte	0x4
+ 1052 0109 04       		.uleb128 0x4
+ 1053 010a 55020000 		.4byte	.LASF22
+ 1054 010e 06       		.byte	0x6
+ 1055 010f 61       		.byte	0x61
+ 1056 0110 A9000000 		.4byte	0xa9
+ 1057 0114 04       		.uleb128 0x4
+ 1058 0115 A5040000 		.4byte	.LASF23
+ 1059 0119 06       		.byte	0x6
+ 1060 011a 62       		.byte	0x62
+ 1061 011b 73000000 		.4byte	0x73
+ 1062 011f 04       		.uleb128 0x4
+ 1063 0120 8D020000 		.4byte	.LASF24
+ 1064 0124 06       		.byte	0x6
+ 1065 0125 63       		.byte	0x63
+ 1066 0126 85000000 		.4byte	0x85
+ 1067 012a 04       		.uleb128 0x4
+ 1068 012b 38000000 		.4byte	.LASF25
+ 1069 012f 07       		.byte	0x7
+ 1070 0130 67       		.byte	0x67
+ 1071 0131 07010000 		.4byte	0x107
+ 1072 0135 08       		.uleb128 0x8
+ 1073 0136 04       		.byte	0x4
+ 1074 0137 09010000 		.4byte	0x109
+ 1075 013b 0C       		.uleb128 0xc
+ 1076 013c 32020000 		.4byte	.LASF31
+ 1077 0140 01       		.byte	0x1
+ 1078 0141 DF       		.byte	0xdf
+ 1079 0142 35010000 		.4byte	0x135
+ 1080 0146 00000000 		.4byte	.LFB129
+ 1081 014a 68000000 		.4byte	.LFE129-.LFB129
+ 1082 014e 01       		.uleb128 0x1
+ 1083 014f 9C       		.byte	0x9c
+ 1084 0150 7F010000 		.4byte	0x17f
+ 1085 0154 0D       		.uleb128 0xd
+ 1086 0155 94030000 		.4byte	.LASF26
+ 1087 0159 01       		.byte	0x1
+ 1088 015a DF       		.byte	0xdf
+ 1089 015b 35010000 		.4byte	0x135
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 34
+
+
+ 1090 015f 02       		.uleb128 0x2
+ 1091 0160 91       		.byte	0x91
+ 1092 0161 74       		.sleb128 -12
+ 1093 0162 0D       		.uleb128 0xd
+ 1094 0163 1F000000 		.4byte	.LASF27
+ 1095 0167 01       		.byte	0x1
+ 1096 0168 DF       		.byte	0xdf
+ 1097 0169 EB000000 		.4byte	0xeb
+ 1098 016d 02       		.uleb128 0x2
+ 1099 016e 91       		.byte	0x91
+ 1100 016f 70       		.sleb128 -16
+ 1101 0170 0D       		.uleb128 0xd
+ 1102 0171 60030000 		.4byte	.LASF28
+ 1103 0175 01       		.byte	0x1
+ 1104 0176 DF       		.byte	0xdf
+ 1105 0177 07010000 		.4byte	0x107
+ 1106 017b 02       		.uleb128 0x2
+ 1107 017c 91       		.byte	0x91
+ 1108 017d 6C       		.sleb128 -20
+ 1109 017e 00       		.byte	0
+ 1110 017f 0E       		.uleb128 0xe
+ 1111 0180 94000000 		.4byte	.LASF29
+ 1112 0184 01       		.byte	0x1
+ 1113 0185 FD       		.byte	0xfd
+ 1114 0186 00000000 		.4byte	.LFB130
+ 1115 018a 1C000000 		.4byte	.LFE130-.LFB130
+ 1116 018e 01       		.uleb128 0x1
+ 1117 018f 9C       		.byte	0x9c
+ 1118 0190 0F       		.uleb128 0xf
+ 1119 0191 26020000 		.4byte	.LASF36
+ 1120 0195 01       		.byte	0x1
+ 1121 0196 0B01     		.2byte	0x10b
+ 1122 0198 00000000 		.4byte	.LFB131
+ 1123 019c 26000000 		.4byte	.LFE131-.LFB131
+ 1124 01a0 01       		.uleb128 0x1
+ 1125 01a1 9C       		.byte	0x9c
+ 1126 01a2 10       		.uleb128 0x10
+ 1127 01a3 F0030000 		.4byte	.LASF30
+ 1128 01a7 01       		.byte	0x1
+ 1129 01a8 2501     		.2byte	0x125
+ 1130 01aa 00000000 		.4byte	.LFB132
+ 1131 01ae 1C000000 		.4byte	.LFE132-.LFB132
+ 1132 01b2 01       		.uleb128 0x1
+ 1133 01b3 9C       		.byte	0x9c
+ 1134 01b4 11       		.uleb128 0x11
+ 1135 01b5 80030000 		.4byte	.LASF32
+ 1136 01b9 01       		.byte	0x1
+ 1137 01ba 3A01     		.2byte	0x13a
+ 1138 01bc 14010000 		.4byte	0x114
+ 1139 01c0 00000000 		.4byte	.LFB133
+ 1140 01c4 D0000000 		.4byte	.LFE133-.LFB133
+ 1141 01c8 01       		.uleb128 0x1
+ 1142 01c9 9C       		.byte	0x9c
+ 1143 01ca 06020000 		.4byte	0x206
+ 1144 01ce 12       		.uleb128 0x12
+ 1145 01cf 06000000 		.4byte	.LBB2
+ 1146 01d3 6C000000 		.4byte	.LBE2-.LBB2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 35
+
+
+ 1147 01d7 13       		.uleb128 0x13
+ 1148 01d8 81000000 		.4byte	.LASF33
+ 1149 01dc 01       		.byte	0x1
+ 1150 01dd 4201     		.2byte	0x142
+ 1151 01df BB000000 		.4byte	0xbb
+ 1152 01e3 02       		.uleb128 0x2
+ 1153 01e4 91       		.byte	0x91
+ 1154 01e5 70       		.sleb128 -16
+ 1155 01e6 13       		.uleb128 0x13
+ 1156 01e7 FF000000 		.4byte	.LASF34
+ 1157 01eb 01       		.byte	0x1
+ 1158 01ec 4301     		.2byte	0x143
+ 1159 01ee 0C020000 		.4byte	0x20c
+ 1160 01f2 02       		.uleb128 0x2
+ 1161 01f3 91       		.byte	0x91
+ 1162 01f4 74       		.sleb128 -12
+ 1163 01f5 13       		.uleb128 0x13
+ 1164 01f6 A5000000 		.4byte	.LASF35
+ 1165 01fa 01       		.byte	0x1
+ 1166 01fb 4401     		.2byte	0x144
+ 1167 01fd C0000000 		.4byte	0xc0
+ 1168 0201 02       		.uleb128 0x2
+ 1169 0202 91       		.byte	0x91
+ 1170 0203 6F       		.sleb128 -17
+ 1171 0204 00       		.byte	0
+ 1172 0205 00       		.byte	0
+ 1173 0206 08       		.uleb128 0x8
+ 1174 0207 04       		.byte	0x4
+ 1175 0208 C0000000 		.4byte	0xc0
+ 1176 020c 06       		.uleb128 0x6
+ 1177 020d 06020000 		.4byte	0x206
+ 1178 0211 0F       		.uleb128 0xf
+ 1179 0212 26000000 		.4byte	.LASF37
+ 1180 0216 01       		.byte	0x1
+ 1181 0217 8B01     		.2byte	0x18b
+ 1182 0219 00000000 		.4byte	.LFB134
+ 1183 021d 20000000 		.4byte	.LFE134-.LFB134
+ 1184 0221 01       		.uleb128 0x1
+ 1185 0222 9C       		.byte	0x9c
+ 1186 0223 0F       		.uleb128 0xf
+ 1187 0224 1E040000 		.4byte	.LASF38
+ 1188 0228 01       		.byte	0x1
+ 1189 0229 9301     		.2byte	0x193
+ 1190 022b 00000000 		.4byte	.LFB135
+ 1191 022f 38000000 		.4byte	.LFE135-.LFB135
+ 1192 0233 01       		.uleb128 0x1
+ 1193 0234 9C       		.byte	0x9c
+ 1194 0235 0F       		.uleb128 0xf
+ 1195 0236 C1030000 		.4byte	.LASF39
+ 1196 023a 01       		.byte	0x1
+ 1197 023b A401     		.2byte	0x1a4
+ 1198 023d 00000000 		.4byte	.LFB136
+ 1199 0241 34000000 		.4byte	.LFE136-.LFB136
+ 1200 0245 01       		.uleb128 0x1
+ 1201 0246 9C       		.byte	0x9c
+ 1202 0247 0F       		.uleb128 0xf
+ 1203 0248 DC030000 		.4byte	.LASF40
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 36
+
+
+ 1204 024c 01       		.byte	0x1
+ 1205 024d AF01     		.2byte	0x1af
+ 1206 024f 00000000 		.4byte	.LFB137
+ 1207 0253 66000000 		.4byte	.LFE137-.LFB137
+ 1208 0257 01       		.uleb128 0x1
+ 1209 0258 9C       		.byte	0x9c
+ 1210 0259 14       		.uleb128 0x14
+ 1211 025a 45000000 		.4byte	.LASF41
+ 1212 025e 01       		.byte	0x1
+ 1213 025f E801     		.2byte	0x1e8
+ 1214 0261 00000000 		.4byte	.LFB138
+ 1215 0265 24000000 		.4byte	.LFE138-.LFB138
+ 1216 0269 01       		.uleb128 0x1
+ 1217 026a 9C       		.byte	0x9c
+ 1218 026b 0F       		.uleb128 0xf
+ 1219 026c B3020000 		.4byte	.LASF42
+ 1220 0270 01       		.byte	0x1
+ 1221 0271 9A02     		.2byte	0x29a
+ 1222 0273 00000000 		.4byte	.LFB139
+ 1223 0277 38000000 		.4byte	.LFE139-.LFB139
+ 1224 027b 01       		.uleb128 0x1
+ 1225 027c 9C       		.byte	0x9c
+ 1226 027d 10       		.uleb128 0x10
+ 1227 027e 5E000000 		.4byte	.LASF43
+ 1228 0282 01       		.byte	0x1
+ 1229 0283 AC02     		.2byte	0x2ac
+ 1230 0285 00000000 		.4byte	.LFB140
+ 1231 0289 10000000 		.4byte	.LFE140-.LFB140
+ 1232 028d 01       		.uleb128 0x1
+ 1233 028e 9C       		.byte	0x9c
+ 1234 028f 15       		.uleb128 0x15
+ 1235 0290 6E020000 		.4byte	.LASF46
+ 1236 0294 01       		.byte	0x1
+ 1237 0295 BE02     		.2byte	0x2be
+ 1238 0297 00000000 		.4byte	.LFB141
+ 1239 029b 5C000000 		.4byte	.LFE141-.LFB141
+ 1240 029f 01       		.uleb128 0x1
+ 1241 02a0 9C       		.byte	0x9c
+ 1242 02a1 C4020000 		.4byte	0x2c4
+ 1243 02a5 13       		.uleb128 0x13
+ 1244 02a6 6D030000 		.4byte	.LASF44
+ 1245 02aa 01       		.byte	0x1
+ 1246 02ab C002     		.2byte	0x2c0
+ 1247 02ad A9000000 		.4byte	0xa9
+ 1248 02b1 02       		.uleb128 0x2
+ 1249 02b2 91       		.byte	0x91
+ 1250 02b3 74       		.sleb128 -12
+ 1251 02b4 13       		.uleb128 0x13
+ 1252 02b5 1C010000 		.4byte	.LASF45
+ 1253 02b9 01       		.byte	0x1
+ 1254 02ba C102     		.2byte	0x2c1
+ 1255 02bc 93000000 		.4byte	0x93
+ 1256 02c0 02       		.uleb128 0x2
+ 1257 02c1 91       		.byte	0x91
+ 1258 02c2 73       		.sleb128 -13
+ 1259 02c3 00       		.byte	0
+ 1260 02c4 16       		.uleb128 0x16
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 37
+
+
+ 1261 02c5 38040000 		.4byte	.LASF47
+ 1262 02c9 01       		.byte	0x1
+ 1263 02ca 0503     		.2byte	0x305
+ 1264 02cc 00000000 		.4byte	.LFB142
+ 1265 02d0 1C000000 		.4byte	.LFE142-.LFB142
+ 1266 02d4 01       		.uleb128 0x1
+ 1267 02d5 9C       		.byte	0x9c
+ 1268 02d6 F9020000 		.4byte	0x2f9
+ 1269 02da 17       		.uleb128 0x17
+ 1270 02db 00000000 		.4byte	.LASF48
+ 1271 02df 01       		.byte	0x1
+ 1272 02e0 0503     		.2byte	0x305
+ 1273 02e2 2A010000 		.4byte	0x12a
+ 1274 02e6 02       		.uleb128 0x2
+ 1275 02e7 91       		.byte	0x91
+ 1276 02e8 74       		.sleb128 -12
+ 1277 02e9 17       		.uleb128 0x17
+ 1278 02ea A1030000 		.4byte	.LASF49
+ 1279 02ee 01       		.byte	0x1
+ 1280 02ef 0503     		.2byte	0x305
+ 1281 02f1 F9020000 		.4byte	0x2f9
+ 1282 02f5 02       		.uleb128 0x2
+ 1283 02f6 91       		.byte	0x91
+ 1284 02f7 70       		.sleb128 -16
+ 1285 02f8 00       		.byte	0
+ 1286 02f9 08       		.uleb128 0x8
+ 1287 02fa 04       		.byte	0x4
+ 1288 02fb 41000000 		.4byte	0x41
+ 1289 02ff 18       		.uleb128 0x18
+ 1290 0300 A1020000 		.4byte	.LASF50
+ 1291 0304 01       		.byte	0x1
+ 1292 0305 97       		.byte	0x97
+ 1293 0306 1F010000 		.4byte	0x11f
+ 1294 030a 05       		.uleb128 0x5
+ 1295 030b 03       		.byte	0x3
+ 1296 030c 00000000 		.4byte	uxCriticalNesting
+ 1297 0310 18       		.uleb128 0x18
+ 1298 0311 AC030000 		.4byte	.LASF51
+ 1299 0315 01       		.byte	0x1
+ 1300 0316 D5       		.byte	0xd5
+ 1301 0317 93000000 		.4byte	0x93
+ 1302 031b 05       		.uleb128 0x5
+ 1303 031c 03       		.byte	0x3
+ 1304 031d 00000000 		.4byte	ucMaxSysCallPriority
+ 1305 0321 18       		.uleb128 0x18
+ 1306 0322 EC000000 		.4byte	.LASF52
+ 1307 0326 01       		.byte	0x1
+ 1308 0327 D6       		.byte	0xd6
+ 1309 0328 A9000000 		.4byte	0xa9
+ 1310 032c 05       		.uleb128 0x5
+ 1311 032d 03       		.byte	0x3
+ 1312 032e 04000000 		.4byte	ulMaxPRIGROUPValue
+ 1313 0332 18       		.uleb128 0x18
+ 1314 0333 E3020000 		.4byte	.LASF53
+ 1315 0337 01       		.byte	0x1
+ 1316 0338 D7       		.byte	0xd7
+ 1317 0339 49030000 		.4byte	0x349
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 38
+
+
+ 1318 033d 05       		.uleb128 0x5
+ 1319 033e 03       		.byte	0x3
+ 1320 033f 00000000 		.4byte	pcInterruptPriorityRegisters
+ 1321 0343 08       		.uleb128 0x8
+ 1322 0344 04       		.byte	0x4
+ 1323 0345 C5000000 		.4byte	0xc5
+ 1324 0349 06       		.uleb128 0x6
+ 1325 034a 43030000 		.4byte	0x343
+ 1326 034e 19       		.uleb128 0x19
+ 1327 034f 48020000 		.4byte	.LASF54
+ 1328 0353 08       		.byte	0x8
+ 1329 0354 EA07     		.2byte	0x7ea
+ 1330 0356 5A030000 		.4byte	0x35a
+ 1331 035a 05       		.uleb128 0x5
+ 1332 035b 9E000000 		.4byte	0x9e
+ 1333 035f 19       		.uleb128 0x19
+ 1334 0360 06000000 		.4byte	.LASF55
+ 1335 0364 09       		.byte	0x9
+ 1336 0365 0D02     		.2byte	0x20d
+ 1337 0367 A9000000 		.4byte	0xa9
+ 1338 036b 00       		.byte	0
+ 1339              		.section	.debug_abbrev,"",%progbits
+ 1340              	.Ldebug_abbrev0:
+ 1341 0000 01       		.uleb128 0x1
+ 1342 0001 11       		.uleb128 0x11
+ 1343 0002 01       		.byte	0x1
+ 1344 0003 25       		.uleb128 0x25
+ 1345 0004 0E       		.uleb128 0xe
+ 1346 0005 13       		.uleb128 0x13
+ 1347 0006 0B       		.uleb128 0xb
+ 1348 0007 03       		.uleb128 0x3
+ 1349 0008 0E       		.uleb128 0xe
+ 1350 0009 1B       		.uleb128 0x1b
+ 1351 000a 0E       		.uleb128 0xe
+ 1352 000b 55       		.uleb128 0x55
+ 1353 000c 17       		.uleb128 0x17
+ 1354 000d 11       		.uleb128 0x11
+ 1355 000e 01       		.uleb128 0x1
+ 1356 000f 10       		.uleb128 0x10
+ 1357 0010 17       		.uleb128 0x17
+ 1358 0011 00       		.byte	0
+ 1359 0012 00       		.byte	0
+ 1360 0013 02       		.uleb128 0x2
+ 1361 0014 24       		.uleb128 0x24
+ 1362 0015 00       		.byte	0
+ 1363 0016 0B       		.uleb128 0xb
+ 1364 0017 0B       		.uleb128 0xb
+ 1365 0018 3E       		.uleb128 0x3e
+ 1366 0019 0B       		.uleb128 0xb
+ 1367 001a 03       		.uleb128 0x3
+ 1368 001b 08       		.uleb128 0x8
+ 1369 001c 00       		.byte	0
+ 1370 001d 00       		.byte	0
+ 1371 001e 03       		.uleb128 0x3
+ 1372 001f 24       		.uleb128 0x24
+ 1373 0020 00       		.byte	0
+ 1374 0021 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 39
+
+
+ 1375 0022 0B       		.uleb128 0xb
+ 1376 0023 3E       		.uleb128 0x3e
+ 1377 0024 0B       		.uleb128 0xb
+ 1378 0025 03       		.uleb128 0x3
+ 1379 0026 0E       		.uleb128 0xe
+ 1380 0027 00       		.byte	0
+ 1381 0028 00       		.byte	0
+ 1382 0029 04       		.uleb128 0x4
+ 1383 002a 16       		.uleb128 0x16
+ 1384 002b 00       		.byte	0
+ 1385 002c 03       		.uleb128 0x3
+ 1386 002d 0E       		.uleb128 0xe
+ 1387 002e 3A       		.uleb128 0x3a
+ 1388 002f 0B       		.uleb128 0xb
+ 1389 0030 3B       		.uleb128 0x3b
+ 1390 0031 0B       		.uleb128 0xb
+ 1391 0032 49       		.uleb128 0x49
+ 1392 0033 13       		.uleb128 0x13
+ 1393 0034 00       		.byte	0
+ 1394 0035 00       		.byte	0
+ 1395 0036 05       		.uleb128 0x5
+ 1396 0037 35       		.uleb128 0x35
+ 1397 0038 00       		.byte	0
+ 1398 0039 49       		.uleb128 0x49
+ 1399 003a 13       		.uleb128 0x13
+ 1400 003b 00       		.byte	0
+ 1401 003c 00       		.byte	0
+ 1402 003d 06       		.uleb128 0x6
+ 1403 003e 26       		.uleb128 0x26
+ 1404 003f 00       		.byte	0
+ 1405 0040 49       		.uleb128 0x49
+ 1406 0041 13       		.uleb128 0x13
+ 1407 0042 00       		.byte	0
+ 1408 0043 00       		.byte	0
+ 1409 0044 07       		.uleb128 0x7
+ 1410 0045 16       		.uleb128 0x16
+ 1411 0046 00       		.byte	0
+ 1412 0047 03       		.uleb128 0x3
+ 1413 0048 0E       		.uleb128 0xe
+ 1414 0049 3A       		.uleb128 0x3a
+ 1415 004a 0B       		.uleb128 0xb
+ 1416 004b 3B       		.uleb128 0x3b
+ 1417 004c 05       		.uleb128 0x5
+ 1418 004d 49       		.uleb128 0x49
+ 1419 004e 13       		.uleb128 0x13
+ 1420 004f 00       		.byte	0
+ 1421 0050 00       		.byte	0
+ 1422 0051 08       		.uleb128 0x8
+ 1423 0052 0F       		.uleb128 0xf
+ 1424 0053 00       		.byte	0
+ 1425 0054 0B       		.uleb128 0xb
+ 1426 0055 0B       		.uleb128 0xb
+ 1427 0056 49       		.uleb128 0x49
+ 1428 0057 13       		.uleb128 0x13
+ 1429 0058 00       		.byte	0
+ 1430 0059 00       		.byte	0
+ 1431 005a 09       		.uleb128 0x9
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 40
+
+
+ 1432 005b 15       		.uleb128 0x15
+ 1433 005c 01       		.byte	0x1
+ 1434 005d 27       		.uleb128 0x27
+ 1435 005e 19       		.uleb128 0x19
+ 1436 005f 01       		.uleb128 0x1
+ 1437 0060 13       		.uleb128 0x13
+ 1438 0061 00       		.byte	0
+ 1439 0062 00       		.byte	0
+ 1440 0063 0A       		.uleb128 0xa
+ 1441 0064 05       		.uleb128 0x5
+ 1442 0065 00       		.byte	0
+ 1443 0066 49       		.uleb128 0x49
+ 1444 0067 13       		.uleb128 0x13
+ 1445 0068 00       		.byte	0
+ 1446 0069 00       		.byte	0
+ 1447 006a 0B       		.uleb128 0xb
+ 1448 006b 0F       		.uleb128 0xf
+ 1449 006c 00       		.byte	0
+ 1450 006d 0B       		.uleb128 0xb
+ 1451 006e 0B       		.uleb128 0xb
+ 1452 006f 00       		.byte	0
+ 1453 0070 00       		.byte	0
+ 1454 0071 0C       		.uleb128 0xc
+ 1455 0072 2E       		.uleb128 0x2e
+ 1456 0073 01       		.byte	0x1
+ 1457 0074 3F       		.uleb128 0x3f
+ 1458 0075 19       		.uleb128 0x19
+ 1459 0076 03       		.uleb128 0x3
+ 1460 0077 0E       		.uleb128 0xe
+ 1461 0078 3A       		.uleb128 0x3a
+ 1462 0079 0B       		.uleb128 0xb
+ 1463 007a 3B       		.uleb128 0x3b
+ 1464 007b 0B       		.uleb128 0xb
+ 1465 007c 27       		.uleb128 0x27
+ 1466 007d 19       		.uleb128 0x19
+ 1467 007e 49       		.uleb128 0x49
+ 1468 007f 13       		.uleb128 0x13
+ 1469 0080 11       		.uleb128 0x11
+ 1470 0081 01       		.uleb128 0x1
+ 1471 0082 12       		.uleb128 0x12
+ 1472 0083 06       		.uleb128 0x6
+ 1473 0084 40       		.uleb128 0x40
+ 1474 0085 18       		.uleb128 0x18
+ 1475 0086 9742     		.uleb128 0x2117
+ 1476 0088 19       		.uleb128 0x19
+ 1477 0089 01       		.uleb128 0x1
+ 1478 008a 13       		.uleb128 0x13
+ 1479 008b 00       		.byte	0
+ 1480 008c 00       		.byte	0
+ 1481 008d 0D       		.uleb128 0xd
+ 1482 008e 05       		.uleb128 0x5
+ 1483 008f 00       		.byte	0
+ 1484 0090 03       		.uleb128 0x3
+ 1485 0091 0E       		.uleb128 0xe
+ 1486 0092 3A       		.uleb128 0x3a
+ 1487 0093 0B       		.uleb128 0xb
+ 1488 0094 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 41
+
+
+ 1489 0095 0B       		.uleb128 0xb
+ 1490 0096 49       		.uleb128 0x49
+ 1491 0097 13       		.uleb128 0x13
+ 1492 0098 02       		.uleb128 0x2
+ 1493 0099 18       		.uleb128 0x18
+ 1494 009a 00       		.byte	0
+ 1495 009b 00       		.byte	0
+ 1496 009c 0E       		.uleb128 0xe
+ 1497 009d 2E       		.uleb128 0x2e
+ 1498 009e 00       		.byte	0
+ 1499 009f 03       		.uleb128 0x3
+ 1500 00a0 0E       		.uleb128 0xe
+ 1501 00a1 3A       		.uleb128 0x3a
+ 1502 00a2 0B       		.uleb128 0xb
+ 1503 00a3 3B       		.uleb128 0x3b
+ 1504 00a4 0B       		.uleb128 0xb
+ 1505 00a5 27       		.uleb128 0x27
+ 1506 00a6 19       		.uleb128 0x19
+ 1507 00a7 11       		.uleb128 0x11
+ 1508 00a8 01       		.uleb128 0x1
+ 1509 00a9 12       		.uleb128 0x12
+ 1510 00aa 06       		.uleb128 0x6
+ 1511 00ab 40       		.uleb128 0x40
+ 1512 00ac 18       		.uleb128 0x18
+ 1513 00ad 9742     		.uleb128 0x2117
+ 1514 00af 19       		.uleb128 0x19
+ 1515 00b0 00       		.byte	0
+ 1516 00b1 00       		.byte	0
+ 1517 00b2 0F       		.uleb128 0xf
+ 1518 00b3 2E       		.uleb128 0x2e
+ 1519 00b4 00       		.byte	0
+ 1520 00b5 3F       		.uleb128 0x3f
+ 1521 00b6 19       		.uleb128 0x19
+ 1522 00b7 03       		.uleb128 0x3
+ 1523 00b8 0E       		.uleb128 0xe
+ 1524 00b9 3A       		.uleb128 0x3a
+ 1525 00ba 0B       		.uleb128 0xb
+ 1526 00bb 3B       		.uleb128 0x3b
+ 1527 00bc 05       		.uleb128 0x5
+ 1528 00bd 27       		.uleb128 0x27
+ 1529 00be 19       		.uleb128 0x19
+ 1530 00bf 11       		.uleb128 0x11
+ 1531 00c0 01       		.uleb128 0x1
+ 1532 00c1 12       		.uleb128 0x12
+ 1533 00c2 06       		.uleb128 0x6
+ 1534 00c3 40       		.uleb128 0x40
+ 1535 00c4 18       		.uleb128 0x18
+ 1536 00c5 9742     		.uleb128 0x2117
+ 1537 00c7 19       		.uleb128 0x19
+ 1538 00c8 00       		.byte	0
+ 1539 00c9 00       		.byte	0
+ 1540 00ca 10       		.uleb128 0x10
+ 1541 00cb 2E       		.uleb128 0x2e
+ 1542 00cc 00       		.byte	0
+ 1543 00cd 03       		.uleb128 0x3
+ 1544 00ce 0E       		.uleb128 0xe
+ 1545 00cf 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 42
+
+
+ 1546 00d0 0B       		.uleb128 0xb
+ 1547 00d1 3B       		.uleb128 0x3b
+ 1548 00d2 05       		.uleb128 0x5
+ 1549 00d3 27       		.uleb128 0x27
+ 1550 00d4 19       		.uleb128 0x19
+ 1551 00d5 11       		.uleb128 0x11
+ 1552 00d6 01       		.uleb128 0x1
+ 1553 00d7 12       		.uleb128 0x12
+ 1554 00d8 06       		.uleb128 0x6
+ 1555 00d9 40       		.uleb128 0x40
+ 1556 00da 18       		.uleb128 0x18
+ 1557 00db 9742     		.uleb128 0x2117
+ 1558 00dd 19       		.uleb128 0x19
+ 1559 00de 00       		.byte	0
+ 1560 00df 00       		.byte	0
+ 1561 00e0 11       		.uleb128 0x11
+ 1562 00e1 2E       		.uleb128 0x2e
+ 1563 00e2 01       		.byte	0x1
+ 1564 00e3 3F       		.uleb128 0x3f
+ 1565 00e4 19       		.uleb128 0x19
+ 1566 00e5 03       		.uleb128 0x3
+ 1567 00e6 0E       		.uleb128 0xe
+ 1568 00e7 3A       		.uleb128 0x3a
+ 1569 00e8 0B       		.uleb128 0xb
+ 1570 00e9 3B       		.uleb128 0x3b
+ 1571 00ea 05       		.uleb128 0x5
+ 1572 00eb 27       		.uleb128 0x27
+ 1573 00ec 19       		.uleb128 0x19
+ 1574 00ed 49       		.uleb128 0x49
+ 1575 00ee 13       		.uleb128 0x13
+ 1576 00ef 11       		.uleb128 0x11
+ 1577 00f0 01       		.uleb128 0x1
+ 1578 00f1 12       		.uleb128 0x12
+ 1579 00f2 06       		.uleb128 0x6
+ 1580 00f3 40       		.uleb128 0x40
+ 1581 00f4 18       		.uleb128 0x18
+ 1582 00f5 9642     		.uleb128 0x2116
+ 1583 00f7 19       		.uleb128 0x19
+ 1584 00f8 01       		.uleb128 0x1
+ 1585 00f9 13       		.uleb128 0x13
+ 1586 00fa 00       		.byte	0
+ 1587 00fb 00       		.byte	0
+ 1588 00fc 12       		.uleb128 0x12
+ 1589 00fd 0B       		.uleb128 0xb
+ 1590 00fe 01       		.byte	0x1
+ 1591 00ff 11       		.uleb128 0x11
+ 1592 0100 01       		.uleb128 0x1
+ 1593 0101 12       		.uleb128 0x12
+ 1594 0102 06       		.uleb128 0x6
+ 1595 0103 00       		.byte	0
+ 1596 0104 00       		.byte	0
+ 1597 0105 13       		.uleb128 0x13
+ 1598 0106 34       		.uleb128 0x34
+ 1599 0107 00       		.byte	0
+ 1600 0108 03       		.uleb128 0x3
+ 1601 0109 0E       		.uleb128 0xe
+ 1602 010a 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 43
+
+
+ 1603 010b 0B       		.uleb128 0xb
+ 1604 010c 3B       		.uleb128 0x3b
+ 1605 010d 05       		.uleb128 0x5
+ 1606 010e 49       		.uleb128 0x49
+ 1607 010f 13       		.uleb128 0x13
+ 1608 0110 02       		.uleb128 0x2
+ 1609 0111 18       		.uleb128 0x18
+ 1610 0112 00       		.byte	0
+ 1611 0113 00       		.byte	0
+ 1612 0114 14       		.uleb128 0x14
+ 1613 0115 2E       		.uleb128 0x2e
+ 1614 0116 00       		.byte	0
+ 1615 0117 3F       		.uleb128 0x3f
+ 1616 0118 19       		.uleb128 0x19
+ 1617 0119 03       		.uleb128 0x3
+ 1618 011a 0E       		.uleb128 0xe
+ 1619 011b 3A       		.uleb128 0x3a
+ 1620 011c 0B       		.uleb128 0xb
+ 1621 011d 3B       		.uleb128 0x3b
+ 1622 011e 05       		.uleb128 0x5
+ 1623 011f 27       		.uleb128 0x27
+ 1624 0120 19       		.uleb128 0x19
+ 1625 0121 11       		.uleb128 0x11
+ 1626 0122 01       		.uleb128 0x1
+ 1627 0123 12       		.uleb128 0x12
+ 1628 0124 06       		.uleb128 0x6
+ 1629 0125 40       		.uleb128 0x40
+ 1630 0126 18       		.uleb128 0x18
+ 1631 0127 9642     		.uleb128 0x2116
+ 1632 0129 19       		.uleb128 0x19
+ 1633 012a 00       		.byte	0
+ 1634 012b 00       		.byte	0
+ 1635 012c 15       		.uleb128 0x15
+ 1636 012d 2E       		.uleb128 0x2e
+ 1637 012e 01       		.byte	0x1
+ 1638 012f 3F       		.uleb128 0x3f
+ 1639 0130 19       		.uleb128 0x19
+ 1640 0131 03       		.uleb128 0x3
+ 1641 0132 0E       		.uleb128 0xe
+ 1642 0133 3A       		.uleb128 0x3a
+ 1643 0134 0B       		.uleb128 0xb
+ 1644 0135 3B       		.uleb128 0x3b
+ 1645 0136 05       		.uleb128 0x5
+ 1646 0137 27       		.uleb128 0x27
+ 1647 0138 19       		.uleb128 0x19
+ 1648 0139 11       		.uleb128 0x11
+ 1649 013a 01       		.uleb128 0x1
+ 1650 013b 12       		.uleb128 0x12
+ 1651 013c 06       		.uleb128 0x6
+ 1652 013d 40       		.uleb128 0x40
+ 1653 013e 18       		.uleb128 0x18
+ 1654 013f 9742     		.uleb128 0x2117
+ 1655 0141 19       		.uleb128 0x19
+ 1656 0142 01       		.uleb128 0x1
+ 1657 0143 13       		.uleb128 0x13
+ 1658 0144 00       		.byte	0
+ 1659 0145 00       		.byte	0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 44
+
+
+ 1660 0146 16       		.uleb128 0x16
+ 1661 0147 2E       		.uleb128 0x2e
+ 1662 0148 01       		.byte	0x1
+ 1663 0149 3F       		.uleb128 0x3f
+ 1664 014a 19       		.uleb128 0x19
+ 1665 014b 03       		.uleb128 0x3
+ 1666 014c 0E       		.uleb128 0xe
+ 1667 014d 3A       		.uleb128 0x3a
+ 1668 014e 0B       		.uleb128 0xb
+ 1669 014f 3B       		.uleb128 0x3b
+ 1670 0150 05       		.uleb128 0x5
+ 1671 0151 27       		.uleb128 0x27
+ 1672 0152 19       		.uleb128 0x19
+ 1673 0153 11       		.uleb128 0x11
+ 1674 0154 01       		.uleb128 0x1
+ 1675 0155 12       		.uleb128 0x12
+ 1676 0156 06       		.uleb128 0x6
+ 1677 0157 40       		.uleb128 0x40
+ 1678 0158 18       		.uleb128 0x18
+ 1679 0159 9642     		.uleb128 0x2116
+ 1680 015b 19       		.uleb128 0x19
+ 1681 015c 01       		.uleb128 0x1
+ 1682 015d 13       		.uleb128 0x13
+ 1683 015e 00       		.byte	0
+ 1684 015f 00       		.byte	0
+ 1685 0160 17       		.uleb128 0x17
+ 1686 0161 05       		.uleb128 0x5
+ 1687 0162 00       		.byte	0
+ 1688 0163 03       		.uleb128 0x3
+ 1689 0164 0E       		.uleb128 0xe
+ 1690 0165 3A       		.uleb128 0x3a
+ 1691 0166 0B       		.uleb128 0xb
+ 1692 0167 3B       		.uleb128 0x3b
+ 1693 0168 05       		.uleb128 0x5
+ 1694 0169 49       		.uleb128 0x49
+ 1695 016a 13       		.uleb128 0x13
+ 1696 016b 02       		.uleb128 0x2
+ 1697 016c 18       		.uleb128 0x18
+ 1698 016d 00       		.byte	0
+ 1699 016e 00       		.byte	0
+ 1700 016f 18       		.uleb128 0x18
+ 1701 0170 34       		.uleb128 0x34
+ 1702 0171 00       		.byte	0
+ 1703 0172 03       		.uleb128 0x3
+ 1704 0173 0E       		.uleb128 0xe
+ 1705 0174 3A       		.uleb128 0x3a
+ 1706 0175 0B       		.uleb128 0xb
+ 1707 0176 3B       		.uleb128 0x3b
+ 1708 0177 0B       		.uleb128 0xb
+ 1709 0178 49       		.uleb128 0x49
+ 1710 0179 13       		.uleb128 0x13
+ 1711 017a 02       		.uleb128 0x2
+ 1712 017b 18       		.uleb128 0x18
+ 1713 017c 00       		.byte	0
+ 1714 017d 00       		.byte	0
+ 1715 017e 19       		.uleb128 0x19
+ 1716 017f 34       		.uleb128 0x34
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 45
+
+
+ 1717 0180 00       		.byte	0
+ 1718 0181 03       		.uleb128 0x3
+ 1719 0182 0E       		.uleb128 0xe
+ 1720 0183 3A       		.uleb128 0x3a
+ 1721 0184 0B       		.uleb128 0xb
+ 1722 0185 3B       		.uleb128 0x3b
+ 1723 0186 05       		.uleb128 0x5
+ 1724 0187 49       		.uleb128 0x49
+ 1725 0188 13       		.uleb128 0x13
+ 1726 0189 3F       		.uleb128 0x3f
+ 1727 018a 19       		.uleb128 0x19
+ 1728 018b 3C       		.uleb128 0x3c
+ 1729 018c 19       		.uleb128 0x19
+ 1730 018d 00       		.byte	0
+ 1731 018e 00       		.byte	0
+ 1732 018f 00       		.byte	0
+ 1733              		.section	.debug_aranges,"",%progbits
+ 1734 0000 84000000 		.4byte	0x84
+ 1735 0004 0200     		.2byte	0x2
+ 1736 0006 00000000 		.4byte	.Ldebug_info0
+ 1737 000a 04       		.byte	0x4
+ 1738 000b 00       		.byte	0
+ 1739 000c 0000     		.2byte	0
+ 1740 000e 0000     		.2byte	0
+ 1741 0010 00000000 		.4byte	.LFB129
+ 1742 0014 68000000 		.4byte	.LFE129-.LFB129
+ 1743 0018 00000000 		.4byte	.LFB130
+ 1744 001c 1C000000 		.4byte	.LFE130-.LFB130
+ 1745 0020 00000000 		.4byte	.LFB131
+ 1746 0024 26000000 		.4byte	.LFE131-.LFB131
+ 1747 0028 00000000 		.4byte	.LFB132
+ 1748 002c 1C000000 		.4byte	.LFE132-.LFB132
+ 1749 0030 00000000 		.4byte	.LFB133
+ 1750 0034 D0000000 		.4byte	.LFE133-.LFB133
+ 1751 0038 00000000 		.4byte	.LFB134
+ 1752 003c 20000000 		.4byte	.LFE134-.LFB134
+ 1753 0040 00000000 		.4byte	.LFB135
+ 1754 0044 38000000 		.4byte	.LFE135-.LFB135
+ 1755 0048 00000000 		.4byte	.LFB136
+ 1756 004c 34000000 		.4byte	.LFE136-.LFB136
+ 1757 0050 00000000 		.4byte	.LFB137
+ 1758 0054 66000000 		.4byte	.LFE137-.LFB137
+ 1759 0058 00000000 		.4byte	.LFB138
+ 1760 005c 24000000 		.4byte	.LFE138-.LFB138
+ 1761 0060 00000000 		.4byte	.LFB139
+ 1762 0064 38000000 		.4byte	.LFE139-.LFB139
+ 1763 0068 00000000 		.4byte	.LFB140
+ 1764 006c 10000000 		.4byte	.LFE140-.LFB140
+ 1765 0070 00000000 		.4byte	.LFB141
+ 1766 0074 5C000000 		.4byte	.LFE141-.LFB141
+ 1767 0078 00000000 		.4byte	.LFB142
+ 1768 007c 1C000000 		.4byte	.LFE142-.LFB142
+ 1769 0080 00000000 		.4byte	0
+ 1770 0084 00000000 		.4byte	0
+ 1771              		.section	.debug_ranges,"",%progbits
+ 1772              	.Ldebug_ranges0:
+ 1773 0000 00000000 		.4byte	.LFB129
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 46
+
+
+ 1774 0004 68000000 		.4byte	.LFE129
+ 1775 0008 00000000 		.4byte	.LFB130
+ 1776 000c 1C000000 		.4byte	.LFE130
+ 1777 0010 00000000 		.4byte	.LFB131
+ 1778 0014 26000000 		.4byte	.LFE131
+ 1779 0018 00000000 		.4byte	.LFB132
+ 1780 001c 1C000000 		.4byte	.LFE132
+ 1781 0020 00000000 		.4byte	.LFB133
+ 1782 0024 D0000000 		.4byte	.LFE133
+ 1783 0028 00000000 		.4byte	.LFB134
+ 1784 002c 20000000 		.4byte	.LFE134
+ 1785 0030 00000000 		.4byte	.LFB135
+ 1786 0034 38000000 		.4byte	.LFE135
+ 1787 0038 00000000 		.4byte	.LFB136
+ 1788 003c 34000000 		.4byte	.LFE136
+ 1789 0040 00000000 		.4byte	.LFB137
+ 1790 0044 66000000 		.4byte	.LFE137
+ 1791 0048 00000000 		.4byte	.LFB138
+ 1792 004c 24000000 		.4byte	.LFE138
+ 1793 0050 00000000 		.4byte	.LFB139
+ 1794 0054 38000000 		.4byte	.LFE139
+ 1795 0058 00000000 		.4byte	.LFB140
+ 1796 005c 10000000 		.4byte	.LFE140
+ 1797 0060 00000000 		.4byte	.LFB141
+ 1798 0064 5C000000 		.4byte	.LFE141
+ 1799 0068 00000000 		.4byte	.LFB142
+ 1800 006c 1C000000 		.4byte	.LFE142
+ 1801 0070 00000000 		.4byte	0
+ 1802 0074 00000000 		.4byte	0
+ 1803              		.section	.debug_line,"",%progbits
+ 1804              	.Ldebug_line0:
+ 1805 0000 D2030000 		.section	.debug_str,"MS",%progbits,1
+ 1805      02005702 
+ 1805      00000201 
+ 1805      FB0E0D00 
+ 1805      01010101 
+ 1806              	.LASF48:
+ 1807 0000 78546173 		.ascii	"xTask\000"
+ 1807      6B00
+ 1808              	.LASF55:
+ 1809 0006 63795F64 		.ascii	"cy_delayFreqHz\000"
+ 1809      656C6179 
+ 1809      46726571 
+ 1809      487A00
+ 1810              	.LASF7:
+ 1811 0015 5F5F7569 		.ascii	"__uint8_t\000"
+ 1811      6E74385F 
+ 1811      7400
+ 1812              	.LASF27:
+ 1813 001f 7078436F 		.ascii	"pxCode\000"
+ 1813      646500
+ 1814              	.LASF37:
+ 1815 0026 76506F72 		.ascii	"vPortEndScheduler\000"
+ 1815      74456E64 
+ 1815      53636865 
+ 1815      64756C65 
+ 1815      7200
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 47
+
+
+ 1816              	.LASF25:
+ 1817 0038 5461736B 		.ascii	"TaskHandle_t\000"
+ 1817      48616E64 
+ 1817      6C655F74 
+ 1817      00
+ 1818              	.LASF41:
+ 1819 0045 53797354 		.ascii	"SysTick_Handler\000"
+ 1819      69636B5F 
+ 1819      48616E64 
+ 1819      6C657200 
+ 1820              	.LASF9:
+ 1821 0055 6C6F6E67 		.ascii	"long int\000"
+ 1821      20696E74 
+ 1821      00
+ 1822              	.LASF43:
+ 1823 005e 76506F72 		.ascii	"vPortEnableVFP\000"
+ 1823      74456E61 
+ 1823      626C6556 
+ 1823      465000
+ 1824              	.LASF8:
+ 1825 006d 5F5F696E 		.ascii	"__int32_t\000"
+ 1825      7433325F 
+ 1825      7400
+ 1826              	.LASF5:
+ 1827 0077 73686F72 		.ascii	"short int\000"
+ 1827      7420696E 
+ 1827      7400
+ 1828              	.LASF33:
+ 1829 0081 756C4F72 		.ascii	"ulOriginalPriority\000"
+ 1829      6967696E 
+ 1829      616C5072 
+ 1829      696F7269 
+ 1829      747900
+ 1830              	.LASF29:
+ 1831 0094 70727654 		.ascii	"prvTaskExitError\000"
+ 1831      61736B45 
+ 1831      78697445 
+ 1831      72726F72 
+ 1831      00
+ 1832              	.LASF35:
+ 1833 00a5 75634D61 		.ascii	"ucMaxPriorityValue\000"
+ 1833      78507269 
+ 1833      6F726974 
+ 1833      7956616C 
+ 1833      756500
+ 1834              	.LASF14:
+ 1835 00b8 696E7433 		.ascii	"int32_t\000"
+ 1835      325F7400 
+ 1836              	.LASF21:
+ 1837 00c0 5461736B 		.ascii	"TaskFunction_t\000"
+ 1837      46756E63 
+ 1837      74696F6E 
+ 1837      5F7400
+ 1838              	.LASF19:
+ 1839 00cf 666C6F61 		.ascii	"float\000"
+ 1839      7400
+ 1840              	.LASF12:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 48
+
+
+ 1841 00d5 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1841      206C6F6E 
+ 1841      6720756E 
+ 1841      7369676E 
+ 1841      65642069 
+ 1842              	.LASF52:
+ 1843 00ec 756C4D61 		.ascii	"ulMaxPRIGROUPValue\000"
+ 1843      78505249 
+ 1843      47524F55 
+ 1843      5056616C 
+ 1843      756500
+ 1844              	.LASF34:
+ 1845 00ff 70756346 		.ascii	"pucFirstUserPriorityRegister\000"
+ 1845      69727374 
+ 1845      55736572 
+ 1845      5072696F 
+ 1845      72697479 
+ 1846              	.LASF45:
+ 1847 011c 75634375 		.ascii	"ucCurrentPriority\000"
+ 1847      7272656E 
+ 1847      74507269 
+ 1847      6F726974 
+ 1847      7900
+ 1848              	.LASF11:
+ 1849 012e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1849      20756E73 
+ 1849      69676E65 
+ 1849      6420696E 
+ 1849      7400
+ 1850              	.LASF6:
+ 1851 0140 73686F72 		.ascii	"short unsigned int\000"
+ 1851      7420756E 
+ 1851      7369676E 
+ 1851      65642069 
+ 1851      6E7400
+ 1852              	.LASF56:
+ 1853 0153 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1853      43313120 
+ 1853      352E342E 
+ 1853      31203230 
+ 1853      31363036 
+ 1854 0186 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m4 -mfloat-abi=s"
+ 1854      20726576 
+ 1854      6973696F 
+ 1854      6E203233 
+ 1854      37373135 
+ 1855 01b9 6F667466 		.ascii	"oftfp -mfpu=fpv4-sp-d16 -mthumb -g -O0 -ffunction-s"
+ 1855      70202D6D 
+ 1855      6670753D 
+ 1855      66707634 
+ 1855      2D73702D 
+ 1856 01ec 65637469 		.ascii	"ections -ffat-lto-objects\000"
+ 1856      6F6E7320 
+ 1856      2D666661 
+ 1856      742D6C74 
+ 1856      6F2D6F62 
+ 1857              	.LASF10:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 49
+
+
+ 1858 0206 5F5F7569 		.ascii	"__uint32_t\000"
+ 1858      6E743332 
+ 1858      5F7400
+ 1859              	.LASF4:
+ 1860 0211 756E7369 		.ascii	"unsigned char\000"
+ 1860      676E6564 
+ 1860      20636861 
+ 1860      7200
+ 1861              	.LASF20:
+ 1862 021f 646F7562 		.ascii	"double\000"
+ 1862      6C6500
+ 1863              	.LASF36:
+ 1864 0226 5356435F 		.ascii	"SVC_Handler\000"
+ 1864      48616E64 
+ 1864      6C657200 
+ 1865              	.LASF31:
+ 1866 0232 7078506F 		.ascii	"pxPortInitialiseStack\000"
+ 1866      7274496E 
+ 1866      69746961 
+ 1866      6C697365 
+ 1866      53746163 
+ 1867              	.LASF54:
+ 1868 0248 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1868      52784275 
+ 1868      66666572 
+ 1868      00
+ 1869              	.LASF22:
+ 1870 0255 53746163 		.ascii	"StackType_t\000"
+ 1870      6B547970 
+ 1870      655F7400 
+ 1871              	.LASF0:
+ 1872 0261 756E7369 		.ascii	"unsigned int\000"
+ 1872      676E6564 
+ 1872      20696E74 
+ 1872      00
+ 1873              	.LASF46:
+ 1874 026e 76506F72 		.ascii	"vPortValidateInterruptPriority\000"
+ 1874      7456616C 
+ 1874      69646174 
+ 1874      65496E74 
+ 1874      65727275 
+ 1875              	.LASF24:
+ 1876 028d 55426173 		.ascii	"UBaseType_t\000"
+ 1876      65547970 
+ 1876      655F7400 
+ 1877              	.LASF13:
+ 1878 0299 75696E74 		.ascii	"uint8_t\000"
+ 1878      385F7400 
+ 1879              	.LASF50:
+ 1880 02a1 75784372 		.ascii	"uxCriticalNesting\000"
+ 1880      69746963 
+ 1880      616C4E65 
+ 1880      7374696E 
+ 1880      6700
+ 1881              	.LASF42:
+ 1882 02b3 76506F72 		.ascii	"vPortSetupTimerInterrupt\000"
+ 1882      74536574 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 50
+
+
+ 1882      75705469 
+ 1882      6D657249 
+ 1882      6E746572 
+ 1883              	.LASF16:
+ 1884 02cc 73697A65 		.ascii	"sizetype\000"
+ 1884      74797065 
+ 1884      00
+ 1885              	.LASF1:
+ 1886 02d5 6C6F6E67 		.ascii	"long long int\000"
+ 1886      206C6F6E 
+ 1886      6720696E 
+ 1886      7400
+ 1887              	.LASF53:
+ 1888 02e3 7063496E 		.ascii	"pcInterruptPriorityRegisters\000"
+ 1888      74657272 
+ 1888      75707450 
+ 1888      72696F72 
+ 1888      69747952 
+ 1889              	.LASF58:
+ 1890 0300 433A5C55 		.ascii	"C:\\Users\\ikomb\\Documents\\PSoC Creator\\CE222221"
+ 1890      73657273 
+ 1890      5C696B6F 
+ 1890      6D625C44 
+ 1890      6F63756D 
+ 1891 032e 5F566F69 		.ascii	"_Voice_Recorder01\\CE222221_Voice_Recorder01.cydsn\000"
+ 1891      63655F52 
+ 1891      65636F72 
+ 1891      64657230 
+ 1891      315C4345 
+ 1892              	.LASF28:
+ 1893 0360 70765061 		.ascii	"pvParameters\000"
+ 1893      72616D65 
+ 1893      74657273 
+ 1893      00
+ 1894              	.LASF44:
+ 1895 036d 756C4375 		.ascii	"ulCurrentInterrupt\000"
+ 1895      7272656E 
+ 1895      74496E74 
+ 1895      65727275 
+ 1895      707400
+ 1896              	.LASF32:
+ 1897 0380 78506F72 		.ascii	"xPortStartScheduler\000"
+ 1897      74537461 
+ 1897      72745363 
+ 1897      68656475 
+ 1897      6C657200 
+ 1898              	.LASF26:
+ 1899 0394 7078546F 		.ascii	"pxTopOfStack\000"
+ 1899      704F6653 
+ 1899      7461636B 
+ 1899      00
+ 1900              	.LASF49:
+ 1901 03a1 70635461 		.ascii	"pcTaskName\000"
+ 1901      736B4E61 
+ 1901      6D6500
+ 1902              	.LASF51:
+ 1903 03ac 75634D61 		.ascii	"ucMaxSysCallPriority\000"
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 51
+
+
+ 1903      78537973 
+ 1903      43616C6C 
+ 1903      5072696F 
+ 1903      72697479 
+ 1904              	.LASF39:
+ 1905 03c1 76506F72 		.ascii	"vPortExitCritical\000"
+ 1905      74457869 
+ 1905      74437269 
+ 1905      74696361 
+ 1905      6C00
+ 1906              	.LASF15:
+ 1907 03d3 75696E74 		.ascii	"uint32_t\000"
+ 1907      33325F74 
+ 1907      00
+ 1908              	.LASF40:
+ 1909 03dc 50656E64 		.ascii	"PendSV_Handler\000"
+ 1909      53565F48 
+ 1909      616E646C 
+ 1909      657200
+ 1910              	.LASF18:
+ 1911 03eb 63686172 		.ascii	"char\000"
+ 1911      00
+ 1912              	.LASF30:
+ 1913 03f0 70727650 		.ascii	"prvPortStartFirstTask\000"
+ 1913      6F727453 
+ 1913      74617274 
+ 1913      46697273 
+ 1913      74546173 
+ 1914              	.LASF2:
+ 1915 0406 6C6F6E67 		.ascii	"long double\000"
+ 1915      20646F75 
+ 1915      626C6500 
+ 1916              	.LASF3:
+ 1917 0412 7369676E 		.ascii	"signed char\000"
+ 1917      65642063 
+ 1917      68617200 
+ 1918              	.LASF38:
+ 1919 041e 76506F72 		.ascii	"vPortEnterCritical\000"
+ 1919      74456E74 
+ 1919      65724372 
+ 1919      69746963 
+ 1919      616C00
+ 1920              	.LASF17:
+ 1921 0431 63686172 		.ascii	"char_t\000"
+ 1921      5F7400
+ 1922              	.LASF47:
+ 1923 0438 76417070 		.ascii	"vApplicationStackOverflowHook\000"
+ 1923      6C696361 
+ 1923      74696F6E 
+ 1923      53746163 
+ 1923      6B4F7665 
+ 1924              	.LASF57:
+ 1925 0456 47656E65 		.ascii	"Generated_Source\\PSoC6\\pdl\\rtos\\FreeRTOS\\9.0.0"
+ 1925      72617465 
+ 1925      645F536F 
+ 1925      75726365 
+ 1925      5C50536F 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cc6bU5sw.s 			page 52
+
+
+ 1926 0484 5C536F75 		.ascii	"\\Source\\portable\\GCC\\CM4F\\port.c\000"
+ 1926      7263655C 
+ 1926      706F7274 
+ 1926      61626C65 
+ 1926      5C474343 
+ 1927              	.LASF23:
+ 1928 04a5 42617365 		.ascii	"BaseType_t\000"
+ 1928      54797065 
+ 1928      5F7400
+ 1929              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

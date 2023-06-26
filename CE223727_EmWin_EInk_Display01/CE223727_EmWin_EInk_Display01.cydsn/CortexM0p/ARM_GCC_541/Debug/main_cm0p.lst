@@ -1,0 +1,1158 @@
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0plus
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main_cm0p.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.main,"ax",%progbits
+  20              		.align	2
+  21              		.global	main
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB453:
+  27              		.file 1 "main_cm0p.c"
+   1:main_cm0p.c   **** /******************************************************************************
+   2:main_cm0p.c   **** * File Name: main_cm0p.c
+   3:main_cm0p.c   **** *
+   4:main_cm0p.c   **** * Version: 1.10
+   5:main_cm0p.c   **** *
+   6:main_cm0p.c   **** * Description: This file main application code for the CE223727 EmWin Graphics
+   7:main_cm0p.c   **** *				library EInk Display, for the CM0+ processor.  The only action
+   8:main_cm0p.c   **** *				this file performs is to start the CM4 processor.
+   9:main_cm0p.c   **** *
+  10:main_cm0p.c   **** * Hardware Dependency: CY8CKIT-028-EPD E-Ink Display Shield
+  11:main_cm0p.c   **** *					   CY8CKIT-062-BLE PSoC6 BLE Pioneer Kit
+  12:main_cm0p.c   **** *
+  13:main_cm0p.c   **** *******************************************************************************
+  14:main_cm0p.c   **** * Copyright (2018), Cypress Semiconductor Corporation. All rights reserved.
+  15:main_cm0p.c   **** *******************************************************************************
+  16:main_cm0p.c   **** * This software, including source code, documentation and related materials
+  17:main_cm0p.c   **** * (“Software”), is owned by Cypress Semiconductor Corporation or one of its
+  18:main_cm0p.c   **** * subsidiaries (“Cypress”) and is protected by and subject to worldwide patent
+  19:main_cm0p.c   **** * protection (United States and foreign), United States copyright laws and
+  20:main_cm0p.c   **** * international treaty provisions. Therefore, you may use this Software only
+  21:main_cm0p.c   **** * as provided in the license agreement accompanying the software package from
+  22:main_cm0p.c   **** * which you obtained this Software (“EULA”).
+  23:main_cm0p.c   **** *
+  24:main_cm0p.c   **** * If no EULA applies, Cypress hereby grants you a personal, nonexclusive,
+  25:main_cm0p.c   **** * non-transferable license to copy, modify, and compile the Software source
+  26:main_cm0p.c   **** * code solely for use in connection with Cypress’s integrated circuit products.
+  27:main_cm0p.c   **** * Any reproduction, modification, translation, compilation, or representation
+  28:main_cm0p.c   **** * of this Software except as specified above is prohibited without the express
+  29:main_cm0p.c   **** * written permission of Cypress.
+  30:main_cm0p.c   **** *
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 2
+
+
+  31:main_cm0p.c   **** * Disclaimer: THIS SOFTWARE IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND, 
+  32:main_cm0p.c   **** * EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT, IMPLIED 
+  33:main_cm0p.c   **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. Cypress 
+  34:main_cm0p.c   **** * reserves the right to make changes to the Software without notice. Cypress 
+  35:main_cm0p.c   **** * does not assume any liability arising out of the application or use of the 
+  36:main_cm0p.c   **** * Software or any product or circuit described in the Software. Cypress does 
+  37:main_cm0p.c   **** * not authorize its products for use in any products where a malfunction or 
+  38:main_cm0p.c   **** * failure of the Cypress product may reasonably be expected to result in 
+  39:main_cm0p.c   **** * significant property damage, injury or death (“High Risk Product”). By 
+  40:main_cm0p.c   **** * including Cypress’s product in a High Risk Product, the manufacturer of such 
+  41:main_cm0p.c   **** * system or application assumes all risk of such use and in doing so agrees to 
+  42:main_cm0p.c   **** * indemnify Cypress against all liability.
+  43:main_cm0p.c   **** *******************************************************************************/
+  44:main_cm0p.c   **** #include "project.h"
+  45:main_cm0p.c   **** 
+  46:main_cm0p.c   **** int main(void)
+  47:main_cm0p.c   **** {
+  28              		.loc 1 47 0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  48:main_cm0p.c   ****     /*__enable_irq(); */ /* Enable global interrupts. */
+  49:main_cm0p.c   ****     
+  50:main_cm0p.c   **** 	/* Enable CM4.  CY_CORTEX_M4_APPL_ADDR must be updated if CM4 memory layout is changed. */
+  51:main_cm0p.c   ****     Cy_SysEnableCM4(CY_CORTEX_M4_APPL_ADDR); 
+  37              		.loc 1 51 0
+  38 0002 0348     		ldr	r0, .L3
+  39 0004 FFF7FEFF 		bl	Cy_SysEnableCM4
+  40              	.LVL0:
+  41              	.L2:
+  52:main_cm0p.c   **** 
+  53:main_cm0p.c   ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  54:main_cm0p.c   **** 
+  55:main_cm0p.c   ****     for(;;)
+  56:main_cm0p.c   ****     {
+  57:main_cm0p.c   ****         /* Place your application code here. */
+  58:main_cm0p.c   **** 		Cy_SysPm_DeepSleep(CY_SYSPM_WAIT_FOR_INTERRUPT);
+  42              		.loc 1 58 0 discriminator 1
+  43 0008 0020     		movs	r0, #0
+  44 000a FFF7FEFF 		bl	Cy_SysPm_DeepSleep
+  45              	.LVL1:
+  46 000e FBE7     		b	.L2
+  47              	.L4:
+  48              		.align	2
+  49              	.L3:
+  50 0010 00000810 		.word	268959744
+  51              		.cfi_endproc
+  52              	.LFE453:
+  53              		.size	main, .-main
+  54              		.text
+  55              	.Letext0:
+  56              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 3
+
+
+  57              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  58              		.file 4 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/tcpwm/cy_tcpwm_counter.h"
+  59              		.file 5 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/scb/cy_scb_spi.h"
+  60              		.file 6 "Generated_Source\\PSoC6/CY_EINK_SPIM.h"
+  61              		.file 7 "Generated_Source\\PSoC6/CY_EINK_Timer.h"
+  62              		.file 8 "./system_psoc63.h"
+  63              		.file 9 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/syspm/cy_syspm.h"
+  64              		.section	.debug_info,"",%progbits
+  65              	.Ldebug_info0:
+  66 0000 E4020000 		.4byte	0x2e4
+  67 0004 0400     		.2byte	0x4
+  68 0006 00000000 		.4byte	.Ldebug_abbrev0
+  69 000a 04       		.byte	0x4
+  70 000b 01       		.uleb128 0x1
+  71 000c 29030000 		.4byte	.LASF56
+  72 0010 0C       		.byte	0xc
+  73 0011 61010000 		.4byte	.LASF57
+  74 0015 17020000 		.4byte	.LASF58
+  75 0019 00000000 		.4byte	.Ldebug_ranges0+0
+  76 001d 00000000 		.4byte	0
+  77 0021 00000000 		.4byte	.Ldebug_line0
+  78 0025 02       		.uleb128 0x2
+  79 0026 02       		.byte	0x2
+  80 0027 05       		.byte	0x5
+  81 0028 CE020000 		.4byte	.LASF0
+  82 002c 02       		.uleb128 0x2
+  83 002d 01       		.byte	0x1
+  84 002e 08       		.byte	0x8
+  85 002f 0E010000 		.4byte	.LASF1
+  86 0033 02       		.uleb128 0x2
+  87 0034 01       		.byte	0x1
+  88 0035 06       		.byte	0x6
+  89 0036 BB030000 		.4byte	.LASF2
+  90 003a 02       		.uleb128 0x2
+  91 003b 02       		.byte	0x2
+  92 003c 07       		.byte	0x7
+  93 003d 4E010000 		.4byte	.LASF3
+  94 0041 02       		.uleb128 0x2
+  95 0042 04       		.byte	0x4
+  96 0043 05       		.byte	0x5
+  97 0044 FC020000 		.4byte	.LASF4
+  98 0048 03       		.uleb128 0x3
+  99 0049 31010000 		.4byte	.LASF9
+ 100 004d 02       		.byte	0x2
+ 101 004e 41       		.byte	0x41
+ 102 004f 53000000 		.4byte	0x53
+ 103 0053 02       		.uleb128 0x2
+ 104 0054 04       		.byte	0x4
+ 105 0055 07       		.byte	0x7
+ 106 0056 3C010000 		.4byte	.LASF5
+ 107 005a 02       		.uleb128 0x2
+ 108 005b 08       		.byte	0x8
+ 109 005c 05       		.byte	0x5
+ 110 005d 91020000 		.4byte	.LASF6
+ 111 0061 02       		.uleb128 0x2
+ 112 0062 08       		.byte	0x8
+ 113 0063 07       		.byte	0x7
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 4
+
+
+ 114 0064 F7000000 		.4byte	.LASF7
+ 115 0068 04       		.uleb128 0x4
+ 116 0069 04       		.byte	0x4
+ 117 006a 05       		.byte	0x5
+ 118 006b 696E7400 		.ascii	"int\000"
+ 119 006f 02       		.uleb128 0x2
+ 120 0070 04       		.byte	0x4
+ 121 0071 07       		.byte	0x7
+ 122 0072 D7010000 		.4byte	.LASF8
+ 123 0076 03       		.uleb128 0x3
+ 124 0077 F3020000 		.4byte	.LASF10
+ 125 007b 03       		.byte	0x3
+ 126 007c 30       		.byte	0x30
+ 127 007d 48000000 		.4byte	0x48
+ 128 0081 02       		.uleb128 0x2
+ 129 0082 04       		.byte	0x4
+ 130 0083 07       		.byte	0x7
+ 131 0084 88020000 		.4byte	.LASF11
+ 132 0088 05       		.uleb128 0x5
+ 133 0089 76000000 		.4byte	0x76
+ 134 008d 02       		.uleb128 0x2
+ 135 008e 08       		.byte	0x8
+ 136 008f 04       		.byte	0x4
+ 137 0090 1D030000 		.4byte	.LASF12
+ 138 0094 02       		.uleb128 0x2
+ 139 0095 01       		.byte	0x1
+ 140 0096 08       		.byte	0x8
+ 141 0097 9F020000 		.4byte	.LASF13
+ 142 009b 02       		.uleb128 0x2
+ 143 009c 04       		.byte	0x4
+ 144 009d 04       		.byte	0x4
+ 145 009e DF000000 		.4byte	.LASF14
+ 146 00a2 02       		.uleb128 0x2
+ 147 00a3 08       		.byte	0x8
+ 148 00a4 04       		.byte	0x4
+ 149 00a5 9B010000 		.4byte	.LASF15
+ 150 00a9 06       		.uleb128 0x6
+ 151 00aa 01       		.byte	0x1
+ 152 00ab 2C000000 		.4byte	0x2c
+ 153 00af 09       		.byte	0x9
+ 154 00b0 A503     		.2byte	0x3a5
+ 155 00b2 C3000000 		.4byte	0xc3
+ 156 00b6 07       		.uleb128 0x7
+ 157 00b7 78000000 		.4byte	.LASF16
+ 158 00bb 00       		.byte	0
+ 159 00bc 07       		.uleb128 0x7
+ 160 00bd 05030000 		.4byte	.LASF17
+ 161 00c1 01       		.byte	0x1
+ 162 00c2 00       		.byte	0
+ 163 00c3 08       		.uleb128 0x8
+ 164 00c4 04       		.byte	0x4
+ 165 00c5 02       		.uleb128 0x2
+ 166 00c6 01       		.byte	0x1
+ 167 00c7 02       		.byte	0x2
+ 168 00c8 F8030000 		.4byte	.LASF18
+ 169 00cc 09       		.uleb128 0x9
+ 170 00cd DC030000 		.4byte	.LASF40
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 5
+
+
+ 171 00d1 4C       		.byte	0x4c
+ 172 00d2 04       		.byte	0x4
+ 173 00d3 2B       		.byte	0x2b
+ 174 00d4 BD010000 		.4byte	0x1bd
+ 175 00d8 0A       		.uleb128 0xa
+ 176 00d9 08020000 		.4byte	.LASF19
+ 177 00dd 04       		.byte	0x4
+ 178 00de 2D       		.byte	0x2d
+ 179 00df 76000000 		.4byte	0x76
+ 180 00e3 00       		.byte	0
+ 181 00e4 0A       		.uleb128 0xa
+ 182 00e5 A6000000 		.4byte	.LASF20
+ 183 00e9 04       		.byte	0x4
+ 184 00ea 2F       		.byte	0x2f
+ 185 00eb 76000000 		.4byte	0x76
+ 186 00ef 04       		.byte	0x4
+ 187 00f0 0A       		.uleb128 0xa
+ 188 00f1 C4010000 		.4byte	.LASF21
+ 189 00f5 04       		.byte	0x4
+ 190 00f6 30       		.byte	0x30
+ 191 00f7 76000000 		.4byte	0x76
+ 192 00fb 08       		.byte	0x8
+ 193 00fc 0A       		.uleb128 0xa
+ 194 00fd E4020000 		.4byte	.LASF22
+ 195 0101 04       		.byte	0x4
+ 196 0102 31       		.byte	0x31
+ 197 0103 76000000 		.4byte	0x76
+ 198 0107 0C       		.byte	0xc
+ 199 0108 0A       		.uleb128 0xa
+ 200 0109 2E000000 		.4byte	.LASF23
+ 201 010d 04       		.byte	0x4
+ 202 010e 33       		.byte	0x33
+ 203 010f 76000000 		.4byte	0x76
+ 204 0113 10       		.byte	0x10
+ 205 0114 0A       		.uleb128 0xa
+ 206 0115 94000000 		.4byte	.LASF24
+ 207 0119 04       		.byte	0x4
+ 208 011a 34       		.byte	0x34
+ 209 011b 76000000 		.4byte	0x76
+ 210 011f 14       		.byte	0x14
+ 211 0120 0A       		.uleb128 0xa
+ 212 0121 9D000000 		.4byte	.LASF25
+ 213 0125 04       		.byte	0x4
+ 214 0126 35       		.byte	0x35
+ 215 0127 76000000 		.4byte	0x76
+ 216 012b 18       		.byte	0x18
+ 217 012c 0A       		.uleb128 0xa
+ 218 012d E5000000 		.4byte	.LASF26
+ 219 0131 04       		.byte	0x4
+ 220 0132 36       		.byte	0x36
+ 221 0133 C5000000 		.4byte	0xc5
+ 222 0137 1C       		.byte	0x1c
+ 223 0138 0A       		.uleb128 0xa
+ 224 0139 49000000 		.4byte	.LASF27
+ 225 013d 04       		.byte	0x4
+ 226 013e 38       		.byte	0x38
+ 227 013f 76000000 		.4byte	0x76
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 6
+
+
+ 228 0143 20       		.byte	0x20
+ 229 0144 0A       		.uleb128 0xa
+ 230 0145 A4020000 		.4byte	.LASF28
+ 231 0149 04       		.byte	0x4
+ 232 014a 39       		.byte	0x39
+ 233 014b 76000000 		.4byte	0x76
+ 234 014f 24       		.byte	0x24
+ 235 0150 0A       		.uleb128 0xa
+ 236 0151 21000000 		.4byte	.LASF29
+ 237 0155 04       		.byte	0x4
+ 238 0156 3B       		.byte	0x3b
+ 239 0157 76000000 		.4byte	0x76
+ 240 015b 28       		.byte	0x28
+ 241 015c 0A       		.uleb128 0xa
+ 242 015d B5020000 		.4byte	.LASF30
+ 243 0161 04       		.byte	0x4
+ 244 0162 3C       		.byte	0x3c
+ 245 0163 76000000 		.4byte	0x76
+ 246 0167 2C       		.byte	0x2c
+ 247 0168 0A       		.uleb128 0xa
+ 248 0169 D8020000 		.4byte	.LASF31
+ 249 016d 04       		.byte	0x4
+ 250 016e 3E       		.byte	0x3e
+ 251 016f 76000000 		.4byte	0x76
+ 252 0173 30       		.byte	0x30
+ 253 0174 0A       		.uleb128 0xa
+ 254 0175 69000000 		.4byte	.LASF32
+ 255 0179 04       		.byte	0x4
+ 256 017a 3F       		.byte	0x3f
+ 257 017b 76000000 		.4byte	0x76
+ 258 017f 34       		.byte	0x34
+ 259 0180 0A       		.uleb128 0xa
+ 260 0181 86010000 		.4byte	.LASF33
+ 261 0185 04       		.byte	0x4
+ 262 0186 41       		.byte	0x41
+ 263 0187 76000000 		.4byte	0x76
+ 264 018b 38       		.byte	0x38
+ 265 018c 0A       		.uleb128 0xa
+ 266 018d 00000000 		.4byte	.LASF34
+ 267 0191 04       		.byte	0x4
+ 268 0192 42       		.byte	0x42
+ 269 0193 76000000 		.4byte	0x76
+ 270 0197 3C       		.byte	0x3c
+ 271 0198 0A       		.uleb128 0xa
+ 272 0199 BC000000 		.4byte	.LASF35
+ 273 019d 04       		.byte	0x4
+ 274 019e 44       		.byte	0x44
+ 275 019f 76000000 		.4byte	0x76
+ 276 01a3 40       		.byte	0x40
+ 277 01a4 0A       		.uleb128 0xa
+ 278 01a5 5A000000 		.4byte	.LASF36
+ 279 01a9 04       		.byte	0x4
+ 280 01aa 45       		.byte	0x45
+ 281 01ab 76000000 		.4byte	0x76
+ 282 01af 44       		.byte	0x44
+ 283 01b0 0A       		.uleb128 0xa
+ 284 01b1 CC010000 		.4byte	.LASF37
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 7
+
+
+ 285 01b5 04       		.byte	0x4
+ 286 01b6 47       		.byte	0x47
+ 287 01b7 76000000 		.4byte	0x76
+ 288 01bb 48       		.byte	0x48
+ 289 01bc 00       		.byte	0
+ 290 01bd 03       		.uleb128 0x3
+ 291 01be FE030000 		.4byte	.LASF38
+ 292 01c2 04       		.byte	0x4
+ 293 01c3 48       		.byte	0x48
+ 294 01c4 CC000000 		.4byte	0xcc
+ 295 01c8 0B       		.uleb128 0xb
+ 296 01c9 04       		.byte	0x4
+ 297 01ca CE010000 		.4byte	0x1ce
+ 298 01ce 0C       		.uleb128 0xc
+ 299 01cf D9010000 		.4byte	0x1d9
+ 300 01d3 0D       		.uleb128 0xd
+ 301 01d4 76000000 		.4byte	0x76
+ 302 01d8 00       		.byte	0
+ 303 01d9 0E       		.uleb128 0xe
+ 304 01da E4010000 		.4byte	.LASF39
+ 305 01de 05       		.byte	0x5
+ 306 01df BF01     		.2byte	0x1bf
+ 307 01e1 C8010000 		.4byte	0x1c8
+ 308 01e5 0F       		.uleb128 0xf
+ 309 01e6 AD010000 		.4byte	.LASF41
+ 310 01ea 24       		.byte	0x24
+ 311 01eb 05       		.byte	0x5
+ 312 01ec 4102     		.2byte	0x241
+ 313 01ee 68020000 		.4byte	0x268
+ 314 01f2 10       		.uleb128 0x10
+ 315 01f3 B5000000 		.4byte	.LASF42
+ 316 01f7 05       		.byte	0x5
+ 317 01f8 4402     		.2byte	0x244
+ 318 01fa 88000000 		.4byte	0x88
+ 319 01fe 00       		.byte	0
+ 320 01ff 10       		.uleb128 0x10
+ 321 0200 A2010000 		.4byte	.LASF43
+ 322 0204 05       		.byte	0x5
+ 323 0205 4602     		.2byte	0x246
+ 324 0207 C3000000 		.4byte	0xc3
+ 325 020b 04       		.byte	0x4
+ 326 020c 10       		.uleb128 0x10
+ 327 020d 3F000000 		.4byte	.LASF44
+ 328 0211 05       		.byte	0x5
+ 329 0212 4702     		.2byte	0x247
+ 330 0214 76000000 		.4byte	0x76
+ 331 0218 08       		.byte	0x8
+ 332 0219 10       		.uleb128 0x10
+ 333 021a 7F020000 		.4byte	.LASF45
+ 334 021e 05       		.byte	0x5
+ 335 021f 4802     		.2byte	0x248
+ 336 0221 88000000 		.4byte	0x88
+ 337 0225 0C       		.byte	0xc
+ 338 0226 10       		.uleb128 0x10
+ 339 0227 02020000 		.4byte	.LASF46
+ 340 022b 05       		.byte	0x5
+ 341 022c 4A02     		.2byte	0x24a
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 8
+
+
+ 342 022e C3000000 		.4byte	0xc3
+ 343 0232 10       		.byte	0x10
+ 344 0233 10       		.uleb128 0x10
+ 345 0234 91010000 		.4byte	.LASF47
+ 346 0238 05       		.byte	0x5
+ 347 0239 4B02     		.2byte	0x24b
+ 348 023b 76000000 		.4byte	0x76
+ 349 023f 14       		.byte	0x14
+ 350 0240 10       		.uleb128 0x10
+ 351 0241 C6000000 		.4byte	.LASF48
+ 352 0245 05       		.byte	0x5
+ 353 0246 4C02     		.2byte	0x24c
+ 354 0248 88000000 		.4byte	0x88
+ 355 024c 18       		.byte	0x18
+ 356 024d 10       		.uleb128 0x10
+ 357 024e C5020000 		.4byte	.LASF49
+ 358 0252 05       		.byte	0x5
+ 359 0253 5202     		.2byte	0x252
+ 360 0255 D9010000 		.4byte	0x1d9
+ 361 0259 1C       		.byte	0x1c
+ 362 025a 10       		.uleb128 0x10
+ 363 025b 0F020000 		.4byte	.LASF50
+ 364 025f 05       		.byte	0x5
+ 365 0260 5502     		.2byte	0x255
+ 366 0262 76000000 		.4byte	0x76
+ 367 0266 20       		.byte	0x20
+ 368 0267 00       		.byte	0
+ 369 0268 0E       		.uleb128 0xe
+ 370 0269 6D010000 		.4byte	.LASF51
+ 371 026d 05       		.byte	0x5
+ 372 026e 5802     		.2byte	0x258
+ 373 0270 E5010000 		.4byte	0x1e5
+ 374 0274 11       		.uleb128 0x11
+ 375 0275 A8010000 		.4byte	.LASF59
+ 376 0279 01       		.byte	0x1
+ 377 027a 2E       		.byte	0x2e
+ 378 027b 68000000 		.4byte	0x68
+ 379 027f 00000000 		.4byte	.LFB453
+ 380 0283 14000000 		.4byte	.LFE453-.LFB453
+ 381 0287 01       		.uleb128 0x1
+ 382 0288 9C       		.byte	0x9c
+ 383 0289 B4020000 		.4byte	0x2b4
+ 384 028d 12       		.uleb128 0x12
+ 385 028e 08000000 		.4byte	.LVL0
+ 386 0292 CF020000 		.4byte	0x2cf
+ 387 0296 A4020000 		.4byte	0x2a4
+ 388 029a 13       		.uleb128 0x13
+ 389 029b 01       		.uleb128 0x1
+ 390 029c 50       		.byte	0x50
+ 391 029d 05       		.uleb128 0x5
+ 392 029e 0C       		.byte	0xc
+ 393 029f 00000810 		.4byte	0x10080000
+ 394 02a3 00       		.byte	0
+ 395 02a4 14       		.uleb128 0x14
+ 396 02a5 0E000000 		.4byte	.LVL1
+ 397 02a9 DB020000 		.4byte	0x2db
+ 398 02ad 13       		.uleb128 0x13
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 9
+
+
+ 399 02ae 01       		.uleb128 0x1
+ 400 02af 50       		.byte	0x50
+ 401 02b0 01       		.uleb128 0x1
+ 402 02b1 30       		.byte	0x30
+ 403 02b2 00       		.byte	0
+ 404 02b3 00       		.byte	0
+ 405 02b4 15       		.uleb128 0x15
+ 406 02b5 1C010000 		.4byte	.LASF52
+ 407 02b9 06       		.byte	0x6
+ 408 02ba 5E       		.byte	0x5e
+ 409 02bb 68020000 		.4byte	0x268
+ 410 02bf 15       		.uleb128 0x15
+ 411 02c0 C7030000 		.4byte	.LASF53
+ 412 02c4 07       		.byte	0x7
+ 413 02c5 1F       		.byte	0x1f
+ 414 02c6 CA020000 		.4byte	0x2ca
+ 415 02ca 16       		.uleb128 0x16
+ 416 02cb BD010000 		.4byte	0x1bd
+ 417 02cf 17       		.uleb128 0x17
+ 418 02d0 CF000000 		.4byte	.LASF54
+ 419 02d4 CF000000 		.4byte	.LASF54
+ 420 02d8 08       		.byte	0x8
+ 421 02d9 FE01     		.2byte	0x1fe
+ 422 02db 17       		.uleb128 0x17
+ 423 02dc 0E000000 		.4byte	.LASF55
+ 424 02e0 0E000000 		.4byte	.LASF55
+ 425 02e4 09       		.byte	0x9
+ 426 02e5 C404     		.2byte	0x4c4
+ 427 02e7 00       		.byte	0
+ 428              		.section	.debug_abbrev,"",%progbits
+ 429              	.Ldebug_abbrev0:
+ 430 0000 01       		.uleb128 0x1
+ 431 0001 11       		.uleb128 0x11
+ 432 0002 01       		.byte	0x1
+ 433 0003 25       		.uleb128 0x25
+ 434 0004 0E       		.uleb128 0xe
+ 435 0005 13       		.uleb128 0x13
+ 436 0006 0B       		.uleb128 0xb
+ 437 0007 03       		.uleb128 0x3
+ 438 0008 0E       		.uleb128 0xe
+ 439 0009 1B       		.uleb128 0x1b
+ 440 000a 0E       		.uleb128 0xe
+ 441 000b 55       		.uleb128 0x55
+ 442 000c 17       		.uleb128 0x17
+ 443 000d 11       		.uleb128 0x11
+ 444 000e 01       		.uleb128 0x1
+ 445 000f 10       		.uleb128 0x10
+ 446 0010 17       		.uleb128 0x17
+ 447 0011 00       		.byte	0
+ 448 0012 00       		.byte	0
+ 449 0013 02       		.uleb128 0x2
+ 450 0014 24       		.uleb128 0x24
+ 451 0015 00       		.byte	0
+ 452 0016 0B       		.uleb128 0xb
+ 453 0017 0B       		.uleb128 0xb
+ 454 0018 3E       		.uleb128 0x3e
+ 455 0019 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 10
+
+
+ 456 001a 03       		.uleb128 0x3
+ 457 001b 0E       		.uleb128 0xe
+ 458 001c 00       		.byte	0
+ 459 001d 00       		.byte	0
+ 460 001e 03       		.uleb128 0x3
+ 461 001f 16       		.uleb128 0x16
+ 462 0020 00       		.byte	0
+ 463 0021 03       		.uleb128 0x3
+ 464 0022 0E       		.uleb128 0xe
+ 465 0023 3A       		.uleb128 0x3a
+ 466 0024 0B       		.uleb128 0xb
+ 467 0025 3B       		.uleb128 0x3b
+ 468 0026 0B       		.uleb128 0xb
+ 469 0027 49       		.uleb128 0x49
+ 470 0028 13       		.uleb128 0x13
+ 471 0029 00       		.byte	0
+ 472 002a 00       		.byte	0
+ 473 002b 04       		.uleb128 0x4
+ 474 002c 24       		.uleb128 0x24
+ 475 002d 00       		.byte	0
+ 476 002e 0B       		.uleb128 0xb
+ 477 002f 0B       		.uleb128 0xb
+ 478 0030 3E       		.uleb128 0x3e
+ 479 0031 0B       		.uleb128 0xb
+ 480 0032 03       		.uleb128 0x3
+ 481 0033 08       		.uleb128 0x8
+ 482 0034 00       		.byte	0
+ 483 0035 00       		.byte	0
+ 484 0036 05       		.uleb128 0x5
+ 485 0037 35       		.uleb128 0x35
+ 486 0038 00       		.byte	0
+ 487 0039 49       		.uleb128 0x49
+ 488 003a 13       		.uleb128 0x13
+ 489 003b 00       		.byte	0
+ 490 003c 00       		.byte	0
+ 491 003d 06       		.uleb128 0x6
+ 492 003e 04       		.uleb128 0x4
+ 493 003f 01       		.byte	0x1
+ 494 0040 0B       		.uleb128 0xb
+ 495 0041 0B       		.uleb128 0xb
+ 496 0042 49       		.uleb128 0x49
+ 497 0043 13       		.uleb128 0x13
+ 498 0044 3A       		.uleb128 0x3a
+ 499 0045 0B       		.uleb128 0xb
+ 500 0046 3B       		.uleb128 0x3b
+ 501 0047 05       		.uleb128 0x5
+ 502 0048 01       		.uleb128 0x1
+ 503 0049 13       		.uleb128 0x13
+ 504 004a 00       		.byte	0
+ 505 004b 00       		.byte	0
+ 506 004c 07       		.uleb128 0x7
+ 507 004d 28       		.uleb128 0x28
+ 508 004e 00       		.byte	0
+ 509 004f 03       		.uleb128 0x3
+ 510 0050 0E       		.uleb128 0xe
+ 511 0051 1C       		.uleb128 0x1c
+ 512 0052 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 11
+
+
+ 513 0053 00       		.byte	0
+ 514 0054 00       		.byte	0
+ 515 0055 08       		.uleb128 0x8
+ 516 0056 0F       		.uleb128 0xf
+ 517 0057 00       		.byte	0
+ 518 0058 0B       		.uleb128 0xb
+ 519 0059 0B       		.uleb128 0xb
+ 520 005a 00       		.byte	0
+ 521 005b 00       		.byte	0
+ 522 005c 09       		.uleb128 0x9
+ 523 005d 13       		.uleb128 0x13
+ 524 005e 01       		.byte	0x1
+ 525 005f 03       		.uleb128 0x3
+ 526 0060 0E       		.uleb128 0xe
+ 527 0061 0B       		.uleb128 0xb
+ 528 0062 0B       		.uleb128 0xb
+ 529 0063 3A       		.uleb128 0x3a
+ 530 0064 0B       		.uleb128 0xb
+ 531 0065 3B       		.uleb128 0x3b
+ 532 0066 0B       		.uleb128 0xb
+ 533 0067 01       		.uleb128 0x1
+ 534 0068 13       		.uleb128 0x13
+ 535 0069 00       		.byte	0
+ 536 006a 00       		.byte	0
+ 537 006b 0A       		.uleb128 0xa
+ 538 006c 0D       		.uleb128 0xd
+ 539 006d 00       		.byte	0
+ 540 006e 03       		.uleb128 0x3
+ 541 006f 0E       		.uleb128 0xe
+ 542 0070 3A       		.uleb128 0x3a
+ 543 0071 0B       		.uleb128 0xb
+ 544 0072 3B       		.uleb128 0x3b
+ 545 0073 0B       		.uleb128 0xb
+ 546 0074 49       		.uleb128 0x49
+ 547 0075 13       		.uleb128 0x13
+ 548 0076 38       		.uleb128 0x38
+ 549 0077 0B       		.uleb128 0xb
+ 550 0078 00       		.byte	0
+ 551 0079 00       		.byte	0
+ 552 007a 0B       		.uleb128 0xb
+ 553 007b 0F       		.uleb128 0xf
+ 554 007c 00       		.byte	0
+ 555 007d 0B       		.uleb128 0xb
+ 556 007e 0B       		.uleb128 0xb
+ 557 007f 49       		.uleb128 0x49
+ 558 0080 13       		.uleb128 0x13
+ 559 0081 00       		.byte	0
+ 560 0082 00       		.byte	0
+ 561 0083 0C       		.uleb128 0xc
+ 562 0084 15       		.uleb128 0x15
+ 563 0085 01       		.byte	0x1
+ 564 0086 27       		.uleb128 0x27
+ 565 0087 19       		.uleb128 0x19
+ 566 0088 01       		.uleb128 0x1
+ 567 0089 13       		.uleb128 0x13
+ 568 008a 00       		.byte	0
+ 569 008b 00       		.byte	0
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 12
+
+
+ 570 008c 0D       		.uleb128 0xd
+ 571 008d 05       		.uleb128 0x5
+ 572 008e 00       		.byte	0
+ 573 008f 49       		.uleb128 0x49
+ 574 0090 13       		.uleb128 0x13
+ 575 0091 00       		.byte	0
+ 576 0092 00       		.byte	0
+ 577 0093 0E       		.uleb128 0xe
+ 578 0094 16       		.uleb128 0x16
+ 579 0095 00       		.byte	0
+ 580 0096 03       		.uleb128 0x3
+ 581 0097 0E       		.uleb128 0xe
+ 582 0098 3A       		.uleb128 0x3a
+ 583 0099 0B       		.uleb128 0xb
+ 584 009a 3B       		.uleb128 0x3b
+ 585 009b 05       		.uleb128 0x5
+ 586 009c 49       		.uleb128 0x49
+ 587 009d 13       		.uleb128 0x13
+ 588 009e 00       		.byte	0
+ 589 009f 00       		.byte	0
+ 590 00a0 0F       		.uleb128 0xf
+ 591 00a1 13       		.uleb128 0x13
+ 592 00a2 01       		.byte	0x1
+ 593 00a3 03       		.uleb128 0x3
+ 594 00a4 0E       		.uleb128 0xe
+ 595 00a5 0B       		.uleb128 0xb
+ 596 00a6 0B       		.uleb128 0xb
+ 597 00a7 3A       		.uleb128 0x3a
+ 598 00a8 0B       		.uleb128 0xb
+ 599 00a9 3B       		.uleb128 0x3b
+ 600 00aa 05       		.uleb128 0x5
+ 601 00ab 01       		.uleb128 0x1
+ 602 00ac 13       		.uleb128 0x13
+ 603 00ad 00       		.byte	0
+ 604 00ae 00       		.byte	0
+ 605 00af 10       		.uleb128 0x10
+ 606 00b0 0D       		.uleb128 0xd
+ 607 00b1 00       		.byte	0
+ 608 00b2 03       		.uleb128 0x3
+ 609 00b3 0E       		.uleb128 0xe
+ 610 00b4 3A       		.uleb128 0x3a
+ 611 00b5 0B       		.uleb128 0xb
+ 612 00b6 3B       		.uleb128 0x3b
+ 613 00b7 05       		.uleb128 0x5
+ 614 00b8 49       		.uleb128 0x49
+ 615 00b9 13       		.uleb128 0x13
+ 616 00ba 38       		.uleb128 0x38
+ 617 00bb 0B       		.uleb128 0xb
+ 618 00bc 00       		.byte	0
+ 619 00bd 00       		.byte	0
+ 620 00be 11       		.uleb128 0x11
+ 621 00bf 2E       		.uleb128 0x2e
+ 622 00c0 01       		.byte	0x1
+ 623 00c1 3F       		.uleb128 0x3f
+ 624 00c2 19       		.uleb128 0x19
+ 625 00c3 03       		.uleb128 0x3
+ 626 00c4 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 13
+
+
+ 627 00c5 3A       		.uleb128 0x3a
+ 628 00c6 0B       		.uleb128 0xb
+ 629 00c7 3B       		.uleb128 0x3b
+ 630 00c8 0B       		.uleb128 0xb
+ 631 00c9 27       		.uleb128 0x27
+ 632 00ca 19       		.uleb128 0x19
+ 633 00cb 49       		.uleb128 0x49
+ 634 00cc 13       		.uleb128 0x13
+ 635 00cd 8701     		.uleb128 0x87
+ 636 00cf 19       		.uleb128 0x19
+ 637 00d0 11       		.uleb128 0x11
+ 638 00d1 01       		.uleb128 0x1
+ 639 00d2 12       		.uleb128 0x12
+ 640 00d3 06       		.uleb128 0x6
+ 641 00d4 40       		.uleb128 0x40
+ 642 00d5 18       		.uleb128 0x18
+ 643 00d6 9742     		.uleb128 0x2117
+ 644 00d8 19       		.uleb128 0x19
+ 645 00d9 01       		.uleb128 0x1
+ 646 00da 13       		.uleb128 0x13
+ 647 00db 00       		.byte	0
+ 648 00dc 00       		.byte	0
+ 649 00dd 12       		.uleb128 0x12
+ 650 00de 898201   		.uleb128 0x4109
+ 651 00e1 01       		.byte	0x1
+ 652 00e2 11       		.uleb128 0x11
+ 653 00e3 01       		.uleb128 0x1
+ 654 00e4 31       		.uleb128 0x31
+ 655 00e5 13       		.uleb128 0x13
+ 656 00e6 01       		.uleb128 0x1
+ 657 00e7 13       		.uleb128 0x13
+ 658 00e8 00       		.byte	0
+ 659 00e9 00       		.byte	0
+ 660 00ea 13       		.uleb128 0x13
+ 661 00eb 8A8201   		.uleb128 0x410a
+ 662 00ee 00       		.byte	0
+ 663 00ef 02       		.uleb128 0x2
+ 664 00f0 18       		.uleb128 0x18
+ 665 00f1 9142     		.uleb128 0x2111
+ 666 00f3 18       		.uleb128 0x18
+ 667 00f4 00       		.byte	0
+ 668 00f5 00       		.byte	0
+ 669 00f6 14       		.uleb128 0x14
+ 670 00f7 898201   		.uleb128 0x4109
+ 671 00fa 01       		.byte	0x1
+ 672 00fb 11       		.uleb128 0x11
+ 673 00fc 01       		.uleb128 0x1
+ 674 00fd 31       		.uleb128 0x31
+ 675 00fe 13       		.uleb128 0x13
+ 676 00ff 00       		.byte	0
+ 677 0100 00       		.byte	0
+ 678 0101 15       		.uleb128 0x15
+ 679 0102 34       		.uleb128 0x34
+ 680 0103 00       		.byte	0
+ 681 0104 03       		.uleb128 0x3
+ 682 0105 0E       		.uleb128 0xe
+ 683 0106 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 14
+
+
+ 684 0107 0B       		.uleb128 0xb
+ 685 0108 3B       		.uleb128 0x3b
+ 686 0109 0B       		.uleb128 0xb
+ 687 010a 49       		.uleb128 0x49
+ 688 010b 13       		.uleb128 0x13
+ 689 010c 3F       		.uleb128 0x3f
+ 690 010d 19       		.uleb128 0x19
+ 691 010e 3C       		.uleb128 0x3c
+ 692 010f 19       		.uleb128 0x19
+ 693 0110 00       		.byte	0
+ 694 0111 00       		.byte	0
+ 695 0112 16       		.uleb128 0x16
+ 696 0113 26       		.uleb128 0x26
+ 697 0114 00       		.byte	0
+ 698 0115 49       		.uleb128 0x49
+ 699 0116 13       		.uleb128 0x13
+ 700 0117 00       		.byte	0
+ 701 0118 00       		.byte	0
+ 702 0119 17       		.uleb128 0x17
+ 703 011a 2E       		.uleb128 0x2e
+ 704 011b 00       		.byte	0
+ 705 011c 3F       		.uleb128 0x3f
+ 706 011d 19       		.uleb128 0x19
+ 707 011e 3C       		.uleb128 0x3c
+ 708 011f 19       		.uleb128 0x19
+ 709 0120 6E       		.uleb128 0x6e
+ 710 0121 0E       		.uleb128 0xe
+ 711 0122 03       		.uleb128 0x3
+ 712 0123 0E       		.uleb128 0xe
+ 713 0124 3A       		.uleb128 0x3a
+ 714 0125 0B       		.uleb128 0xb
+ 715 0126 3B       		.uleb128 0x3b
+ 716 0127 05       		.uleb128 0x5
+ 717 0128 00       		.byte	0
+ 718 0129 00       		.byte	0
+ 719 012a 00       		.byte	0
+ 720              		.section	.debug_aranges,"",%progbits
+ 721 0000 1C000000 		.4byte	0x1c
+ 722 0004 0200     		.2byte	0x2
+ 723 0006 00000000 		.4byte	.Ldebug_info0
+ 724 000a 04       		.byte	0x4
+ 725 000b 00       		.byte	0
+ 726 000c 0000     		.2byte	0
+ 727 000e 0000     		.2byte	0
+ 728 0010 00000000 		.4byte	.LFB453
+ 729 0014 14000000 		.4byte	.LFE453-.LFB453
+ 730 0018 00000000 		.4byte	0
+ 731 001c 00000000 		.4byte	0
+ 732              		.section	.debug_ranges,"",%progbits
+ 733              	.Ldebug_ranges0:
+ 734 0000 00000000 		.4byte	.LFB453
+ 735 0004 14000000 		.4byte	.LFE453
+ 736 0008 00000000 		.4byte	0
+ 737 000c 00000000 		.4byte	0
+ 738              		.section	.debug_line,"",%progbits
+ 739              	.Ldebug_line0:
+ 740 0000 59020000 		.section	.debug_str,"MS",%progbits,1
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 15
+
+
+ 740      02003E02 
+ 740      00000201 
+ 740      FB0E0D00 
+ 740      01010101 
+ 741              	.LASF34:
+ 742 0000 73746F70 		.ascii	"stopInputMode\000"
+ 742      496E7075 
+ 742      744D6F64 
+ 742      6500
+ 743              	.LASF55:
+ 744 000e 43795F53 		.ascii	"Cy_SysPm_DeepSleep\000"
+ 744      7973506D 
+ 744      5F446565 
+ 744      70536C65 
+ 744      657000
+ 745              	.LASF29:
+ 746 0021 63617074 		.ascii	"captureInput\000"
+ 746      75726549 
+ 746      6E707574 
+ 746      00
+ 747              	.LASF23:
+ 748 002e 636F6D70 		.ascii	"compareOrCapture\000"
+ 748      6172654F 
+ 748      72436170 
+ 748      74757265 
+ 748      00
+ 749              	.LASF44:
+ 750 003f 72784275 		.ascii	"rxBufSize\000"
+ 750      6653697A 
+ 750      6500
+ 751              	.LASF27:
+ 752 0049 696E7465 		.ascii	"interruptSources\000"
+ 752      72727570 
+ 752      74536F75 
+ 752      72636573 
+ 752      00
+ 753              	.LASF36:
+ 754 005a 636F756E 		.ascii	"countInputMode\000"
+ 754      74496E70 
+ 754      75744D6F 
+ 754      646500
+ 755              	.LASF32:
+ 756 0069 73746172 		.ascii	"startInputMode\000"
+ 756      74496E70 
+ 756      75744D6F 
+ 756      646500
+ 757              	.LASF16:
+ 758 0078 43595F53 		.ascii	"CY_SYSPM_WAIT_FOR_INTERRUPT\000"
+ 758      5953504D 
+ 758      5F574149 
+ 758      545F464F 
+ 758      525F494E 
+ 759              	.LASF24:
+ 760 0094 636F6D70 		.ascii	"compare0\000"
+ 760      61726530 
+ 760      00
+ 761              	.LASF25:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 16
+
+
+ 762 009d 636F6D70 		.ascii	"compare1\000"
+ 762      61726531 
+ 762      00
+ 763              	.LASF20:
+ 764 00a6 636C6F63 		.ascii	"clockPrescaler\000"
+ 764      6B507265 
+ 764      7363616C 
+ 764      657200
+ 765              	.LASF42:
+ 766 00b5 73746174 		.ascii	"status\000"
+ 766      757300
+ 767              	.LASF35:
+ 768 00bc 73746F70 		.ascii	"stopInput\000"
+ 768      496E7075 
+ 768      7400
+ 769              	.LASF48:
+ 770 00c6 74784275 		.ascii	"txBufIdx\000"
+ 770      66496478 
+ 770      00
+ 771              	.LASF54:
+ 772 00cf 43795F53 		.ascii	"Cy_SysEnableCM4\000"
+ 772      7973456E 
+ 772      61626C65 
+ 772      434D3400 
+ 773              	.LASF14:
+ 774 00df 666C6F61 		.ascii	"float\000"
+ 774      7400
+ 775              	.LASF26:
+ 776 00e5 656E6162 		.ascii	"enableCompareSwap\000"
+ 776      6C65436F 
+ 776      6D706172 
+ 776      65537761 
+ 776      7000
+ 777              	.LASF7:
+ 778 00f7 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 778      206C6F6E 
+ 778      6720756E 
+ 778      7369676E 
+ 778      65642069 
+ 779              	.LASF1:
+ 780 010e 756E7369 		.ascii	"unsigned char\000"
+ 780      676E6564 
+ 780      20636861 
+ 780      7200
+ 781              	.LASF52:
+ 782 011c 43595F45 		.ascii	"CY_EINK_SPIM_context\000"
+ 782      494E4B5F 
+ 782      5350494D 
+ 782      5F636F6E 
+ 782      74657874 
+ 783              	.LASF9:
+ 784 0131 5F5F7569 		.ascii	"__uint32_t\000"
+ 784      6E743332 
+ 784      5F7400
+ 785              	.LASF5:
+ 786 013c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 786      20756E73 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 17
+
+
+ 786      69676E65 
+ 786      6420696E 
+ 786      7400
+ 787              	.LASF3:
+ 788 014e 73686F72 		.ascii	"short unsigned int\000"
+ 788      7420756E 
+ 788      7369676E 
+ 788      65642069 
+ 788      6E7400
+ 789              	.LASF57:
+ 790 0161 6D61696E 		.ascii	"main_cm0p.c\000"
+ 790      5F636D30 
+ 790      702E6300 
+ 791              	.LASF51:
+ 792 016d 63795F73 		.ascii	"cy_stc_scb_spi_context_t\000"
+ 792      74635F73 
+ 792      63625F73 
+ 792      70695F63 
+ 792      6F6E7465 
+ 793              	.LASF33:
+ 794 0186 73746172 		.ascii	"startInput\000"
+ 794      74496E70 
+ 794      757400
+ 795              	.LASF47:
+ 796 0191 74784275 		.ascii	"txBufSize\000"
+ 796      6653697A 
+ 796      6500
+ 797              	.LASF15:
+ 798 019b 646F7562 		.ascii	"double\000"
+ 798      6C6500
+ 799              	.LASF43:
+ 800 01a2 72784275 		.ascii	"rxBuf\000"
+ 800      6600
+ 801              	.LASF59:
+ 802 01a8 6D61696E 		.ascii	"main\000"
+ 802      00
+ 803              	.LASF41:
+ 804 01ad 63795F73 		.ascii	"cy_stc_scb_spi_context\000"
+ 804      74635F73 
+ 804      63625F73 
+ 804      70695F63 
+ 804      6F6E7465 
+ 805              	.LASF21:
+ 806 01c4 72756E4D 		.ascii	"runMode\000"
+ 806      6F646500 
+ 807              	.LASF37:
+ 808 01cc 636F756E 		.ascii	"countInput\000"
+ 808      74496E70 
+ 808      757400
+ 809              	.LASF8:
+ 810 01d7 756E7369 		.ascii	"unsigned int\000"
+ 810      676E6564 
+ 810      20696E74 
+ 810      00
+ 811              	.LASF39:
+ 812 01e4 63795F63 		.ascii	"cy_cb_scb_spi_handle_events_t\000"
+ 812      625F7363 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 18
+
+
+ 812      625F7370 
+ 812      695F6861 
+ 812      6E646C65 
+ 813              	.LASF46:
+ 814 0202 74784275 		.ascii	"txBuf\000"
+ 814      6600
+ 815              	.LASF19:
+ 816 0208 70657269 		.ascii	"period\000"
+ 816      6F6400
+ 817              	.LASF50:
+ 818 020f 696E6974 		.ascii	"initKey\000"
+ 818      4B657900 
+ 819              	.LASF58:
+ 820 0217 433A5C55 		.ascii	"C:\\Users\\ikomb\\Documents\\PSoC Creator\\CE223727"
+ 820      73657273 
+ 820      5C696B6F 
+ 820      6D625C44 
+ 820      6F63756D 
+ 821 0245 5F456D57 		.ascii	"_EmWin_EInk_Display01\\CE223727_EmWin_EInk_Display0"
+ 821      696E5F45 
+ 821      496E6B5F 
+ 821      44697370 
+ 821      6C617930 
+ 822 0277 312E6379 		.ascii	"1.cydsn\000"
+ 822      64736E00 
+ 823              	.LASF45:
+ 824 027f 72784275 		.ascii	"rxBufIdx\000"
+ 824      66496478 
+ 824      00
+ 825              	.LASF11:
+ 826 0288 73697A65 		.ascii	"sizetype\000"
+ 826      74797065 
+ 826      00
+ 827              	.LASF6:
+ 828 0291 6C6F6E67 		.ascii	"long long int\000"
+ 828      206C6F6E 
+ 828      6720696E 
+ 828      7400
+ 829              	.LASF13:
+ 830 029f 63686172 		.ascii	"char\000"
+ 830      00
+ 831              	.LASF28:
+ 832 02a4 63617074 		.ascii	"captureInputMode\000"
+ 832      75726549 
+ 832      6E707574 
+ 832      4D6F6465 
+ 832      00
+ 833              	.LASF30:
+ 834 02b5 72656C6F 		.ascii	"reloadInputMode\000"
+ 834      6164496E 
+ 834      7075744D 
+ 834      6F646500 
+ 835              	.LASF49:
+ 836 02c5 63624576 		.ascii	"cbEvents\000"
+ 836      656E7473 
+ 836      00
+ 837              	.LASF0:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 19
+
+
+ 838 02ce 73686F72 		.ascii	"short int\000"
+ 838      7420696E 
+ 838      7400
+ 839              	.LASF31:
+ 840 02d8 72656C6F 		.ascii	"reloadInput\000"
+ 840      6164496E 
+ 840      70757400 
+ 841              	.LASF22:
+ 842 02e4 636F756E 		.ascii	"countDirection\000"
+ 842      74446972 
+ 842      65637469 
+ 842      6F6E00
+ 843              	.LASF10:
+ 844 02f3 75696E74 		.ascii	"uint32_t\000"
+ 844      33325F74 
+ 844      00
+ 845              	.LASF4:
+ 846 02fc 6C6F6E67 		.ascii	"long int\000"
+ 846      20696E74 
+ 846      00
+ 847              	.LASF17:
+ 848 0305 43595F53 		.ascii	"CY_SYSPM_WAIT_FOR_EVENT\000"
+ 848      5953504D 
+ 848      5F574149 
+ 848      545F464F 
+ 848      525F4556 
+ 849              	.LASF12:
+ 850 031d 6C6F6E67 		.ascii	"long double\000"
+ 850      20646F75 
+ 850      626C6500 
+ 851              	.LASF56:
+ 852 0329 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 852      43313120 
+ 852      352E342E 
+ 852      31203230 
+ 852      31363036 
+ 853 035c 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0plus -mthumb -"
+ 853      20726576 
+ 853      6973696F 
+ 853      6E203233 
+ 853      37373135 
+ 854 038f 67202D4F 		.ascii	"g -Og -ffunction-sections -ffat-lto-objects\000"
+ 854      67202D66 
+ 854      66756E63 
+ 854      74696F6E 
+ 854      2D736563 
+ 855              	.LASF2:
+ 856 03bb 7369676E 		.ascii	"signed char\000"
+ 856      65642063 
+ 856      68617200 
+ 857              	.LASF53:
+ 858 03c7 43595F45 		.ascii	"CY_EINK_Timer_config\000"
+ 858      494E4B5F 
+ 858      54696D65 
+ 858      725F636F 
+ 858      6E666967 
+ 859              	.LASF40:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\ccPLyuno.s 			page 20
+
+
+ 860 03dc 63795F73 		.ascii	"cy_stc_tcpwm_counter_config\000"
+ 860      74635F74 
+ 860      6370776D 
+ 860      5F636F75 
+ 860      6E746572 
+ 861              	.LASF18:
+ 862 03f8 5F426F6F 		.ascii	"_Bool\000"
+ 862      6C00
+ 863              	.LASF38:
+ 864 03fe 63795F73 		.ascii	"cy_stc_tcpwm_counter_config_t\000"
+ 864      74635F74 
+ 864      6370776D 
+ 864      5F636F75 
+ 864      6E746572 
+ 865              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

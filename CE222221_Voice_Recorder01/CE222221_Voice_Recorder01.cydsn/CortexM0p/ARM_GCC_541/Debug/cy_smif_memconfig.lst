@@ -1,0 +1,1468 @@
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0plus
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cy_smif_memconfig.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	smifBlockConfig
+  20              		.global	smifMemConfigs
+  21              		.global	S25FL512S_SlaveSlot_0
+  22              		.global	deviceCfg_S25FL512S_SlaveSlot_0
+  23              		.global	S25FL512S_SlaveSlot_0_writeStsRegQeCmd
+  24              		.global	S25FL512S_SlaveSlot_0_readStsRegWipCmd
+  25              		.global	S25FL512S_SlaveSlot_0_readStsRegQeCmd
+  26              		.global	S25FL512S_SlaveSlot_0_programCmd
+  27              		.global	S25FL512S_SlaveSlot_0_chipEraseCmd
+  28              		.global	S25FL512S_SlaveSlot_0_eraseCmd
+  29              		.global	S25FL512S_SlaveSlot_0_writeDisCmd
+  30              		.global	S25FL512S_SlaveSlot_0_writeEnCmd
+  31              		.global	S25FL512S_SlaveSlot_0_readCmd
+  32              		.section	.rodata
+  33              		.align	2
+  34              		.type	smifBlockConfig, %object
+  35              		.size	smifBlockConfig, 16
+  36              	smifBlockConfig:
+  37 0000 01000000 		.word	1
+  38 0004 00000000 		.word	smifMemConfigs
+  39 0008 01000000 		.word	1
+  40 000c 0A000000 		.word	10
+  41              		.type	S25FL512S_SlaveSlot_0, %object
+  42              		.size	S25FL512S_SlaveSlot_0, 28
+  43              	S25FL512S_SlaveSlot_0:
+  44 0010 01       		.byte	1
+  45 0011 000000   		.space	3
+  46 0014 03000000 		.word	3
+  47 0018 00       		.byte	0
+  48 0019 000000   		.space	3
+  49 001c 00000018 		.word	402653184
+  50 0020 00000100 		.word	65536
+  51 0024 00000000 		.word	0
+  52 0028 00000000 		.word	deviceCfg_S25FL512S_SlaveSlot_0
+  53              		.data
+  54              		.align	2
+  55              		.type	smifMemConfigs, %object
+  56              		.size	smifMemConfigs, 4
+  57              	smifMemConfigs:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 2
+
+
+  58 0000 00000000 		.word	S25FL512S_SlaveSlot_0
+  59              		.type	deviceCfg_S25FL512S_SlaveSlot_0, %object
+  60              		.size	deviceCfg_S25FL512S_SlaveSlot_0, 76
+  61              	deviceCfg_S25FL512S_SlaveSlot_0:
+  62 0004 03000000 		.word	3
+  63 0008 00000004 		.word	67108864
+  64 000c 00000000 		.word	S25FL512S_SlaveSlot_0_readCmd
+  65 0010 00000000 		.word	S25FL512S_SlaveSlot_0_writeEnCmd
+  66 0014 00000000 		.word	S25FL512S_SlaveSlot_0_writeDisCmd
+  67 0018 00000000 		.word	S25FL512S_SlaveSlot_0_eraseCmd
+  68 001c 00000400 		.word	262144
+  69 0020 00000000 		.word	S25FL512S_SlaveSlot_0_chipEraseCmd
+  70 0024 00000000 		.word	S25FL512S_SlaveSlot_0_programCmd
+  71 0028 00020000 		.word	512
+  72 002c 00000000 		.word	S25FL512S_SlaveSlot_0_readStsRegWipCmd
+  73 0030 00000000 		.word	S25FL512S_SlaveSlot_0_readStsRegQeCmd
+  74 0034 00000000 		.word	S25FL512S_SlaveSlot_0_writeStsRegQeCmd
+  75 0038 00000000 		.space	4
+  76 003c 01000000 		.word	1
+  77 0040 02000000 		.word	2
+  78 0044 08020000 		.word	520
+  79 0048 700B0200 		.word	134000
+  80 004c 54010000 		.word	340
+  81              		.type	S25FL512S_SlaveSlot_0_writeStsRegQeCmd, %object
+  82              		.size	S25FL512S_SlaveSlot_0_writeStsRegQeCmd, 24
+  83              	S25FL512S_SlaveSlot_0_writeStsRegQeCmd:
+  84 0050 01000000 		.word	1
+  85 0054 00       		.byte	0
+  86 0055 00       		.byte	0
+  87 0056 0000     		.space	2
+  88 0058 FFFFFFFF 		.word	-1
+  89 005c 00       		.byte	0
+  90 005d 000000   		.space	3
+  91 0060 00000000 		.word	0
+  92 0064 00       		.byte	0
+  93 0065 000000   		.space	3
+  94              		.type	S25FL512S_SlaveSlot_0_readStsRegWipCmd, %object
+  95              		.size	S25FL512S_SlaveSlot_0_readStsRegWipCmd, 24
+  96              	S25FL512S_SlaveSlot_0_readStsRegWipCmd:
+  97 0068 05000000 		.word	5
+  98 006c 00       		.byte	0
+  99 006d 00       		.byte	0
+ 100 006e 0000     		.space	2
+ 101 0070 FFFFFFFF 		.word	-1
+ 102 0074 00       		.byte	0
+ 103 0075 000000   		.space	3
+ 104 0078 00000000 		.word	0
+ 105 007c 00       		.byte	0
+ 106 007d 000000   		.space	3
+ 107              		.type	S25FL512S_SlaveSlot_0_readStsRegQeCmd, %object
+ 108              		.size	S25FL512S_SlaveSlot_0_readStsRegQeCmd, 24
+ 109              	S25FL512S_SlaveSlot_0_readStsRegQeCmd:
+ 110 0080 35000000 		.word	53
+ 111 0084 00       		.byte	0
+ 112 0085 00       		.byte	0
+ 113 0086 0000     		.space	2
+ 114 0088 FFFFFFFF 		.word	-1
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 3
+
+
+ 115 008c 00       		.byte	0
+ 116 008d 000000   		.space	3
+ 117 0090 00000000 		.word	0
+ 118 0094 00       		.byte	0
+ 119 0095 000000   		.space	3
+ 120              		.type	S25FL512S_SlaveSlot_0_programCmd, %object
+ 121              		.size	S25FL512S_SlaveSlot_0_programCmd, 24
+ 122              	S25FL512S_SlaveSlot_0_programCmd:
+ 123 0098 38000000 		.word	56
+ 124 009c 00       		.byte	0
+ 125 009d 00       		.byte	0
+ 126 009e 0000     		.space	2
+ 127 00a0 FFFFFFFF 		.word	-1
+ 128 00a4 02       		.byte	2
+ 129 00a5 000000   		.space	3
+ 130 00a8 00000000 		.word	0
+ 131 00ac 02       		.byte	2
+ 132 00ad 000000   		.space	3
+ 133              		.type	S25FL512S_SlaveSlot_0_chipEraseCmd, %object
+ 134              		.size	S25FL512S_SlaveSlot_0_chipEraseCmd, 24
+ 135              	S25FL512S_SlaveSlot_0_chipEraseCmd:
+ 136 00b0 60000000 		.word	96
+ 137 00b4 00       		.byte	0
+ 138 00b5 00       		.byte	0
+ 139 00b6 0000     		.space	2
+ 140 00b8 FFFFFFFF 		.word	-1
+ 141 00bc 00       		.byte	0
+ 142 00bd 000000   		.space	3
+ 143 00c0 00000000 		.word	0
+ 144 00c4 00       		.byte	0
+ 145 00c5 000000   		.space	3
+ 146              		.type	S25FL512S_SlaveSlot_0_eraseCmd, %object
+ 147              		.size	S25FL512S_SlaveSlot_0_eraseCmd, 24
+ 148              	S25FL512S_SlaveSlot_0_eraseCmd:
+ 149 00c8 D8000000 		.word	216
+ 150 00cc 00       		.byte	0
+ 151 00cd 00       		.byte	0
+ 152 00ce 0000     		.space	2
+ 153 00d0 FFFFFFFF 		.word	-1
+ 154 00d4 00       		.byte	0
+ 155 00d5 000000   		.space	3
+ 156 00d8 00000000 		.word	0
+ 157 00dc 00       		.byte	0
+ 158 00dd 000000   		.space	3
+ 159              		.type	S25FL512S_SlaveSlot_0_writeDisCmd, %object
+ 160              		.size	S25FL512S_SlaveSlot_0_writeDisCmd, 24
+ 161              	S25FL512S_SlaveSlot_0_writeDisCmd:
+ 162 00e0 04000000 		.word	4
+ 163 00e4 00       		.byte	0
+ 164 00e5 00       		.byte	0
+ 165 00e6 0000     		.space	2
+ 166 00e8 FFFFFFFF 		.word	-1
+ 167 00ec 00       		.byte	0
+ 168 00ed 000000   		.space	3
+ 169 00f0 00000000 		.word	0
+ 170 00f4 00       		.byte	0
+ 171 00f5 000000   		.space	3
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 4
+
+
+ 172              		.type	S25FL512S_SlaveSlot_0_writeEnCmd, %object
+ 173              		.size	S25FL512S_SlaveSlot_0_writeEnCmd, 24
+ 174              	S25FL512S_SlaveSlot_0_writeEnCmd:
+ 175 00f8 06000000 		.word	6
+ 176 00fc 00       		.byte	0
+ 177 00fd 00       		.byte	0
+ 178 00fe 0000     		.space	2
+ 179 0100 FFFFFFFF 		.word	-1
+ 180 0104 00       		.byte	0
+ 181 0105 000000   		.space	3
+ 182 0108 00000000 		.word	0
+ 183 010c 00       		.byte	0
+ 184 010d 000000   		.space	3
+ 185              		.type	S25FL512S_SlaveSlot_0_readCmd, %object
+ 186              		.size	S25FL512S_SlaveSlot_0_readCmd, 24
+ 187              	S25FL512S_SlaveSlot_0_readCmd:
+ 188 0110 EB000000 		.word	235
+ 189 0114 00       		.byte	0
+ 190 0115 02       		.byte	2
+ 191 0116 0000     		.space	2
+ 192 0118 01000000 		.word	1
+ 193 011c 02       		.byte	2
+ 194 011d 000000   		.space	3
+ 195 0120 04000000 		.word	4
+ 196 0124 02       		.byte	2
+ 197 0125 000000   		.space	3
+ 198              		.text
+ 199              	.Letext0:
+ 200              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 201              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 202              		.file 3 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/smif/cy_smif.h"
+ 203              		.file 4 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/smif/cy_smif_memslot.h"
+ 204              		.file 5 "Generated_Source\\PSoC6\\cy_smif_memconfig.c"
+ 205              		.section	.debug_info,"",%progbits
+ 206              	.Ldebug_info0:
+ 207 0000 7D040000 		.4byte	0x47d
+ 208 0004 0400     		.2byte	0x4
+ 209 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 210 000a 04       		.byte	0x4
+ 211 000b 01       		.uleb128 0x1
+ 212 000c 8C000000 		.4byte	.LASF85
+ 213 0010 0C       		.byte	0xc
+ 214 0011 80050000 		.4byte	.LASF86
+ 215 0015 2A030000 		.4byte	.LASF87
+ 216 0019 00000000 		.4byte	.Ldebug_line0
+ 217 001d 02       		.uleb128 0x2
+ 218 001e 01       		.byte	0x1
+ 219 001f 06       		.byte	0x6
+ 220 0020 C4030000 		.4byte	.LASF0
+ 221 0024 02       		.uleb128 0x2
+ 222 0025 01       		.byte	0x1
+ 223 0026 08       		.byte	0x8
+ 224 0027 96030000 		.4byte	.LASF1
+ 225 002b 02       		.uleb128 0x2
+ 226 002c 02       		.byte	0x2
+ 227 002d 05       		.byte	0x5
+ 228 002e 79000000 		.4byte	.LASF2
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 5
+
+
+ 229 0032 02       		.uleb128 0x2
+ 230 0033 02       		.byte	0x2
+ 231 0034 07       		.byte	0x7
+ 232 0035 17040000 		.4byte	.LASF3
+ 233 0039 02       		.uleb128 0x2
+ 234 003a 04       		.byte	0x4
+ 235 003b 05       		.byte	0x5
+ 236 003c E4020000 		.4byte	.LASF4
+ 237 0040 03       		.uleb128 0x3
+ 238 0041 54010000 		.4byte	.LASF9
+ 239 0045 01       		.byte	0x1
+ 240 0046 41       		.byte	0x41
+ 241 0047 4B000000 		.4byte	0x4b
+ 242 004b 02       		.uleb128 0x2
+ 243 004c 04       		.byte	0x4
+ 244 004d 07       		.byte	0x7
+ 245 004e 2F050000 		.4byte	.LASF5
+ 246 0052 02       		.uleb128 0x2
+ 247 0053 08       		.byte	0x8
+ 248 0054 05       		.byte	0x5
+ 249 0055 AB020000 		.4byte	.LASF6
+ 250 0059 02       		.uleb128 0x2
+ 251 005a 08       		.byte	0x8
+ 252 005b 07       		.byte	0x7
+ 253 005c 1E010000 		.4byte	.LASF7
+ 254 0060 04       		.uleb128 0x4
+ 255 0061 04       		.byte	0x4
+ 256 0062 05       		.byte	0x5
+ 257 0063 696E7400 		.ascii	"int\000"
+ 258 0067 02       		.uleb128 0x2
+ 259 0068 04       		.byte	0x4
+ 260 0069 07       		.byte	0x7
+ 261 006a 42060000 		.4byte	.LASF8
+ 262 006e 03       		.uleb128 0x3
+ 263 006f E7030000 		.4byte	.LASF10
+ 264 0073 02       		.byte	0x2
+ 265 0074 30       		.byte	0x30
+ 266 0075 40000000 		.4byte	0x40
+ 267 0079 02       		.uleb128 0x2
+ 268 007a 04       		.byte	0x4
+ 269 007b 07       		.byte	0x7
+ 270 007c 83000000 		.4byte	.LASF11
+ 271 0080 02       		.uleb128 0x2
+ 272 0081 01       		.byte	0x1
+ 273 0082 08       		.byte	0x8
+ 274 0083 4A040000 		.4byte	.LASF12
+ 275 0087 02       		.uleb128 0x2
+ 276 0088 04       		.byte	0x4
+ 277 0089 04       		.byte	0x4
+ 278 008a 90020000 		.4byte	.LASF13
+ 279 008e 02       		.uleb128 0x2
+ 280 008f 08       		.byte	0x8
+ 281 0090 04       		.byte	0x4
+ 282 0091 41050000 		.4byte	.LASF14
+ 283 0095 02       		.uleb128 0x2
+ 284 0096 08       		.byte	0x8
+ 285 0097 04       		.byte	0x4
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 6
+
+
+ 286 0098 8A030000 		.4byte	.LASF15
+ 287 009c 05       		.uleb128 0x5
+ 288 009d 01       		.byte	0x1
+ 289 009e 24000000 		.4byte	0x24
+ 290 00a2 03       		.byte	0x3
+ 291 00a3 A401     		.2byte	0x1a4
+ 292 00a5 C2000000 		.4byte	0xc2
+ 293 00a9 06       		.uleb128 0x6
+ 294 00aa 96020000 		.4byte	.LASF16
+ 295 00ae 00       		.byte	0
+ 296 00af 06       		.uleb128 0x6
+ 297 00b0 41010000 		.4byte	.LASF17
+ 298 00b4 01       		.byte	0x1
+ 299 00b5 06       		.uleb128 0x6
+ 300 00b6 D0040000 		.4byte	.LASF18
+ 301 00ba 02       		.byte	0x2
+ 302 00bb 06       		.uleb128 0x6
+ 303 00bc 24000000 		.4byte	.LASF19
+ 304 00c0 03       		.byte	0x3
+ 305 00c1 00       		.byte	0
+ 306 00c2 07       		.uleb128 0x7
+ 307 00c3 0E050000 		.4byte	.LASF20
+ 308 00c7 03       		.byte	0x3
+ 309 00c8 A901     		.2byte	0x1a9
+ 310 00ca 9C000000 		.4byte	0x9c
+ 311 00ce 05       		.uleb128 0x5
+ 312 00cf 01       		.byte	0x1
+ 313 00d0 24000000 		.4byte	0x24
+ 314 00d4 03       		.byte	0x3
+ 315 00d5 B801     		.2byte	0x1b8
+ 316 00d7 F4000000 		.4byte	0xf4
+ 317 00db 06       		.uleb128 0x6
+ 318 00dc 4F040000 		.4byte	.LASF21
+ 319 00e0 00       		.byte	0
+ 320 00e1 06       		.uleb128 0x6
+ 321 00e2 61040000 		.4byte	.LASF22
+ 322 00e6 01       		.byte	0x1
+ 323 00e7 06       		.uleb128 0x6
+ 324 00e8 1E060000 		.4byte	.LASF23
+ 325 00ec 02       		.byte	0x2
+ 326 00ed 06       		.uleb128 0x6
+ 327 00ee 30060000 		.4byte	.LASF24
+ 328 00f2 03       		.byte	0x3
+ 329 00f3 00       		.byte	0
+ 330 00f4 07       		.uleb128 0x7
+ 331 00f5 CC010000 		.4byte	.LASF25
+ 332 00f9 03       		.byte	0x3
+ 333 00fa CD01     		.2byte	0x1cd
+ 334 00fc CE000000 		.4byte	0xce
+ 335 0100 05       		.uleb128 0x5
+ 336 0101 01       		.byte	0x1
+ 337 0102 24000000 		.4byte	0x24
+ 338 0106 03       		.byte	0x3
+ 339 0107 0502     		.2byte	0x205
+ 340 0109 26010000 		.4byte	0x126
+ 341 010d 06       		.uleb128 0x6
+ 342 010e 4F060000 		.4byte	.LASF26
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 7
+
+
+ 343 0112 01       		.byte	0x1
+ 344 0113 06       		.uleb128 0x6
+ 345 0114 66060000 		.4byte	.LASF27
+ 346 0118 02       		.byte	0x2
+ 347 0119 06       		.uleb128 0x6
+ 348 011a 7D060000 		.4byte	.LASF28
+ 349 011e 04       		.byte	0x4
+ 350 011f 06       		.uleb128 0x6
+ 351 0120 94060000 		.4byte	.LASF29
+ 352 0124 08       		.byte	0x8
+ 353 0125 00       		.byte	0
+ 354 0126 07       		.uleb128 0x7
+ 355 0127 F8020000 		.4byte	.LASF30
+ 356 012b 03       		.byte	0x3
+ 357 012c 0A02     		.2byte	0x20a
+ 358 012e 00010000 		.4byte	0x100
+ 359 0132 08       		.uleb128 0x8
+ 360 0133 18       		.byte	0x18
+ 361 0134 04       		.byte	0x4
+ 362 0135 0601     		.2byte	0x106
+ 363 0137 97010000 		.4byte	0x197
+ 364 013b 09       		.uleb128 0x9
+ 365 013c AB060000 		.4byte	.LASF31
+ 366 0140 04       		.byte	0x4
+ 367 0141 0801     		.2byte	0x108
+ 368 0143 6E000000 		.4byte	0x6e
+ 369 0147 00       		.byte	0
+ 370 0148 09       		.uleb128 0x9
+ 371 0149 64010000 		.4byte	.LASF32
+ 372 014d 04       		.byte	0x4
+ 373 014e 0901     		.2byte	0x109
+ 374 0150 C2000000 		.4byte	0xc2
+ 375 0154 04       		.byte	0x4
+ 376 0155 09       		.uleb128 0x9
+ 377 0156 86020000 		.4byte	.LASF33
+ 378 015a 04       		.byte	0x4
+ 379 015b 0A01     		.2byte	0x10a
+ 380 015d C2000000 		.4byte	0xc2
+ 381 0161 05       		.byte	0x5
+ 382 0162 09       		.uleb128 0x9
+ 383 0163 5F010000 		.4byte	.LASF34
+ 384 0167 04       		.byte	0x4
+ 385 0168 0B01     		.2byte	0x10b
+ 386 016a 6E000000 		.4byte	0x6e
+ 387 016e 08       		.byte	0x8
+ 388 016f 09       		.uleb128 0x9
+ 389 0170 48050000 		.4byte	.LASF35
+ 390 0174 04       		.byte	0x4
+ 391 0175 0C01     		.2byte	0x10c
+ 392 0177 C2000000 		.4byte	0xc2
+ 393 017b 0C       		.byte	0xc
+ 394 017c 09       		.uleb128 0x9
+ 395 017d 45000000 		.4byte	.LASF36
+ 396 0181 04       		.byte	0x4
+ 397 0182 0D01     		.2byte	0x10d
+ 398 0184 6E000000 		.4byte	0x6e
+ 399 0188 10       		.byte	0x10
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 8
+
+
+ 400 0189 09       		.uleb128 0x9
+ 401 018a DA020000 		.4byte	.LASF37
+ 402 018e 04       		.byte	0x4
+ 403 018f 0E01     		.2byte	0x10e
+ 404 0191 C2000000 		.4byte	0xc2
+ 405 0195 14       		.byte	0x14
+ 406 0196 00       		.byte	0
+ 407 0197 07       		.uleb128 0x7
+ 408 0198 AB050000 		.4byte	.LASF38
+ 409 019c 04       		.byte	0x4
+ 410 019d 0F01     		.2byte	0x10f
+ 411 019f 32010000 		.4byte	0x132
+ 412 01a3 08       		.uleb128 0x8
+ 413 01a4 4C       		.byte	0x4c
+ 414 01a5 04       		.byte	0x4
+ 415 01a6 1901     		.2byte	0x119
+ 416 01a8 A4020000 		.4byte	0x2a4
+ 417 01ac 09       		.uleb128 0x9
+ 418 01ad E2050000 		.4byte	.LASF39
+ 419 01b1 04       		.byte	0x4
+ 420 01b2 1B01     		.2byte	0x11b
+ 421 01b4 6E000000 		.4byte	0x6e
+ 422 01b8 00       		.byte	0
+ 423 01b9 09       		.uleb128 0x9
+ 424 01ba BC030000 		.4byte	.LASF40
+ 425 01be 04       		.byte	0x4
+ 426 01bf 1D01     		.2byte	0x11d
+ 427 01c1 6E000000 		.4byte	0x6e
+ 428 01c5 04       		.byte	0x4
+ 429 01c6 09       		.uleb128 0x9
+ 430 01c7 C1050000 		.4byte	.LASF41
+ 431 01cb 04       		.byte	0x4
+ 432 01cc 1E01     		.2byte	0x11e
+ 433 01ce A4020000 		.4byte	0x2a4
+ 434 01d2 08       		.byte	0x8
+ 435 01d3 09       		.uleb128 0x9
+ 436 01d4 ED020000 		.4byte	.LASF42
+ 437 01d8 04       		.byte	0x4
+ 438 01d9 1F01     		.2byte	0x11f
+ 439 01db A4020000 		.4byte	0x2a4
+ 440 01df 0C       		.byte	0xc
+ 441 01e0 09       		.uleb128 0x9
+ 442 01e1 0B020000 		.4byte	.LASF43
+ 443 01e5 04       		.byte	0x4
+ 444 01e6 2001     		.2byte	0x120
+ 445 01e8 A4020000 		.4byte	0x2a4
+ 446 01ec 10       		.byte	0x10
+ 447 01ed 09       		.uleb128 0x9
+ 448 01ee 77050000 		.4byte	.LASF44
+ 449 01f2 04       		.byte	0x4
+ 450 01f3 2101     		.2byte	0x121
+ 451 01f5 A4020000 		.4byte	0x2a4
+ 452 01f9 14       		.byte	0x14
+ 453 01fa 09       		.uleb128 0x9
+ 454 01fb 00000000 		.4byte	.LASF45
+ 455 01ff 04       		.byte	0x4
+ 456 0200 2201     		.2byte	0x122
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 9
+
+
+ 457 0202 6E000000 		.4byte	0x6e
+ 458 0206 18       		.byte	0x18
+ 459 0207 09       		.uleb128 0x9
+ 460 0208 1D030000 		.4byte	.LASF46
+ 461 020c 04       		.byte	0x4
+ 462 020d 2301     		.2byte	0x123
+ 463 020f A4020000 		.4byte	0x2a4
+ 464 0213 1C       		.byte	0x1c
+ 465 0214 09       		.uleb128 0x9
+ 466 0215 51000000 		.4byte	.LASF47
+ 467 0219 04       		.byte	0x4
+ 468 021a 2401     		.2byte	0x124
+ 469 021c A4020000 		.4byte	0x2a4
+ 470 0220 20       		.byte	0x20
+ 471 0221 09       		.uleb128 0x9
+ 472 0222 C9050000 		.4byte	.LASF48
+ 473 0226 04       		.byte	0x4
+ 474 0227 2501     		.2byte	0x125
+ 475 0229 6E000000 		.4byte	0x6e
+ 476 022d 24       		.byte	0x24
+ 477 022e 09       		.uleb128 0x9
+ 478 022f D6030000 		.4byte	.LASF49
+ 479 0233 04       		.byte	0x4
+ 480 0234 2601     		.2byte	0x126
+ 481 0236 A4020000 		.4byte	0x2a4
+ 482 023a 28       		.byte	0x28
+ 483 023b 09       		.uleb128 0x9
+ 484 023c 9E010000 		.4byte	.LASF50
+ 485 0240 04       		.byte	0x4
+ 486 0241 2701     		.2byte	0x127
+ 487 0243 A4020000 		.4byte	0x2a4
+ 488 0247 2C       		.byte	0x2c
+ 489 0248 09       		.uleb128 0x9
+ 490 0249 17020000 		.4byte	.LASF51
+ 491 024d 04       		.byte	0x4
+ 492 024e 2801     		.2byte	0x128
+ 493 0250 A4020000 		.4byte	0x2a4
+ 494 0254 30       		.byte	0x30
+ 495 0255 09       		.uleb128 0x9
+ 496 0256 02050000 		.4byte	.LASF52
+ 497 025a 04       		.byte	0x4
+ 498 025b 2901     		.2byte	0x129
+ 499 025d A4020000 		.4byte	0x2a4
+ 500 0261 34       		.byte	0x34
+ 501 0262 09       		.uleb128 0x9
+ 502 0263 8F010000 		.4byte	.LASF53
+ 503 0267 04       		.byte	0x4
+ 504 0268 2A01     		.2byte	0x12a
+ 505 026a 6E000000 		.4byte	0x6e
+ 506 026e 38       		.byte	0x38
+ 507 026f 09       		.uleb128 0x9
+ 508 0270 4F020000 		.4byte	.LASF54
+ 509 0274 04       		.byte	0x4
+ 510 0275 2B01     		.2byte	0x12b
+ 511 0277 6E000000 		.4byte	0x6e
+ 512 027b 3C       		.byte	0x3c
+ 513 027c 09       		.uleb128 0x9
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 10
+
+
+ 514 027d 6D050000 		.4byte	.LASF55
+ 515 0281 04       		.byte	0x4
+ 516 0282 2C01     		.2byte	0x12c
+ 517 0284 6E000000 		.4byte	0x6e
+ 518 0288 40       		.byte	0x40
+ 519 0289 09       		.uleb128 0x9
+ 520 028a AE030000 		.4byte	.LASF56
+ 521 028e 04       		.byte	0x4
+ 522 028f 2D01     		.2byte	0x12d
+ 523 0291 6E000000 		.4byte	0x6e
+ 524 0295 44       		.byte	0x44
+ 525 0296 09       		.uleb128 0x9
+ 526 0297 18000000 		.4byte	.LASF57
+ 527 029b 04       		.byte	0x4
+ 528 029c 2E01     		.2byte	0x12e
+ 529 029e 6E000000 		.4byte	0x6e
+ 530 02a2 48       		.byte	0x48
+ 531 02a3 00       		.byte	0
+ 532 02a4 0A       		.uleb128 0xa
+ 533 02a5 04       		.byte	0x4
+ 534 02a6 97010000 		.4byte	0x197
+ 535 02aa 07       		.uleb128 0x7
+ 536 02ab 01060000 		.4byte	.LASF58
+ 537 02af 04       		.byte	0x4
+ 538 02b0 2F01     		.2byte	0x12f
+ 539 02b2 A3010000 		.4byte	0x1a3
+ 540 02b6 08       		.uleb128 0x8
+ 541 02b7 1C       		.byte	0x1c
+ 542 02b8 04       		.byte	0x4
+ 543 02b9 3801     		.2byte	0x138
+ 544 02bb 1B030000 		.4byte	0x31b
+ 545 02bf 09       		.uleb128 0x9
+ 546 02c0 64020000 		.4byte	.LASF59
+ 547 02c4 04       		.byte	0x4
+ 548 02c5 3B01     		.2byte	0x13b
+ 549 02c7 26010000 		.4byte	0x126
+ 550 02cb 00       		.byte	0
+ 551 02cc 09       		.uleb128 0x9
+ 552 02cd D0030000 		.4byte	.LASF60
+ 553 02d1 04       		.byte	0x4
+ 554 02d2 3F01     		.2byte	0x13f
+ 555 02d4 6E000000 		.4byte	0x6e
+ 556 02d8 04       		.byte	0x4
+ 557 02d9 09       		.uleb128 0x9
+ 558 02da 12030000 		.4byte	.LASF61
+ 559 02de 04       		.byte	0x4
+ 560 02df 4101     		.2byte	0x141
+ 561 02e1 F4000000 		.4byte	0xf4
+ 562 02e5 08       		.byte	0x8
+ 563 02e6 09       		.uleb128 0x9
+ 564 02e7 35010000 		.4byte	.LASF62
+ 565 02eb 04       		.byte	0x4
+ 566 02ec 4801     		.2byte	0x148
+ 567 02ee 6E000000 		.4byte	0x6e
+ 568 02f2 0C       		.byte	0xc
+ 569 02f3 09       		.uleb128 0x9
+ 570 02f4 0A000000 		.4byte	.LASF63
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 11
+
+
+ 571 02f8 04       		.byte	0x4
+ 572 02f9 4E01     		.2byte	0x14e
+ 573 02fb 6E000000 		.4byte	0x6e
+ 574 02ff 10       		.byte	0x10
+ 575 0300 09       		.uleb128 0x9
+ 576 0301 5C000000 		.4byte	.LASF64
+ 577 0305 04       		.byte	0x4
+ 578 0306 5101     		.2byte	0x151
+ 579 0308 6E000000 		.4byte	0x6e
+ 580 030c 14       		.byte	0x14
+ 581 030d 09       		.uleb128 0x9
+ 582 030e A4030000 		.4byte	.LASF65
+ 583 0312 04       		.byte	0x4
+ 584 0313 5201     		.2byte	0x152
+ 585 0315 1B030000 		.4byte	0x31b
+ 586 0319 18       		.byte	0x18
+ 587 031a 00       		.byte	0
+ 588 031b 0A       		.uleb128 0xa
+ 589 031c 04       		.byte	0x4
+ 590 031d AA020000 		.4byte	0x2aa
+ 591 0321 07       		.uleb128 0x7
+ 592 0322 94040000 		.4byte	.LASF66
+ 593 0326 04       		.byte	0x4
+ 594 0327 5301     		.2byte	0x153
+ 595 0329 B6020000 		.4byte	0x2b6
+ 596 032d 08       		.uleb128 0x8
+ 597 032e 10       		.byte	0x10
+ 598 032f 04       		.byte	0x4
+ 599 0330 5C01     		.2byte	0x15c
+ 600 0332 6B030000 		.4byte	0x36b
+ 601 0336 09       		.uleb128 0x9
+ 602 0337 26050000 		.4byte	.LASF67
+ 603 033b 04       		.byte	0x4
+ 604 033c 5E01     		.2byte	0x15e
+ 605 033e 6E000000 		.4byte	0x6e
+ 606 0342 00       		.byte	0
+ 607 0343 09       		.uleb128 0x9
+ 608 0344 B3060000 		.4byte	.LASF68
+ 609 0348 04       		.byte	0x4
+ 610 0349 5F01     		.2byte	0x15f
+ 611 034b 6B030000 		.4byte	0x36b
+ 612 034f 04       		.byte	0x4
+ 613 0350 09       		.uleb128 0x9
+ 614 0351 38000000 		.4byte	.LASF69
+ 615 0355 04       		.byte	0x4
+ 616 0356 6001     		.2byte	0x160
+ 617 0358 6E000000 		.4byte	0x6e
+ 618 035c 08       		.byte	0x8
+ 619 035d 09       		.uleb128 0x9
+ 620 035e D5050000 		.4byte	.LASF70
+ 621 0362 04       		.byte	0x4
+ 622 0363 6101     		.2byte	0x161
+ 623 0365 6E000000 		.4byte	0x6e
+ 624 0369 0C       		.byte	0xc
+ 625 036a 00       		.byte	0
+ 626 036b 0A       		.uleb128 0xa
+ 627 036c 04       		.byte	0x4
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 12
+
+
+ 628 036d 71030000 		.4byte	0x371
+ 629 0371 0A       		.uleb128 0xa
+ 630 0372 04       		.byte	0x4
+ 631 0373 21030000 		.4byte	0x321
+ 632 0377 07       		.uleb128 0x7
+ 633 0378 52050000 		.4byte	.LASF71
+ 634 037c 04       		.byte	0x4
+ 635 037d 6201     		.2byte	0x162
+ 636 037f 2D030000 		.4byte	0x32d
+ 637 0383 0B       		.uleb128 0xb
+ 638 0384 AE010000 		.4byte	.LASF72
+ 639 0388 05       		.byte	0x5
+ 640 0389 14       		.byte	0x14
+ 641 038a 97010000 		.4byte	0x197
+ 642 038e 05       		.uleb128 0x5
+ 643 038f 03       		.byte	0x3
+ 644 0390 00000000 		.4byte	S25FL512S_SlaveSlot_0_readCmd
+ 645 0394 0B       		.uleb128 0xb
+ 646 0395 73040000 		.4byte	.LASF73
+ 647 0399 05       		.byte	0x5
+ 648 039a 26       		.byte	0x26
+ 649 039b 97010000 		.4byte	0x197
+ 650 039f 05       		.uleb128 0x5
+ 651 03a0 03       		.byte	0x3
+ 652 03a1 00000000 		.4byte	S25FL512S_SlaveSlot_0_writeEnCmd
+ 653 03a5 0B       		.uleb128 0xb
+ 654 03a6 6D010000 		.4byte	.LASF74
+ 655 03aa 05       		.byte	0x5
+ 656 03ab 38       		.byte	0x38
+ 657 03ac 97010000 		.4byte	0x197
+ 658 03b0 05       		.uleb128 0x5
+ 659 03b1 03       		.byte	0x3
+ 660 03b2 00000000 		.4byte	S25FL512S_SlaveSlot_0_writeDisCmd
+ 661 03b6 0B       		.uleb128 0xb
+ 662 03b7 E3040000 		.4byte	.LASF75
+ 663 03bb 05       		.byte	0x5
+ 664 03bc 4A       		.byte	0x4a
+ 665 03bd 97010000 		.4byte	0x197
+ 666 03c1 05       		.uleb128 0x5
+ 667 03c2 03       		.byte	0x3
+ 668 03c3 00000000 		.4byte	S25FL512S_SlaveSlot_0_eraseCmd
+ 669 03c7 0B       		.uleb128 0xb
+ 670 03c8 AD040000 		.4byte	.LASF76
+ 671 03cc 05       		.byte	0x5
+ 672 03cd 5C       		.byte	0x5c
+ 673 03ce 97010000 		.4byte	0x197
+ 674 03d2 05       		.uleb128 0x5
+ 675 03d3 03       		.byte	0x3
+ 676 03d4 00000000 		.4byte	S25FL512S_SlaveSlot_0_chipEraseCmd
+ 677 03d8 0B       		.uleb128 0xb
+ 678 03d9 B9020000 		.4byte	.LASF77
+ 679 03dd 05       		.byte	0x5
+ 680 03de 6E       		.byte	0x6e
+ 681 03df 97010000 		.4byte	0x197
+ 682 03e3 05       		.uleb128 0x5
+ 683 03e4 03       		.byte	0x3
+ 684 03e5 00000000 		.4byte	S25FL512S_SlaveSlot_0_programCmd
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 13
+
+
+ 685 03e9 0B       		.uleb128 0xb
+ 686 03ea E5010000 		.4byte	.LASF78
+ 687 03ee 05       		.byte	0x5
+ 688 03ef 80       		.byte	0x80
+ 689 03f0 97010000 		.4byte	0x197
+ 690 03f4 05       		.uleb128 0x5
+ 691 03f5 03       		.byte	0x3
+ 692 03f6 00000000 		.4byte	S25FL512S_SlaveSlot_0_readStsRegQeCmd
+ 693 03fa 0B       		.uleb128 0xb
+ 694 03fb 28020000 		.4byte	.LASF79
+ 695 03ff 05       		.byte	0x5
+ 696 0400 92       		.byte	0x92
+ 697 0401 97010000 		.4byte	0x197
+ 698 0405 05       		.uleb128 0x5
+ 699 0406 03       		.byte	0x3
+ 700 0407 00000000 		.4byte	S25FL512S_SlaveSlot_0_readStsRegWipCmd
+ 701 040b 0B       		.uleb128 0xb
+ 702 040c F0030000 		.4byte	.LASF80
+ 703 0410 05       		.byte	0x5
+ 704 0411 A4       		.byte	0xa4
+ 705 0412 97010000 		.4byte	0x197
+ 706 0416 05       		.uleb128 0x5
+ 707 0417 03       		.byte	0x3
+ 708 0418 00000000 		.4byte	S25FL512S_SlaveSlot_0_writeStsRegQeCmd
+ 709 041c 0B       		.uleb128 0xb
+ 710 041d 70020000 		.4byte	.LASF81
+ 711 0421 05       		.byte	0x5
+ 712 0422 DE       		.byte	0xde
+ 713 0423 2D040000 		.4byte	0x42d
+ 714 0427 05       		.uleb128 0x5
+ 715 0428 03       		.byte	0x3
+ 716 0429 00000000 		.4byte	S25FL512S_SlaveSlot_0
+ 717 042d 0C       		.uleb128 0xc
+ 718 042e 21030000 		.4byte	0x321
+ 719 0432 0D       		.uleb128 0xd
+ 720 0433 42040000 		.4byte	0x442
+ 721 0437 42040000 		.4byte	0x442
+ 722 043b 0E       		.uleb128 0xe
+ 723 043c 79000000 		.4byte	0x79
+ 724 0440 00       		.byte	0
+ 725 0441 00       		.byte	0
+ 726 0442 0A       		.uleb128 0xa
+ 727 0443 04       		.byte	0x4
+ 728 0444 2D040000 		.4byte	0x42d
+ 729 0448 0B       		.uleb128 0xb
+ 730 0449 6A000000 		.4byte	.LASF82
+ 731 044d 05       		.byte	0x5
+ 732 044e F3       		.byte	0xf3
+ 733 044f 32040000 		.4byte	0x432
+ 734 0453 05       		.uleb128 0x5
+ 735 0454 03       		.byte	0x3
+ 736 0455 00000000 		.4byte	smifMemConfigs
+ 737 0459 0B       		.uleb128 0xb
+ 738 045a F1050000 		.4byte	.LASF83
+ 739 045e 05       		.byte	0x5
+ 740 045f F7       		.byte	0xf7
+ 741 0460 6A040000 		.4byte	0x46a
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 14
+
+
+ 742 0464 05       		.uleb128 0x5
+ 743 0465 03       		.byte	0x3
+ 744 0466 00000000 		.4byte	smifBlockConfig
+ 745 046a 0C       		.uleb128 0xc
+ 746 046b 77030000 		.4byte	0x377
+ 747 046f 0B       		.uleb128 0xb
+ 748 0470 2A040000 		.4byte	.LASF84
+ 749 0474 05       		.byte	0x5
+ 750 0475 B6       		.byte	0xb6
+ 751 0476 AA020000 		.4byte	0x2aa
+ 752 047a 05       		.uleb128 0x5
+ 753 047b 03       		.byte	0x3
+ 754 047c 00000000 		.4byte	deviceCfg_S25FL512S_SlaveSlot_0
+ 755 0480 00       		.byte	0
+ 756              		.section	.debug_abbrev,"",%progbits
+ 757              	.Ldebug_abbrev0:
+ 758 0000 01       		.uleb128 0x1
+ 759 0001 11       		.uleb128 0x11
+ 760 0002 01       		.byte	0x1
+ 761 0003 25       		.uleb128 0x25
+ 762 0004 0E       		.uleb128 0xe
+ 763 0005 13       		.uleb128 0x13
+ 764 0006 0B       		.uleb128 0xb
+ 765 0007 03       		.uleb128 0x3
+ 766 0008 0E       		.uleb128 0xe
+ 767 0009 1B       		.uleb128 0x1b
+ 768 000a 0E       		.uleb128 0xe
+ 769 000b 10       		.uleb128 0x10
+ 770 000c 17       		.uleb128 0x17
+ 771 000d 00       		.byte	0
+ 772 000e 00       		.byte	0
+ 773 000f 02       		.uleb128 0x2
+ 774 0010 24       		.uleb128 0x24
+ 775 0011 00       		.byte	0
+ 776 0012 0B       		.uleb128 0xb
+ 777 0013 0B       		.uleb128 0xb
+ 778 0014 3E       		.uleb128 0x3e
+ 779 0015 0B       		.uleb128 0xb
+ 780 0016 03       		.uleb128 0x3
+ 781 0017 0E       		.uleb128 0xe
+ 782 0018 00       		.byte	0
+ 783 0019 00       		.byte	0
+ 784 001a 03       		.uleb128 0x3
+ 785 001b 16       		.uleb128 0x16
+ 786 001c 00       		.byte	0
+ 787 001d 03       		.uleb128 0x3
+ 788 001e 0E       		.uleb128 0xe
+ 789 001f 3A       		.uleb128 0x3a
+ 790 0020 0B       		.uleb128 0xb
+ 791 0021 3B       		.uleb128 0x3b
+ 792 0022 0B       		.uleb128 0xb
+ 793 0023 49       		.uleb128 0x49
+ 794 0024 13       		.uleb128 0x13
+ 795 0025 00       		.byte	0
+ 796 0026 00       		.byte	0
+ 797 0027 04       		.uleb128 0x4
+ 798 0028 24       		.uleb128 0x24
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 15
+
+
+ 799 0029 00       		.byte	0
+ 800 002a 0B       		.uleb128 0xb
+ 801 002b 0B       		.uleb128 0xb
+ 802 002c 3E       		.uleb128 0x3e
+ 803 002d 0B       		.uleb128 0xb
+ 804 002e 03       		.uleb128 0x3
+ 805 002f 08       		.uleb128 0x8
+ 806 0030 00       		.byte	0
+ 807 0031 00       		.byte	0
+ 808 0032 05       		.uleb128 0x5
+ 809 0033 04       		.uleb128 0x4
+ 810 0034 01       		.byte	0x1
+ 811 0035 0B       		.uleb128 0xb
+ 812 0036 0B       		.uleb128 0xb
+ 813 0037 49       		.uleb128 0x49
+ 814 0038 13       		.uleb128 0x13
+ 815 0039 3A       		.uleb128 0x3a
+ 816 003a 0B       		.uleb128 0xb
+ 817 003b 3B       		.uleb128 0x3b
+ 818 003c 05       		.uleb128 0x5
+ 819 003d 01       		.uleb128 0x1
+ 820 003e 13       		.uleb128 0x13
+ 821 003f 00       		.byte	0
+ 822 0040 00       		.byte	0
+ 823 0041 06       		.uleb128 0x6
+ 824 0042 28       		.uleb128 0x28
+ 825 0043 00       		.byte	0
+ 826 0044 03       		.uleb128 0x3
+ 827 0045 0E       		.uleb128 0xe
+ 828 0046 1C       		.uleb128 0x1c
+ 829 0047 0B       		.uleb128 0xb
+ 830 0048 00       		.byte	0
+ 831 0049 00       		.byte	0
+ 832 004a 07       		.uleb128 0x7
+ 833 004b 16       		.uleb128 0x16
+ 834 004c 00       		.byte	0
+ 835 004d 03       		.uleb128 0x3
+ 836 004e 0E       		.uleb128 0xe
+ 837 004f 3A       		.uleb128 0x3a
+ 838 0050 0B       		.uleb128 0xb
+ 839 0051 3B       		.uleb128 0x3b
+ 840 0052 05       		.uleb128 0x5
+ 841 0053 49       		.uleb128 0x49
+ 842 0054 13       		.uleb128 0x13
+ 843 0055 00       		.byte	0
+ 844 0056 00       		.byte	0
+ 845 0057 08       		.uleb128 0x8
+ 846 0058 13       		.uleb128 0x13
+ 847 0059 01       		.byte	0x1
+ 848 005a 0B       		.uleb128 0xb
+ 849 005b 0B       		.uleb128 0xb
+ 850 005c 3A       		.uleb128 0x3a
+ 851 005d 0B       		.uleb128 0xb
+ 852 005e 3B       		.uleb128 0x3b
+ 853 005f 05       		.uleb128 0x5
+ 854 0060 01       		.uleb128 0x1
+ 855 0061 13       		.uleb128 0x13
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 16
+
+
+ 856 0062 00       		.byte	0
+ 857 0063 00       		.byte	0
+ 858 0064 09       		.uleb128 0x9
+ 859 0065 0D       		.uleb128 0xd
+ 860 0066 00       		.byte	0
+ 861 0067 03       		.uleb128 0x3
+ 862 0068 0E       		.uleb128 0xe
+ 863 0069 3A       		.uleb128 0x3a
+ 864 006a 0B       		.uleb128 0xb
+ 865 006b 3B       		.uleb128 0x3b
+ 866 006c 05       		.uleb128 0x5
+ 867 006d 49       		.uleb128 0x49
+ 868 006e 13       		.uleb128 0x13
+ 869 006f 38       		.uleb128 0x38
+ 870 0070 0B       		.uleb128 0xb
+ 871 0071 00       		.byte	0
+ 872 0072 00       		.byte	0
+ 873 0073 0A       		.uleb128 0xa
+ 874 0074 0F       		.uleb128 0xf
+ 875 0075 00       		.byte	0
+ 876 0076 0B       		.uleb128 0xb
+ 877 0077 0B       		.uleb128 0xb
+ 878 0078 49       		.uleb128 0x49
+ 879 0079 13       		.uleb128 0x13
+ 880 007a 00       		.byte	0
+ 881 007b 00       		.byte	0
+ 882 007c 0B       		.uleb128 0xb
+ 883 007d 34       		.uleb128 0x34
+ 884 007e 00       		.byte	0
+ 885 007f 03       		.uleb128 0x3
+ 886 0080 0E       		.uleb128 0xe
+ 887 0081 3A       		.uleb128 0x3a
+ 888 0082 0B       		.uleb128 0xb
+ 889 0083 3B       		.uleb128 0x3b
+ 890 0084 0B       		.uleb128 0xb
+ 891 0085 49       		.uleb128 0x49
+ 892 0086 13       		.uleb128 0x13
+ 893 0087 3F       		.uleb128 0x3f
+ 894 0088 19       		.uleb128 0x19
+ 895 0089 02       		.uleb128 0x2
+ 896 008a 18       		.uleb128 0x18
+ 897 008b 00       		.byte	0
+ 898 008c 00       		.byte	0
+ 899 008d 0C       		.uleb128 0xc
+ 900 008e 26       		.uleb128 0x26
+ 901 008f 00       		.byte	0
+ 902 0090 49       		.uleb128 0x49
+ 903 0091 13       		.uleb128 0x13
+ 904 0092 00       		.byte	0
+ 905 0093 00       		.byte	0
+ 906 0094 0D       		.uleb128 0xd
+ 907 0095 01       		.uleb128 0x1
+ 908 0096 01       		.byte	0x1
+ 909 0097 49       		.uleb128 0x49
+ 910 0098 13       		.uleb128 0x13
+ 911 0099 01       		.uleb128 0x1
+ 912 009a 13       		.uleb128 0x13
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 17
+
+
+ 913 009b 00       		.byte	0
+ 914 009c 00       		.byte	0
+ 915 009d 0E       		.uleb128 0xe
+ 916 009e 21       		.uleb128 0x21
+ 917 009f 00       		.byte	0
+ 918 00a0 49       		.uleb128 0x49
+ 919 00a1 13       		.uleb128 0x13
+ 920 00a2 2F       		.uleb128 0x2f
+ 921 00a3 0B       		.uleb128 0xb
+ 922 00a4 00       		.byte	0
+ 923 00a5 00       		.byte	0
+ 924 00a6 00       		.byte	0
+ 925              		.section	.debug_aranges,"",%progbits
+ 926 0000 14000000 		.4byte	0x14
+ 927 0004 0200     		.2byte	0x2
+ 928 0006 00000000 		.4byte	.Ldebug_info0
+ 929 000a 04       		.byte	0x4
+ 930 000b 00       		.byte	0
+ 931 000c 0000     		.2byte	0
+ 932 000e 0000     		.2byte	0
+ 933 0010 00000000 		.4byte	0
+ 934 0014 00000000 		.4byte	0
+ 935              		.section	.debug_line,"",%progbits
+ 936              	.Ldebug_line0:
+ 937 0000 99010000 		.section	.debug_str,"MS",%progbits,1
+ 937      02009301 
+ 937      00000201 
+ 937      FB0E0D00 
+ 937      01010101 
+ 938              	.LASF45:
+ 939 0000 65726173 		.ascii	"eraseSize\000"
+ 939      6553697A 
+ 939      6500
+ 940              	.LASF63:
+ 941 000a 6D656D4D 		.ascii	"memMappedSize\000"
+ 941      61707065 
+ 941      6453697A 
+ 941      6500
+ 942              	.LASF57:
+ 943 0018 70726F67 		.ascii	"programTime\000"
+ 943      72616D54 
+ 943      696D6500 
+ 944              	.LASF19:
+ 945 0024 43595F53 		.ascii	"CY_SMIF_WIDTH_OCTAL\000"
+ 945      4D49465F 
+ 945      57494454 
+ 945      485F4F43 
+ 945      54414C00 
+ 946              	.LASF69:
+ 947 0038 6D616A6F 		.ascii	"majorVersion\000"
+ 947      72566572 
+ 947      73696F6E 
+ 947      00
+ 948              	.LASF36:
+ 949 0045 64756D6D 		.ascii	"dummyCycles\000"
+ 949      79437963 
+ 949      6C657300 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 18
+
+
+ 950              	.LASF47:
+ 951 0051 70726F67 		.ascii	"programCmd\000"
+ 951      72616D43 
+ 951      6D6400
+ 952              	.LASF64:
+ 953 005c 6475616C 		.ascii	"dualQuadSlots\000"
+ 953      51756164 
+ 953      536C6F74 
+ 953      7300
+ 954              	.LASF82:
+ 955 006a 736D6966 		.ascii	"smifMemConfigs\000"
+ 955      4D656D43 
+ 955      6F6E6669 
+ 955      677300
+ 956              	.LASF2:
+ 957 0079 73686F72 		.ascii	"short int\000"
+ 957      7420696E 
+ 957      7400
+ 958              	.LASF11:
+ 959 0083 73697A65 		.ascii	"sizetype\000"
+ 959      74797065 
+ 959      00
+ 960              	.LASF85:
+ 961 008c 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 961      43313120 
+ 961      352E342E 
+ 961      31203230 
+ 961      31363036 
+ 962 00bf 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0plus -mthumb -"
+ 962      20726576 
+ 962      6973696F 
+ 962      6E203233 
+ 962      37373135 
+ 963 00f2 67202D4F 		.ascii	"g -Og -ffunction-sections -ffat-lto-objects\000"
+ 963      67202D66 
+ 963      66756E63 
+ 963      74696F6E 
+ 963      2D736563 
+ 964              	.LASF7:
+ 965 011e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 965      206C6F6E 
+ 965      6720756E 
+ 965      7369676E 
+ 965      65642069 
+ 966              	.LASF62:
+ 967 0135 62617365 		.ascii	"baseAddress\000"
+ 967      41646472 
+ 967      65737300 
+ 968              	.LASF17:
+ 969 0141 43595F53 		.ascii	"CY_SMIF_WIDTH_DUAL\000"
+ 969      4D49465F 
+ 969      57494454 
+ 969      485F4455 
+ 969      414C00
+ 970              	.LASF9:
+ 971 0154 5F5F7569 		.ascii	"__uint32_t\000"
+ 971      6E743332 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 19
+
+
+ 971      5F7400
+ 972              	.LASF34:
+ 973 015f 6D6F6465 		.ascii	"mode\000"
+ 973      00
+ 974              	.LASF32:
+ 975 0164 636D6457 		.ascii	"cmdWidth\000"
+ 975      69647468 
+ 975      00
+ 976              	.LASF74:
+ 977 016d 53323546 		.ascii	"S25FL512S_SlaveSlot_0_writeDisCmd\000"
+ 977      4C353132 
+ 977      535F536C 
+ 977      61766553 
+ 977      6C6F745F 
+ 978              	.LASF53:
+ 979 018f 73747352 		.ascii	"stsRegBusyMask\000"
+ 979      65674275 
+ 979      73794D61 
+ 979      736B00
+ 980              	.LASF50:
+ 981 019e 72656164 		.ascii	"readStsRegQeCmd\000"
+ 981      53747352 
+ 981      65675165 
+ 981      436D6400 
+ 982              	.LASF72:
+ 983 01ae 53323546 		.ascii	"S25FL512S_SlaveSlot_0_readCmd\000"
+ 983      4C353132 
+ 983      535F536C 
+ 983      61766553 
+ 983      6C6F745F 
+ 984              	.LASF25:
+ 985 01cc 63795F65 		.ascii	"cy_en_smif_data_select_t\000"
+ 985      6E5F736D 
+ 985      69665F64 
+ 985      6174615F 
+ 985      73656C65 
+ 986              	.LASF78:
+ 987 01e5 53323546 		.ascii	"S25FL512S_SlaveSlot_0_readStsRegQeCmd\000"
+ 987      4C353132 
+ 987      535F536C 
+ 987      61766553 
+ 987      6C6F745F 
+ 988              	.LASF43:
+ 989 020b 77726974 		.ascii	"writeDisCmd\000"
+ 989      65446973 
+ 989      436D6400 
+ 990              	.LASF51:
+ 991 0217 77726974 		.ascii	"writeStsRegQeCmd\000"
+ 991      65537473 
+ 991      52656751 
+ 991      65436D64 
+ 991      00
+ 992              	.LASF79:
+ 993 0228 53323546 		.ascii	"S25FL512S_SlaveSlot_0_readStsRegWipCmd\000"
+ 993      4C353132 
+ 993      535F536C 
+ 993      61766553 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 20
+
+
+ 993      6C6F745F 
+ 994              	.LASF54:
+ 995 024f 73747352 		.ascii	"stsRegQuadEnableMask\000"
+ 995      65675175 
+ 995      6164456E 
+ 995      61626C65 
+ 995      4D61736B 
+ 996              	.LASF59:
+ 997 0264 736C6176 		.ascii	"slaveSelect\000"
+ 997      6553656C 
+ 997      65637400 
+ 998              	.LASF81:
+ 999 0270 53323546 		.ascii	"S25FL512S_SlaveSlot_0\000"
+ 999      4C353132 
+ 999      535F536C 
+ 999      61766553 
+ 999      6C6F745F 
+ 1000              	.LASF33:
+ 1001 0286 61646472 		.ascii	"addrWidth\000"
+ 1001      57696474 
+ 1001      6800
+ 1002              	.LASF13:
+ 1003 0290 666C6F61 		.ascii	"float\000"
+ 1003      7400
+ 1004              	.LASF16:
+ 1005 0296 43595F53 		.ascii	"CY_SMIF_WIDTH_SINGLE\000"
+ 1005      4D49465F 
+ 1005      57494454 
+ 1005      485F5349 
+ 1005      4E474C45 
+ 1006              	.LASF6:
+ 1007 02ab 6C6F6E67 		.ascii	"long long int\000"
+ 1007      206C6F6E 
+ 1007      6720696E 
+ 1007      7400
+ 1008              	.LASF77:
+ 1009 02b9 53323546 		.ascii	"S25FL512S_SlaveSlot_0_programCmd\000"
+ 1009      4C353132 
+ 1009      535F536C 
+ 1009      61766553 
+ 1009      6C6F745F 
+ 1010              	.LASF37:
+ 1011 02da 64617461 		.ascii	"dataWidth\000"
+ 1011      57696474 
+ 1011      6800
+ 1012              	.LASF4:
+ 1013 02e4 6C6F6E67 		.ascii	"long int\000"
+ 1013      20696E74 
+ 1013      00
+ 1014              	.LASF42:
+ 1015 02ed 77726974 		.ascii	"writeEnCmd\000"
+ 1015      65456E43 
+ 1015      6D6400
+ 1016              	.LASF30:
+ 1017 02f8 63795F65 		.ascii	"cy_en_smif_slave_select_t\000"
+ 1017      6E5F736D 
+ 1017      69665F73 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 21
+
+
+ 1017      6C617665 
+ 1017      5F73656C 
+ 1018              	.LASF61:
+ 1019 0312 64617461 		.ascii	"dataSelect\000"
+ 1019      53656C65 
+ 1019      637400
+ 1020              	.LASF46:
+ 1021 031d 63686970 		.ascii	"chipEraseCmd\000"
+ 1021      45726173 
+ 1021      65436D64 
+ 1021      00
+ 1022              	.LASF87:
+ 1023 032a 433A5C55 		.ascii	"C:\\Users\\ikomb\\Documents\\PSoC Creator\\CE222221"
+ 1023      73657273 
+ 1023      5C696B6F 
+ 1023      6D625C44 
+ 1023      6F63756D 
+ 1024 0358 5F566F69 		.ascii	"_Voice_Recorder01\\CE222221_Voice_Recorder01.cydsn\000"
+ 1024      63655F52 
+ 1024      65636F72 
+ 1024      64657230 
+ 1024      315C4345 
+ 1025              	.LASF15:
+ 1026 038a 6C6F6E67 		.ascii	"long double\000"
+ 1026      20646F75 
+ 1026      626C6500 
+ 1027              	.LASF1:
+ 1028 0396 756E7369 		.ascii	"unsigned char\000"
+ 1028      676E6564 
+ 1028      20636861 
+ 1028      7200
+ 1029              	.LASF65:
+ 1030 03a4 64657669 		.ascii	"deviceCfg\000"
+ 1030      63654366 
+ 1030      6700
+ 1031              	.LASF56:
+ 1032 03ae 63686970 		.ascii	"chipEraseTime\000"
+ 1032      45726173 
+ 1032      6554696D 
+ 1032      6500
+ 1033              	.LASF40:
+ 1034 03bc 6D656D53 		.ascii	"memSize\000"
+ 1034      697A6500 
+ 1035              	.LASF0:
+ 1036 03c4 7369676E 		.ascii	"signed char\000"
+ 1036      65642063 
+ 1036      68617200 
+ 1037              	.LASF60:
+ 1038 03d0 666C6167 		.ascii	"flags\000"
+ 1038      7300
+ 1039              	.LASF49:
+ 1040 03d6 72656164 		.ascii	"readStsRegWipCmd\000"
+ 1040      53747352 
+ 1040      65675769 
+ 1040      70436D64 
+ 1040      00
+ 1041              	.LASF10:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 22
+
+
+ 1042 03e7 75696E74 		.ascii	"uint32_t\000"
+ 1042      33325F74 
+ 1042      00
+ 1043              	.LASF80:
+ 1044 03f0 53323546 		.ascii	"S25FL512S_SlaveSlot_0_writeStsRegQeCmd\000"
+ 1044      4C353132 
+ 1044      535F536C 
+ 1044      61766553 
+ 1044      6C6F745F 
+ 1045              	.LASF3:
+ 1046 0417 73686F72 		.ascii	"short unsigned int\000"
+ 1046      7420756E 
+ 1046      7369676E 
+ 1046      65642069 
+ 1046      6E7400
+ 1047              	.LASF84:
+ 1048 042a 64657669 		.ascii	"deviceCfg_S25FL512S_SlaveSlot_0\000"
+ 1048      63654366 
+ 1048      675F5332 
+ 1048      35464C35 
+ 1048      3132535F 
+ 1049              	.LASF12:
+ 1050 044a 63686172 		.ascii	"char\000"
+ 1050      00
+ 1051              	.LASF21:
+ 1052 044f 43595F53 		.ascii	"CY_SMIF_DATA_SEL0\000"
+ 1052      4D49465F 
+ 1052      44415441 
+ 1052      5F53454C 
+ 1052      3000
+ 1053              	.LASF22:
+ 1054 0461 43595F53 		.ascii	"CY_SMIF_DATA_SEL1\000"
+ 1054      4D49465F 
+ 1054      44415441 
+ 1054      5F53454C 
+ 1054      3100
+ 1055              	.LASF73:
+ 1056 0473 53323546 		.ascii	"S25FL512S_SlaveSlot_0_writeEnCmd\000"
+ 1056      4C353132 
+ 1056      535F536C 
+ 1056      61766553 
+ 1056      6C6F745F 
+ 1057              	.LASF66:
+ 1058 0494 63795F73 		.ascii	"cy_stc_smif_mem_config_t\000"
+ 1058      74635F73 
+ 1058      6D69665F 
+ 1058      6D656D5F 
+ 1058      636F6E66 
+ 1059              	.LASF76:
+ 1060 04ad 53323546 		.ascii	"S25FL512S_SlaveSlot_0_chipEraseCmd\000"
+ 1060      4C353132 
+ 1060      535F536C 
+ 1060      61766553 
+ 1060      6C6F745F 
+ 1061              	.LASF18:
+ 1062 04d0 43595F53 		.ascii	"CY_SMIF_WIDTH_QUAD\000"
+ 1062      4D49465F 
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 23
+
+
+ 1062      57494454 
+ 1062      485F5155 
+ 1062      414400
+ 1063              	.LASF75:
+ 1064 04e3 53323546 		.ascii	"S25FL512S_SlaveSlot_0_eraseCmd\000"
+ 1064      4C353132 
+ 1064      535F536C 
+ 1064      61766553 
+ 1064      6C6F745F 
+ 1065              	.LASF52:
+ 1066 0502 72656164 		.ascii	"readSfdpCmd\000"
+ 1066      53666470 
+ 1066      436D6400 
+ 1067              	.LASF20:
+ 1068 050e 63795F65 		.ascii	"cy_en_smif_txfr_width_t\000"
+ 1068      6E5F736D 
+ 1068      69665F74 
+ 1068      7866725F 
+ 1068      77696474 
+ 1069              	.LASF67:
+ 1070 0526 6D656D43 		.ascii	"memCount\000"
+ 1070      6F756E74 
+ 1070      00
+ 1071              	.LASF5:
+ 1072 052f 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1072      20756E73 
+ 1072      69676E65 
+ 1072      6420696E 
+ 1072      7400
+ 1073              	.LASF14:
+ 1074 0541 646F7562 		.ascii	"double\000"
+ 1074      6C6500
+ 1075              	.LASF35:
+ 1076 0548 6D6F6465 		.ascii	"modeWidth\000"
+ 1076      57696474 
+ 1076      6800
+ 1077              	.LASF71:
+ 1078 0552 63795F73 		.ascii	"cy_stc_smif_block_config_t\000"
+ 1078      74635F73 
+ 1078      6D69665F 
+ 1078      626C6F63 
+ 1078      6B5F636F 
+ 1079              	.LASF55:
+ 1080 056d 65726173 		.ascii	"eraseTime\000"
+ 1080      6554696D 
+ 1080      6500
+ 1081              	.LASF44:
+ 1082 0577 65726173 		.ascii	"eraseCmd\000"
+ 1082      65436D64 
+ 1082      00
+ 1083              	.LASF86:
+ 1084 0580 47656E65 		.ascii	"Generated_Source\\PSoC6\\cy_smif_memconfig.c\000"
+ 1084      72617465 
+ 1084      645F536F 
+ 1084      75726365 
+ 1084      5C50536F 
+ 1085              	.LASF38:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 24
+
+
+ 1086 05ab 63795F73 		.ascii	"cy_stc_smif_mem_cmd_t\000"
+ 1086      74635F73 
+ 1086      6D69665F 
+ 1086      6D656D5F 
+ 1086      636D645F 
+ 1087              	.LASF41:
+ 1088 05c1 72656164 		.ascii	"readCmd\000"
+ 1088      436D6400 
+ 1089              	.LASF48:
+ 1090 05c9 70726F67 		.ascii	"programSize\000"
+ 1090      72616D53 
+ 1090      697A6500 
+ 1091              	.LASF70:
+ 1092 05d5 6D696E6F 		.ascii	"minorVersion\000"
+ 1092      72566572 
+ 1092      73696F6E 
+ 1092      00
+ 1093              	.LASF39:
+ 1094 05e2 6E756D4F 		.ascii	"numOfAddrBytes\000"
+ 1094      66416464 
+ 1094      72427974 
+ 1094      657300
+ 1095              	.LASF83:
+ 1096 05f1 736D6966 		.ascii	"smifBlockConfig\000"
+ 1096      426C6F63 
+ 1096      6B436F6E 
+ 1096      66696700 
+ 1097              	.LASF58:
+ 1098 0601 63795F73 		.ascii	"cy_stc_smif_mem_device_cfg_t\000"
+ 1098      74635F73 
+ 1098      6D69665F 
+ 1098      6D656D5F 
+ 1098      64657669 
+ 1099              	.LASF23:
+ 1100 061e 43595F53 		.ascii	"CY_SMIF_DATA_SEL2\000"
+ 1100      4D49465F 
+ 1100      44415441 
+ 1100      5F53454C 
+ 1100      3200
+ 1101              	.LASF24:
+ 1102 0630 43595F53 		.ascii	"CY_SMIF_DATA_SEL3\000"
+ 1102      4D49465F 
+ 1102      44415441 
+ 1102      5F53454C 
+ 1102      3300
+ 1103              	.LASF8:
+ 1104 0642 756E7369 		.ascii	"unsigned int\000"
+ 1104      676E6564 
+ 1104      20696E74 
+ 1104      00
+ 1105              	.LASF26:
+ 1106 064f 43595F53 		.ascii	"CY_SMIF_SLAVE_SELECT_0\000"
+ 1106      4D49465F 
+ 1106      534C4156 
+ 1106      455F5345 
+ 1106      4C454354 
+ 1107              	.LASF27:
+ARM GAS  C:\Users\ikomb\AppData\Local\Temp\cco7tWIu.s 			page 25
+
+
+ 1108 0666 43595F53 		.ascii	"CY_SMIF_SLAVE_SELECT_1\000"
+ 1108      4D49465F 
+ 1108      534C4156 
+ 1108      455F5345 
+ 1108      4C454354 
+ 1109              	.LASF28:
+ 1110 067d 43595F53 		.ascii	"CY_SMIF_SLAVE_SELECT_2\000"
+ 1110      4D49465F 
+ 1110      534C4156 
+ 1110      455F5345 
+ 1110      4C454354 
+ 1111              	.LASF29:
+ 1112 0694 43595F53 		.ascii	"CY_SMIF_SLAVE_SELECT_3\000"
+ 1112      4D49465F 
+ 1112      534C4156 
+ 1112      455F5345 
+ 1112      4C454354 
+ 1113              	.LASF31:
+ 1114 06ab 636F6D6D 		.ascii	"command\000"
+ 1114      616E6400 
+ 1115              	.LASF68:
+ 1116 06b3 6D656D43 		.ascii	"memConfig\000"
+ 1116      6F6E6669 
+ 1116      6700
+ 1117              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
